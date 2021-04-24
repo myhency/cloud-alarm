@@ -1,0 +1,289 @@
+import { createSlice } from '@reduxjs/toolkit';
+
+import { fetchSignProgressStatus } from '../services/dashboard';
+
+import {
+  fetchContacts,
+  fetchContactDetail,
+} from '../services/contacts';
+
+import {
+  fetchDocumentList,
+} from '../services/documents';
+
+import {
+  fetchAlarmList,
+} from '../services/alarms';
+
+import locales from '../locales.json';
+
+const DEFAULT_LOCALE = 'en';
+
+const initialContactDetail = { name: '', phoneNumber: '', email: '' };
+
+function parseDocument(document, userName, userEmail) {
+  const {
+    id,
+    name,
+    receiver,
+    lastUpdated,
+  } = document;
+  const totalCount = receiver.length;
+  const completeCount = receiver.filter((rec) => rec.isSigned === true).length;
+
+  // TODO. 사인상태표시로직 개발해야 함
+  // receiver.map((v, i) => {
+  //   if (v.name === userName && v.email === userEmail && !v.isSigned) {
+  //     progressState = '서명해야 함'
+  //   }
+  // })
+
+  return {
+    id,
+    name,
+    receiver,
+    totalCount,
+    completeCount,
+    lastUpdated,
+    signState: '구현 예정',
+  };
+}
+
+function parseDocuments(documents, userName, userEmail) {
+  return documents.map((document) => parseDocument(document, userName, userEmail));
+}
+
+function parseAlarm(alarm) {
+  const {
+    id,
+    itemName,
+    recommendPrice,
+    losscutPrice,
+    createdAt,
+    state,
+    updatedAt,
+  } = alarm;
+
+  return {
+    id,
+    itemName,
+    recommendPrice,
+    losscutPrice,
+    createdAt,
+    state,
+    updatedAt,
+  };
+}
+
+function parseAlarms(alarms) {
+  return alarms.map((alarm) => parseAlarm(alarm));
+}
+
+const { actions, reducer } = createSlice({
+
+
+
+  // 이 부분이 store
+  // TODO. 임시값이므로 실제 API연동하면 바꿀것
+  contactId: 1,
+  internalUserId: 1,
+
+  // 이건 실제 상태임
+  name: 'application',
+  loggedInUserId: 1,
+  loggedInUserName: 'receiver01',
+  loggedInUserEmail: 'receiver01@test.com',
+  initialState: {
+    contactId: 1,
+    internalUserId: 1,
+    accessToken: null,
+    signProgressStatus: {
+      signWait: null,
+      signProgress: null,
+      confirmWait: null,
+      confirmComplete: null,
+    },
+    mobileOpen: false,
+    localeText: {},
+    locale: '',
+    contacts: [],
+    contactDetail: initialContactDetail,
+    documents: [],
+    alarms: [],
+  },
+  // 이 부분이 reducer
+  reducers: {
+    setAccessToken(state, { payload: accessToken }) {
+      return {
+        ...state,
+        accessToken,
+      };
+    },
+
+    setSignProgress(state, { payload: signProgressStatus }) {
+      return {
+        ...state,
+        signProgressStatus,
+      };
+    },
+
+    setMobileOpen(state, { payload: mobileOpen }) {
+      return {
+        ...state,
+        mobileOpen,
+      };
+    },
+
+    setLocale(state, { payload: locale }) {
+      const localeText = locales[locale];
+      return {
+        ...state,
+        locale: localeText ? locale : DEFAULT_LOCALE,
+        localeText: localeText || locales[DEFAULT_LOCALE],
+      };
+    },
+
+    setContacts(state, { payload: contacts }) {
+      return {
+        ...state,
+        contacts,
+      };
+    },
+
+    setContactDetail(state, { payload: { name, phoneNumber, email } }) {
+      return {
+        ...state,
+        contactDetail: {
+          ...state.contactDetail,
+          name,
+          phoneNumber,
+          email,
+        },
+      };
+    },
+
+    clearContactDetail(state) {
+      return {
+        ...state,
+        contactDetail: initialContactDetail,
+      };
+    },
+
+    setDocuments(state, { payload: documents }) {
+      const parsedDocuments = parseDocuments(
+        documents,
+        state.loggedInUserName,
+        state.loggedInUserEmail,
+      );
+
+      return {
+        ...state,
+        documents: parsedDocuments,
+      };
+    },
+
+    setAlarms(state, { payload: alarms }) {
+      const parsedAlarms = parseAlarms(
+        alarms
+      );
+
+      return {
+        ...state,
+        alarms: parsedAlarms,
+      };
+    },
+  },
+});
+
+export const {
+  setAccessToken,
+  setSignProgress,
+  setMobileOpen,
+  setLocale,
+  setContacts,
+  setContactDetail,
+  clearContactDetail,
+  setDocuments,
+  setAlarms,
+} = actions;
+
+export default reducer;
+
+export function loadSignProgressStatus(date) {
+  return async (dispatch) => {
+    const { result, data } = await fetchSignProgressStatus(date);
+
+    if (!result) {
+      const failSignProgressStatus = {
+        signWait: 'error',
+        signProgress: 'error',
+        confirmWait: 'error',
+        confirmComplete: 'error',
+      };
+
+      dispatch(setSignProgress(failSignProgressStatus));
+      return;
+    }
+
+    dispatch(setSignProgress(data));
+  };
+}
+
+export function loadContacts() {
+  return async (dispatch, getState) => {
+    const { contactId, internalUserId } = getState();
+
+    const { result, data } = await fetchContacts(contactId, internalUserId);
+
+    if (!result) {
+      dispatch(setContacts('error'));
+      return;
+    }
+
+    dispatch(setContacts(data.content));
+    // TODO. Pagination 에 필요한 부분
+    // dispatch(setPagination(data.page));
+  };
+}
+
+export function loadContactDetail(id) {
+  return async (dispatch) => {
+    const { result, data } = await fetchContactDetail(id);
+
+    if (!result) {
+      dispatch(setContactDetail({
+        name: 'error',
+        phoneNumber: 'error',
+        email: 'error',
+      }));
+      return;
+    }
+
+    const { name, phoneNumber, email } = data;
+
+    dispatch(setContactDetail({ name, phoneNumber, email }));
+  };
+}
+
+export function loadDocumentList() {
+  return async (dispatch) => {
+    const { result, data } = await fetchDocumentList();
+
+    if (!result) {
+      return;
+    }
+    dispatch(setDocuments(data));
+  };
+}
+
+export function loadAlarmList() {
+  return async (dispatch) => {
+    const { result, data } = await fetchAlarmList();
+
+    console.log(data);
+    if (!result) {
+      return;
+    }
+    dispatch(setAlarms(data));
+  };
+}

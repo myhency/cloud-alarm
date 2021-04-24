@@ -1,0 +1,32 @@
+{
+  "ko": {
+    "title": "전자 서명 시스템",
+    "sub_title": "e-Signature System",
+    "service1": "전자 계약",
+    "service2": "전자 공문",
+    "menu1": "내 문서",
+    "menu2": "템플릿",
+    "menu3": "대량전송",
+    "menu4": "설정",
+    "progress_card1": "서명 대기중",
+    "progress_card2": "서명 진행중",
+    "progress_card3": "승인 대기중",
+    "progress_card4": "승인 완료",
+    "document_unit_name": "건"
+  },
+  "en": {
+    "title": "e-Signature System",
+    "sub_title": "",
+    "service1": "e-Contract",
+    "service2": "e-Official Note",
+    "menu1": "MyDocuments",
+    "menu2": "Template",
+    "menu3": "Bulk-sending",
+    "menu4": "Configuration",
+    "progress_card1": "Waiting Signature",
+    "progress_card2": "In Progress Signature",
+    "progress_card3": "Waiting Confirm",
+    "progress_card4": "Complete Confirm",
+    "document_unit_name": "Copy"
+  }
+}
