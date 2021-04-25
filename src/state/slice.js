@@ -15,6 +15,10 @@ import {
   fetchAlarmList,
 } from '../services/alarms';
 
+import {
+  fetchStockItemList,
+} from '../services/stockItems';
+
 import locales from '../locales.json';
 
 const DEFAULT_LOCALE = 'en';
@@ -79,6 +83,22 @@ function parseAlarms(alarms) {
   return alarms.map((alarm) => parseAlarm(alarm));
 }
 
+function parseStockItem(stockItem) {
+  const {
+    itemName,
+    itemCode,
+  } = stockItem;
+
+  return {
+    itemName,
+    itemCode,
+  };
+}
+
+function parseStockItems(stockItems) {
+  return stockItems.map((stockItem) => parseStockItem(stockItem));
+}
+
 const { actions, reducer } = createSlice({
 
 
@@ -110,6 +130,7 @@ const { actions, reducer } = createSlice({
     contactDetail: initialContactDetail,
     documents: [],
     alarms: [],
+    stockItems: [],
   },
   // 이 부분이 reducer
   reducers: {
@@ -192,6 +213,17 @@ const { actions, reducer } = createSlice({
         alarms: parsedAlarms,
       };
     },
+
+    setStockItems(state, { payload: stockItems }) {
+      const parsedStockItems = parseStockItems(
+        stockItems
+      );
+
+      return {
+        ...state,
+        stockItems: parsedStockItems,
+      };
+    },
   },
 });
 
@@ -205,6 +237,7 @@ export const {
   clearContactDetail,
   setDocuments,
   setAlarms,
+  setStockItems,
 } = actions;
 
 export default reducer;
@@ -280,10 +313,20 @@ export function loadAlarmList() {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmList();
 
-    console.log(data);
     if (!result) {
       return;
     }
     dispatch(setAlarms(data));
+  };
+}
+
+export function loadStockItemList() {
+  return async (dispatch) => {
+    const { result, data } = await fetchStockItemList();
+
+    if (!result) {
+      return;
+    }
+    dispatch(setStockItems(data));
   };
 }

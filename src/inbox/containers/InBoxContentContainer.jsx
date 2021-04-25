@@ -148,8 +148,6 @@ export default function InBoxContentContainer() {
     alarms: state.alarms,
   }));
 
-  console.log(alarms)
-
   useEffect(() => {
     dispatch(loadAlarmList());
   }, []);

@@ -6,8 +6,8 @@ import InBoxMenuListContainerSmall from '../../inbox/containers/InBoxMenuListCon
 import AddDocumentContentContainer from '../containers/AddDocumentContentContainer';
 
 const items = [
-  { title: '문서함', link: '/inbox' },
-  { title: '새 문서', link: '/newdocs' },
+  { title: '알리미 리스트', link: '/inbox' },
+  { title: '새 알리미', link: '/newdocs' },
 ];
 
 export default function AddDocumentPage() {

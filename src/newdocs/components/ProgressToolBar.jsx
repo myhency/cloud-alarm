@@ -44,7 +44,7 @@ export default function ProgressToolBar() {
           }}
           />
         </Box>
-        <RadioButtonCheckedIcon style={{ color: 'white' }} />
+        {/* <RadioButtonCheckedIcon style={{ color: 'white' }} />
         <Typography style={{ color: 'white', marginLeft: '5px' }}>선택</Typography>
         <Box display="flex" alignItems="center">
           <div style={{
@@ -54,7 +54,7 @@ export default function ProgressToolBar() {
             margin: '0 10px 0 10px',
           }}
           />
-        </Box>
+        </Box> */}
         <RadioButtonCheckedIcon style={{ color: 'white' }} />
         <Typography style={{ color: 'white', marginLeft: '5px' }}>준비</Typography>
         <Box display="flex" alignItems="center">

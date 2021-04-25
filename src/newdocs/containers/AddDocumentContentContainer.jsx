@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   makeStyles,
   withStyles,
@@ -9,10 +10,16 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
+  Input,
+  InputLabel,
+  TextField,
 } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { indigo } from '@material-ui/core/colors';
 import DropZone from '../components/DropZone';
 import ProgressToolBar from '../components/ProgressToolBar';
+
+import { loadStockItemList } from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -121,6 +128,22 @@ export default function AddDocumentContentContainer() {
     setAge(event.target.value);
   };
 
+  const dispatch = useDispatch();
+  const { stockItems } = useSelector((state) => ({
+    stockItems: state.stockItems,
+  }));
+
+  useEffect(() => {
+    dispatch(loadStockItemList());
+  }, []);
+
+  console.log(stockItems)
+
+  // const stockItems = [
+  //   { itemName: 'AP시스템' },
+  //   { itemName: 'CMG제약' },
+  // ]
+
   function handleOnLoadEnd(value) {
     console.log(value);
     const newFiles = [...files, ...value];
@@ -153,31 +176,44 @@ export default function AddDocumentContentContainer() {
       }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
-          <Typography variant="h4" style={{ marginTop: '10px', marginBottom: '10px' }}>문서추가</Typography>
-          {files.map((file, index) => (
+          <Typography variant="h4" style={{ marginTop: '10px', marginBottom: '10px' }}>종목추가</Typography>
+          {/* {files.map((file, index) => (
             <Typography
               key={index}
               onClick={handleOnDeleteFile}
             >
               {file.path}
             </Typography>
-          ))}
+          ))} */}
           <Box style={{ margin: '30px 0 30px 0' }}>
-            <DropZone
-              onLoadEnd={handleOnLoadEnd}
-              onClick={handleOnClick}
+              {/* <TextField label="Filled" variant="outlined" fullWidth /> */}
+            {/* <TextField
+              id="filled-full-width"
+              placeholder="종목명 또는 종목코드"
+              fullWidth
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="filled"
+            /> */}
+            <Autocomplete
+              id="combo-box"
+              options={stockItems}
+              getOptionLabel={(stockItem) => stockItem.itemName}
+              renderInput={(params) => <TextField {...params} label="종목명" variant="outlined"/>}
             />
           </Box>
           <Box display="flex">
             <Box display="flex" flexDirection="row">
-              <AddTemplateLink onClick={handleOnClickAddTemplate}>템플릿 추가</AddTemplateLink>
+              <NextButton>다음</NextButton>
             </Box>
             <Box display="flex" flexDirection="row-reverse" flexGrow="1">
-              <NextButton>다음</NextButton>
-              <FormControlLabel
+              {/* <NextButton>다음</NextButton> */}
+              {/* <FormControlLabel
                 control={<Checkbox checked={false} onChange={handleChange} name="checkedA" />}
                 label="나는 유일한 서명자"
-              />
+              /> */}
             </Box>
           </Box>
         </div>
