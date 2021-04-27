@@ -13,6 +13,7 @@ import {
   Input,
   InputLabel,
   TextField,
+  TextareaAutosize,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { indigo } from '@material-ui/core/colors';
@@ -20,10 +21,6 @@ import DropZone from '../components/DropZone';
 import ProgressToolBar from '../components/ProgressToolBar';
 
 import { loadStockItemList } from '../../state/slice';
-import { Link } from 'react-router-dom';
-import {
-  useHistory,
-} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -103,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CssAutocomplete = withStyles({
+const CssTextField = withStyles({
   root: {
     '& label.Mui-focused': {
       color: indigo[700],
@@ -123,7 +120,7 @@ const CssAutocomplete = withStyles({
       },
     },
   },
-})(Autocomplete)
+})(TextField)
 
 const NextButton = withStyles((theme) => ({
   root: {
@@ -146,9 +143,7 @@ const AddTemplateLink = withStyles(() => ({
   },
 }))(Typography);
 
-export default function AddDocumentContentContainer({ contentsLink }) {
-  console.log(contentsLink)
-  const history = useHistory();
+export default function ReadyDocumentContentContainer() {
   const classes = useStyles();
   const [age, setAge] = React.useState('');
   const [files, setFiles] = React.useState([]);
@@ -182,9 +177,9 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     setFiles(files.filter((file) => file !== value));
   }
 
-  function handleClick(event, link) {
+  function handleOnClick(event) {
+    // console.log(event);
     event.preventDefault();
-    history.push(link);
   }
 
   function handleOnClickAddTemplate(event) {
@@ -204,45 +199,22 @@ export default function AddDocumentContentContainer({ contentsLink }) {
       }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
-          <Typography variant="h4" style={{ marginTop: '10px', marginBottom: '10px' }}>종목추가</Typography>
-          {/* {files.map((file, index) => (
-            <Typography
-              key={index}
-              onClick={handleOnDeleteFile}
-            >
-              {file.path}
-            </Typography>
-          ))} */}
-          <Box style={{ margin: '30px 0 30px 0' }}>
-              {/* <TextField label="Filled" variant="outlined" fullWidth /> */}
-            {/* <TextField
-              id="filled-full-width"
-              placeholder="종목명 또는 종목코드"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              variant="filled"
-            /> */}
-            <CssAutocomplete
-              id="combo-box"
-              options={stockItems}
-              getOptionLabel={(stockItem) => stockItem.itemName}
-              renderInput={(params) => <TextField {...params} label="종목명" variant="outlined"/>}
-            />
+          <Typography variant="h4" style={{ marginTop: '10px', marginBottom: '10px' }}>정보입력</Typography>
+          <Box style={{ margin: '30px 0 0 0' }}>
+            <CssTextField label="돌파가격" variant="outlined" fullWidth />
           </Box>
+          <Box style={{ margin: '10px 0 0px 0' }}>
+            <CssTextField label="손절가격" variant="outlined" fullWidth />
+            </Box>
+            <Box style={{ margin: '10px 0 0px 0' }}>
+              <CssTextField label="코멘트" multiline={true} rows={5} variant="outlined" fullWidth />
+            </Box>
+            <Box style={{ margin: '10px 0 30px 0' }}>
+              <CssTextField label="테마" multiline={true} rows={5} variant="outlined" fullWidth />
+            </Box>
           <Box display="flex">
             <Box display="flex" flexDirection="row">
-              <Link
-                color="inherit"
-                href={contentsLink.link}
-                onClick={(e) => handleClick(e, contentsLink.link)}
-              >
-                <NextButton>다음</NextButton>
-                {/* 다음 */}
-              </Link>
-              
+              <NextButton>다음</NextButton>
             </Box>
             <Box display="flex" flexDirection="row-reverse" flexGrow="1">
               {/* <NextButton>다음</NextButton> */}

@@ -13,6 +13,7 @@ import ContactsPage from './contacts/pages/ContactsPage';
 import InboxPage from './inbox/pages/InboxPage';
 import NewDocumentPage from './newdocs/pages/NewDocumentPage';
 import AddDocumentPage from './newdocs/pages/AddDocumentPage';
+import ReadyDocumentPage from './newdocs/pages/ReadyDocumentPage';
 import ReviewDocumentPage from './newdocs/pages/ReviewDocumentPage';
 import LoginPage from './login/pages/LoginPage';
 
@@ -29,6 +30,9 @@ export default function RootPage({ localeText }) {
         </Route>
         <Route path="/add-docs">
           <AddDocumentPage />
+        </Route>
+        <Route path="/ready-docs">
+          <ReadyDocumentPage />
         </Route>
         <Route path="/newdocs">
           <NewDocumentPage />
