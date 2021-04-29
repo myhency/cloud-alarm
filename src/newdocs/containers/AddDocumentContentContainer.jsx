@@ -19,7 +19,7 @@ import { indigo } from '@material-ui/core/colors';
 import DropZone from '../components/DropZone';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { loadStockItemList } from '../../state/slice';
+import { loadStockItemList, setAlarmDocument } from '../../state/slice';
 import { Link } from 'react-router-dom';
 import {
   useHistory,
@@ -147,14 +147,10 @@ const AddTemplateLink = withStyles(() => ({
 }))(Typography);
 
 export default function AddDocumentContentContainer({ contentsLink }) {
-  console.log(contentsLink)
   const history = useHistory();
   const classes = useStyles();
-  const [age, setAge] = React.useState('');
-  const [files, setFiles] = React.useState([]);
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+
+  const [items, setItems] = React.useState({ itemName: '', itemCode: '' });
 
   const dispatch = useDispatch();
   const { stockItems } = useSelector((state) => ({
@@ -165,30 +161,15 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     dispatch(loadStockItemList());
   }, []);
 
-  console.log(stockItems)
-
-  // const stockItems = [
-  //   { itemName: 'AP시스템' },
-  //   { itemName: 'CMG제약' },
-  // ]
-
-  function handleOnLoadEnd(value) {
-    console.log(value);
-    const newFiles = [...files, ...value];
-    setFiles(newFiles);
-  }
-
-  function handleOnDeleteFile(value) {
-    setFiles(files.filter((file) => file !== value));
-  }
-
   function handleClick(event, link) {
     event.preventDefault();
+    dispatch(setAlarmDocument({ itemName: items.itemName, itemCode: items.itemCode }));
     history.push(link);
   }
 
-  function handleOnClickAddTemplate(event) {
-    console.log(event);
+  function handleOnChange(event, value) {
+    console.log(value);
+    setItems({itemName: value.itemName, itemCode: value.itemCode});
   }
 
   return (
@@ -205,112 +186,36 @@ export default function AddDocumentContentContainer({ contentsLink }) {
       >
         <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
           <Typography variant="h4" style={{ marginTop: '10px', marginBottom: '10px' }}>종목추가</Typography>
-          {/* {files.map((file, index) => (
-            <Typography
-              key={index}
-              onClick={handleOnDeleteFile}
-            >
-              {file.path}
-            </Typography>
-          ))} */}
           <Box style={{ margin: '30px 0 30px 0' }}>
-              {/* <TextField label="Filled" variant="outlined" fullWidth /> */}
-            {/* <TextField
-              id="filled-full-width"
-              placeholder="종목명 또는 종목코드"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              variant="filled"
-            /> */}
             <CssAutocomplete
               id="combo-box"
               options={stockItems}
               getOptionLabel={(stockItem) => stockItem.itemName}
-              renderInput={(params) => <TextField {...params} label="종목명" variant="outlined"/>}
+              renderInput={(params) =>
+                <TextField
+                  {...params}
+                  label="종목명"
+                  variant="outlined"
+                />}
+              onChange={(event, value) => handleOnChange(event, value)}
             />
           </Box>
           <Box display="flex">
             <Box display="flex" flexDirection="row">
               <Link
                 color="inherit"
-                href={contentsLink.link}
+                to={contentsLink.link}
                 onClick={(e) => handleClick(e, contentsLink.link)}
               >
                 <NextButton>다음</NextButton>
-                {/* 다음 */}
               </Link>
               
             </Box>
             <Box display="flex" flexDirection="row-reverse" flexGrow="1">
-              {/* <NextButton>다음</NextButton> */}
-              {/* <FormControlLabel
-                control={<Checkbox checked={false} onChange={handleChange} name="checkedA" />}
-                label="나는 유일한 서명자"
-              /> */}
             </Box>
           </Box>
         </div>
       </div>
-      {/* <Grid container spacing={0}>
-        <Grid item xs={10}>
-          <Box
-            display="flex"
-            alignItems="center"
-            p={1}
-            m={1}
-          >
-            <StepTitle
-              step="1단계"
-              title="서명할 문서를 선택하세요"
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={2}>
-          <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel id="demo-simple-select-outlined-label">템플릿 양식 선택</InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              value={age}
-              onChange={handleChange}
-              label="template"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <Box className={classes.baseBox}>
-            <DropZone />
-          </Box>
-        </Grid>
-        <Grid item xs={12}>
-          <Box
-            display="flex"
-            alignItems="center"
-            p={1}
-            m={1}
-          >
-            <StepTitle
-              step="2단계"
-              title="서명할 대상을 입력하세요"
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={12}>
-          <Box className={classes.baseBox}>
-            서명인 입력란
-          </Box>
-        </Grid>
-      </Grid> */}
     </main>
   );
 }

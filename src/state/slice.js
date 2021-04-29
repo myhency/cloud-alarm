@@ -25,6 +25,15 @@ const DEFAULT_LOCALE = 'en';
 
 const initialContactDetail = { name: '', phoneNumber: '', email: '' };
 
+const initialAlarmDocument = {
+  itemName: '',
+  itemCode: '',
+  recommendPrice: 0,
+  losscutPrice: 0,
+  comment: '',
+  theme: ''
+}
+
 function parseDocument(document, userName, userEmail) {
   const {
     id,
@@ -128,6 +137,7 @@ const { actions, reducer } = createSlice({
     locale: '',
     contacts: [],
     contactDetail: initialContactDetail,
+    alarmDocument: initialAlarmDocument,
     documents: [],
     alarms: [],
     stockItems: [],
@@ -224,7 +234,33 @@ const { actions, reducer } = createSlice({
         stockItems: parsedStockItems,
       };
     },
-  },
+
+    setAlarmDocument(state, {
+      payload: {
+        itemName,
+        itemCode,
+        recommendPrice,
+        losscutPrice,
+        comment,
+        theme
+      } }) {
+      
+      console.log(itemName)
+      
+      return {
+        ...state,
+        alarmDocument: {
+          ...state.alarmDocument,
+          itemName,
+          itemCode,
+          recommendPrice,
+          losscutPrice,
+          comment,
+          theme
+        }
+      }
+    },
+  }
 });
 
 export const {
@@ -238,6 +274,7 @@ export const {
   setDocuments,
   setAlarms,
   setStockItems,
+  setAlarmDocument,
 } = actions;
 
 export default reducer;
@@ -329,4 +366,11 @@ export function loadStockItemList() {
     }
     dispatch(setStockItems(data));
   };
+}
+
+export function loadAlarmDocument() {
+  return (dispach, getState) => {
+    const { alarmDocument } = getState();
+    console.log(alarmDocument)
+  }
 }

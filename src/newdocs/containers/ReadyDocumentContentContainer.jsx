@@ -20,7 +20,7 @@ import { indigo } from '@material-ui/core/colors';
 import DropZone from '../components/DropZone';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { loadStockItemList } from '../../state/slice';
+import { loadAlarmDocument, loadStockItemList } from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -152,20 +152,15 @@ export default function ReadyDocumentContentContainer() {
   };
 
   const dispatch = useDispatch();
-  const { stockItems } = useSelector((state) => ({
+  const { stockItems, alarmDocument } = useSelector((state) => ({
     stockItems: state.stockItems,
+    alarmDocument: state.alarmDocument,
   }));
 
   useEffect(() => {
     dispatch(loadStockItemList());
+    dispatch(loadAlarmDocument());
   }, []);
-
-  console.log(stockItems)
-
-  // const stockItems = [
-  //   { itemName: 'AP시스템' },
-  //   { itemName: 'CMG제약' },
-  // ]
 
   function handleOnLoadEnd(value) {
     console.log(value);
@@ -178,7 +173,6 @@ export default function ReadyDocumentContentContainer() {
   }
 
   function handleOnClick(event) {
-    // console.log(event);
     event.preventDefault();
   }
 
@@ -201,6 +195,12 @@ export default function ReadyDocumentContentContainer() {
         <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
           <Typography variant="h4" style={{ marginTop: '10px', marginBottom: '10px' }}>정보입력</Typography>
           <Box style={{ margin: '30px 0 0 0' }}>
+            <CssTextField label="종목명" variant="outlined" fullWidth disabled={true}/>
+          </Box>
+          <Box style={{ margin: '10px 0 0 0' }}>
+            <CssTextField label="종목코드" variant="outlined" fullWidth disabled={true}/>
+          </Box>
+          <Box style={{ margin: '10px 0 0 0' }}>
             <CssTextField label="돌파가격" variant="outlined" fullWidth />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -214,75 +214,14 @@ export default function ReadyDocumentContentContainer() {
             </Box>
           <Box display="flex">
             <Box display="flex" flexDirection="row">
+              <NextButton style={{backgroundColor: 'hotpink', margin: '0 5px 0 0'}}>뒤로</NextButton>
               <NextButton>다음</NextButton>
             </Box>
             <Box display="flex" flexDirection="row-reverse" flexGrow="1">
-              {/* <NextButton>다음</NextButton> */}
-              {/* <FormControlLabel
-                control={<Checkbox checked={false} onChange={handleChange} name="checkedA" />}
-                label="나는 유일한 서명자"
-              /> */}
             </Box>
           </Box>
         </div>
       </div>
-      {/* <Grid container spacing={0}>
-        <Grid item xs={10}>
-          <Box
-            display="flex"
-            alignItems="center"
-            p={1}
-            m={1}
-          >
-            <StepTitle
-              step="1단계"
-              title="서명할 문서를 선택하세요"
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={2}>
-          <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel id="demo-simple-select-outlined-label">템플릿 양식 선택</InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              value={age}
-              onChange={handleChange}
-              label="template"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <Box className={classes.baseBox}>
-            <DropZone />
-          </Box>
-        </Grid>
-        <Grid item xs={12}>
-          <Box
-            display="flex"
-            alignItems="center"
-            p={1}
-            m={1}
-          >
-            <StepTitle
-              step="2단계"
-              title="서명할 대상을 입력하세요"
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={12}>
-          <Box className={classes.baseBox}>
-            서명인 입력란
-          </Box>
-        </Grid>
-      </Grid> */}
     </main>
   );
 }
