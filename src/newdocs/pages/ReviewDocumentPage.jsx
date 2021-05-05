@@ -6,9 +6,11 @@ import InBoxMenuListContainerSmall from '../../inbox/containers/InBoxMenuListCon
 import ReviewDocumentContentContainer from '../containers/ReviewDocumentContentContainer';
 
 const items = [
-  { title: '문서함', link: '/inbox' },
-  { title: '새 문서', link: '/newdocs' },
+  { title: '알리미 리스트', link: '/inbox' },
+  { title: '새 알리미', link: '/add-docs' },
 ];
+
+const contentsLink = { link: '/inbox' }
 
 export default function ReviewDocumentPage() {
   return (
@@ -16,7 +18,7 @@ export default function ReviewDocumentPage() {
       pageTitleContainer={<PageTitleContainer items={items} />}
       menuList={<InBoxMenuListContainer />}
       menuListSmall={<InBoxMenuListContainerSmall />}
-      content={<ReviewDocumentContentContainer />}
+      content={<ReviewDocumentContentContainer contentsLink={contentsLink} />}
     />
   );
 }

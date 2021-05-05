@@ -161,7 +161,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     dispatch(loadStockItemList());
   }, []);
 
-  function handleClick(event, link) {
+  function handleOnClick(event, link) {
     event.preventDefault();
     dispatch(setAlarmDocument({ itemName: items.itemName, itemCode: items.itemCode }));
     history.push(link);
@@ -205,7 +205,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
               <Link
                 color="inherit"
                 to={contentsLink.link}
-                onClick={(e) => handleClick(e, contentsLink.link)}
+                onClick={(e) => handleOnClick(e, contentsLink.link)}
               >
                 <NextButton>다음</NextButton>
               </Link>

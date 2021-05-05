@@ -10,13 +10,15 @@ const items = [
   { title: '새 알리미', link: '/add-docs' },
 ];
 
+const contentsLink = { link: '/review-docs' }
+
 export default function AddDocumentPage() {
   return (
     <DrawerLayout
       pageTitleContainer={<PageTitleContainer items={items} />}
       menuList={<InBoxMenuListContainer />}
       menuListSmall={<InBoxMenuListContainerSmall />}
-      content={<ReadyDocumentContentContainer />}
+      content={<ReadyDocumentContentContainer contentsLink={contentsLink} />}
     />
   );
 }

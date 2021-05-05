@@ -1,9 +1,6 @@
-import React from 'react';
-import {
-  makeStyles,
-  withStyles,
-  useTheme,
-} from '@material-ui/core/styles';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
 import {
   Grid,
   Typography,
@@ -14,15 +11,18 @@ import {
   AppBar,
   Tabs,
   Tab,
-} from '@material-ui/core';
-import { pink, indigo } from '@material-ui/core/colors';
-import ProgressToolBar from '../components/ProgressToolBar';
+} from "@material-ui/core";
+import { pink, indigo } from "@material-ui/core/colors";
+import ProgressToolBar from "../components/ProgressToolBar";
+
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
@@ -30,19 +30,19 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     // padding: theme.spacing(3),
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
   },
   form: {
-    '& > *': {
+    "& > *": {
       margin: theme.spacing(1),
-      width: '100%',
+      width: "100%",
     },
   },
   contentRight: {
     backgroundColor: theme.palette.background.paper,
-    width: '100%',
-    borderLeft: '1px solid lightgrey',
-    height: '89vh',
+    width: "100%",
+    borderLeft: "1px solid lightgrey",
+    height: "89vh",
   },
 }));
 
@@ -50,7 +50,7 @@ const NextButton = withStyles((theme) => ({
   root: {
     color: theme.palette.getContrastText(indigo[700]),
     backgroundColor: indigo[700],
-    '&:hover': {
+    "&:hover": {
       backgroundColor: indigo[900],
     },
   },
@@ -60,19 +60,14 @@ const BackButton = withStyles((theme) => ({
   root: {
     color: theme.palette.getContrastText(indigo[700]),
     backgroundColor: pink[700],
-    '&:hover': {
+    "&:hover": {
       backgroundColor: pink[900],
     },
   },
 }))(Button);
 
 function TabPanel(props) {
-  const {
-    children,
-    value,
-    index,
-    ...other
-  } = props;
+  const { children, value, index, ...other } = props;
 
   return (
     <div
@@ -94,52 +89,155 @@ function TabPanel(props) {
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
 
-export default function ReviewDocumentContentContainer() {
+const CssTextField = withStyles({
+  root: {
+    "& label.Mui-focused": {
+      color: indigo[700],
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: indigo[700],
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: indigo[700],
+      },
+      "&:hover fieldset": {
+        borderColor: indigo[700],
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: indigo[700],
+      },
+    },
+  },
+})(TextField);
+
+export default function ReviewDocumentContentContainer({ contentsLink }) {
+  const history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
 
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
+  const dispatch = useDispatch();
+  const { alarmDocument } = useSelector((state) => ({
+    alarmDocument: state.alarmDocument,
+  }));
 
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
       <ProgressToolBar />
-      <Grid lg={12} xs={12}>
+      <Grid lg={12} xs={12} item={true}>
         <Grid container justify="center">
-          <Grid lg={8} xs={8}>
-            <div style={{
-              width: '100%',
-              justifyContent: 'center',
-              padding: '20px',
-            }}
+          <Grid lg={8} xs={8} item={true}>
+            <div
+              style={{
+                width: "100%",
+                justifyContent: "center",
+                padding: "20px",
+              }}
             >
-              <div style={{ display: 'flex', flexDirection: 'column', width: '90%' }}>
-                <Typography variant="h4" style={{ marginTop: '10px', marginBottom: '10px' }}>검토 및 보내기</Typography>
-                <Typography variant="h5" style={{ marginTop: '10px', marginBottom: '10px' }}>수신인에게 보내는 메세지</Typography>
-                <form className={classes.form} noValidate autoComplete="off">
-                  <TextField required id="standard-required" label="이메일 제목" color="secondary" />
-                  <TextareaAutosize aria-label="minimum height" rowsMin={10} placeholder="이메일 메세지" />
-                </form>
-                <Box display="flex" flexDirection="row-reverse">
-                  <NextButton style={{ marginLeft: '10px' }}>다음</NextButton>
-                  <BackButton>뒤로</BackButton>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  style={{ marginTop: "10px", marginBottom: "10px" }}
+                >
+                  검토 및 저장
+                </Typography>
+                <Typography
+                  variant="h5"
+                  style={{ marginTop: "10px", marginBottom: "10px" }}
+                >
+                  {alarmDocument.itemName}({alarmDocument.itemCode})에 대한 요약
+                </Typography>
+                <Box style={{ margin: "10px 0 0 0" }}>
+                  <CssTextField
+                    name="recommendPrice"
+                    label="돌파가격"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value={alarmDocument.recommendPrice}
+                  />
+                </Box>
+                <Box style={{ margin: "10px 0 0px 0" }}>
+                  <CssTextField
+                    name="losscutPrice"
+                    label="손절가격"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value={alarmDocument.losscutPrice}
+                  />
+                </Box>
+                <Box style={{ margin: "10px 0 0px 0" }}>
+                  <CssTextField
+                    name="comment"
+                    label="코멘트"
+                    multiline={true}
+                    rows={5}
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value={alarmDocument.comment}
+                  />
+                </Box>
+                <Box style={{ margin: "10px 0 30px 0" }}>
+                  <CssTextField
+                    name="theme"
+                    label="테마"
+                    multiline={true}
+                    rows={5}
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    value={alarmDocument.theme}
+                  />
+                </Box>
+                <Box display="flex">
+                  <Box display="flex" flexDirection="row">
+                    <NextButton
+                      style={{
+                        backgroundColor: "hotpink",
+                        margin: "0 5px 0 0",
+                      }}
+                    >
+                      뒤로
+                    </NextButton>
+                    <Link
+                      color="inherit"
+                      to={contentsLink.link}
+                      onClick={(e) => handleOnClick(e, contentsLink.link)}
+                    >
+                      <NextButton>저장</NextButton>
+                    </Link>
+                  </Box>
+                  <Box
+                    display="flex"
+                    flexDirection="row-reverse"
+                    flexGrow="1"
+                  ></Box>
                 </Box>
               </div>
             </div>
           </Grid>
-          <Grid lg={4} xs={4}>
+          {/* <Grid lg={4} xs={4}>
             <div className={classes.contentRight}>
               <AppBar position="static" color="default">
                 <Tabs
@@ -161,7 +259,7 @@ export default function ReviewDocumentContentContainer() {
                 Item Two
               </TabPanel>
             </div>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
     </main>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   List,
   ListItem,
@@ -8,68 +8,63 @@ import {
   Button,
   ListItemIcon,
   ListItemText,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 // Icons
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import AddIcon from '@material-ui/icons/Add';
-import ViewCompactIcon from '@material-ui/icons/ViewCompact';
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
+import AddIcon from "@material-ui/icons/Add";
+import ViewCompactIcon from "@material-ui/icons/ViewCompact";
 
-import {
-  makeStyles,
-  withStyles,
-} from '@material-ui/core/styles';
-import {
-  useHistory,
-} from 'react-router-dom';
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   newDocumentBox: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '5px',
-    marginBottom: '5px',
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "5px",
+    marginBottom: "5px",
   },
   newDocumentButton: {
-    marginTop: '15px',
-    marginBottom: '5px',
-    borderRadius: '30px 30px 30px 30px',
+    marginTop: "15px",
+    marginBottom: "5px",
+    borderRadius: "30px 30px 30px 30px",
   },
   inbox: {
-    fontWeight: 'bold',
-    fontSize: '14px',
-    color: '#000000',
+    fontWeight: "bold",
+    fontSize: "14px",
+    color: "#000000",
   },
   listItem: {
-    borderRadius: '0px 30px 30px 0px',
-    marginRight: '10px',
+    borderRadius: "0px 30px 30px 0px",
+    marginRight: "10px",
   },
 }));
 
 const NewDocumentButton = withStyles(() => ({
   root: {
-    marginTop: '15px',
-    marginBottom: '5px',
-    boxShadow: '0 1px 2px 0 grey',
-    borderRadius: '30px 30px 30px 30px',
-    paddingRight: '20px',
-    paddingLeft: '15px',
+    marginTop: "15px",
+    marginBottom: "5px",
+    boxShadow: "0 1px 2px 0 grey",
+    borderRadius: "30px 30px 30px 30px",
+    paddingRight: "20px",
+    paddingLeft: "15px",
   },
 }))(Button);
 
 export default function InBoxMenuListContainer({
-  totalCount = 'redux',
-  state1Count = 'redux',
-  state2Count = 'redux',
-  state3Count = 'redux',
-  state4Count = 'redux',
+  totalCount = "redux",
+  state1Count = "redux",
+  state2Count = "redux",
+  state3Count = "redux",
+  state4Count = "redux",
 }) {
   const classes = useStyles();
   const history = useHistory();
   function handleNewDocumentOnClick(event) {
     event.preventDefault();
-    history.push('/add-docs');
+    history.push("/add-docs");
   }
 
   return (
@@ -87,7 +82,11 @@ export default function InBoxMenuListContainer({
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary={<Typography className={classes.inbox}>알리미함</Typography>} />
+          <ListItemText
+            primary={
+              <Typography className={classes.inbox}>알리미함</Typography>
+            }
+          />
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{totalCount}</Typography>
           </ListItemSecondaryAction>
