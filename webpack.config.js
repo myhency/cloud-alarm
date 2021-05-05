@@ -41,5 +41,11 @@ module.exports = (env, argv) => ({
   ],
   devServer: {
     historyApiFallback: true,
+    proxy: {
+      '/api/v1/platform': {
+        target: 'http://localhost:8080/',
+        changeOrigin: true,
+      }
+    }
   },
 });
