@@ -13,6 +13,7 @@ import {
 
 import {
   fetchAlarmList,
+  fetchAlarmDetail,
 } from '../services/alarms';
 
 import {
@@ -23,7 +24,19 @@ import locales from '../locales.json';
 
 const DEFAULT_LOCALE = 'en';
 
-const initialContactDetail = { name: '', phoneNumber: '', email: '' };
+const initialAlarmDetail = {
+  itemName: '',
+  itemCode: '',
+  recommendPrice: 0,
+  losscutPrice: 0,
+  comment: '',
+  theme: '',
+  createdAt: '',
+  lastUpdatedAt: '',
+  alarmStatus: '',
+  alarmedAt: '',
+  losscutAt: '',
+};
 
 const initialAlarmDocument = {
   itemName: '',
@@ -73,8 +86,10 @@ function parseAlarm(alarm) {
     recommendPrice,
     losscutPrice,
     createdAt,
-    state,
-    updatedAt,
+    alarmStatus,
+    lastUpdatedAt,
+    theme,
+    comment,
   } = alarm;
 
   return {
@@ -83,8 +98,10 @@ function parseAlarm(alarm) {
     recommendPrice,
     losscutPrice,
     createdAt,
-    state,
-    updatedAt,
+    alarmStatus,
+    lastUpdatedAt,
+    theme,
+    comment,
   };
 }
 
@@ -136,7 +153,7 @@ const { actions, reducer } = createSlice({
     localeText: {},
     locale: '',
     contacts: [],
-    contactDetail: initialContactDetail,
+    alarmDetail: initialAlarmDetail,
     alarmDocument: initialAlarmDocument,
     documents: [],
     alarms: [],
@@ -200,6 +217,13 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    clearAlarmDetail(state) {
+      return {
+        ...state,
+        alarmDetail: initialAlarmDetail,
+      };
+    },
+
     setDocuments(state, { payload: documents }) {
       const parsedDocuments = parseDocuments(
         documents,
@@ -221,6 +245,24 @@ const { actions, reducer } = createSlice({
       return {
         ...state,
         alarms: parsedAlarms,
+      };
+    },
+
+    setAlarmDetail(state, { payload: {
+      itemName, itemCode, recommendPrice,
+      losscutPrice, comment, theme,
+      createdAt, lastUpdatedAt, alarmStatus,
+      alarmedAt, losscutAt,
+    } }) {
+      return {
+        ...state,
+        alarmDetail: {
+          ...state.alarmDetail,
+          itemName, itemCode, recommendPrice,
+          losscutPrice, comment, theme,
+          createdAt, lastUpdatedAt, alarmStatus,
+          alarmedAt, losscutAt,
+        },
       };
     },
 
@@ -271,10 +313,12 @@ export const {
   setContacts,
   setContactDetail,
   clearContactDetail,
+  clearAlarmDetail,
   setDocuments,
   setAlarms,
   setStockItems,
   setAlarmDocument,
+  setAlarmDetail,
 } = actions;
 
 export default reducer;
@@ -374,3 +418,46 @@ export function loadAlarmDocument() {
     console.log(alarmDocument)
   }
 }
+
+export function loadAlarmDetail(id) {
+  return async (dispatch) => {
+    const { result, data } = await fetchAlarmDetail(id);
+
+    if (!result) {
+      dispatch(setAlarmDetail({
+        itemName: 'error',
+        itemCode: 'error',
+        recommendPrice: 'error',
+        losscutPrice: 'error',
+        comment: 'error',
+        theme: 'error',
+        createdAt: 'error',
+        lastUpdatedAt: 'error',
+        alarmStatus: 'error',
+        alarmedAt: 'error',
+        losscutAt: 'error',
+      }));
+      return;
+    }
+
+    const { itemName, itemCode, recommendPrice,
+      losscutPrice, comment, theme,
+      createdAt, lastUpdatedAt, alarmStatus,
+    alarmedAt, losscutAt, } = data;
+
+    dispatch(setAlarmDetail({
+      itemName,
+      itemCode,
+      recommendPrice,
+      losscutPrice,
+      comment,
+      theme,
+      createdAt,
+      lastUpdatedAt,
+      alarmStatus,
+      alarmedAt,
+      losscutAt,
+    }));
+  };
+}
+

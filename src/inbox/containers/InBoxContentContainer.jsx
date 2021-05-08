@@ -22,11 +22,14 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import DoneIcon from "@material-ui/icons/Done";
-import ReportProblemIcon from "@material-ui/icons/ReportProblem";
 
-import { loadDocumentList } from "../../state/slice";
-import { loadAlarmList } from "../../state/slice";
+import {
+  loadAlarmList,
+  loadAlarmDetail,
+  clearAlarmDetail,
+} from "../../state/slice";
+
+import InBoxModalContainer from "./InBoxModalContainer"
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -151,8 +154,21 @@ export default function InBoxContentContainer() {
   const [selected, setSelected] = React.useState([]);
   // const [hovered, setHovered] = React.useState(false);
   const [hoveredId, setHoveredId] = React.useState(null);
+  const [detailModalOpened, setDetailModalOpened] = React.useState(false);
+
   const numSelected = selected.length;
   const rowCount = alarms.length;
+
+  function handleDetailOpen(id) {
+    dispatch(loadAlarmDetail(id));
+    setDetailModalOpened(true);
+  }
+
+  function handleDetailClose() {
+    dispatch(clearAlarmDetail());
+    setDetailModalOpened(false);
+  }
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = alarms.map((alarms) => alarms.id);
@@ -161,7 +177,9 @@ export default function InBoxContentContainer() {
     }
     setSelected([]);
   };
+
   const isSelected = (id) => selected.indexOf(id) !== -1;
+
   const handleOnChange = (event, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -189,6 +207,10 @@ export default function InBoxContentContainer() {
 
   return (
     <main className={classes.content}>
+      <InBoxModalContainer
+        openState={detailModalOpened}
+        onClose={handleDetailClose}
+      />
       <div className={classes.toolbar} />
       <div className={classes.tableHeaderRoot}>
         <Box display="flex" flexDirection="row" style={{ width: "100%" }}>
@@ -260,6 +282,7 @@ export default function InBoxContentContainer() {
                     selected={isItemSelected}
                     onMouseOver={() => setHoveredId(alarm.id)}
                     onMouseLeave={() => setHoveredId(null)}
+                    onClick={() => handleDetailOpen(alarm.id)}
                   >
                     <TableCell className={classes.checkbox}>
                       <Checkbox
@@ -326,9 +349,9 @@ export default function InBoxContentContainer() {
                       padding="none"
                     >
                       <Box display="flex" flexDirection="column">
-                        {/* <Typography className={classes.typographySub}>
-                          {`수신인: ${handleReceiver(document.receiver)}`}
-                        </Typography> */}
+                        <Typography className={classes.typographySub}>
+                          {alarm.comment}
+                        </Typography>
                       </Box>
                     </TableCell>
                     {/* <TableCell width="10%">

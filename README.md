@@ -23,3 +23,5 @@ npm start
 ```
 - 기본 접속 URL: http://localhost:8080
 
+## 4. Refs
+- [flex box 정렬](https://ipex.tistory.com/entry/CSS3-flex-Box-justifycontent-alignitems)
