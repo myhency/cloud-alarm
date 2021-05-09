@@ -14,9 +14,13 @@ import {
   InputLabel,
   TextField,
 } from '@material-ui/core';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { indigo } from '@material-ui/core/colors';
-import DropZone from '../components/DropZone';
 import ProgressToolBar from '../components/ProgressToolBar';
 
 import { loadStockItemList, setAlarmDocument } from '../../state/slice';
@@ -151,6 +155,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
   const classes = useStyles();
 
   const [items, setItems] = React.useState({ itemName: '', itemCode: '' });
+  const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
   const { stockItems } = useSelector((state) => ({
@@ -162,9 +167,22 @@ export default function AddDocumentContentContainer({ contentsLink }) {
   }, []);
 
   function handleOnClick(event, link) {
-    event.preventDefault();
-    dispatch(setAlarmDocument({ itemName: items.itemName, itemCode: items.itemCode }));
-    history.push(link);
+    if (items.itemName == "") {
+      setOpen(true);
+    } else {
+      event.preventDefault();
+      dispatch(
+        setAlarmDocument({
+          itemName: items.itemName,
+          itemCode: items.itemCode
+        })
+      );
+      history.push(link);
+    }
+  }
+
+  function handleClose() {
+    setOpen(false);
   }
 
   function handleOnChange(event, value) {
@@ -176,44 +194,67 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     <main className={classes.content}>
       <div className={classes.toolbar} />
       <ProgressToolBar />
-      <div style={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '20px',
-      }}
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "20px",
+        }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
-          <Typography variant="h4" style={{ marginTop: '10px', marginBottom: '10px' }}>종목추가</Typography>
-          <Box style={{ margin: '30px 0 30px 0' }}>
+        <div style={{ display: "flex", flexDirection: "column", width: "80%" }}>
+          <Typography
+            variant="h4"
+            style={{ marginTop: "10px", marginBottom: "10px" }}
+          >
+            종목추가
+          </Typography>
+          <Box style={{ margin: "30px 0 30px 0" }}>
             <CssAutocomplete
               id="combo-box"
               options={stockItems}
               getOptionLabel={(stockItem) => stockItem.itemName}
-              renderInput={(params) =>
-                <TextField
-                  {...params}
-                  label="종목명"
-                  variant="outlined"
-                />}
+              renderInput={(params) => (
+                <TextField {...params} label="종목명" variant="outlined" />
+              )}
               onChange={(event, value) => handleOnChange(event, value)}
             />
           </Box>
           <Box display="flex">
             <Box display="flex" flexDirection="row">
-              <Link
+              {/* <Link
                 color="inherit"
-                to={contentsLink.link}
-                onClick={(e) => handleOnClick(e, contentsLink.link)}
-              >
-                <NextButton>다음</NextButton>
-              </Link>
-              
+                // to={contentsLink.link}
+              > */}
+              <NextButton onClick={(e) => handleOnClick(e, contentsLink.link)}>
+                다음
+              </NextButton>
+              {/* </Link> */}
             </Box>
-            <Box display="flex" flexDirection="row-reverse" flexGrow="1">
-            </Box>
+            <Box display="flex" flexDirection="row-reverse" flexGrow="1"></Box>
           </Box>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"종목명을 입력하지 않으셨나요?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                정확한 종목명을 입력하였는지 확인해 주세요.
+                종목명을 입력하지 않았거나 정확하지 않은 종목명을 입력하셨다면 다음단계로 진행할 수 없습니다.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="secondary" autoFocus>
+                확인
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </div>
     </main>
