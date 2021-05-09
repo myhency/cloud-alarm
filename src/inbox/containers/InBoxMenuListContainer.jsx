@@ -8,6 +8,7 @@ import {
   Button,
   ListItemIcon,
   ListItemText,
+  Link,
 } from "@material-ui/core";
 
 // Icons
@@ -67,6 +68,11 @@ export default function InBoxMenuListContainer({
     history.push("/add-docs");
   }
 
+  function handleClick(event) {
+    event.preventDefault();
+    history.push("/inbox");
+  }
+
   return (
     <>
       <Box className={classes.newDocumentBox}>
@@ -78,19 +84,27 @@ export default function InBoxMenuListContainer({
         </NewDocumentButton>
       </Box>
       <List>
-        <ListItem className={classes.listItem} button key={1}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary={
-              <Typography className={classes.inbox}>알리미함</Typography>
-            }
-          />
-          <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{totalCount}</Typography>
-          </ListItemSecondaryAction>
-        </ListItem>
+        <Link
+          key="alarmList"
+          color="inherit"
+          href="/inbox"
+          onClick={(e) => handleClick(e)}
+        >
+          <ListItem className={classes.listItem} button key={1}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <Typography className={classes.inbox}>알리미 리스트</Typography>
+              }
+            />
+            <ListItemSecondaryAction>
+              <Typography variant="subtitle1">{totalCount}</Typography>
+            </ListItemSecondaryAction>
+          </ListItem>
+        </Link>
+
         <ListItem className={classes.listItem} button key={2}>
           <ListItemIcon>
             <MailIcon />
