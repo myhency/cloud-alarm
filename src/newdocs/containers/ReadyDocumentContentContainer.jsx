@@ -186,10 +186,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
     });
   }
 
-  console.log(itemInfo)
-
   function handleOnClick(event, link) {
-    console.log(itemInfo);
     if (itemInfo.itemName == "" || itemInfo.itemCode == ""
     || itemInfo.recommendPrice == "" || itemInfo.losscutPrice == "") {
       setOpen(true)
