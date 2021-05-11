@@ -14,6 +14,7 @@ import {
 import {
   fetchAlarmList,
   fetchAlarmDetail,
+  saveAlarmDocument,
 } from '../services/alarms';
 
 import {
@@ -25,6 +26,22 @@ import locales from '../locales.json';
 const DEFAULT_LOCALE = 'en';
 
 const initialAlarmDetail = {
+  itemName: '',
+  itemCode: '',
+  recommendPrice: 0,
+  losscutPrice: 0,
+  comment: '',
+  theme: '',
+  createdAt: '',
+  lastUpdatedAt: '',
+  alarmStatus: '',
+  alarmedAt: '',
+  losscutAt: '',
+};
+
+const initialCreatedAlarm = {
+  result: true,
+  id: 0,
   itemName: '',
   itemCode: '',
   recommendPrice: 0,
@@ -153,6 +170,7 @@ const { actions, reducer } = createSlice({
     localeText: {},
     locale: '',
     contacts: [],
+    createdAlarm: initialCreatedAlarm,
     alarmDetail: initialAlarmDetail,
     alarmDocument: initialAlarmDocument,
     documents: [],
@@ -266,6 +284,24 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    setCreateAlarmResult(state, { payload: {
+      result, id, itemName, itemCode, recommendPrice,
+      losscutPrice, comment, theme,
+      createdAt, lastUpdatedAt, alarmStatus,
+      alarmedAt, losscutAt,
+    } }) {
+      return {
+        ...state,
+        createdAlarm: {
+          ...state.createdAlarm,
+          result, id, itemName, itemCode, recommendPrice,
+          losscutPrice, comment, theme,
+          createdAt, lastUpdatedAt, alarmStatus,
+          alarmedAt, losscutAt,
+        },
+      };
+    },
+
     setStockItems(state, { payload: stockItems }) {
       const parsedStockItems = parseStockItems(
         stockItems
@@ -319,6 +355,7 @@ export const {
   setStockItems,
   setAlarmDocument,
   setAlarmDetail,
+  setCreateAlarmResult,
 } = actions;
 
 export default reducer;
@@ -459,5 +496,32 @@ export function loadAlarmDetail(id) {
       losscutAt,
     }));
   };
+}
+
+export function createAlarmDocument(newAlarmDocument) {
+  return async (dispatch) => {
+    const { result, data } = await saveAlarmDocument(newAlarmDocument);
+
+    const { id, itemName, itemCode, recommendPrice,
+      losscutPrice, comment, theme,
+      createdAt, lastUpdatedAt, alarmStatus,
+      alarmedAt, losscutAt, } = data;
+    
+    dispatch(setCreateAlarmResult({
+      result,
+      id,
+      itemName,
+      itemCode,
+      recommendPrice,
+      losscutPrice,
+      comment,
+      theme,
+      createdAt,
+      lastUpdatedAt,
+      alarmStatus,
+      alarmedAt,
+      losscutAt,
+    }));
+  }
 }
 

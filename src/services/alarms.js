@@ -30,3 +30,32 @@ export async function fetchAlarmDetail(id) {
       throw new Error(error);
     });
 }
+
+export async function saveAlarmDocument(newAlarmDocument) {
+  console.log(newAlarmDocument);
+  const {
+    itemName,
+    itemCode,
+    recommendPrice,
+    losscutPrice,
+    comment,
+    theme,
+  } = newAlarmDocument;
+  return axios.post("/api/v1/platform/alarm/stockItem", {
+    itemName, itemCode, recommendPrice, losscutPrice, comment, theme
+  })
+    .then((response) => {
+      console.log(response);
+      return {
+        result: true,
+        data: response.data
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      return {
+        result: false,
+        data: error
+      }
+    });
+}

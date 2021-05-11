@@ -25,3 +25,4 @@ npm start
 
 ## 4. Refs
 - [flex box 정렬](https://ipex.tistory.com/entry/CSS3-flex-Box-justifycontent-alignitems)
+- [gif 편집하기](https://ezgif.com/maker)
