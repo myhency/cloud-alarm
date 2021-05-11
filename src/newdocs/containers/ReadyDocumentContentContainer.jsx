@@ -12,6 +12,11 @@ import {
   TextField,
   TextareaAutosize,
 } from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { indigo } from "@material-ui/core/colors";
 import DropZone from "../components/DropZone";
@@ -147,14 +152,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
   const classes = useStyles();
 
-  const [itemInfo, setItemInfo] = React.useState({
-    recommendPrice: "",
-    losscutPrice: "",
-    comment: "",
-    theme: "",
-  });
-
-  const { recommendPrice, losscutPrice, comment, theme } = itemInfo;
+  const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
   const { alarmDocument } = useSelector((state) => ({
@@ -165,6 +163,24 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
     dispatch(loadAlarmDocument());
   }, []);
 
+  const [itemInfo, setItemInfo] = React.useState({
+    itemName: alarmDocument.itemName,
+    itemCode: alarmDocument.itemCode,
+    recommendPrice: "",
+    losscutPrice: "",
+    comment: "",
+    theme: "",
+  });
+
+  const {
+    itemName,
+    itemCode,
+    recommendPrice,
+    losscutPrice,
+    comment,
+    theme,
+  } = itemInfo;
+
   function handleOnChange(event) {
     const { name, value } = event.target;
 
@@ -174,19 +190,36 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
     });
   }
 
+  console.log(itemInfo)
+
   function handleOnClick(event, link) {
-    event.preventDefault();
-    dispatch(
-      setAlarmDocument({
-        itemName: alarmDocument.itemName,
-        itemCode: alarmDocument.itemCode,
-        recommendPrice: itemInfo.recommendPrice || alarmDocument.recommendPrice,
-        losscutPrice: itemInfo.losscutPrice || alarmDocument.losscutPrice,
-        comment: itemInfo.comment || alarmDocument.comment,
-        theme: itemInfo.theme || alarmDocument.theme,
-      })
-    );
-    history.push(link);
+    console.log(itemInfo);
+    if (itemInfo.itemName == "" || itemInfo.itemCode == ""
+    || itemInfo.recommendPrice == "" || itemInfo.losscutPrice == "") {
+      setOpen(true)
+    } else {
+      event.preventDefault();
+      dispatch(
+        setAlarmDocument({
+          itemName: alarmDocument.itemName,
+          itemCode: alarmDocument.itemCode,
+          recommendPrice:
+            itemInfo.recommendPrice || alarmDocument.recommendPrice,
+          losscutPrice: itemInfo.losscutPrice || alarmDocument.losscutPrice,
+          comment: itemInfo.comment || alarmDocument.comment,
+          theme: itemInfo.theme || alarmDocument.theme,
+        })
+      );
+      history.push(link);
+    }
+  }
+
+  function handleOnBackClick(event) {
+    history.goBack();
+  }
+
+  function handleClose() {
+    setOpen(false);
   }
 
   return (
@@ -211,6 +244,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
           </Typography>
           <Box style={{ margin: "30px 0 0 0" }}>
             <CssTextField
+              required
               label="종목명"
               variant="outlined"
               fullWidth
@@ -222,6 +256,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
           </Box>
           <Box style={{ margin: "10px 0 0 0" }}>
             <CssTextField
+              required
               label="종목코드"
               variant="outlined"
               fullWidth
@@ -233,6 +268,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
           </Box>
           <Box style={{ margin: "10px 0 0 0" }}>
             <CssTextField
+              required
               name="recommendPrice"
               label="돌파가격"
               variant="outlined"
@@ -247,6 +283,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
           </Box>
           <Box style={{ margin: "10px 0 0px 0" }}>
             <CssTextField
+              required
               name="losscutPrice"
               label="손절가격"
               variant="outlined"
@@ -292,19 +329,37 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
             <Box display="flex" flexDirection="row">
               <NextButton
                 style={{ backgroundColor: "hotpink", margin: "0 5px 0 0" }}
+                onClick={(e) => handleOnBackClick(e)}
               >
                 뒤로
               </NextButton>
-              <Link
-                color="inherit"
-                to={contentsLink.link}
-                onClick={(e) => handleOnClick(e, contentsLink.link)}
-              >
-                <NextButton>다음</NextButton>
-              </Link>
+              <NextButton onClick={(e) => handleOnClick(e, contentsLink.link)}>
+                다음
+              </NextButton>
             </Box>
             <Box display="flex" flexDirection="row-reverse" flexGrow="1"></Box>
           </Box>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"필수항목을 입력하지 않으셨나요?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                필수항목 필드를 작성하지 않으셨다면 다음단계로 진행할 수
+                없습니다.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="secondary" autoFocus>
+                확인
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </div>
     </main>

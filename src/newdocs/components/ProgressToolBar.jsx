@@ -34,7 +34,7 @@ export default function ProgressToolBar() {
       </IconButton>
       <Box display="flex" flexDirection="row" p={1} m={1}>
         <RadioButtonCheckedIcon style={{ color: 'white' }} />
-        <Typography style={{ color: 'white', marginLeft: '5px' }}>추가</Typography>
+        <Typography style={{ color: 'white', marginLeft: '5px' }}>종목추가</Typography>
         <Box display="flex" alignItems="center">
           <div style={{
             height: '1px',
@@ -56,7 +56,7 @@ export default function ProgressToolBar() {
           />
         </Box> */}
         <RadioButtonCheckedIcon style={{ color: 'white' }} />
-        <Typography style={{ color: 'white', marginLeft: '5px' }}>준비</Typography>
+        <Typography style={{ color: 'white', marginLeft: '5px' }}>정보입력</Typography>
         <Box display="flex" alignItems="center">
           <div style={{
             height: '1px',
@@ -67,7 +67,7 @@ export default function ProgressToolBar() {
           />
         </Box>
         <RadioButtonCheckedIcon style={{ color: 'white' }} />
-        <Typography style={{ color: 'white', marginLeft: '5px' }}>검토</Typography>
+        <Typography style={{ color: 'white', marginLeft: '5px' }}>검토 및 저장</Typography>
       </Box>
       <IconButton aria-label="delete">
         <DoneIcon style={{ color: 'white' }} />
