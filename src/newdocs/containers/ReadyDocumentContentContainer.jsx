@@ -159,10 +159,6 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
     alarmDocument: state.alarmDocument,
   }));
 
-  useEffect(() => {
-    dispatch(loadAlarmDocument());
-  }, []);
-
   const [itemInfo, setItemInfo] = React.useState({
     itemName: alarmDocument.itemName,
     itemCode: alarmDocument.itemCode,
