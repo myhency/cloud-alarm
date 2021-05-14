@@ -26,7 +26,7 @@ export default function RootPage({ localeText }) {
         <Route path="/login">
           <LoginPage />
         </Route>
-        <Route path="/review-docs/:id" component={ModifyReviewDocumentPage}></Route>
+        <Route path="/review-docs/:id" component={ModifyReviewDocumentPage} />
         <Route path="/review-docs">
           <ReviewDocumentPage />
         </Route>

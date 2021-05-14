@@ -10,16 +10,20 @@ const items = [
   { title: '새 알리미', link: '/add-docs' },
 ];
 
-const contentsLink = { link: '/review-docs' }
+const contentsLink = { link: '/review-docs' };
 
 export default function ModifyReadyDocumentPage({ match }) {
-  console.log(match.params.id);
   return (
     <DrawerLayout
       pageTitleContainer={<PageTitleContainer items={items} />}
       menuList={<InBoxMenuListContainer />}
       menuListSmall={<InBoxMenuListContainerSmall />}
-      content={<ModifyReadyDocumentContentContainer contentsLink={contentsLink} id={match.params.id}/>}
+      content={(
+        <ModifyReadyDocumentContentContainer
+          contentsLink={contentsLink}
+          id={match.params.id}
+        />
+      )}
     />
   );
 }

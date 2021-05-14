@@ -7,7 +7,7 @@ module.exports = (env, argv) => ({
   output: {
     filename: 'bundle-[hash].js',
     path: path.resolve('./dist'),
-    publicPath: argv.mode === 'production' ? '/hae-sign-front/' : '/',
+    publicPath: argv.mode === 'production' ? '/cloud-alarm/' : '/',
   },
   module: {
     rules: [
@@ -45,7 +45,7 @@ module.exports = (env, argv) => ({
       '/api/v1/platform': {
         target: 'http://localhost:8080/',
         changeOrigin: true,
-      }
-    }
+      },
+    },
   },
 });

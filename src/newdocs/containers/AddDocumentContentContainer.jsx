@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
   withStyles,
@@ -7,27 +8,19 @@ import {
 import {
   Typography,
   Box,
-  FormControlLabel,
-  Checkbox,
   Button,
-  Input,
-  InputLabel,
   TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@material-ui/core';
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { indigo } from '@material-ui/core/colors';
 import ProgressToolBar from '../components/ProgressToolBar';
 
 import { loadStockItemList, setAlarmDocument } from '../../state/slice';
-import { Link } from 'react-router-dom';
-import {
-  useHistory,
-} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -127,7 +120,7 @@ const CssAutocomplete = withStyles({
       },
     },
   },
-})(Autocomplete)
+})(Autocomplete);
 
 const NextButton = withStyles((theme) => ({
   root: {
@@ -138,17 +131,6 @@ const NextButton = withStyles((theme) => ({
     },
   },
 }))(Button);
-
-const AddTemplateLink = withStyles(() => ({
-  root: {
-    color: 'mediumblue',
-    '&:hover': {
-      color: 'dodgerblue',
-      textDecoration: 'underline',
-      cursor: 'pointer',
-    },
-  },
-}))(Typography);
 
 export default function AddDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
@@ -167,15 +149,15 @@ export default function AddDocumentContentContainer({ contentsLink }) {
   }, []);
 
   function handleOnClick(event, link) {
-    if (items.itemName == "") {
+    if (items.itemName === '') {
       setOpen(true);
     } else {
       event.preventDefault();
       dispatch(
         setAlarmDocument({
           itemName: items.itemName,
-          itemCode: items.itemCode
-        })
+          itemCode: items.itemCode,
+        }),
       );
       history.push(link);
     }
@@ -187,7 +169,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
 
   function handleOnChange(event, value) {
     console.log(value);
-    setItems({itemName: value.itemName, itemCode: value.itemCode});
+    setItems({ itemName: value.itemName, itemCode: value.itemCode });
   }
 
   return (
@@ -196,26 +178,27 @@ export default function AddDocumentContentContainer({ contentsLink }) {
       <ProgressToolBar />
       <div
         style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "20px",
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px',
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", width: "80%" }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
           <Typography
             variant="h4"
-            style={{ marginTop: "10px", marginBottom: "10px" }}
+            style={{ marginTop: '10px', marginBottom: '10px' }}
           >
             종목추가
           </Typography>
-          <Box style={{ margin: "30px 0 30px 0" }}>
+          <Box style={{ margin: '30px 0 30px 0' }}>
             <CssAutocomplete
               id="combo-box"
               options={stockItems}
               getOptionLabel={(stockItem) => stockItem.itemName}
               renderInput={(params) => (
+                // eslint-disable-next-line react/jsx-props-no-spreading
                 <TextField {...params} label="종목명" variant="outlined" />
               )}
               onChange={(event, value) => handleOnChange(event, value)}
@@ -232,7 +215,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
               </NextButton>
               {/* </Link> */}
             </Box>
-            <Box display="flex" flexDirection="row-reverse" flexGrow="1"></Box>
+            <Box display="flex" flexDirection="row-reverse" flexGrow="1" />
           </Box>
           <Dialog
             open={open}
@@ -241,7 +224,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">
-              {"종목명을 입력하지 않으셨나요?"}
+              종목명을 입력하지 않으셨나요?
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">

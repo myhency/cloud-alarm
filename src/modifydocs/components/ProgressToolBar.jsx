@@ -1,21 +1,17 @@
 import React from 'react';
 import {
   Box,
-  Button,
   IconButton,
   Typography,
 } from '@material-ui/core';
 import {
   makeStyles,
-  withStyles,
 } from '@material-ui/core/styles';
-import { pink, indigo } from '@material-ui/core/colors';
 import CloseIcon from '@material-ui/icons/Close';
 import DoneIcon from '@material-ui/icons/Done';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     justifyContent: 'space-between',

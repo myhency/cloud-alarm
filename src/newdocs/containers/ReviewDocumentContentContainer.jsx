@@ -1,35 +1,29 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Grid,
   Typography,
   TextField,
-  TextareaAutosize,
   Button,
   Box,
-  AppBar,
-  Tabs,
-  Tab,
-} from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { pink, indigo } from "@material-ui/core/colors";
-import ProgressToolBar from "../components/ProgressToolBar";
+} from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { indigo } from '@material-ui/core/colors';
+import { useHistory } from 'react-router-dom';
+import ProgressToolBar from '../components/ProgressToolBar';
 
-import { createAlarmDocument } from "../../state/slice";
-
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { createAlarmDocument } from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
@@ -37,19 +31,19 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     // padding: theme.spacing(3),
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
   },
   form: {
-    "& > *": {
+    '& > *': {
       margin: theme.spacing(1),
-      width: "100%",
+      width: '100%',
     },
   },
   contentRight: {
     backgroundColor: theme.palette.background.paper,
-    width: "100%",
-    borderLeft: "1px solid lightgrey",
-    height: "89vh",
+    width: '100%',
+    borderLeft: '1px solid lightgrey',
+    height: '89vh',
   },
 }));
 
@@ -57,65 +51,28 @@ const NextButton = withStyles((theme) => ({
   root: {
     color: theme.palette.getContrastText(indigo[700]),
     backgroundColor: indigo[700],
-    "&:hover": {
+    '&:hover': {
       backgroundColor: indigo[900],
     },
   },
 }))(Button);
 
-const BackButton = withStyles((theme) => ({
-  root: {
-    color: theme.palette.getContrastText(indigo[700]),
-    backgroundColor: pink[700],
-    "&:hover": {
-      backgroundColor: pink[900],
-    },
-  },
-}))(Button);
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index) {
-  return {
-    id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
-  };
-}
-
 const CssTextField = withStyles({
   root: {
-    "& label.Mui-focused": {
+    '& label.Mui-focused': {
       color: indigo[700],
     },
-    "& .MuiInput-underline:after": {
+    '& .MuiInput-underline:after': {
       borderBottomColor: indigo[700],
     },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
         borderColor: indigo[700],
       },
-      "&:hover fieldset": {
+      '&:hover fieldset': {
         borderColor: indigo[700],
       },
-      "&.Mui-focused fieldset": {
+      '&.Mui-focused fieldset': {
         borderColor: indigo[700],
       },
     },
@@ -125,7 +82,6 @@ const CssTextField = withStyles({
 export default function ReviewDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
   const classes = useStyles();
-  const theme = useTheme();
 
   const [successOpen, setSuccessOpen] = React.useState(false);
   const [failOpen, setFailOpen] = React.useState(false);
@@ -141,10 +97,10 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
 
   function handleOnClick(event) {
     if (
-      alarmDocument.itemName == "" ||
-      alarmDocument.itemCode == "" ||
-      alarmDocument.recommendPrice == "" ||
-      alarmDocument.losscutPrice == ""
+      alarmDocument.itemName === ''
+      || alarmDocument.itemCode === ''
+      || alarmDocument.recommendPrice === ''
+      || alarmDocument.losscutPrice === ''
     ) {
       setWarningOpen(true);
     } else {
@@ -157,13 +113,12 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
           losscutPrice: alarmDocument.losscutPrice,
           comment: alarmDocument.comment,
           theme: alarmDocument.theme,
-        })
+        }),
       );
     }
   }
 
   useEffect(() => {
-    console.log('New value', createdAlarm);
     if (!createdAlarm.result) {
       setFailOpen(true);
     }
@@ -171,60 +126,61 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
     if (createdAlarm.result && createdAlarm.createdAt) {
       setSuccessOpen(true);
     }
-      return () => {
-        console.log("Prev value", createdAlarm);
-      };
+    return () => {
+    };
   }, [createdAlarm]);
 
-  function handleOnBackClick(event) {
+  function handleOnBackClick() {
     history.goBack();
   }
 
   function handleClose() {
     setWarningOpen(false);
     setFailOpen(false);
-    
   }
 
   function handleSuccessClose() {
     setSuccessOpen(false);
-    history.push('/inbox');
+    history.push(contentsLink);
   }
 
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
       <ProgressToolBar />
-      <Grid lg={12} xs={12} item={true}>
+      <Grid lg={12} xs={12} item>
         <Grid container justify="center">
-          <Grid lg={8} xs={8} item={true}>
+          <Grid lg={8} xs={8} item>
             <div
               style={{
-                width: "100%",
-                justifyContent: "center",
-                padding: "20px",
+                width: '100%',
+                justifyContent: 'center',
+                padding: '20px',
               }}
             >
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "100%",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
                 }}
               >
                 <Typography
                   variant="h4"
-                  style={{ marginTop: "10px", marginBottom: "10px" }}
+                  style={{ marginTop: '10px', marginBottom: '10px' }}
                 >
                   검토 및 저장
                 </Typography>
                 <Typography
                   variant="h5"
-                  style={{ marginTop: "10px", marginBottom: "10px" }}
+                  style={{ marginTop: '10px', marginBottom: '10px' }}
                 >
-                  {alarmDocument.itemName}({alarmDocument.itemCode})에 대한 요약
+                  {alarmDocument.itemName}
+                  (
+                  {alarmDocument.itemCode}
+                  )에 대한 요약
                 </Typography>
-                <Box style={{ margin: "10px 0 0 0" }}>
+                <Box style={{ margin: '10px 0 0 0' }}>
                   <CssTextField
                     required
                     name="recommendPrice"
@@ -237,7 +193,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
                     value={alarmDocument.recommendPrice}
                   />
                 </Box>
-                <Box style={{ margin: "10px 0 0px 0" }}>
+                <Box style={{ margin: '10px 0 0px 0' }}>
                   <CssTextField
                     required
                     name="losscutPrice"
@@ -250,11 +206,11 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
                     value={alarmDocument.losscutPrice}
                   />
                 </Box>
-                <Box style={{ margin: "10px 0 0px 0" }}>
+                <Box style={{ margin: '10px 0 0px 0' }}>
                   <CssTextField
                     name="comment"
                     label="코멘트"
-                    multiline={true}
+                    multiline
                     rows={5}
                     variant="outlined"
                     fullWidth
@@ -264,11 +220,11 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
                     value={alarmDocument.comment}
                   />
                 </Box>
-                <Box style={{ margin: "10px 0 30px 0" }}>
+                <Box style={{ margin: '10px 0 30px 0' }}>
                   <CssTextField
                     name="theme"
                     label="테마"
-                    multiline={true}
+                    multiline
                     rows={5}
                     variant="outlined"
                     fullWidth
@@ -282,8 +238,8 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
                   <Box display="flex" flexDirection="row">
                     <NextButton
                       style={{
-                        backgroundColor: "hotpink",
-                        margin: "0 5px 0 0",
+                        backgroundColor: 'hotpink',
+                        margin: '0 5px 0 0',
                       }}
                       onClick={(e) => handleOnBackClick(e)}
                     >
@@ -297,7 +253,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
                     display="flex"
                     flexDirection="row-reverse"
                     flexGrow="1"
-                  ></Box>
+                  />
                 </Box>
               </div>
             </div>
@@ -311,7 +267,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"입력한 내용에 문제가 있습니다."}
+          입력한 내용에 문제가 있습니다.
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -332,7 +288,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"시스템오류로 인해 알람이 저장되지 않았습니다."}
+          시스템오류로 인해 알람이 저장되지 않았습니다.
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -352,7 +308,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"알람저장이 성공하였습니다."}
+          알람저장이 성공하였습니다.
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">

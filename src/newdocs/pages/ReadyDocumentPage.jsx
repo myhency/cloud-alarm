@@ -10,7 +10,7 @@ const items = [
   { title: '새 알리미', link: '/add-docs' },
 ];
 
-const contentsLink = { link: '/review-docs' }
+const contentsLink = { link: '/review-docs' };
 
 export default function ReadyDocumentPage() {
   return (
