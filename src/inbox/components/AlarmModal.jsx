@@ -46,8 +46,8 @@ export default function AlarmModal({
         </Box>
         <Divider />
         <div className="modal-description">
-          <InBoxModalHeader recommendPrice={recommendPrice} losscutPrice={ losscutPrice}/>
-          <Divider />
+          {/* <InBoxModalHeader recommendPrice={recommendPrice} losscutPrice={ losscutPrice}/> */}
+          {/* <Divider /> */}
           <InBoxModalContent
             recommendPrice={recommendPrice}
             losscutPrice={losscutPrice}

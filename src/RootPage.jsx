@@ -11,7 +11,6 @@ import SamplePage from './sample/pages/SamplePage';
 import ButtonSampleContainer from './sample/containers/ButtonSampleContainer';
 import ContactsPage from './contacts/pages/ContactsPage';
 import InboxPage from './inbox/pages/InboxPage';
-import NewDocumentPage from './newdocs/pages/NewDocumentPage';
 import AddDocumentPage from './newdocs/pages/AddDocumentPage';
 import ReadyDocumentPage from './newdocs/pages/ReadyDocumentPage';
 import ReviewDocumentPage from './newdocs/pages/ReviewDocumentPage';
@@ -33,9 +32,6 @@ export default function RootPage({ localeText }) {
         </Route>
         <Route path="/ready-docs">
           <ReadyDocumentPage />
-        </Route>
-        <Route path="/newdocs">
-          <NewDocumentPage />
         </Route>
         <Route path="/contacts">
           <ContactsPage />

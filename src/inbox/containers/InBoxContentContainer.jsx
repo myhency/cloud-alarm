@@ -19,6 +19,7 @@ import {
 // Icons
 import DeleteIcon from "@material-ui/icons/Delete";
 import GetAppIcon from "@material-ui/icons/GetApp";
+import EditIcon from "@material-ui/icons/Edit";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import RefreshIcon from "@material-ui/icons/Refresh";
@@ -159,7 +160,9 @@ export default function InBoxContentContainer() {
   const numSelected = selected.length;
   const rowCount = alarms.length;
 
-  function handleDetailOpen(id) {
+  const handleDetailOpen = (event, id) => {
+    console.log(event.srcElement.id);
+    console.log(event);
     dispatch(loadAlarmDetail(id));
     setDetailModalOpened(true);
   }
@@ -199,6 +202,10 @@ export default function InBoxContentContainer() {
 
     setSelected(newSelected);
   };
+
+  const handleOnModifyButton = (event) => {
+    console.log("handleOnModifyButton");
+  }
 
   function handleReceiver(receivers) {
     // TODO. 구현해
@@ -273,6 +280,7 @@ export default function InBoxContentContainer() {
 
                 return (
                   <TableRow
+                    id={alarm.id}
                     style={{ cursor: "pointer", height: "4vh" }}
                     hover
                     role="checkbox"
@@ -282,7 +290,6 @@ export default function InBoxContentContainer() {
                     selected={isItemSelected}
                     onMouseOver={() => setHoveredId(alarm.id)}
                     onMouseLeave={() => setHoveredId(null)}
-                    onClick={() => handleDetailOpen(alarm.id)}
                   >
                     <TableCell className={classes.checkbox}>
                       <Checkbox
@@ -302,6 +309,7 @@ export default function InBoxContentContainer() {
                       scope="row"
                       padding="none"
                       width="10%"
+                      onClick={() => handleDetailOpen(event, alarm.id)}
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography>{alarm.itemName}</Typography>
@@ -316,6 +324,7 @@ export default function InBoxContentContainer() {
                       scope="row"
                       padding="none"
                       width="10%"
+                      onClick={() => handleDetailOpen(event, alarm.id)}
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography style={{ color: "red" }}>
@@ -332,6 +341,7 @@ export default function InBoxContentContainer() {
                       scope="row"
                       padding="none"
                       width="10%"
+                      onClick={() => handleDetailOpen(event, alarm.id)}
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography style={{ color: "blue" }}>
@@ -347,6 +357,7 @@ export default function InBoxContentContainer() {
                       id={labelId}
                       scope="row"
                       padding="none"
+                      onClick={() => handleDetailOpen(event, alarm.id)}
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography className={classes.typographySub}>
@@ -384,14 +395,18 @@ export default function InBoxContentContainer() {
                         </TableCell>
                         <TableCell align="right" style={{ padding: "0" }}>
                           <Box>
+                            <StyledTooltip title="수정">
+                              <IconButton
+                                id="alarm-delete-button"
+                                className={classes.action}
+                                onClick={() => handleOnModifyButton(event)}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                            </StyledTooltip>
                             <StyledTooltip title="삭제">
                               <IconButton className={classes.action}>
                                 <DeleteIcon />
-                              </IconButton>
-                            </StyledTooltip>
-                            <StyledTooltip title="내려받기">
-                              <IconButton className={classes.action}>
-                                <GetAppIcon />
                               </IconButton>
                             </StyledTooltip>
                           </Box>
