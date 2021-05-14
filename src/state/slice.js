@@ -62,10 +62,10 @@ const initialAlarmDocument = {
   recommendPrice: 0,
   losscutPrice: 0,
   comment: '',
-  theme: ''
-}
+  theme: '',
+};
 
-function parseDocument(document, userName, userEmail) {
+function parseDocument(document) {
   const {
     id,
     name,
@@ -144,8 +144,6 @@ function parseStockItems(stockItems) {
 }
 
 const { actions, reducer } = createSlice({
-
-
 
   // 이 부분이 store
   // TODO. 임시값이므로 실제 API연동하면 바꿀것
@@ -230,13 +228,6 @@ const { actions, reducer } = createSlice({
       };
     },
 
-    clearContactDetail(state) {
-      return {
-        ...state,
-        contactDetail: initialContactDetail,
-      };
-    },
-
     clearAlarmDetail(state) {
       return {
         ...state,
@@ -259,7 +250,7 @@ const { actions, reducer } = createSlice({
 
     setAlarms(state, { payload: alarms }) {
       const parsedAlarms = parseAlarms(
-        alarms
+        alarms,
       );
 
       return {
@@ -268,63 +259,94 @@ const { actions, reducer } = createSlice({
       };
     },
 
-    setAlarmDetail(state, { payload: {
-      itemName, itemCode, recommendPrice,
-      losscutPrice, comment, theme,
-      createdAt, lastUpdatedAt, alarmStatus,
-      alarmedAt, losscutAt,
-    } }) {
+    setAlarmDetail(state, {
+      payload: {
+        itemName, itemCode, recommendPrice,
+        losscutPrice, comment, theme,
+        createdAt, lastUpdatedAt, alarmStatus,
+        alarmedAt, losscutAt,
+      },
+    }) {
       return {
         ...state,
         alarmDetail: {
           ...state.alarmDetail,
-          itemName, itemCode, recommendPrice,
-          losscutPrice, comment, theme,
-          createdAt, lastUpdatedAt, alarmStatus,
-          alarmedAt, losscutAt,
+          itemName,
+          itemCode,
+          recommendPrice,
+          losscutPrice,
+          comment,
+          theme,
+          createdAt,
+          lastUpdatedAt,
+          alarmStatus,
+          alarmedAt,
+          losscutAt,
         },
       };
     },
 
-    setCreateAlarmResult(state, { payload: {
-      result, id, itemName, itemCode, recommendPrice,
-      losscutPrice, comment, theme,
-      createdAt, lastUpdatedAt, alarmStatus,
-      alarmedAt, losscutAt,
-    } }) {
+    setCreateAlarmResult(state, {
+      payload: {
+        result, id, itemName, itemCode, recommendPrice,
+        losscutPrice, comment, theme,
+        createdAt, lastUpdatedAt, alarmStatus,
+        alarmedAt, losscutAt,
+      },
+    }) {
       return {
         ...state,
         createdAlarm: {
           ...state.createdAlarm,
-          result, id, itemName, itemCode, recommendPrice,
-          losscutPrice, comment, theme,
-          createdAt, lastUpdatedAt, alarmStatus,
-          alarmedAt, losscutAt,
+          result,
+          id,
+          itemName,
+          itemCode,
+          recommendPrice,
+          losscutPrice,
+          comment,
+          theme,
+          createdAt,
+          lastUpdatedAt,
+          alarmStatus,
+          alarmedAt,
+          losscutAt,
         },
       };
     },
 
-    setModifiedAlarmResult(state, { payload: {
-      result, id, itemName, itemCode, recommendPrice,
-      losscutPrice, comment, theme,
-      createdAt, lastUpdatedAt, alarmStatus,
-      alarmedAt, losscutAt,
-    } }) {
+    setModifiedAlarmResult(state, {
+      payload: {
+        result, id, itemName, itemCode, recommendPrice,
+        losscutPrice, comment, theme,
+        createdAt, lastUpdatedAt, alarmStatus,
+        alarmedAt, losscutAt,
+      },
+    }) {
       return {
         ...state,
         modifiedAlarm: {
           ...state.createdAlarm,
-          result, id, itemName, itemCode, recommendPrice,
-          losscutPrice, comment, theme,
-          createdAt, lastUpdatedAt, alarmStatus,
-          alarmedAt, losscutAt,
+          result,
+          id,
+          itemName,
+          itemCode,
+          recommendPrice,
+          losscutPrice,
+          comment,
+          theme,
+          createdAt,
+          lastUpdatedAt,
+          alarmStatus,
+          alarmedAt,
+          losscutAt,
         },
       };
     },
 
     setStockItems(state, { payload: stockItems }) {
       const parsedStockItems = parseStockItems(
-        stockItems
+        stockItems,
       );
 
       return {
@@ -340,11 +362,11 @@ const { actions, reducer } = createSlice({
         recommendPrice,
         losscutPrice,
         comment,
-        theme
-      } }) {
-      
-      console.log(itemName)
-      
+        theme,
+      },
+    }) {
+      console.log(itemName);
+
       return {
         ...state,
         alarmDocument: {
@@ -354,11 +376,11 @@ const { actions, reducer } = createSlice({
           recommendPrice,
           losscutPrice,
           comment,
-          theme
-        }
-      }
+          theme,
+        },
+      };
     },
-  }
+  },
 });
 
 export const {
@@ -473,8 +495,8 @@ export function loadStockItemList() {
 export function loadAlarmDocument() {
   return (dispach, getState) => {
     const { alarmDocument } = getState();
-    console.log(alarmDocument)
-  }
+    console.log(alarmDocument);
+  };
 }
 
 export function loadAlarmDetail(id) {
@@ -498,10 +520,12 @@ export function loadAlarmDetail(id) {
       return;
     }
 
-    const { itemName, itemCode, recommendPrice,
+    const {
+      itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
       createdAt, lastUpdatedAt, alarmStatus,
-    alarmedAt, losscutAt, } = data;
+      alarmedAt, losscutAt,
+    } = data;
 
     dispatch(setAlarmDetail({
       itemName,
@@ -523,11 +547,13 @@ export function createAlarmDocument(newAlarmDocument) {
   return async (dispatch) => {
     const { result, data } = await saveAlarmDocument(newAlarmDocument);
 
-    const { id, itemName, itemCode, recommendPrice,
+    const {
+      id, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
       createdAt, lastUpdatedAt, alarmStatus,
-      alarmedAt, losscutAt, } = data;
-    
+      alarmedAt, losscutAt,
+    } = data;
+
     dispatch(setCreateAlarmResult({
       result,
       id,
@@ -543,18 +569,21 @@ export function createAlarmDocument(newAlarmDocument) {
       alarmedAt,
       losscutAt,
     }));
-  }
+  };
 }
 
 export function modifyAlarmDocument(modifiedAlarmDocument) {
+  console.log(modifiedAlarmDocument);
   return async (dispatch) => {
     const { result, data } = await updateAlarmDocument(modifiedAlarmDocument);
 
-    const { id, itemName, itemCode, recommendPrice,
+    const {
+      id, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
       createdAt, lastUpdatedAt, alarmStatus,
-      alarmedAt, losscutAt, } = data;
-    
+      alarmedAt, losscutAt,
+    } = data;
+
     dispatch(setModifiedAlarmResult({
       result,
       id,
@@ -570,6 +599,5 @@ export function modifyAlarmDocument(modifiedAlarmDocument) {
       alarmedAt,
       losscutAt,
     }));
-  }
+  };
 }
-

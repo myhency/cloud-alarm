@@ -1,4 +1,3 @@
-// import { alarms } from '../../fixture/alarms';
 import axios from 'axios';
 
 export async function fetchAlarmList() {
@@ -46,6 +45,7 @@ export async function saveAlarmDocument(newAlarmDocument) {
 }
 
 export async function updateAlarmDocument(updatedAlarmDocument) {
+  console.log(updateAlarmDocument);
   const {
     id,
     itemName,
@@ -55,7 +55,7 @@ export async function updateAlarmDocument(updatedAlarmDocument) {
     comment,
     theme,
   } = updatedAlarmDocument;
-  return axios.post(`/api/v1/platform/alarm/stockItem/${id}`, {
+  return axios.put(`/api/v1/platform/alarm/stockItem/${id}`, {
     id, itemName, itemCode, recommendPrice, losscutPrice, comment, theme,
   })
     .then((response) => ({

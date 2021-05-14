@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   makeStyles,
   withStyles,
@@ -134,7 +134,10 @@ const NextButton = withStyles((theme) => ({
 
 export default function AddDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
+  const location = useLocation();
   const classes = useStyles();
+
+  console.log(location);
 
   const [items, setItems] = React.useState({ itemName: '', itemCode: '' });
   const [open, setOpen] = React.useState(false);
