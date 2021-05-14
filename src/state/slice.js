@@ -15,6 +15,7 @@ import {
   fetchAlarmList,
   fetchAlarmDetail,
   saveAlarmDocument,
+  updateAlarmDocument,
 } from '../services/alarms';
 
 import {
@@ -171,6 +172,7 @@ const { actions, reducer } = createSlice({
     locale: '',
     contacts: [],
     createdAlarm: initialCreatedAlarm,
+    modifiedAlarm: initialCreatedAlarm,
     alarmDetail: initialAlarmDetail,
     alarmDocument: initialAlarmDocument,
     documents: [],
@@ -302,6 +304,24 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    setModifiedAlarmResult(state, { payload: {
+      result, id, itemName, itemCode, recommendPrice,
+      losscutPrice, comment, theme,
+      createdAt, lastUpdatedAt, alarmStatus,
+      alarmedAt, losscutAt,
+    } }) {
+      return {
+        ...state,
+        modifiedAlarm: {
+          ...state.createdAlarm,
+          result, id, itemName, itemCode, recommendPrice,
+          losscutPrice, comment, theme,
+          createdAt, lastUpdatedAt, alarmStatus,
+          alarmedAt, losscutAt,
+        },
+      };
+    },
+
     setStockItems(state, { payload: stockItems }) {
       const parsedStockItems = parseStockItems(
         stockItems
@@ -356,6 +376,7 @@ export const {
   setAlarmDocument,
   setAlarmDetail,
   setCreateAlarmResult,
+  setModifiedAlarmResult,
 } = actions;
 
 export default reducer;
@@ -508,6 +529,33 @@ export function createAlarmDocument(newAlarmDocument) {
       alarmedAt, losscutAt, } = data;
     
     dispatch(setCreateAlarmResult({
+      result,
+      id,
+      itemName,
+      itemCode,
+      recommendPrice,
+      losscutPrice,
+      comment,
+      theme,
+      createdAt,
+      lastUpdatedAt,
+      alarmStatus,
+      alarmedAt,
+      losscutAt,
+    }));
+  }
+}
+
+export function modifyAlarmDocument(modifiedAlarmDocument) {
+  return async (dispatch) => {
+    const { result, data } = await updateAlarmDocument(modifiedAlarmDocument);
+
+    const { id, itemName, itemCode, recommendPrice,
+      losscutPrice, comment, theme,
+      createdAt, lastUpdatedAt, alarmStatus,
+      alarmedAt, losscutAt, } = data;
+    
+    dispatch(setModifiedAlarmResult({
       result,
       id,
       itemName,

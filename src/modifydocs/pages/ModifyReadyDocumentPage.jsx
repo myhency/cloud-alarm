@@ -3,7 +3,7 @@ import DrawerLayout from '../../common/layouts/DrawerLayout';
 import PageTitleContainer from '../../common/containers/PageTitleContainer';
 import InBoxMenuListContainer from '../../inbox/containers/InBoxMenuListContainer';
 import InBoxMenuListContainerSmall from '../../inbox/containers/InBoxMenuListContainerSmall';
-import ReadyDocumentContentContainer from '../containers/ReadyDocumentContentContainer';
+import ModifyReadyDocumentContentContainer from '../containers/ModifyReadyDocumentContentContainer';
 
 const items = [
   { title: '알리미 리스트', link: '/inbox' },
@@ -12,13 +12,14 @@ const items = [
 
 const contentsLink = { link: '/review-docs' }
 
-export default function ReadyDocumentPage() {
+export default function ModifyReadyDocumentPage({ match }) {
+  console.log(match.params.id);
   return (
     <DrawerLayout
       pageTitleContainer={<PageTitleContainer items={items} />}
       menuList={<InBoxMenuListContainer />}
       menuListSmall={<InBoxMenuListContainerSmall />}
-      content={<ReadyDocumentContentContainer contentsLink={contentsLink} />}
+      content={<ModifyReadyDocumentContentContainer contentsLink={contentsLink} id={match.params.id}/>}
     />
   );
 }

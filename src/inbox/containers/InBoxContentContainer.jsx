@@ -153,7 +153,6 @@ export default function InBoxContentContainer() {
     dispatch(loadAlarmList());
   }, []);
   const [selected, setSelected] = React.useState([]);
-  // const [hovered, setHovered] = React.useState(false);
   const [hoveredId, setHoveredId] = React.useState(null);
   const [detailModalOpened, setDetailModalOpened] = React.useState(false);
 
