@@ -151,11 +151,11 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     dispatch(loadStockItemList());
   }, []);
 
-  function handleOnClick(event, link) {
+  function handleOnClick(e, link) {
     if (items.itemName === '') {
       setOpen(true);
     } else {
-      event.preventDefault();
+      // event.preventDefault();
       dispatch(
         setAlarmDocument({
           itemName: items.itemName,
