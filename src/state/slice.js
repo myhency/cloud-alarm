@@ -178,6 +178,7 @@ const { actions, reducer } = createSlice({
     documents: [],
     alarms: [],
     stockItems: [],
+    alarmId: { id: 0 },
   },
   // 이 부분이 reducer
   reducers: {
@@ -234,6 +235,13 @@ const { actions, reducer } = createSlice({
       return {
         ...state,
         alarmDetail: initialAlarmDetail,
+      };
+    },
+
+    clearAlarmId(state) {
+      return {
+        ...state,
+        alarmId: { id: 0 },
       };
     },
 
@@ -358,6 +366,18 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    setAlarmId(state, {
+      payload: { id },
+    }) {
+      return {
+        ...state,
+        alarmId: {
+          ...state.alarmId,
+          id,
+        },
+      };
+    },
+
     setAlarmDocument(state, {
       payload: {
         itemName,
@@ -395,6 +415,7 @@ export const {
   setContactDetail,
   clearContactDetail,
   clearAlarmDetail,
+  clearAlarmId,
   setDocuments,
   setAlarms,
   setStockItems,
@@ -402,6 +423,7 @@ export const {
   setAlarmDetail,
   setCreateAlarmResult,
   setModifiedAlarmResult,
+  setAlarmId,
 } = actions;
 
 export default reducer;
@@ -502,48 +524,24 @@ export function loadAlarmDocument() {
   };
 }
 
-export function loadAlarmDocumentByItemCode(_itemCode) {
+export function loadAlarmIdByItemCode(_itemCode) {
   console.log(_itemCode);
   return async (dispatch) => {
     const { result, data } = await fetchAlarmByItemCode(_itemCode);
 
+    console.log(data);
+
     if (!result) {
-      dispatch(setAlarmDetail({
-        itemName: 'error',
-        itemCode: 'error',
-        recommendPrice: 'error',
-        losscutPrice: 'error',
-        comment: 'error',
-        theme: 'error',
-        createdAt: 'error',
-        lastUpdatedAt: 'error',
-        alarmStatus: 'error',
-        alarmedAt: 'error',
-        losscutAt: 'error',
+      dispatch(setAlarmId({
+        id: undefined,
       }));
       return;
     }
 
-    const {
-      id, itemName, itemCode, recommendPrice,
-      losscutPrice, comment, theme,
-      createdAt, lastUpdatedAt, alarmStatus,
-      alarmedAt, losscutAt,
-    } = data;
+    const { id } = data;
 
-    dispatch(setAlarmDetail({
+    dispatch(setAlarmId({
       id,
-      itemName,
-      itemCode,
-      recommendPrice,
-      losscutPrice,
-      comment,
-      theme,
-      createdAt,
-      lastUpdatedAt,
-      alarmStatus,
-      alarmedAt,
-      losscutAt,
     }));
   };
 }

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
   withStyles,
@@ -23,8 +23,9 @@ import ProgressToolBar from '../components/ProgressToolBar';
 import {
   loadStockItemList,
   setAlarmDocument,
-  loadAlarmDocumentByItemCode,
-} from "../../state/slice";
+  loadAlarmIdByItemCode,
+  clearAlarmId,
+} from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -138,42 +139,44 @@ const NextButton = withStyles((theme) => ({
 
 export default function AddDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
-  const location = useLocation();
   const classes = useStyles();
-
-  // console.log(location);
 
   const [items, setItems] = React.useState({ itemName: '', itemCode: '' });
   const [open, setOpen] = React.useState(false);
+  const [existOpen, setExistOpen] = React.useState(false);
 
   const dispatch = useDispatch();
   const { stockItems } = useSelector((state) => ({
     stockItems: state.stockItems,
   }));
 
-  const { alarmDetail } = useSelector((state) => ({
-    alarmDetail: state.alarmDetail,
+  const { alarmId } = useSelector((state) => ({
+    alarmId: state.alarmId,
   }));
 
   useEffect(() => {
     dispatch(loadStockItemList());
-    console.log(alarmDetail);
-  }, [alarmDetail]);
+    console.log(alarmId);
+    if (alarmId.id !== undefined && alarmId.id !== 0) {
+      setExistOpen(true);
+    } else if (alarmId.id === undefined) {
+      dispatch(
+        setAlarmDocument({
+          itemName: items.itemName,
+          itemCode: items.itemCode,
+        }),
+      );
+      history.push(contentsLink);
+      dispatch(clearAlarmId());
+    }
+  }, [alarmId]);
 
-  function handleOnClick(e, link) {
+  function handleOnClick() {
     if (items.itemName === '') {
       setOpen(true);
     } else {
-      // event.preventDefault();
-      // dispatch(
-      //   setAlarmDocument({
-      //     itemName: items.itemName,
-      //     itemCode: items.itemCode,
-      //   }),
-      // );
-      // history.push(link);
-      // 입력한 종목이 알리미 리스트에 있으며 message box 띄운다.
-      dispatch(loadAlarmDocumentByItemCode(items.itemCode));
+      // 입력한 종목이 알리미 리스트에 있는지 확인.
+      dispatch(loadAlarmIdByItemCode(items.itemCode));
     }
   }
 
@@ -181,8 +184,13 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     setOpen(false);
   }
 
+  function handleExistClose() {
+    setExistOpen(false);
+    history.push(`${contentsLink}/${alarmId.id}`);
+    dispatch(clearAlarmId());
+  }
+
   function handleOnChange(e, value) {
-    console.log(value);
     setItems({ itemName: value.itemName, itemCode: value.itemCode });
   }
 
@@ -192,26 +200,27 @@ export default function AddDocumentContentContainer({ contentsLink }) {
       <ProgressToolBar />
       <div
         style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "20px",
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px',
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", width: "80%" }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
           <Typography
             variant="h4"
-            style={{ marginTop: "10px", marginBottom: "10px" }}
+            style={{ marginTop: '10px', marginBottom: '10px' }}
           >
             종목추가
           </Typography>
-          <Box style={{ margin: "30px 0 30px 0" }}>
+          <Box style={{ margin: '30px 0 30px 0' }}>
             <CssAutocomplete
               id="combo-box"
               options={stockItems}
               getOptionLabel={(stockItem) => stockItem.itemName}
-              getOptionSelected={(option, value) => option.itemName === value.itemName}
+              getOptionSelected={(option, value) => option.itemName === value.itemName
+              }
               renderInput={(params) => (
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 <TextField {...params} label="종목명" variant="outlined" />
@@ -221,7 +230,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
           </Box>
           <Box display="flex">
             <Box display="flex" flexDirection="row">
-              <NextButton onClick={(e) => handleOnClick(e, contentsLink.link)}>
+              <NextButton onClick={handleOnClick}>
                 다음
               </NextButton>
             </Box>
@@ -245,6 +254,26 @@ export default function AddDocumentContentContainer({ contentsLink }) {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose} color="secondary" autoFocus>
+                확인
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <Dialog
+            open={existOpen}
+            onClose={handleExistClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              입력하신 종목은 이미 알리미 리스트에 등록되어 있습니다.
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                확인버튼을 클릭하면 알람 수정화면으로 이동합니다.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleExistClose} color="secondary" autoFocus>
                 확인
               </Button>
             </DialogActions>
