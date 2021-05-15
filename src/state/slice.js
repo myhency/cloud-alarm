@@ -388,8 +388,6 @@ const { actions, reducer } = createSlice({
         theme,
       },
     }) {
-      console.log(itemName);
-
       return {
         ...state,
         alarmDocument: {
@@ -525,11 +523,8 @@ export function loadAlarmDocument() {
 }
 
 export function loadAlarmIdByItemCode(_itemCode) {
-  console.log(_itemCode);
   return async (dispatch) => {
     const { result, data } = await fetchAlarmByItemCode(_itemCode);
-
-    console.log(data);
 
     if (!result) {
       dispatch(setAlarmId({
@@ -621,7 +616,6 @@ export function createAlarmDocument(newAlarmDocument) {
 }
 
 export function modifyAlarmDocument(modifiedAlarmDocument) {
-  console.log(modifiedAlarmDocument);
   return async (dispatch) => {
     const { result, data } = await updateAlarmDocument(modifiedAlarmDocument);
 

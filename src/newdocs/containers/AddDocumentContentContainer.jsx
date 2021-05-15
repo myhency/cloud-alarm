@@ -165,7 +165,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
           itemCode: items.itemCode,
         }),
       );
-      history.push(contentsLink);
+      history.push(contentsLink.link);
       dispatch(clearAlarmId());
     }
   }, [alarmId]);
@@ -185,12 +185,22 @@ export default function AddDocumentContentContainer({ contentsLink }) {
 
   function handleExistClose() {
     setExistOpen(false);
-    history.push(`${contentsLink}/${alarmId.id}`);
+    history.push(`${contentsLink.link}/${alarmId.id}`);
     dispatch(clearAlarmId());
   }
 
   function handleOnChange(e, value) {
-    setItems({ itemName: value.itemName, itemCode: value.itemCode });
+    if (value === null) {
+      setItems({
+        itemName: '',
+        itemCode: '',
+      });
+    } else {
+      setItems({
+        itemName: value.itemName,
+        itemCode: value.itemCode,
+      });
+    }
   }
 
   return (
