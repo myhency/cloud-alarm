@@ -156,7 +156,6 @@ export default function AddDocumentContentContainer({ contentsLink }) {
 
   useEffect(() => {
     dispatch(loadStockItemList());
-    console.log(alarmId);
     if (alarmId.id !== undefined && alarmId.id !== 0) {
       setExistOpen(true);
     } else if (alarmId.id === undefined) {
@@ -219,8 +218,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
               id="combo-box"
               options={stockItems}
               getOptionLabel={(stockItem) => stockItem.itemName}
-              getOptionSelected={(option, value) => option.itemName === value.itemName
-              }
+              getOptionSelected={(option, value) => option.itemName === value.itemName}
               renderInput={(params) => (
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 <TextField {...params} label="종목명" variant="outlined" />
