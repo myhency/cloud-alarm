@@ -20,7 +20,11 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { indigo } from '@material-ui/core/colors';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { loadStockItemList, setAlarmDocument } from '../../state/slice';
+import {
+  loadStockItemList,
+  setAlarmDocument,
+  loadAlarmDocumentByItemCode,
+} from "../../state/slice";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -137,7 +141,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
   const location = useLocation();
   const classes = useStyles();
 
-  console.log(location);
+  // console.log(location);
 
   const [items, setItems] = React.useState({ itemName: '', itemCode: '' });
   const [open, setOpen] = React.useState(false);
@@ -147,22 +151,29 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     stockItems: state.stockItems,
   }));
 
+  const { alarmDetail } = useSelector((state) => ({
+    alarmDetail: state.alarmDetail,
+  }));
+
   useEffect(() => {
     dispatch(loadStockItemList());
-  }, []);
+    console.log(alarmDetail);
+  }, [alarmDetail]);
 
   function handleOnClick(e, link) {
     if (items.itemName === '') {
       setOpen(true);
     } else {
       // event.preventDefault();
-      dispatch(
-        setAlarmDocument({
-          itemName: items.itemName,
-          itemCode: items.itemCode,
-        }),
-      );
-      history.push(link);
+      // dispatch(
+      //   setAlarmDocument({
+      //     itemName: items.itemName,
+      //     itemCode: items.itemCode,
+      //   }),
+      // );
+      // history.push(link);
+      // 입력한 종목이 알리미 리스트에 있으며 message box 띄운다.
+      dispatch(loadAlarmDocumentByItemCode(items.itemCode));
     }
   }
 
@@ -170,7 +181,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     setOpen(false);
   }
 
-  function handleOnChange(event, value) {
+  function handleOnChange(e, value) {
     console.log(value);
     setItems({ itemName: value.itemName, itemCode: value.itemCode });
   }
@@ -181,25 +192,26 @@ export default function AddDocumentContentContainer({ contentsLink }) {
       <ProgressToolBar />
       <div
         style={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '20px',
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "20px",
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
+        <div style={{ display: "flex", flexDirection: "column", width: "80%" }}>
           <Typography
             variant="h4"
-            style={{ marginTop: '10px', marginBottom: '10px' }}
+            style={{ marginTop: "10px", marginBottom: "10px" }}
           >
             종목추가
           </Typography>
-          <Box style={{ margin: '30px 0 30px 0' }}>
+          <Box style={{ margin: "30px 0 30px 0" }}>
             <CssAutocomplete
               id="combo-box"
               options={stockItems}
               getOptionLabel={(stockItem) => stockItem.itemName}
+              getOptionSelected={(option, value) => option.itemName === value.itemName}
               renderInput={(params) => (
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 <TextField {...params} label="종목명" variant="outlined" />
@@ -209,14 +221,9 @@ export default function AddDocumentContentContainer({ contentsLink }) {
           </Box>
           <Box display="flex">
             <Box display="flex" flexDirection="row">
-              {/* <Link
-                color="inherit"
-                // to={contentsLink.link}
-              > */}
               <NextButton onClick={(e) => handleOnClick(e, contentsLink.link)}>
                 다음
               </NextButton>
-              {/* </Link> */}
             </Box>
             <Box display="flex" flexDirection="row-reverse" flexGrow="1" />
           </Box>
@@ -231,8 +238,9 @@ export default function AddDocumentContentContainer({ contentsLink }) {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                정확한 종목명을 입력하였는지 확인해 주세요.
-                종목명을 입력하지 않았거나 정확하지 않은 종목명을 입력하셨다면 다음단계로 진행할 수 없습니다.
+                정확한 종목명을 입력하였는지 확인해 주세요. 종목명을 입력하지
+                않았거나 정확하지 않은 종목명을 입력하셨다면 다음단계로 진행할
+                수 없습니다.
               </DialogContentText>
             </DialogContent>
             <DialogActions>

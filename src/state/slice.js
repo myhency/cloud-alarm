@@ -16,6 +16,7 @@ import {
   fetchAlarmDetail,
   saveAlarmDocument,
   updateAlarmDocument,
+  fetchAlarmByItemCode,
 } from '../services/alarms';
 
 import {
@@ -27,6 +28,7 @@ import locales from '../locales.json';
 const DEFAULT_LOCALE = 'en';
 
 const initialAlarmDetail = {
+  id: 0,
   itemName: '',
   itemCode: '',
   recommendPrice: 0,
@@ -261,7 +263,7 @@ const { actions, reducer } = createSlice({
 
     setAlarmDetail(state, {
       payload: {
-        itemName, itemCode, recommendPrice,
+        id, itemName, itemCode, recommendPrice,
         losscutPrice, comment, theme,
         createdAt, lastUpdatedAt, alarmStatus,
         alarmedAt, losscutAt,
@@ -271,6 +273,7 @@ const { actions, reducer } = createSlice({
         ...state,
         alarmDetail: {
           ...state.alarmDetail,
+          id,
           itemName,
           itemCode,
           recommendPrice,
@@ -499,9 +502,10 @@ export function loadAlarmDocument() {
   };
 }
 
-export function loadAlarmDetail(id) {
+export function loadAlarmDocumentByItemCode(_itemCode) {
+  console.log(_itemCode);
   return async (dispatch) => {
-    const { result, data } = await fetchAlarmDetail(id);
+    const { result, data } = await fetchAlarmByItemCode(_itemCode);
 
     if (!result) {
       dispatch(setAlarmDetail({
@@ -521,13 +525,59 @@ export function loadAlarmDetail(id) {
     }
 
     const {
-      itemName, itemCode, recommendPrice,
+      id, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
       createdAt, lastUpdatedAt, alarmStatus,
       alarmedAt, losscutAt,
     } = data;
 
     dispatch(setAlarmDetail({
+      id,
+      itemName,
+      itemCode,
+      recommendPrice,
+      losscutPrice,
+      comment,
+      theme,
+      createdAt,
+      lastUpdatedAt,
+      alarmStatus,
+      alarmedAt,
+      losscutAt,
+    }));
+  };
+}
+
+export function loadAlarmDetail(_id) {
+  return async (dispatch) => {
+    const { result, data } = await fetchAlarmDetail(_id);
+
+    if (!result) {
+      dispatch(setAlarmDetail({
+        itemName: 'error',
+        itemCode: 'error',
+        recommendPrice: 'error',
+        losscutPrice: 'error',
+        comment: 'error',
+        theme: 'error',
+        createdAt: 'error',
+        lastUpdatedAt: 'error',
+        alarmStatus: 'error',
+        alarmedAt: 'error',
+        losscutAt: 'error',
+      }));
+      return;
+    }
+
+    const {
+      id, itemName, itemCode, recommendPrice,
+      losscutPrice, comment, theme,
+      createdAt, lastUpdatedAt, alarmStatus,
+      alarmedAt, losscutAt,
+    } = data;
+
+    dispatch(setAlarmDetail({
+      id,
       itemName,
       itemCode,
       recommendPrice,

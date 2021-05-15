@@ -24,6 +24,11 @@ module.exports = (env, argv) => ({
         test: /\.(png|svg|jpg|gif|mp4)$/i,
         use: 'file-loader',
       },
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
+      },
     ],
   },
   resolve: {

@@ -22,6 +22,19 @@ export async function fetchAlarmDetail(id) {
     });
 }
 
+export async function fetchAlarmByItemCode(itemCode) {
+  return axios.get(`/api/v1/platform/alarm/stockItem/filter?itemCode=${itemCode}`)
+    .then((response) => ({
+      result: true,
+      data: response.data,
+    }))
+    .catch((error) => ({
+      // throw new Error(error);
+      result: false,
+      data: error,
+    }));
+}
+
 export async function saveAlarmDocument(newAlarmDocument) {
   const {
     itemName,
