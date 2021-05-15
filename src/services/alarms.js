@@ -29,7 +29,6 @@ export async function fetchAlarmByItemCode(itemCode) {
       data: response.data,
     }))
     .catch((error) => ({
-      // throw new Error(error);
       result: false,
       data: error,
     }));
@@ -58,7 +57,6 @@ export async function saveAlarmDocument(newAlarmDocument) {
 }
 
 export async function updateAlarmDocument(updatedAlarmDocument) {
-  console.log(updateAlarmDocument);
   const {
     id,
     itemName,
