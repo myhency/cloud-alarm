@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Typography,
@@ -133,14 +133,11 @@ const NextButton = withStyles((theme) => ({
 
 export default function ModifyReadyDocumentContentContainer({ contentsLink, id }) {
   const history = useHistory();
-  const location = useLocation();
   const classes = useStyles();
   const dispatch = useDispatch();
   const { alarmDetail } = useSelector((state) => ({
     alarmDetail: state.alarmDetail,
   }));
-
-  console.log(location);
 
   useEffect(() => {
     dispatch(loadAlarmDetail(id));
