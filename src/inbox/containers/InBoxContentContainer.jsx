@@ -166,7 +166,7 @@ export default function InBoxContentContainer() {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  const handleOnChange = (event, id) => {
+  const handleOnChange = (e, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
@@ -255,7 +255,6 @@ export default function InBoxContentContainer() {
               {alarms.map((alarm) => {
                 const isItemSelected = isSelected(alarm.id);
                 const labelId = `enhanced-table-checkbox-${alarm.id}`;
-                // const completeRatio = (document.completeCount / document.totalCount) * 100;
 
                 return (
                   <TableRow
@@ -277,11 +276,6 @@ export default function InBoxContentContainer() {
                         onChange={(event) => handleOnChange(event, alarm.id)}
                       />
                     </TableCell>
-                    {/* <TableCell width="3%" padding="none">
-                      {(document.completeCount === document.totalCount)
-                        ? <DoneIcon style={{ color: 'green' }} />
-                        : <ReportProblemIcon style={{ color: 'GoldenRod' }} />}
-                    </TableCell> */}
                     <TableCell
                       component="th"
                       id={labelId}
@@ -292,9 +286,6 @@ export default function InBoxContentContainer() {
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography>{alarm.itemName}</Typography>
-                        {/* <Typography className={classes.typographySub}>
-                          {`수신인: ${handleReceiver(document.receiver)}`}
-                        </Typography> */}
                       </Box>
                     </TableCell>
                     <TableCell
@@ -309,9 +300,6 @@ export default function InBoxContentContainer() {
                         <Typography style={{ color: 'red' }}>
                           {alarm.recommendPrice}
                         </Typography>
-                        {/* <Typography className={classes.typographySub}>
-                          {`수신인: ${handleReceiver(document.receiver)}`}
-                        </Typography> */}
                       </Box>
                     </TableCell>
                     <TableCell
@@ -326,9 +314,6 @@ export default function InBoxContentContainer() {
                         <Typography style={{ color: 'blue' }}>
                           {alarm.losscutPrice}
                         </Typography>
-                        {/* <Typography className={classes.typographySub}>
-                          {`수신인: ${handleReceiver(document.receiver)}`}
-                        </Typography> */}
                       </Box>
                     </TableCell>
                     <TableCell
