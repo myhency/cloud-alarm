@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Typography,
   Box,
@@ -11,27 +11,25 @@ import {
   InputLabel,
   TextField,
   TextareaAutosize,
-} from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { indigo } from "@material-ui/core/colors";
-import DropZone from "../components/DropZone";
-import ProgressToolBar from "../components/ProgressToolBar";
+} from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { indigo } from '@material-ui/core/colors';
+import { Link, useHistory } from 'react-router-dom';
+import DropZone from '../components/DropZone';
+import ProgressToolBar from '../components/ProgressToolBar';
 
-import { loadAlarmDocument, setAlarmDocument } from "../../state/slice";
-
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { loadAlarmDocument, setAlarmDocument } from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
@@ -39,88 +37,88 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     // padding: theme.spacing(3),
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
   },
   root: {
-    display: "flex",
-    alignItems: "center",
-    borderBottom: "1px solid lightgrey",
-    height: "60px",
-    paddingTop: "5px",
-    paddingBottom: "5px",
+    display: 'flex',
+    alignItems: 'center',
+    borderBottom: '1px solid lightgrey',
+    height: '60px',
+    paddingTop: '5px',
+    paddingBottom: '5px',
   },
   contentRoot: {
-    display: "flex",
-    alignItems: "center",
-    paddingTop: "5px",
+    display: 'flex',
+    alignItems: 'center',
+    paddingTop: '5px',
   },
   exitButton: {
-    marginLeft: "10px",
+    marginLeft: '10px',
   },
   nextButton: {
-    marginRight: "10px",
+    marginRight: '10px',
   },
   stepTitle: {
-    "& > *": {
+    '& > *': {
       margin: theme.spacing(0),
     },
     color: theme.palette.text.secondary,
-    display: "flex",
-    alignContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    alignContent: 'space-between',
+    alignItems: 'center',
   },
   stepContent: {
-    display: "flex",
-    flexWrap: "wrap",
-    "& > *": {
+    display: 'flex',
+    flexWrap: 'wrap',
+    '& > *': {
       margin: theme.spacing(1),
       width: theme.spacing(16),
       height: theme.spacing(16),
     },
   },
   dropZone: {
-    backgroundColor: "pink",
+    backgroundColor: 'pink',
     marginTop: theme.spacing(4),
-    width: "30%",
-    height: "50px",
-    overflowX: "auto",
+    width: '30%',
+    height: '50px',
+    overflowX: 'auto',
     // marginBottom: theme.spacing(2),
-    margin: "auto",
+    margin: 'auto',
   },
   formControl: {
     margin: theme.spacing(1, 2),
     minWidth: 170,
-    display: "flex",
-    justifyContent: "space-between",
-    height: "5px",
+    display: 'flex',
+    justifyContent: 'space-between',
+    height: '5px',
   },
   baseBox: {
-    display: "flex",
-    border: "1px solid",
-    borderColor: "#D3D3D3",
-    borderRadius: "5px 5px 5px 5px",
-    margin: "0 15px 0 15px",
-    padding: "10px",
-    justifyContent: "center",
+    display: 'flex',
+    border: '1px solid',
+    borderColor: '#D3D3D3',
+    borderRadius: '5px 5px 5px 5px',
+    margin: '0 15px 0 15px',
+    padding: '10px',
+    justifyContent: 'center',
   },
 }));
 
 const CssTextField = withStyles({
   root: {
-    "& label.Mui-focused": {
+    '& label.Mui-focused': {
       color: indigo[700],
     },
-    "& .MuiInput-underline:after": {
+    '& .MuiInput-underline:after': {
       borderBottomColor: indigo[700],
     },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
         borderColor: indigo[700],
       },
-      "&:hover fieldset": {
+      '&:hover fieldset': {
         borderColor: indigo[700],
       },
-      "&.Mui-focused fieldset": {
+      '&.Mui-focused fieldset': {
         borderColor: indigo[700],
       },
     },
@@ -131,22 +129,11 @@ const NextButton = withStyles((theme) => ({
   root: {
     color: theme.palette.getContrastText(indigo[700]),
     backgroundColor: indigo[700],
-    "&:hover": {
+    '&:hover': {
       backgroundColor: indigo[900],
     },
   },
 }))(Button);
-
-const AddTemplateLink = withStyles(() => ({
-  root: {
-    color: "mediumblue",
-    "&:hover": {
-      color: "dodgerblue",
-      textDecoration: "underline",
-      cursor: "pointer",
-    },
-  },
-}))(Typography);
 
 export default function ReadyDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
@@ -162,10 +149,10 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
   const [itemInfo, setItemInfo] = React.useState({
     itemName: alarmDocument.itemName,
     itemCode: alarmDocument.itemCode,
-    recommendPrice: "",
-    losscutPrice: "",
-    comment: "",
-    theme: "",
+    recommendPrice: '',
+    losscutPrice: '',
+    comment: '',
+    theme: '',
   });
 
   const {
@@ -187,9 +174,9 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
   }
 
   function handleOnClick(event, link) {
-    if (itemInfo.itemName == "" || itemInfo.itemCode == ""
-    || itemInfo.recommendPrice == "" || itemInfo.losscutPrice == "") {
-      setOpen(true)
+    if (itemInfo.itemName === '' || itemInfo.itemCode === ''
+    || itemInfo.recommendPrice === '' || itemInfo.losscutPrice === '') {
+      setOpen(true);
     } else {
       event.preventDefault();
       dispatch(
@@ -201,13 +188,13 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
           losscutPrice: itemInfo.losscutPrice || alarmDocument.losscutPrice,
           comment: itemInfo.comment || alarmDocument.comment,
           theme: itemInfo.theme || alarmDocument.theme,
-        })
+        }),
       );
       history.push(link);
     }
   }
 
-  function handleOnBackClick(event) {
+  function handleOnBackClick() {
     history.goBack();
   }
 
@@ -221,21 +208,21 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
       <ProgressToolBar />
       <div
         style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "20px",
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px',
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", width: "80%" }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
           <Typography
             variant="h4"
-            style={{ marginTop: "10px", marginBottom: "10px" }}
+            style={{ marginTop: '10px', marginBottom: '10px' }}
           >
             정보입력
           </Typography>
-          <Box style={{ margin: "30px 0 0 0" }}>
+          <Box style={{ margin: '30px 0 0 0' }}>
             <CssTextField
               required
               label="종목명"
@@ -247,7 +234,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               value={alarmDocument.itemName}
             />
           </Box>
-          <Box style={{ margin: "10px 0 0 0" }}>
+          <Box style={{ margin: '10px 0 0 0' }}>
             <CssTextField
               required
               label="종목코드"
@@ -259,7 +246,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               value={alarmDocument.itemCode}
             />
           </Box>
-          <Box style={{ margin: "10px 0 0 0" }}>
+          <Box style={{ margin: '10px 0 0 0' }}>
             <CssTextField
               required
               name="recommendPrice"
@@ -270,11 +257,11 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               value={
                 (itemInfo.recommendPrice
                   ? itemInfo.recommendPrice
-                  : alarmDocument.recommendPrice) || ""
+                  : alarmDocument.recommendPrice) || ''
               }
             />
           </Box>
-          <Box style={{ margin: "10px 0 0px 0" }}>
+          <Box style={{ margin: '10px 0 0px 0' }}>
             <CssTextField
               required
               name="losscutPrice"
@@ -285,44 +272,44 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               value={
                 (itemInfo.losscutPrice
                   ? itemInfo.losscutPrice
-                  : alarmDocument.losscutPrice) || ""
+                  : alarmDocument.losscutPrice) || ''
               }
             />
           </Box>
-          <Box style={{ margin: "10px 0 0px 0" }}>
+          <Box style={{ margin: '10px 0 0px 0' }}>
             <CssTextField
               name="comment"
               label="코멘트"
-              multiline={true}
+              multiline
               rows={5}
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
               value={
-                (itemInfo.comment ? itemInfo.comment : alarmDocument.comment) ||
-                ""
+                (itemInfo.comment ? itemInfo.comment : alarmDocument.comment)
+                || ''
               }
             />
           </Box>
-          <Box style={{ margin: "10px 0 30px 0" }}>
+          <Box style={{ margin: '10px 0 30px 0' }}>
             <CssTextField
               name="theme"
               label="테마"
-              multiline={true}
+              multiline
               rows={5}
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
               value={
-                (itemInfo.theme ? itemInfo.theme : alarmDocument.theme) || ""
+                (itemInfo.theme ? itemInfo.theme : alarmDocument.theme) || ''
               }
             />
           </Box>
           <Box display="flex">
             <Box display="flex" flexDirection="row">
               <NextButton
-                style={{ backgroundColor: "hotpink", margin: "0 5px 0 0" }}
-                onClick={(e) => handleOnBackClick(e)}
+                style={{ backgroundColor: 'hotpink', margin: '0 5px 0 0' }}
+                onClick={handleOnBackClick}
               >
                 뒤로
               </NextButton>
@@ -330,7 +317,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
                 다음
               </NextButton>
             </Box>
-            <Box display="flex" flexDirection="row-reverse" flexGrow="1"></Box>
+            <Box display="flex" flexDirection="row-reverse" flexGrow="1" />
           </Box>
           <Dialog
             open={open}
@@ -339,7 +326,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">
-              {"필수항목을 입력하지 않으셨나요?"}
+              필수항목을 입력하지 않으셨나요?
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
