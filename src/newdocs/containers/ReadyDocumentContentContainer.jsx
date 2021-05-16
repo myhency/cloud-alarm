@@ -155,15 +155,6 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
     theme: alarmDocument.theme,
   });
 
-  const {
-    itemName,
-    itemCode,
-    recommendPrice,
-    losscutPrice,
-    comment,
-    theme,
-  } = itemInfo;
-
   function handleOnChange(event) {
     const { name, value } = event.target;
 

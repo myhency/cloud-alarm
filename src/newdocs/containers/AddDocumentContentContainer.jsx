@@ -162,6 +162,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
 
   useEffect(() => {
     dispatch(loadStockItemList());
+    console.log(alarmId.id);
     if (alarmId.id !== undefined && alarmId.id !== 0) {
       setExistOpen(true);
     } else if (alarmId.id === undefined) {
