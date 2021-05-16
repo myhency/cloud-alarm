@@ -1,29 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Typography,
   Box,
-  FormControlLabel,
-  Checkbox,
   Button,
-  Input,
-  InputLabel,
   TextField,
-  TextareaAutosize,
 } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import { indigo } from '@material-ui/core/colors';
-import { Link, useHistory } from 'react-router-dom';
-import DropZone from '../components/DropZone';
+import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { loadAlarmDocument, setAlarmDocument } from '../../state/slice';
+import { setAlarmDocument } from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
