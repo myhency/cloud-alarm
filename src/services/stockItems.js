@@ -1,9 +1,8 @@
 import { stockItems } from '../../fixture/stockItems';
 
-export async function fetchStockItemList() {
-  return new Promise((resolve, _) => setTimeout(() =>
-    resolve({
-      result: true,
-      data: stockItems,
-    }), 1));
+export default async function fetchStockItemList() {
+  return new Promise((resolve, _) => setTimeout(() => resolve({
+    result: true,
+    data: stockItems,
+  }), 1));
 }
