@@ -141,7 +141,11 @@ export default function AddDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
   const classes = useStyles();
 
-  const [items, setItems] = React.useState({ itemName: '', itemCode: '' });
+  const [items, setItems] = React.useState({
+    itemName: '',
+    itemCode: '',
+    theme: '',
+  });
   const [open, setOpen] = React.useState(false);
   const [existOpen, setExistOpen] = React.useState(false);
 
@@ -149,6 +153,8 @@ export default function AddDocumentContentContainer({ contentsLink }) {
   const { stockItems } = useSelector((state) => ({
     stockItems: state.stockItems,
   }));
+
+  console.log(items);
 
   const { alarmId } = useSelector((state) => ({
     alarmId: state.alarmId,
@@ -163,6 +169,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
         setAlarmDocument({
           itemName: items.itemName,
           itemCode: items.itemCode,
+          theme: items.theme,
         }),
       );
       history.push(contentsLink.link);
@@ -194,11 +201,13 @@ export default function AddDocumentContentContainer({ contentsLink }) {
       setItems({
         itemName: '',
         itemCode: '',
+        theme: '',
       });
     } else {
       setItems({
         itemName: value.itemName,
         itemCode: value.itemCode,
+        theme: value.theme,
       });
     }
   }

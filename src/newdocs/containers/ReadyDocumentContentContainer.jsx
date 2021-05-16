@@ -152,7 +152,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
     recommendPrice: '',
     losscutPrice: '',
     comment: '',
-    theme: '',
+    theme: alarmDocument.theme,
   });
 
   const {

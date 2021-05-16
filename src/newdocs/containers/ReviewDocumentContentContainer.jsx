@@ -141,7 +141,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
 
   function handleSuccessClose() {
     setSuccessOpen(false);
-    history.push(contentsLink);
+    history.push(contentsLink.link);
   }
 
   return (
@@ -303,7 +303,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
       </Dialog>
       <Dialog
         open={successOpen}
-        onClose={handleClose}
+        onClose={handleSuccessClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >

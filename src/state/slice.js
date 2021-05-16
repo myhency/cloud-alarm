@@ -133,11 +133,13 @@ function parseStockItem(stockItem) {
   const {
     itemName,
     itemCode,
+    theme,
   } = stockItem;
 
   return {
     itemName,
     itemCode,
+    theme,
   };
 }
 
