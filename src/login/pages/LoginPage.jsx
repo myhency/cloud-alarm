@@ -17,7 +17,7 @@ import {
 
 import { indigo } from '@material-ui/core/colors';
 
-import HMGLogoImage from '../../assets/images/bread-stock-logo.png';
+import BreadStockLogoImage from '../../assets/images/bread-stock-logo.png';
 
 const useStyles = makeStyles(() => ({
   logo: {
@@ -99,11 +99,10 @@ export default function LoginPage() {
       >
         <Box
           display="flex"
-          alignItems="center"
+          // alignItems="center"
           justifyContent="center"
-          style={{ margin: '0 0 20px 0' }}
         >
-          <img className={classes.logo} src={HMGLogoImage} alt="logo" />
+          <img className={classes.logo} src={BreadStockLogoImage} alt="logo" style={{ width: '15vw', height: 'auto'}} />
         </Box>
         <Typography
           variant="h4"
@@ -117,26 +116,20 @@ export default function LoginPage() {
           align="center"
           style={{ marginBottom: '60px' }}
         >
-          전자 서명 시스템으로 이동
+          알리미 리스트로 이동
         </Typography>
-        <LoginInput
+        {/* <LoginInput
           placeholder="아이디를 입력하세요"
           style={{ margin: '10px 0 10px 0' }}
-        />
+        /> */}
         <LoginInput
           placeholder="패스워드를 입력하세요"
           type="password"
           style={{ margin: '0 0 10px 0' }}
         />
         <Box>
-          <LoginButton
-            onClick={handleLoginButtonOnClick}
-          >
-            <Typography
-              variant="h6"
-            >
-              로그인
-            </Typography>
+          <LoginButton onClick={handleLoginButtonOnClick}>
+            <Typography variant="h6">로그인</Typography>
           </LoginButton>
         </Box>
       </Box>
