@@ -7,7 +7,13 @@ export async function fetchAlarmList() {
       data: response.data,
     }))
     .catch((error) => {
-      throw new Error(error);
+      if (error.response) {
+        console.log(error.response.status);
+      }
+      return {
+        result: false,
+        data: error,
+      };
     });
 }
 

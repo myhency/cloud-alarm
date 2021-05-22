@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   useHistory,
 } from 'react-router-dom';
@@ -73,10 +74,20 @@ const LoginButton = withStyles((theme) => ({
 export default function LoginPage() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  function handleLoginButtonOnClick(event) {
-    event.preventDefault();
-    history.push('/inbox');
+  const [password, setPassword] = React.useState('');
+
+  function handleOnChangePassword(e) {
+    const { value } = e.target;
+
+    setPassword(value);
+  }
+
+  function handleLoginButtonOnClick(e) {
+    // event.preventDefault();
+    // history.push('/inbox');
+    dispatch()
   }
 
   return (
@@ -126,6 +137,7 @@ export default function LoginPage() {
           placeholder="패스워드를 입력하세요"
           type="password"
           style={{ margin: '0 0 10px 0' }}
+          onChange={handleOnChangePassword}
         />
         <Box>
           <LoginButton onClick={handleLoginButtonOnClick}>

@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { fetchSignProgressStatus } from '../services/dashboard';
 
+import { loginUser } from '../services/auth';
+
 import {
   fetchContacts,
   fetchContactDetail,
@@ -499,8 +501,10 @@ export function loadAlarmList() {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmList();
 
+    console.log(data, result);
     if (!result) {
-      return;
+      console.log(data);
+      // return;
     }
     dispatch(setAlarms(data));
   };

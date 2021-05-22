@@ -33,3 +33,4 @@ npm start
 
 - [flex box 정렬](https://ipex.tistory.com/entry/CSS3-flex-Box-justifycontent-alignitems)
 - [gif 편집하기](https://ezgif.com/maker)
+- [axios 오류 처리하기](https://xn--xy1bk56a.run/axios/guide/error-handling.html)
