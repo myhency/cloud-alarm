@@ -17,7 +17,6 @@ import LoginPage from './login/pages/LoginPage';
 // import { Component } from 'react';
 
 const AuthedRoute = ({ component: Component, ...rest }) => {
-  console.log('AuthedRoute');
   const isAuthed = useAuthed();
   return (
     <Route
@@ -32,7 +31,6 @@ const AuthedRoute = ({ component: Component, ...rest }) => {
 };
 
 const UnAuthedRoute = ({ component: Component, ...rest }) => {
-  console.log('UnAuthedRoute');
   const isAuthed = useAuthed();
   return (
     <Route
