@@ -5,9 +5,9 @@ export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const AUTH_USER = 'AUTH_USER';
 
-export default async function loginUser(dataToSubmit) {
+export async function getJwtToken(dataToSubmit) {
   return axios.post('/api/v1/platform/auth/login', {
-    userName: 'cloud',
+    userName: dataToSubmit.userName,
     password: dataToSubmit.password,
   })
     .then((response) => ({
@@ -18,6 +18,6 @@ export default async function loginUser(dataToSubmit) {
     .catch((error) => ({
       result: false,
       type: LOGOUT_USER,
-      data: error,
+      data: null,
     }));
 }

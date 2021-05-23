@@ -329,13 +329,13 @@ export default function InBoxContentContainer() {
                         </Typography>
                       </Box>
                     </TableCell>
+                    <TableCell align="right" width="10%">
+                      <Typography>{alarm.state}</Typography>
+                    </TableCell>
                     {hoveredId === alarm.id ? (
                       <>
-                        <TableCell align="right" width="10%">
-                          <Typography>{alarm.state}</Typography>
-                        </TableCell>
                         <TableCell align="right" style={{ padding: '0' }}>
-                          <Box>
+                          <Box display="flex" flexDirection="row">
                             <StyledTooltip title="수정">
                               <IconButton
                                 id="alarm-delete-button"
@@ -356,10 +356,10 @@ export default function InBoxContentContainer() {
                     ) : (
                       <>
                         <TableCell align="right" width="10%">
-                          <Typography>{alarm.state}</Typography>
+                          <Typography>{alarm.alarmStatus}</Typography>
                         </TableCell>
                         <TableCell align="right" width="15%">
-                          <Typography>{alarm.createdAt}</Typography>
+                          <Typography>{alarm.modifiedDate}</Typography>
                         </TableCell>
                       </>
                     )}

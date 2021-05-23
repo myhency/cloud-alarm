@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+const instance = axios.create({
+  baseURL: '/',
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+  },
+});
+
 export async function fetchAlarmList() {
-  return axios.get('/api/v1/platform/alarm/stockItem')
+  return instance.get('/api/v1/platform/alarm/stockItem')
     .then((response) => ({
       result: true,
       data: response.data,

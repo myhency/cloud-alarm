@@ -1,8 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useHistory,
-} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
   withStyles,
@@ -19,6 +17,10 @@ import {
 import { indigo } from '@material-ui/core/colors';
 
 import BreadStockLogoImage from '../../assets/images/bread-stock-logo.png';
+
+import {
+  getLoginToken,
+} from '../../state/slice';
 
 const useStyles = makeStyles(() => ({
   logo: {
@@ -75,6 +77,9 @@ export default function LoginPage() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { accessToken } = useSelector((state) => ({
+    accessToken: state.accessToken,
+  }));
 
   const [password, setPassword] = React.useState('');
 
@@ -84,11 +89,17 @@ export default function LoginPage() {
     setPassword(value);
   }
 
-  function handleLoginButtonOnClick(e) {
-    // event.preventDefault();
-    // history.push('/inbox');
-    dispatch()
+  function handleLoginButtonOnClick() {
+    dispatch(getLoginToken({
+      userName: 'cloud',
+      password,
+    }));
   }
+
+  useEffect(() => {
+    console.log(accessToken);
+    if (accessToken != null) history.push('/inbox');
+  }, [accessToken]);
 
   return (
     <Box

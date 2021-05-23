@@ -1,18 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie';
 
 import { fetchSignProgressStatus } from '../services/dashboard';
-
-import { loginUser } from '../services/auth';
-
 import {
   fetchContacts,
   fetchContactDetail,
 } from '../services/contacts';
-
 import {
   fetchDocumentList,
 } from '../services/documents';
-
 import {
   fetchAlarmList,
   fetchAlarmDetail,
@@ -20,10 +16,12 @@ import {
   updateAlarmDocument,
   fetchAlarmByItemCode,
 } from '../services/alarms';
-
 import {
   fetchStockItemList,
 } from '../services/stockItems';
+import {
+  getJwtToken,
+} from '../services/auth';
 
 import locales from '../locales.json';
 
@@ -37,8 +35,8 @@ const initialAlarmDetail = {
   losscutPrice: 0,
   comment: '',
   theme: '',
-  createdAt: '',
-  lastUpdatedAt: '',
+  createdDate: '',
+  modifiedDate: '',
   alarmStatus: '',
   alarmedAt: '',
   losscutAt: '',
@@ -53,8 +51,8 @@ const initialCreatedAlarm = {
   losscutPrice: 0,
   comment: '',
   theme: '',
-  createdAt: '',
-  lastUpdatedAt: '',
+  createdDate: '',
+  modifiedDate: '',
   alarmStatus: '',
   alarmedAt: '',
   losscutAt: '',
@@ -107,9 +105,9 @@ function parseAlarm(alarm) {
     itemName,
     recommendPrice,
     losscutPrice,
-    createdAt,
+    createdDate,
     alarmStatus,
-    lastUpdatedAt,
+    modifiedDate,
     theme,
     comment,
   } = alarm;
@@ -119,9 +117,9 @@ function parseAlarm(alarm) {
     itemName,
     recommendPrice,
     losscutPrice,
-    createdAt,
+    createdDate,
     alarmStatus,
-    lastUpdatedAt,
+    modifiedDate,
     theme,
     comment,
   };
@@ -277,7 +275,7 @@ const { actions, reducer } = createSlice({
       payload: {
         id, itemName, itemCode, recommendPrice,
         losscutPrice, comment, theme,
-        createdAt, lastUpdatedAt, alarmStatus,
+        createdDate, modifiedDate, alarmStatus,
         alarmedAt, losscutAt,
       },
     }) {
@@ -292,8 +290,8 @@ const { actions, reducer } = createSlice({
           losscutPrice,
           comment,
           theme,
-          createdAt,
-          lastUpdatedAt,
+          createdDate,
+          modifiedDate,
           alarmStatus,
           alarmedAt,
           losscutAt,
@@ -305,7 +303,7 @@ const { actions, reducer } = createSlice({
       payload: {
         result, id, itemName, itemCode, recommendPrice,
         losscutPrice, comment, theme,
-        createdAt, lastUpdatedAt, alarmStatus,
+        createdDate, modifiedDate, alarmStatus,
         alarmedAt, losscutAt,
       },
     }) {
@@ -321,8 +319,8 @@ const { actions, reducer } = createSlice({
           losscutPrice,
           comment,
           theme,
-          createdAt,
-          lastUpdatedAt,
+          createdDate,
+          modifiedDate,
           alarmStatus,
           alarmedAt,
           losscutAt,
@@ -334,7 +332,7 @@ const { actions, reducer } = createSlice({
       payload: {
         result, id, itemName, itemCode, recommendPrice,
         losscutPrice, comment, theme,
-        createdAt, lastUpdatedAt, alarmStatus,
+        createdDate, modifiedDate, alarmStatus,
         alarmedAt, losscutAt,
       },
     }) {
@@ -350,8 +348,8 @@ const { actions, reducer } = createSlice({
           losscutPrice,
           comment,
           theme,
-          createdAt,
-          lastUpdatedAt,
+          createdDate,
+          modifiedDate,
           alarmStatus,
           alarmedAt,
           losscutAt,
@@ -559,8 +557,8 @@ export function loadAlarmDetail(_id) {
         losscutPrice: 'error',
         comment: 'error',
         theme: 'error',
-        createdAt: 'error',
-        lastUpdatedAt: 'error',
+        createdDate: 'error',
+        modifiedDate: 'error',
         alarmStatus: 'error',
         alarmedAt: 'error',
         losscutAt: 'error',
@@ -571,7 +569,7 @@ export function loadAlarmDetail(_id) {
     const {
       id, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
-      createdAt, lastUpdatedAt, alarmStatus,
+      createdDate, modifiedDate, alarmStatus,
       alarmedAt, losscutAt,
     } = data;
 
@@ -583,8 +581,8 @@ export function loadAlarmDetail(_id) {
       losscutPrice,
       comment,
       theme,
-      createdAt,
-      lastUpdatedAt,
+      createdDate,
+      modifiedDate,
       alarmStatus,
       alarmedAt,
       losscutAt,
@@ -599,7 +597,7 @@ export function createAlarmDocument(newAlarmDocument) {
     const {
       id, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
-      createdAt, lastUpdatedAt, alarmStatus,
+      createdDate, modifiedDate, alarmStatus,
       alarmedAt, losscutAt,
     } = data;
 
@@ -612,8 +610,8 @@ export function createAlarmDocument(newAlarmDocument) {
       losscutPrice,
       comment,
       theme,
-      createdAt,
-      lastUpdatedAt,
+      createdDate,
+      modifiedDate,
       alarmStatus,
       alarmedAt,
       losscutAt,
@@ -628,7 +626,7 @@ export function modifyAlarmDocument(modifiedAlarmDocument) {
     const {
       id, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
-      createdAt, lastUpdatedAt, alarmStatus,
+      createdDate, modifiedDate, alarmStatus,
       alarmedAt, losscutAt,
     } = data;
 
@@ -641,11 +639,26 @@ export function modifyAlarmDocument(modifiedAlarmDocument) {
       losscutPrice,
       comment,
       theme,
-      createdAt,
-      lastUpdatedAt,
+      createdDate,
+      modifiedDate,
       alarmStatus,
       alarmedAt,
       losscutAt,
+    }));
+  };
+}
+
+export function getLoginToken(dataToSubmit) {
+  return async (dispatch) => {
+    const { result, data } = await getJwtToken(dataToSubmit);
+    const accessToken = data.data;
+
+    if (result) {
+      Cookies.set('accessToken', accessToken);
+    }
+
+    dispatch(setAccessToken({
+      accessToken,
     }));
   };
 }
