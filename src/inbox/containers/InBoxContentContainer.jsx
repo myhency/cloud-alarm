@@ -157,7 +157,7 @@ export default function InBoxContentContainer() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = alarms.map((alarm) => alarm.id);
+      const newSelecteds = alarms.map((alarm) => alarm.alarmId);
       setSelected(newSelecteds);
       return;
     }
@@ -253,27 +253,27 @@ export default function InBoxContentContainer() {
           >
             <TableBody>
               {alarms.map((alarm) => {
-                const isItemSelected = isSelected(alarm.id);
-                const labelId = `enhanced-table-checkbox-${alarm.id}`;
+                const isItemSelected = isSelected(alarm.alarmId);
+                const labelId = `enhanced-table-checkbox-${alarm.alarmId}`;
 
                 return (
                   <TableRow
-                    id={alarm.id}
+                    id={alarm.alarmId}
                     style={{ cursor: 'pointer', height: '4vh' }}
                     hover
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={alarm.id}
+                    key={alarm.alarmId}
                     selected={isItemSelected}
-                    onMouseOver={() => setHoveredId(alarm.id)}
+                    onMouseOver={() => setHoveredId(alarm.alarmId)}
                     onMouseLeave={() => setHoveredId(null)}
                   >
                     <TableCell className={classes.checkbox}>
                       <Checkbox
                         checked={isItemSelected}
                         inputProps={{ 'aria-labelledby': labelId }}
-                        onChange={(event) => handleOnChange(event, alarm.id)}
+                        onChange={(event) => handleOnChange(event, alarm.alarmId)}
                       />
                     </TableCell>
                     <TableCell
@@ -282,7 +282,7 @@ export default function InBoxContentContainer() {
                       scope="row"
                       padding="none"
                       width="10%"
-                      onClick={(e) => handleDetailOpen(e, alarm.id)}
+                      onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography>{alarm.itemName}</Typography>
@@ -294,7 +294,7 @@ export default function InBoxContentContainer() {
                       scope="row"
                       padding="none"
                       width="10%"
-                      onClick={(e) => handleDetailOpen(e, alarm.id)}
+                      onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography style={{ color: 'red' }}>
@@ -308,7 +308,7 @@ export default function InBoxContentContainer() {
                       scope="row"
                       padding="none"
                       width="10%"
-                      onClick={(e) => handleDetailOpen(e, alarm.id)}
+                      onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography style={{ color: 'blue' }}>
@@ -321,7 +321,7 @@ export default function InBoxContentContainer() {
                       id={labelId}
                       scope="row"
                       padding="none"
-                      onClick={(e) => handleDetailOpen(e, alarm.id)}
+                      onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography className={classes.typographySub}>
@@ -329,18 +329,18 @@ export default function InBoxContentContainer() {
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell align="right" width="10%">
-                      <Typography>{alarm.state}</Typography>
-                    </TableCell>
-                    {hoveredId === alarm.id ? (
+                    {hoveredId === alarm.alarmId ? (
                       <>
+                        <TableCell align="right" width="10%">
+                          <Typography>{alarm.state}</Typography>
+                        </TableCell>
                         <TableCell align="right" style={{ padding: '0' }}>
                           <Box display="flex" flexDirection="row">
                             <StyledTooltip title="수정">
                               <IconButton
                                 id="alarm-delete-button"
                                 className={classes.action}
-                                onClick={(e) => handleOnModifyButton(e, alarm.id)}
+                                onClick={(e) => handleOnModifyButton(e, alarm.alarmId)}
                               >
                                 <EditIcon />
                               </IconButton>

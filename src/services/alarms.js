@@ -1,9 +1,10 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const instance = axios.create({
   baseURL: '/',
   headers: {
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    Authorization: `Bearer ${Cookies.get('accessToken')}`,
   },
 });
 
@@ -25,18 +26,19 @@ export async function fetchAlarmList() {
 }
 
 export async function fetchAlarmDetail(id) {
-  return axios.get(`/api/v1/platform/alarm/stockItem/${id}`)
+  return instance.get(`/api/v1/platform/alarm/stockItem/${id}`)
     .then((response) => ({
       result: true,
       data: response.data,
     }))
-    .catch((error) => {
-      throw new Error(error);
-    });
+    .catch((error) => ({
+      result: false,
+      data: error,
+    }));
 }
 
 export async function fetchAlarmByItemCode(itemCode) {
-  return axios.get(`/api/v1/platform/alarm/stockItem/filter?itemCode=${itemCode}`)
+  return instance.get(`/api/v1/platform/alarm/stockItem/filter?itemCode=${itemCode}`)
     .then((response) => ({
       result: true,
       data: response.data,
@@ -56,7 +58,7 @@ export async function saveAlarmDocument(newAlarmDocument) {
     comment,
     theme,
   } = newAlarmDocument;
-  return axios.post('/api/v1/platform/alarm/stockItem', {
+  return instance.post('/api/v1/platform/alarm/stockItem', {
     itemName, itemCode, recommendPrice, losscutPrice, comment, theme,
   })
     .then((response) => ({
@@ -79,7 +81,7 @@ export async function updateAlarmDocument(updatedAlarmDocument) {
     comment,
     theme,
   } = updatedAlarmDocument;
-  return axios.put(`/api/v1/platform/alarm/stockItem/${id}`, {
+  return instance.put(`/api/v1/platform/alarm/stockItem/${id}`, {
     id, itemName, itemCode, recommendPrice, losscutPrice, comment, theme,
   })
     .then((response) => ({

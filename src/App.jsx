@@ -5,7 +5,6 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 
 import RootPage from './RootPage';
-import axios from 'axios';
 
 const theme = createMuiTheme({
   overrides: {

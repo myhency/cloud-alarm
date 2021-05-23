@@ -17,8 +17,8 @@ export default function InBoxModalContainer({ openState, onClose }) {
       losscutPrice={alarmDetail.losscutPrice}
       comment={alarmDetail.comment}
       theme={alarmDetail.theme}
-      createdAt={alarmDetail.createdAt}
-      lastUpdatedAt={alarmDetail.lastUpdatedAt}
+      createdAt={alarmDetail.createdDate}
+      lastUpdatedAt={alarmDetail.modifiedDate}
       alarmStatus={alarmDetail.alarmStatus}
       alarmedAt={alarmDetail.alarmedAt}
       losscutAt={alarmDetail.losscutAt}

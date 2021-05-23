@@ -101,7 +101,7 @@ function parseDocuments(documents, userName, userEmail) {
 
 function parseAlarm(alarm) {
   const {
-    id,
+    alarmId,
     itemName,
     recommendPrice,
     losscutPrice,
@@ -113,7 +113,7 @@ function parseAlarm(alarm) {
   } = alarm;
 
   return {
-    id,
+    alarmId,
     itemName,
     recommendPrice,
     losscutPrice,
@@ -549,6 +549,8 @@ export function loadAlarmDetail(_id) {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmDetail(_id);
 
+    console.log(data, result);
+
     if (!result) {
       dispatch(setAlarmDetail({
         itemName: 'error',
@@ -567,14 +569,14 @@ export function loadAlarmDetail(_id) {
     }
 
     const {
-      id, itemName, itemCode, recommendPrice,
+      alarmId, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
       createdDate, modifiedDate, alarmStatus,
       alarmedAt, losscutAt,
-    } = data;
+    } = data.data;
 
     dispatch(setAlarmDetail({
-      id,
+      alarmId,
       itemName,
       itemCode,
       recommendPrice,
