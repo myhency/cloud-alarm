@@ -162,10 +162,10 @@ export default function AddDocumentContentContainer({ contentsLink }) {
 
   useEffect(() => {
     dispatch(loadStockItemList());
-    console.log(alarmId.id);
-    if (alarmId.id !== undefined && alarmId.id !== 0) {
+    console.log(alarmId.alarmId);
+    if (alarmId.alarmId !== undefined && alarmId.alarmId !== 0) {
       setExistOpen(true);
-    } else if (alarmId.id === undefined) {
+    } else if (alarmId.alarmId === undefined) {
       dispatch(
         setAlarmDocument({
           itemName: items.itemName,
@@ -193,7 +193,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
 
   function handleExistClose() {
     setExistOpen(false);
-    history.push(`${contentsLink.link}/${alarmId.id}`);
+    history.push(`${contentsLink.link}/${alarmId.alarmId}`);
     dispatch(clearAlarmId());
   }
 

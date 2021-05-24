@@ -52,5 +52,6 @@ module.exports = (env, argv) => ({
         changeOrigin: true,
       },
     },
+    port: 3000,
   },
 });

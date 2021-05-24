@@ -123,7 +123,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
       setFailOpen(true);
     }
 
-    if (createdAlarm.result && createdAlarm.createdAt) {
+    if (createdAlarm.result && createdAlarm.createdDate) {
       setSuccessOpen(true);
     }
     return () => {

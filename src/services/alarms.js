@@ -41,7 +41,7 @@ export async function fetchAlarmByItemCode(itemCode) {
   return instance.get(`/api/v1/platform/alarm/stockItem/filter?itemCode=${itemCode}`)
     .then((response) => ({
       result: true,
-      data: response.data,
+      data: response.data.data,
     }))
     .catch((error) => ({
       result: false,
@@ -63,7 +63,7 @@ export async function saveAlarmDocument(newAlarmDocument) {
   })
     .then((response) => ({
       result: true,
-      data: response.data,
+      data: response.data.data,
     }))
     .catch((error) => ({
       result: false,

@@ -28,7 +28,7 @@ import locales from '../locales.json';
 const DEFAULT_LOCALE = 'en';
 
 const initialAlarmDetail = {
-  id: 0,
+  alarmId: 0,
   itemName: '',
   itemCode: '',
   recommendPrice: 0,
@@ -44,7 +44,7 @@ const initialAlarmDetail = {
 
 const initialCreatedAlarm = {
   result: true,
-  id: 0,
+  alarmId: 0,
   itemName: '',
   itemCode: '',
   recommendPrice: 0,
@@ -180,7 +180,7 @@ const { actions, reducer } = createSlice({
     documents: [],
     alarms: [],
     stockItems: [],
-    alarmId: { id: 0 },
+    alarmId: { alarmId: 0 },
   },
   // 이 부분이 reducer
   reducers: {
@@ -273,7 +273,7 @@ const { actions, reducer } = createSlice({
 
     setAlarmDetail(state, {
       payload: {
-        id, itemName, itemCode, recommendPrice,
+        alarmId, itemName, itemCode, recommendPrice,
         losscutPrice, comment, theme,
         createdDate, modifiedDate, alarmStatus,
         alarmedAt, losscutAt,
@@ -283,7 +283,7 @@ const { actions, reducer } = createSlice({
         ...state,
         alarmDetail: {
           ...state.alarmDetail,
-          id,
+          alarmId,
           itemName,
           itemCode,
           recommendPrice,
@@ -301,7 +301,7 @@ const { actions, reducer } = createSlice({
 
     setCreateAlarmResult(state, {
       payload: {
-        result, id, itemName, itemCode, recommendPrice,
+        result, alarmId, itemName, itemCode, recommendPrice,
         losscutPrice, comment, theme,
         createdDate, modifiedDate, alarmStatus,
         alarmedAt, losscutAt,
@@ -312,7 +312,7 @@ const { actions, reducer } = createSlice({
         createdAlarm: {
           ...state.createdAlarm,
           result,
-          id,
+          alarmId,
           itemName,
           itemCode,
           recommendPrice,
@@ -330,7 +330,7 @@ const { actions, reducer } = createSlice({
 
     setModifiedAlarmResult(state, {
       payload: {
-        result, id, itemName, itemCode, recommendPrice,
+        result, alarmId, itemName, itemCode, recommendPrice,
         losscutPrice, comment, theme,
         createdDate, modifiedDate, alarmStatus,
         alarmedAt, losscutAt,
@@ -341,7 +341,7 @@ const { actions, reducer } = createSlice({
         modifiedAlarm: {
           ...state.createdAlarm,
           result,
-          id,
+          alarmId,
           itemName,
           itemCode,
           recommendPrice,
@@ -369,13 +369,13 @@ const { actions, reducer } = createSlice({
     },
 
     setAlarmId(state, {
-      payload: { id },
+      payload: { alarmId },
     }) {
       return {
         ...state,
         alarmId: {
           ...state.alarmId,
-          id,
+          alarmId,
         },
       };
     },
@@ -530,17 +530,30 @@ export function loadAlarmIdByItemCode(_itemCode) {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmByItemCode(_itemCode);
 
-    if (!result) {
+    console.log(data);
+
+    if (data.alarmId) {
       dispatch(setAlarmId({
-        id: undefined,
+        alarmId: data.alarmId,
       }));
       return;
     }
 
-    const { id } = data;
+    dispatch(setAlarmId({
+      alarmId: undefined,
+    }));
+
+    // if (!result) {
+    //   dispatch(setAlarmId({
+    //     id: undefined,
+    //   }));
+    //   return;
+    // }
+
+    const { alarmId } = data;
 
     dispatch(setAlarmId({
-      id,
+      alarmId,
     }));
   };
 }
@@ -596,8 +609,9 @@ export function createAlarmDocument(newAlarmDocument) {
   return async (dispatch) => {
     const { result, data } = await saveAlarmDocument(newAlarmDocument);
 
+    console.log(data);
     const {
-      id, itemName, itemCode, recommendPrice,
+      alarmId, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
       createdDate, modifiedDate, alarmStatus,
       alarmedAt, losscutAt,
@@ -605,7 +619,7 @@ export function createAlarmDocument(newAlarmDocument) {
 
     dispatch(setCreateAlarmResult({
       result,
-      id,
+      alarmId,
       itemName,
       itemCode,
       recommendPrice,
@@ -626,7 +640,7 @@ export function modifyAlarmDocument(modifiedAlarmDocument) {
     const { result, data } = await updateAlarmDocument(modifiedAlarmDocument);
 
     const {
-      id, itemName, itemCode, recommendPrice,
+      alarmId, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
       createdDate, modifiedDate, alarmStatus,
       alarmedAt, losscutAt,
@@ -634,7 +648,7 @@ export function modifyAlarmDocument(modifiedAlarmDocument) {
 
     dispatch(setModifiedAlarmResult({
       result,
-      id,
+      alarmId,
       itemName,
       itemCode,
       recommendPrice,

@@ -27,7 +27,7 @@ npx jest --watchAll
 npm start
 ```
 
-- 기본 접속 URL: [http://localhost:8081](http://localhost:8081)
+- 기본 접속 URL: [http://localhost:3000](http://localhost:3000)
 
 ## 4. Refs
 
