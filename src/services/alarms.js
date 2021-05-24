@@ -1,15 +1,12 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const instance = axios.create({
-  baseURL: '/',
-  headers: {
-    Authorization: `Bearer ${Cookies.get('accessToken')}`,
-  },
-});
-
 export async function fetchAlarmList() {
-  return instance.get('/api/v1/platform/alarm/stockItem')
+  return axios.get('/api/v1/platform/alarm/stockItem', {
+    headers: {
+      Authorization: `Bearer ${Cookies.get('accessToken')}`,
+    },
+  })
     .then((response) => ({
       result: true,
       data: response.data,
@@ -26,7 +23,11 @@ export async function fetchAlarmList() {
 }
 
 export async function fetchAlarmDetail(id) {
-  return instance.get(`/api/v1/platform/alarm/stockItem/${id}`)
+  return axios.get(`/api/v1/platform/alarm/stockItem/${id}`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get('accessToken')}`,
+    },
+  })
     .then((response) => ({
       result: true,
       data: response.data,
@@ -38,7 +39,11 @@ export async function fetchAlarmDetail(id) {
 }
 
 export async function fetchAlarmByItemCode(itemCode) {
-  return instance.get(`/api/v1/platform/alarm/stockItem/filter?itemCode=${itemCode}`)
+  return axios.get(`/api/v1/platform/alarm/stockItem/filter?itemCode=${itemCode}`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get('accessToken')}`,
+    },
+  })
     .then((response) => ({
       result: true,
       data: response.data.data,
@@ -58,8 +63,12 @@ export async function saveAlarmDocument(newAlarmDocument) {
     comment,
     theme,
   } = newAlarmDocument;
-  return instance.post('/api/v1/platform/alarm/stockItem', {
+  return axios.post('/api/v1/platform/alarm/stockItem', {
     itemName, itemCode, recommendPrice, losscutPrice, comment, theme,
+  }, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get('accessToken')}`,
+    },
   })
     .then((response) => ({
       result: true,
@@ -81,8 +90,12 @@ export async function updateAlarmDocument(updatedAlarmDocument) {
     comment,
     theme,
   } = updatedAlarmDocument;
-  return instance.put(`/api/v1/platform/alarm/stockItem/${id}`, {
+  return axios.put(`/api/v1/platform/alarm/stockItem/${id}`, {
     id, itemName, itemCode, recommendPrice, losscutPrice, comment, theme,
+  }, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get('accessToken')}`,
+    },
   })
     .then((response) => ({
       result: true,
