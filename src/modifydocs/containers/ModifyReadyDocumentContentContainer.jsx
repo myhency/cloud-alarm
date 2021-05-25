@@ -139,6 +139,8 @@ export default function ModifyReadyDocumentContentContainer({ contentsLink, id }
     alarmDetail: state.alarmDetail,
   }));
 
+  console.log(alarmDetail);
+
   useEffect(() => {
     dispatch(loadAlarmDetail(id));
   }, []);

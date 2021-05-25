@@ -17,7 +17,12 @@ import { pink, indigo } from '@material-ui/core/colors';
 import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { modifyAlarmDocument } from '../../state/slice';
+import {
+  clearAlarmDetail,
+  clearModifiedAlarm,
+  modifyAlarmDocument,
+  clearAlarmDocument,
+} from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -90,6 +95,7 @@ const CssTextField = withStyles({
 })(TextField);
 
 export default function ModifyReviewDocumentContentContainer({ contentsLink, id }) {
+  console.log(id);
   const history = useHistory();
   const classes = useStyles();
 
@@ -117,7 +123,7 @@ export default function ModifyReviewDocumentContentContainer({ contentsLink, id 
       event.preventDefault();
       dispatch(
         modifyAlarmDocument({
-          id,
+          alarmId: id,
           itemName: alarmDocument.itemName,
           itemCode: alarmDocument.itemCode,
           recommendPrice: alarmDocument.recommendPrice,
@@ -134,7 +140,7 @@ export default function ModifyReviewDocumentContentContainer({ contentsLink, id 
       setFailOpen(true);
     }
 
-    if (modifiedAlarm.result && modifiedAlarm.createdAt) {
+    if (modifiedAlarm.result && modifiedAlarm.modifiedDate) {
       setSuccessOpen(true);
     }
     return () => {};
@@ -152,6 +158,9 @@ export default function ModifyReviewDocumentContentContainer({ contentsLink, id 
   function handleSuccessClose() {
     setSuccessOpen(false);
     history.push(contentsLink.link);
+    dispatch(clearModifiedAlarm());
+    dispatch(clearAlarmDetail());
+    dispatch(clearAlarmDocument());
   }
 
   return (

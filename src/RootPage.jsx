@@ -17,9 +17,11 @@ import LoginPage from './login/pages/LoginPage';
 // import { Component } from 'react';
 
 const AuthedRoute = ({ component: Component, ...rest }) => {
+  console.log(rest);
   const isAuthed = useAuthed();
   return (
     <Route
+      {...rest}
       render={(props) => {
         if (isAuthed) {
           return <Component {...rest} {...props} />;
@@ -41,9 +43,8 @@ const UnAuthedRoute = ({ component: Component, ...rest }) => {
             alert('이미 로그인이 되어 있습니다.');
             return <Redirect to={{ pathname: '/inbox', state: { from: props.location } }} />;
           }
-        } else {
-          return <Component {...props} />;
         }
+        return <Component {...props} />;
       }}
     />
   );

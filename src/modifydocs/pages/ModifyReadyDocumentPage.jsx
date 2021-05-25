@@ -13,6 +13,7 @@ const items = [
 const contentsLink = { link: '/review-docs' };
 
 export default function ModifyReadyDocumentPage({ match }) {
+  console.log(match);
   return (
     <DrawerLayout
       pageTitleContainer={<PageTitleContainer items={items} />}

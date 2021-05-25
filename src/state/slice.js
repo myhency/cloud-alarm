@@ -240,10 +240,31 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    clearCreatedAlarm(state) {
+      return {
+        ...state,
+        createdAlarm: initialCreatedAlarm,
+      };
+    },
+
+    clearModifiedAlarm(state) {
+      return {
+        ...state,
+        modifiedAlarm: initialCreatedAlarm,
+      };
+    },
+
+    clearAlarmDocument(state) {
+      return {
+        ...state,
+        alarmDocument: initialAlarmDocument,
+      };
+    },
+
     clearAlarmId(state) {
       return {
         ...state,
-        alarmId: { id: 0 },
+        alarmId: { alarmId: 0 },
       };
     },
 
@@ -416,6 +437,9 @@ export const {
   clearContactDetail,
   clearAlarmDetail,
   clearAlarmId,
+  clearModifiedAlarm,
+  clearCreatedAlarm,
+  clearAlarmDocument,
   setDocuments,
   setAlarms,
   setStockItems,
@@ -532,7 +556,7 @@ export function loadAlarmIdByItemCode(_itemCode) {
 
     console.log(data);
 
-    if (data.alarmId) {
+    if (data) {
       dispatch(setAlarmId({
         alarmId: data.alarmId,
       }));
@@ -541,19 +565,6 @@ export function loadAlarmIdByItemCode(_itemCode) {
 
     dispatch(setAlarmId({
       alarmId: undefined,
-    }));
-
-    // if (!result) {
-    //   dispatch(setAlarmId({
-    //     id: undefined,
-    //   }));
-    //   return;
-    // }
-
-    const { alarmId } = data;
-
-    dispatch(setAlarmId({
-      alarmId,
     }));
   };
 }
@@ -638,6 +649,8 @@ export function createAlarmDocument(newAlarmDocument) {
 export function modifyAlarmDocument(modifiedAlarmDocument) {
   return async (dispatch) => {
     const { result, data } = await updateAlarmDocument(modifiedAlarmDocument);
+
+    console.log(result, data);
 
     const {
       alarmId, itemName, itemCode, recommendPrice,

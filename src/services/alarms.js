@@ -82,7 +82,7 @@ export async function saveAlarmDocument(newAlarmDocument) {
 
 export async function updateAlarmDocument(updatedAlarmDocument) {
   const {
-    id,
+    alarmId,
     itemName,
     itemCode,
     recommendPrice,
@@ -90,8 +90,8 @@ export async function updateAlarmDocument(updatedAlarmDocument) {
     comment,
     theme,
   } = updatedAlarmDocument;
-  return axios.put(`/api/v1/platform/alarm/stockItem/${id}`, {
-    id, itemName, itemCode, recommendPrice, losscutPrice, comment, theme,
+  return axios.put(`/api/v1/platform/alarm/stockItem/${alarmId}`, {
+    itemName, itemCode, recommendPrice, losscutPrice, comment, theme,
   }, {
     headers: {
       Authorization: `Bearer ${Cookies.get('accessToken')}`,
@@ -99,7 +99,7 @@ export async function updateAlarmDocument(updatedAlarmDocument) {
   })
     .then((response) => ({
       result: true,
-      data: response.data,
+      data: response.data.data,
     }))
     .catch((error) => ({
       result: false,

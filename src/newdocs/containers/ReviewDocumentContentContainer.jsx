@@ -17,7 +17,7 @@ import { indigo } from '@material-ui/core/colors';
 import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { createAlarmDocument } from '../../state/slice';
+import { clearAlarmDocument, clearAlarmId, clearCreatedAlarm, createAlarmDocument } from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -142,6 +142,9 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
   function handleSuccessClose() {
     setSuccessOpen(false);
     history.push(contentsLink.link);
+    dispatch(clearCreatedAlarm());
+    dispatch(clearAlarmDocument());
+    dispatch(clearAlarmId());
   }
 
   return (

@@ -154,7 +154,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     stockItems: state.stockItems,
   }));
 
-  console.log(items);
+  console.log('items:', items);
 
   const { alarmId } = useSelector((state) => ({
     alarmId: state.alarmId,
@@ -193,6 +193,8 @@ export default function AddDocumentContentContainer({ contentsLink }) {
 
   function handleExistClose() {
     setExistOpen(false);
+    console.log(alarmId);
+    console.log(`${contentsLink.link}/${alarmId.alarmId}`);
     history.push(`${contentsLink.link}/${alarmId.alarmId}`);
     dispatch(clearAlarmId());
   }
