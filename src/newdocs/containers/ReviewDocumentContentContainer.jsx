@@ -17,7 +17,12 @@ import { indigo } from '@material-ui/core/colors';
 import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { clearAlarmDocument, clearAlarmId, clearCreatedAlarm, createAlarmDocument } from '../../state/slice';
+import {
+  clearAlarmDocument,
+  clearAlarmId,
+  clearCreatedAlarm,
+  createAlarmDocument,
+} from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {

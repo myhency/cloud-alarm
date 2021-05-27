@@ -13,11 +13,11 @@ export async function getJwtToken(dataToSubmit) {
     .then((response) => ({
       result: true,
       type: LOGIN_USER,
-      data: response.data,
+      data: response.data.data,
     }))
     .catch((error) => ({
       result: false,
       type: LOGOUT_USER,
-      data: null,
+      data: 'FAIL',
     }));
 }

@@ -16,7 +16,10 @@ import { indigo } from '@material-ui/core/colors';
 import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { setAlarmDocument } from '../../state/slice';
+import {
+  setAlarmDocument,
+  clearAlarmDetail,
+} from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -180,6 +183,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
 
   function handleOnBackClick() {
     history.goBack();
+    dispatch(clearAlarmDetail());
   }
 
   function handleClose() {

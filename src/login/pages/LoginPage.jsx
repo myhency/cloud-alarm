@@ -12,6 +12,11 @@ import {
   Typography,
   InputBase,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@material-ui/core';
 
 import { indigo } from '@material-ui/core/colors';
@@ -20,6 +25,7 @@ import BreadStockLogoImage from '../../assets/images/bread-stock-logo.png';
 
 import {
   getLoginToken,
+  clearAccessToken,
 } from '../../state/slice';
 
 const useStyles = makeStyles(() => ({
@@ -82,6 +88,7 @@ export default function LoginPage() {
   }));
 
   const [password, setPassword] = React.useState('');
+  const [alertOpen, setAlertOpen] = React.useState(false);
 
   function handleOnChangePassword(e) {
     const { value } = e.target;
@@ -96,9 +103,20 @@ export default function LoginPage() {
     }));
   }
 
+  function handleAlertClose() {
+    setPassword('');
+    setAlertOpen(false);
+  }
+
   useEffect(() => {
-    console.log(accessToken);
-    if (accessToken != null) history.push('/inbox');
+    if (accessToken === 'FAIL') {
+      setAlertOpen(true);
+      return;
+    }
+    if (accessToken !== null) {
+      history.push('/inbox');
+      dispatch(clearAccessToken());
+    }
   }, [accessToken]);
 
   return (
@@ -149,6 +167,7 @@ export default function LoginPage() {
           type="password"
           style={{ margin: '0 0 10px 0' }}
           onChange={handleOnChangePassword}
+          value={password}
         />
         <Box>
           <LoginButton onClick={handleLoginButtonOnClick}>
@@ -156,6 +175,26 @@ export default function LoginPage() {
           </LoginButton>
         </Box>
       </Box>
+      <Dialog
+        open={alertOpen}
+        onClose={handleAlertClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          로그인에 실패하였습니다.
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            패스워드를 정확하게 입력하였는지 확인해 주세요.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleAlertClose} color="secondary" autoFocus>
+            확인
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

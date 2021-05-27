@@ -268,6 +268,13 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    clearAccessToken(state) {
+      return {
+        ...state,
+        accessToken: null,
+      };
+    },
+
     setDocuments(state, { payload: documents }) {
       const parsedDocuments = parseDocuments(
         documents,
@@ -440,6 +447,7 @@ export const {
   clearModifiedAlarm,
   clearCreatedAlarm,
   clearAlarmDocument,
+  clearAccessToken,
   setDocuments,
   setAlarms,
   setStockItems,
@@ -680,14 +688,16 @@ export function modifyAlarmDocument(modifiedAlarmDocument) {
 export function getLoginToken(dataToSubmit) {
   return async (dispatch) => {
     const { result, data } = await getJwtToken(dataToSubmit);
-    const accessToken = data.data;
+    const accessToken = data;
+
+    console.log(data);
 
     if (result) {
       Cookies.set('accessToken', accessToken);
     }
 
-    dispatch(setAccessToken({
+    dispatch(setAccessToken(
       accessToken,
-    }));
+    ));
   };
 }
