@@ -9,7 +9,7 @@ export async function fetchAlarmList() {
   })
     .then((response) => ({
       result: true,
-      data: response.data,
+      data: response.data.data,
     }))
     .catch((error) => {
       if (error.response) {

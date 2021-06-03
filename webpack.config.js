@@ -52,6 +52,7 @@ module.exports = (env, argv) => ({
         changeOrigin: true,
       },
     },
+    host: '192.168.29.242',
     port: 3000,
   },
 });

@@ -161,8 +161,10 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
   }
 
   function handleOnClick(event, link) {
-    if (itemInfo.itemName === '' || itemInfo.itemCode === ''
-    || itemInfo.recommendPrice === '' || itemInfo.losscutPrice === '') {
+    if ((itemInfo.itemName === '' || itemInfo.itemCode === ''
+    || itemInfo.recommendPrice === '' || itemInfo.losscutPrice === '')
+    && (alarmDocument.itemName === '' || alarmDocument.itemCode === ''
+    || alarmDocument.recommendPrice === '' || alarmDocument.losscutPrice === '')) {
       setOpen(true);
     } else {
       event.preventDefault();
