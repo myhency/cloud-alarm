@@ -139,8 +139,6 @@ export default function ModifyReadyDocumentContentContainer({ contentsLink, id }
     alarmDetail: state.alarmDetail,
   }));
 
-  console.log(alarmDetail);
-
   useEffect(() => {
     dispatch(loadAlarmDetail(id));
   }, []);
@@ -148,6 +146,7 @@ export default function ModifyReadyDocumentContentContainer({ contentsLink, id }
   const [open, setOpen] = React.useState(false);
 
   const [itemInfo, setItemInfo] = React.useState({
+    // TODO. Review에서 뒤로 버튼으로 넘어왔을 때 alarmDocument 내용으로 보여줘야 함
     itemName: alarmDetail.itemName,
     itemCode: alarmDetail.itemCode,
     recommendPrice: alarmDetail.recommendPrice,

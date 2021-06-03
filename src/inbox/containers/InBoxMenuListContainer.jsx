@@ -15,6 +15,8 @@ import {
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import AddIcon from "@material-ui/icons/Add";
+import AlarmOnIcon from '@material-ui/icons/AlarmOn';
+import CancelScheduleSendIcon from '@material-ui/icons/CancelScheduleSend';
 import ViewCompactIcon from "@material-ui/icons/ViewCompact";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -107,7 +109,7 @@ export default function InBoxMenuListContainer({
 
         <ListItem className={classes.listItem} button key={2}>
           <ListItemIcon>
-            <MailIcon />
+            <AlarmOnIcon />
           </ListItemIcon>
           <ListItemText primary="알림완료" />
           <ListItemSecondaryAction>
@@ -116,7 +118,7 @@ export default function InBoxMenuListContainer({
         </ListItem>
         <ListItem className={classes.listItem} button key={3}>
           <ListItemIcon>
-            <MailIcon />
+            <CancelScheduleSendIcon />
           </ListItemIcon>
           <ListItemText primary="손절완료" />
           <ListItemSecondaryAction>
