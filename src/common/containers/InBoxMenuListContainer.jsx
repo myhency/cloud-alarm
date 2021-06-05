@@ -8,13 +8,11 @@ import {
   Button,
   ListItemIcon,
   ListItemText,
-  Link,
 } from '@material-ui/core';
 
 // Icons
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import AddIcon from '@material-ui/icons/Add';
-import AlarmOnIcon from '@material-ui/icons/AlarmOn';
 import CancelScheduleSendIcon from '@material-ui/icons/CancelScheduleSend';
 import PieChartIcon from '@material-ui/icons/PieChart';
 
@@ -57,10 +55,8 @@ const NewDocumentButton = withStyles(() => ({
 
 export default function InBoxMenuListContainer({
   totalCount = '',
-  state1Count = 'redux',
   state2Count = '',
   state3Count = '',
-  state4Count = 'redux',
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -97,12 +93,6 @@ export default function InBoxMenuListContainer({
         </NewDocumentButton>
       </Box>
       <List>
-        {/* <Link
-          key="alarmList"
-          color="inherit"
-          href="/inbox"
-          onClick={(e) => handleClick(e)}
-        > */}
         <ListItem
           className={classes.listItem}
           button
@@ -118,17 +108,6 @@ export default function InBoxMenuListContainer({
             <Typography variant="subtitle1">{totalCount}</Typography>
           </ListItemSecondaryAction>
         </ListItem>
-        {/* </Link> */}
-
-        {/* <ListItem className={classes.listItem} button key={2}>
-          <ListItemIcon>
-            <AlarmOnIcon />
-          </ListItemIcon>
-          <ListItemText primary="가격돌파 알림" />
-          <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{state1Count}</Typography>
-          </ListItemSecondaryAction>
-        </ListItem> */}
         <ListItem
           className={classes.listItem}
           button
@@ -153,33 +132,6 @@ export default function InBoxMenuListContainer({
             <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
         </ListItem>
-        {/* <ListItem className={classes.listItem} button key={4}>
-          <ListItemIcon>
-            <MailIcon />
-          </ListItemIcon>
-          <ListItemText primary="승인대기중" />
-          <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{state3Count}</Typography>
-          </ListItemSecondaryAction>
-        </ListItem>
-        <ListItem className={classes.listItem} button key={5}>
-          <ListItemIcon>
-            <MailIcon />
-          </ListItemIcon>
-          <ListItemText primary="완료" />
-          <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{state4Count}</Typography>
-          </ListItemSecondaryAction>
-        </ListItem>
-        <ListItem className={classes.listItem} button key={6}>
-          <ListItemIcon>
-            <ViewCompactIcon />
-          </ListItemIcon>
-          <ListItemText primary={<Typography className={classes.inbox}>템플릿</Typography>} />
-          <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{totalCount}</Typography>
-          </ListItemSecondaryAction>
-        </ListItem> */}
       </List>
     </>
   );
