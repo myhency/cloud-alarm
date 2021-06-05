@@ -1,8 +1,8 @@
 import React from 'react';
 import DrawerLayout from '../../common/layouts/DrawerLayout';
 import PageTitleContainer from '../../common/containers/PageTitleContainer';
-import InBoxMenuListContainer from '../../inbox/containers/InBoxMenuListContainer';
-import InBoxMenuListContainerSmall from '../../inbox/containers/InBoxMenuListContainerSmall';
+import InBoxMenuListContainer from '../../common/containers/InBoxMenuListContainer';
+import InBoxMenuListContainerSmall from '../../common/containers/InBoxMenuListContainerSmall';
 import ReviewDocumentContentContainer from '../containers/ReviewDocumentContentContainer';
 
 const items = [

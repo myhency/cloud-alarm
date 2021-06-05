@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   List,
   ListItem,
@@ -56,23 +56,35 @@ const NewDocumentButton = withStyles(() => ({
 }))(Button);
 
 export default function InBoxMenuListContainer({
-  totalCount = 'redux',
+  totalCount = '',
   state1Count = 'redux',
-  state2Count = 'redux',
-  state3Count = 'redux',
+  state2Count = '',
+  state3Count = '',
   state4Count = 'redux',
 }) {
   const classes = useStyles();
   const history = useHistory();
+
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
   function handleNewDocumentOnClick(event) {
     event.preventDefault();
     history.push('/add-docs');
   }
 
-  function handleClick(event) {
+  function handleClick(event, link, index) {
     event.preventDefault();
-    history.push('/inbox');
+    setSelectedIndex(index);
+    history.push(link);
   }
+
+  useEffect(() => {
+    // eslint-disable-next-line no-nested-ternary
+    const initIndex = history.location.pathname === '/inbox' ? 1
+      : history.location.pathname === '/inbox/losscut' ? 2
+        : 0;
+    setSelectedIndex(initIndex);
+  }, []);
 
   return (
     <>
@@ -85,28 +97,30 @@ export default function InBoxMenuListContainer({
         </NewDocumentButton>
       </Box>
       <List>
-        <Link
+        {/* <Link
           key="alarmList"
           color="inherit"
           href="/inbox"
           onClick={(e) => handleClick(e)}
+        > */}
+        <ListItem
+          className={classes.listItem}
+          button
+          selected={selectedIndex === 1}
+          key={1}
+          onClick={(e) => handleClick(e, '/inbox', 1)}
         >
-          <ListItem className={classes.listItem} button key={1}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary={
-                <Typography className={classes.inbox}>알리미 리스트</Typography>
-              }
-            />
-            <ListItemSecondaryAction>
-              <Typography variant="subtitle1">{totalCount}</Typography>
-            </ListItemSecondaryAction>
-          </ListItem>
-        </Link>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="알리미 리스트" />
+          <ListItemSecondaryAction>
+            <Typography variant="subtitle1">{totalCount}</Typography>
+          </ListItemSecondaryAction>
+        </ListItem>
+        {/* </Link> */}
 
-        <ListItem className={classes.listItem} button key={2}>
+        {/* <ListItem className={classes.listItem} button key={2}>
           <ListItemIcon>
             <AlarmOnIcon />
           </ListItemIcon>
@@ -114,8 +128,14 @@ export default function InBoxMenuListContainer({
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state1Count}</Typography>
           </ListItemSecondaryAction>
-        </ListItem>
-        <ListItem className={classes.listItem} button key={3}>
+        </ListItem> */}
+        <ListItem
+          className={classes.listItem}
+          button
+          key={2}
+          selected={selectedIndex === 2}
+          onClick={(e) => handleClick(e, '/inbox/losscut', 2)}
+        >
           <ListItemIcon>
             <CancelScheduleSendIcon />
           </ListItemIcon>
@@ -130,7 +150,7 @@ export default function InBoxMenuListContainer({
           </ListItemIcon>
           <ListItemText primary="나의 포트폴리오" />
           <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{state2Count}</Typography>
+            <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
         </ListItem>
         {/* <ListItem className={classes.listItem} button key={4}>

@@ -11,6 +11,7 @@ import {
 } from '../services/documents';
 import {
   fetchAlarmList,
+  fetchLosscutAlarmList,
   fetchAlarmDetail,
   saveAlarmDocument,
   updateAlarmDocument,
@@ -129,6 +130,10 @@ function parseAlarms(alarms) {
   return alarms.map((alarm) => parseAlarm(alarm));
 }
 
+function parseLosscutAlarms(losscutAlarms) {
+  return losscutAlarms.map((losscutAlarm) => parseAlarm(losscutAlarm));
+}
+
 function parseStockItem(stockItem) {
   const {
     itemName,
@@ -179,6 +184,7 @@ const { actions, reducer } = createSlice({
     alarmDocument: initialAlarmDocument,
     documents: [],
     alarms: [],
+    losscutAlarms: [],
     stockItems: [],
     alarmId: { alarmId: 0 },
   },
@@ -285,6 +291,19 @@ const { actions, reducer } = createSlice({
       return {
         ...state,
         documents: parsedDocuments,
+      };
+    },
+
+    setLosscutAlarms(state, { payload: losscutAlarms }) {
+      const parsedLosscutAlarms = parseLosscutAlarms(
+        losscutAlarms,
+      );
+
+      // console.log(losscutAlarms);
+
+      return {
+        ...state,
+        losscutAlarms: parsedLosscutAlarms,
       };
     },
 
@@ -449,6 +468,7 @@ export const {
   clearAlarmDocument,
   clearAccessToken,
   setDocuments,
+  setLosscutAlarms,
   setAlarms,
   setStockItems,
   setAlarmDocument,
@@ -537,6 +557,19 @@ export function loadAlarmList() {
       // return;
     }
     dispatch(setAlarms(data));
+  };
+}
+
+export function loadLosscutAlarmList() {
+  return async (dispatch) => {
+    const { result, data } = await fetchLosscutAlarmList();
+
+    console.log(data, result);
+    if (!result) {
+      console.log(data);
+      // return;
+    }
+    dispatch(setLosscutAlarms(data));
   };
 }
 

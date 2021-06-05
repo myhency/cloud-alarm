@@ -8,6 +8,7 @@ import {
 import { useAuthed } from './hooks';
 
 import InboxPage from './inbox/pages/InboxPage';
+import InboxLosscutPage from './inbox-losscut/pages/InboxLosscutPage';
 import AddDocumentPage from './newdocs/pages/AddDocumentPage';
 import ReadyDocumentPage from './newdocs/pages/ReadyDocumentPage';
 import ReviewDocumentPage from './newdocs/pages/ReviewDocumentPage';
@@ -61,7 +62,8 @@ export default function RootPage() {
         <AuthedRoute path="/add-docs" component={AddDocumentPage} />
         <AuthedRoute path="/ready-docs/:id" component={ModifyReadyDocumentPage} />
         <AuthedRoute path="/ready-docs" component={ReadyDocumentPage} />
-        <AuthedRoute path="/inbox" component={InboxPage} />
+        <AuthedRoute exact path="/inbox" component={InboxPage} />
+        <AuthedRoute exact path="/inbox/losscut" component={InboxLosscutPage} />
       </Switch>
     </Router>
   );
