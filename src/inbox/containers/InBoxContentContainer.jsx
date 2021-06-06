@@ -44,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     // padding: theme.spacing(3),
-    backgroundColor: '#FFFFFF',
+    height: '100%',
+    // backgroundColor: '#FBE8A6',
   },
   tableHeaderRoot: {
     display: 'flex',
@@ -298,7 +299,7 @@ export default function InBoxContentContainer() {
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography style={{ color: 'red' }}>
-                          {alarm.recommendPrice}
+                          {new Intl.NumberFormat('ko-KR').format(alarm.recommendPrice)}
                         </Typography>
                       </Box>
                     </TableCell>
@@ -312,7 +313,7 @@ export default function InBoxContentContainer() {
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography style={{ color: 'blue' }}>
-                          {alarm.losscutPrice}
+                          {new Intl.NumberFormat('ko-KR').format(alarm.losscutPrice)}
                         </Typography>
                       </Box>
                     </TableCell>

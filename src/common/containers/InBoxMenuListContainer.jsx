@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import {
   List,
-  ListItem,
   ListItemSecondaryAction,
   Typography,
-  Box,
-  Button,
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
@@ -16,49 +15,18 @@ import AddIcon from '@material-ui/icons/Add';
 import CancelScheduleSendIcon from '@material-ui/icons/CancelScheduleSend';
 import PieChartIcon from '@material-ui/icons/PieChart';
 
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
-
-const useStyles = makeStyles(() => ({
-  newDocumentBox: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '5px',
-    marginBottom: '5px',
-  },
-  newDocumentButton: {
-    marginTop: '15px',
-    marginBottom: '5px',
-    borderRadius: '30px 30px 30px 30px',
-  },
-  inbox: {
-    fontWeight: 'bold',
-    fontSize: '14px',
-    color: '#000000',
-  },
-  listItem: {
-    borderRadius: '0px 30px 30px 0px',
-    marginRight: '10px',
-  },
-}));
-
-const NewDocumentButton = withStyles(() => ({
-  root: {
-    marginTop: '15px',
-    marginBottom: '5px',
-    boxShadow: '0 1px 2px 0 grey',
-    borderRadius: '30px 30px 30px 30px',
-    paddingRight: '20px',
-    paddingLeft: '15px',
-  },
-}))(Button);
+import {
+  BaseBox,
+  NewDocumentBox,
+} from '../components/Boxes';
+import { NewDocumentButton } from '../components/Buttons';
+import MenuListItem from '../components/ListItems';
 
 export default function InBoxMenuListContainer({
   totalCount = '',
   state2Count = '',
   state3Count = '',
 }) {
-  const classes = useStyles();
   const history = useHistory();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -83,18 +51,19 @@ export default function InBoxMenuListContainer({
   }, []);
 
   return (
-    <>
-      <Box className={classes.newDocumentBox}>
+    <BaseBox>
+      <NewDocumentBox>
         <NewDocumentButton
-          startIcon={<AddIcon style={{ fontSize: 40 }} />}
+          startIcon={<AddIcon style={{ fontSize: 40, color: '#b4dfe5' }} />}
           onClick={handleNewDocumentOnClick}
         >
-          <Typography>새 알림 만들기</Typography>
+          <Typography style={{ color: '#b4dfe5' }}>
+            새 알림 만들기
+          </Typography>
         </NewDocumentButton>
-      </Box>
+      </NewDocumentBox>
       <List>
-        <ListItem
-          className={classes.listItem}
+        <MenuListItem
           button
           selected={selectedIndex === 1}
           key={1}
@@ -107,9 +76,8 @@ export default function InBoxMenuListContainer({
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{totalCount}</Typography>
           </ListItemSecondaryAction>
-        </ListItem>
-        <ListItem
-          className={classes.listItem}
+        </MenuListItem>
+        <MenuListItem
           button
           key={2}
           selected={selectedIndex === 2}
@@ -122,8 +90,11 @@ export default function InBoxMenuListContainer({
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state2Count}</Typography>
           </ListItemSecondaryAction>
-        </ListItem>
-        <ListItem className={classes.listItem} button key={3}>
+        </MenuListItem>
+        <MenuListItem
+          button
+          key={3}
+        >
           <ListItemIcon>
             <PieChartIcon />
           </ListItemIcon>
@@ -131,8 +102,8 @@ export default function InBoxMenuListContainer({
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
-        </ListItem>
+        </MenuListItem>
       </List>
-    </>
+    </BaseBox>
   );
 }

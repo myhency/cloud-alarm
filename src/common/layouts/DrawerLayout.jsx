@@ -3,17 +3,17 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 // Router
-import {
-  useHistory,
-} from 'react-router-dom';
+// import {
+//   useHistory,
+// } from 'react-router-dom';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {
   AppBar,
   Toolbar,
   Drawer,
-  Menu,
-  MenuItem,
+  // Menu,
+  // MenuItem,
   IconButton,
   Typography,
   Paper,
@@ -22,12 +22,12 @@ import {
 
 // Icons
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 // Images
-import LogoImage from '../../assets/images/bread-stock-logo.png';
+// import LogoImage from '../../assets/images/bread-stock-logo.png';
 
 // Drawer를 펼쳤을 때 가로길이
 const drawerWidth = 240;
@@ -40,10 +40,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
+    backgroundColor: '#303C6C',
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   },
   appBar: {
+    backgroundColor: '#303C6C',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -88,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
   },
   menuIcon: {
-    color: 'grey',
+    color: '#b4dfe5',
   },
   profileDiv: {
     display: 'flex',
@@ -101,6 +103,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     border: 0,
     paddingLeft: '30px',
+    backgroundColor: '#303C6C',
+    color: '#b4dfe5',
+    fontSize: 16,
   },
   logo: {
     height: '30px',
@@ -115,10 +120,10 @@ export default function DrawerLayout({
 }) {
   const classes = useStyles();
   const theme = useTheme();
-  const history = useHistory();
+  // const history = useHistory();
   const [drawerOpen, setDrawerOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const profileMenuOpen = Boolean(anchorEl);
+  // const profileMenuOpen = Boolean(anchorEl);
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
   };
@@ -128,14 +133,14 @@ export default function DrawerLayout({
   const handleProfileButton = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleProfileMenuClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleProfileMenuClose = () => {
+  //   setAnchorEl(null);
+  // };
 
-  const handleContactsMenuOnClick = (event) => {
-    event.preventDefault();
-    history.push('/contacts');
-  };
+  // const handleContactsMenuOnClick = (event) => {
+  //   event.preventDefault();
+  //   history.push('/contacts');
+  // };
 
   return (
     <div className={classes.root}>
@@ -166,17 +171,17 @@ export default function DrawerLayout({
             {pageTitleContainer}
           </Typography>
           <div>
-            {/* <IconButton
+            <IconButton
               className={classes.profileButton}
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleProfileButton}
-              color="inherit"
+              color="#b4dfe5"
             >
-              <AccountCircle />
-            </IconButton> */}
-            <Menu
+              <ExitToAppIcon style={{ color: '#b4dfe5' }} />
+            </IconButton>
+            {/* <Menu
               id="menu-appbar"
               anchorEl={anchorEl}
               getContentAnchorEl={null}
@@ -193,7 +198,7 @@ export default function DrawerLayout({
             >
               <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
               <MenuItem onClick={handleContactsMenuOnClick}>Contacts</MenuItem>
-            </Menu>
+            </Menu> */}
           </div>
         </Toolbar>
       </AppBar>
@@ -213,9 +218,9 @@ export default function DrawerLayout({
         {/* 로고가 들어가는 곳 */}
         <div className={classes.toolbar}>
           <Paper variant="outlined" square className={classes.paper}>
-            <img className={classes.logo} src={LogoImage} alt="logo" />
+            클라우드의 주식훈련소
           </Paper>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton style={{ color: '#b4dfe5' }} onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>

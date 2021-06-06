@@ -14,6 +14,8 @@ import ReadyDocumentPage from './newdocs/pages/ReadyDocumentPage';
 import ReviewDocumentPage from './newdocs/pages/ReviewDocumentPage';
 import ModifyReadyDocumentPage from './modifydocs/pages/ModifyReadyDocumentPage';
 import ModifyReviewDocumentPage from './modifydocs/pages/ModifyReviewDocumentPage';
+import ReaddReadyDocumentPage from './readddocs/pages/ReaddReadyDocumentPage';
+import ReaddReviewDocumentPage from './readddocs/pages/ReaddReviewDocumentPage';
 import LoginPage from './login/pages/LoginPage';
 // import { Component } from 'react';
 
@@ -62,6 +64,8 @@ export default function RootPage() {
         <AuthedRoute path="/add-docs" component={AddDocumentPage} />
         <AuthedRoute path="/ready-docs/:id" component={ModifyReadyDocumentPage} />
         <AuthedRoute path="/ready-docs" component={ReadyDocumentPage} />
+        <AuthedRoute path="/readd-ready-docs/:id" component={ReaddReadyDocumentPage} />
+        <AuthedRoute path="/review-readd-docs/:id" component={ReaddReviewDocumentPage} />
         <AuthedRoute exact path="/inbox" component={InboxPage} />
         <AuthedRoute exact path="/inbox/losscut" component={InboxLosscutPage} />
       </Switch>

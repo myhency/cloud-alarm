@@ -29,6 +29,21 @@ module.exports = (env, argv) => ({
         enforce: 'pre',
         use: ['source-map-loader'],
       },
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack', 'url-loader', 'file-loader'],
+      },
+      // {
+      //   test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+      //   issuer: {
+      //     test: /\.jsx?$/,
+      //   },
+      //   use: ['babel-loader', '@svgr/webpack', 'url-loader'],
+      // },
+      // {
+      //   test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+      //   loader: 'url-loader',
+      // },
     ],
   },
   resolve: {

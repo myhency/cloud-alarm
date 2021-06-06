@@ -59,6 +59,22 @@ export async function fetchAlarmDetail(id) {
     }));
 }
 
+export async function fetchLosscutAlarmDetail(id) {
+  return axios.get(`/api/v1/platform/alarm/history/${id}`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get('accessToken')}`,
+    },
+  })
+    .then((response) => ({
+      result: true,
+      data: response.data,
+    }))
+    .catch((error) => ({
+      result: false,
+      data: error,
+    }));
+}
+
 export async function fetchAlarmByItemCode(itemCode) {
   return axios.get(`/api/v1/platform/alarm/stockItem/filter?itemCode=${itemCode}`, {
     headers: {

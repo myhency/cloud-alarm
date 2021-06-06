@@ -64,6 +64,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@reduxjs/toolkit": "^1.5.1",
+    "@svgr/webpack": "^5.5.0",
     "axios": "^0.21.1",
     "clsx": "^1.1.1",
     "cookie-parser": "^1.4.5",
@@ -91,6 +92,7 @@
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
     "reset-css": "5.0.1",
-    "style-loader": "1.2.1"
+    "style-loader": "1.2.1",
+    "url-loader": "^4.1.1"
   }
 }

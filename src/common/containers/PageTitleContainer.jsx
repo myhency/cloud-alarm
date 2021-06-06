@@ -25,7 +25,7 @@ export default function PageTitleContainer({ items }) {
           href={item.link}
           onClick={(e) => handleClick(e, item.link)}
         >
-          <Typography color="textPrimary">{item.title}</Typography>
+          <Typography style={{ color: '#B4DFE5' }}>{item.title}</Typography>
         </Link>
       ))}
     </Breadcrumbs>

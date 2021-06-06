@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Typography,
@@ -13,12 +14,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { indigo } from '@material-ui/core/colors';
-import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
 
 import {
   setAlarmDocument,
-  clearAlarmDetail,
+  loadLosscutAlarmDetail,
 } from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     // padding: theme.spacing(3),
-    backgroundColor: '#ecfeff',
+    backgroundColor: '#FFFFFF',
   },
   root: {
     display: 'flex',
@@ -131,24 +131,28 @@ const NextButton = withStyles((theme) => ({
   },
 }))(Button);
 
-export default function ReadyDocumentContentContainer({ contentsLink }) {
+export default function ReaddReadyDocumentContentContainer({ contentsLink, id }) {
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { alarmDetail } = useSelector((state) => ({
+    alarmDetail: state.alarmDetail,
+  }));
+
+  useEffect(() => {
+    dispatch(loadLosscutAlarmDetail(id));
+  }, []);
 
   const [open, setOpen] = React.useState(false);
 
-  const dispatch = useDispatch();
-  const { alarmDocument } = useSelector((state) => ({
-    alarmDocument: state.alarmDocument,
-  }));
-
   const [itemInfo, setItemInfo] = React.useState({
-    itemName: alarmDocument.itemName,
-    itemCode: alarmDocument.itemCode,
-    recommendPrice: '',
-    losscutPrice: '',
-    comment: '',
-    theme: alarmDocument.theme,
+    // TODO. Review에서 뒤로 버튼으로 넘어왔을 때 alarmDocument 내용으로 보여줘야 함
+    itemName: alarmDetail.itemName,
+    itemCode: alarmDetail.itemCode,
+    recommendPrice: alarmDetail.recommendPrice,
+    losscutPrice: alarmDetail.losscutPrice,
+    comment: alarmDetail.comment,
+    theme: alarmDetail.theme,
   });
 
   function handleOnChange(event) {
@@ -161,31 +165,27 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
   }
 
   function handleOnClick(event, link) {
-    if ((itemInfo.itemName === '' || itemInfo.itemCode === ''
-    || itemInfo.recommendPrice === '' || itemInfo.losscutPrice === '')
-    && (alarmDocument.itemName === '' || alarmDocument.itemCode === ''
-    || alarmDocument.recommendPrice === '' || alarmDocument.losscutPrice === '')) {
+    if (alarmDetail.itemName === '' || alarmDetail.itemCode === ''
+    || (itemInfo.recommendPrice === '' && alarmDetail.recommendPrice === '') || (itemInfo.losscutPrice === '' && alarmDetail.losscutPrice === '')) {
       setOpen(true);
     } else {
       event.preventDefault();
       dispatch(
         setAlarmDocument({
-          itemName: alarmDocument.itemName,
-          itemCode: alarmDocument.itemCode,
-          recommendPrice:
-            itemInfo.recommendPrice || alarmDocument.recommendPrice,
-          losscutPrice: itemInfo.losscutPrice || alarmDocument.losscutPrice,
-          comment: itemInfo.comment || alarmDocument.comment,
-          theme: itemInfo.theme || alarmDocument.theme,
+          itemName: alarmDetail.itemName,
+          itemCode: alarmDetail.itemCode,
+          recommendPrice: itemInfo.recommendPrice || alarmDetail.recommendPrice,
+          losscutPrice: itemInfo.losscutPrice || alarmDetail.losscutPrice,
+          comment: itemInfo.comment || alarmDetail.comment,
+          theme: itemInfo.theme || alarmDetail.theme,
         }),
       );
-      history.push(link);
+      history.push(`${link}/${id}`);
     }
   }
 
   function handleOnBackClick() {
     history.goBack();
-    dispatch(clearAlarmDetail());
   }
 
   function handleClose() {
@@ -210,7 +210,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
             variant="h4"
             style={{ marginTop: '10px', marginBottom: '10px' }}
           >
-            정보입력
+            손절알림 재등록
           </Typography>
           <Box style={{ margin: '30px 0 0 0' }}>
             <CssTextField
@@ -221,7 +221,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.itemName}
+              value={alarmDetail.itemName}
             />
           </Box>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -233,7 +233,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.itemCode}
+              value={alarmDetail.itemCode}
             />
           </Box>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -244,11 +244,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={
-                (itemInfo.recommendPrice
-                  ? itemInfo.recommendPrice
-                  : alarmDocument.recommendPrice) || ''
-              }
+              value={itemInfo.recommendPrice ? itemInfo.recommendPrice : alarmDetail.recommendPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -259,11 +255,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={
-                (itemInfo.losscutPrice
-                  ? itemInfo.losscutPrice
-                  : alarmDocument.losscutPrice) || ''
-              }
+              value={itemInfo.losscutPrice ? itemInfo.losscutPrice : alarmDetail.losscutPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -275,10 +267,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={
-                (itemInfo.comment ? itemInfo.comment : alarmDocument.comment)
-                || ''
-              }
+              value={itemInfo.comment ? itemInfo.comment : alarmDetail.comment}
             />
           </Box>
           <Box style={{ margin: '10px 0 30px 0' }}>
@@ -290,16 +279,14 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={
-                (itemInfo.theme ? itemInfo.theme : alarmDocument.theme) || ''
-              }
+              value={itemInfo.theme ? itemInfo.theme : alarmDetail.theme}
             />
           </Box>
           <Box display="flex">
             <Box display="flex" flexDirection="row">
               <NextButton
                 style={{ backgroundColor: 'hotpink', margin: '0 5px 0 0' }}
-                onClick={handleOnBackClick}
+                onClick={(e) => handleOnBackClick(e)}
               >
                 뒤로
               </NextButton>

@@ -13,6 +13,7 @@ import {
   fetchAlarmList,
   fetchLosscutAlarmList,
   fetchAlarmDetail,
+  fetchLosscutAlarmDetail,
   saveAlarmDocument,
   updateAlarmDocument,
   fetchAlarmByItemCode,
@@ -613,6 +614,53 @@ export function loadAlarmIdByItemCode(_itemCode) {
 export function loadAlarmDetail(_id) {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmDetail(_id);
+
+    console.log(data, result);
+
+    if (!result) {
+      dispatch(setAlarmDetail({
+        itemName: 'error',
+        itemCode: 'error',
+        recommendPrice: 'error',
+        losscutPrice: 'error',
+        comment: 'error',
+        theme: 'error',
+        createdDate: 'error',
+        modifiedDate: 'error',
+        alarmStatus: 'error',
+        alarmedAt: 'error',
+        losscutAt: 'error',
+      }));
+      return;
+    }
+
+    const {
+      alarmId, itemName, itemCode, recommendPrice,
+      losscutPrice, comment, theme,
+      createdDate, modifiedDate, alarmStatus,
+      alarmedAt, losscutAt,
+    } = data.data;
+
+    dispatch(setAlarmDetail({
+      alarmId,
+      itemName,
+      itemCode,
+      recommendPrice,
+      losscutPrice,
+      comment,
+      theme,
+      createdDate,
+      modifiedDate,
+      alarmStatus,
+      alarmedAt,
+      losscutAt,
+    }));
+  };
+}
+
+export function loadLosscutAlarmDetail(_id) {
+  return async (dispatch) => {
+    const { result, data } = await fetchLosscutAlarmDetail(_id);
 
     console.log(data, result);
 

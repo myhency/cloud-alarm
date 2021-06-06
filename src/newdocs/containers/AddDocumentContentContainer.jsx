@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     // padding: theme.spacing(3),
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
   },
   root: {
     display: 'flex',
@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
   nextButton: {
     marginRight: '10px',
+    backgroundColor: '#303C6C',
   },
   stepTitle: {
     '& > *': {
@@ -127,12 +128,12 @@ const CssAutocomplete = withStyles({
   },
 })(Autocomplete);
 
-const NextButton = withStyles((theme) => ({
+const NextButton = withStyles(() => ({
   root: {
-    color: theme.palette.getContrastText(indigo[700]),
-    backgroundColor: indigo[700],
+    color: '#b4dfe5',
+    backgroundColor: '#303C6C',
     '&:hover': {
-      backgroundColor: indigo[900],
+      backgroundColor: '#262f53',
     },
   },
 }))(Button);
@@ -231,7 +232,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
         <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
           <Typography
             variant="h4"
-            style={{ marginTop: '10px', marginBottom: '10px' }}
+            style={{ marginTop: '10px', marginBottom: '10px', color: '#303C6C' }}
           >
             종목추가
           </Typography>

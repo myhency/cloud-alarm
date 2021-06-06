@@ -22,11 +22,12 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import EditIcon from '@material-ui/icons/Edit';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import RedoIcon from '@material-ui/icons/Redo';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 import {
   loadLosscutAlarmList,
-  loadAlarmDetail,
+  loadLosscutAlarmDetail,
   clearAlarmDetail,
 } from '../../state/slice';
 
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     // padding: theme.spacing(3),
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ecfeff',
   },
   tableHeaderRoot: {
     display: 'flex',
@@ -122,7 +123,7 @@ const SearchInput = withStyles((theme) => ({
     '&:focus': {
       boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
       borderColor: '#ced4da',
-      backgroundColor: 'white',
+      backgroundColor: '#ecfeff',
     },
   },
 }))(InputBase);
@@ -146,7 +147,7 @@ export default function InBoxContentContainer() {
   const rowCount = alarms.length;
 
   const handleDetailOpen = (e, id) => {
-    dispatch(loadAlarmDetail(id));
+    dispatch(loadLosscutAlarmDetail(id));
     setDetailModalOpened(true);
   };
 
@@ -187,7 +188,7 @@ export default function InBoxContentContainer() {
   };
 
   const handleOnModifyButton = (e, id) => {
-    history.push(`/ready-docs/${id}`);
+    history.push(`/readd-ready-docs/${id}`);
   };
 
   return (
@@ -298,7 +299,7 @@ export default function InBoxContentContainer() {
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography style={{ color: 'red' }}>
-                          {alarm.recommendPrice}
+                          {new Intl.NumberFormat('ko-KR').format(alarm.recommendPrice)}
                         </Typography>
                       </Box>
                     </TableCell>
@@ -312,7 +313,7 @@ export default function InBoxContentContainer() {
                     >
                       <Box display="flex" flexDirection="column">
                         <Typography style={{ color: 'blue' }}>
-                          {alarm.losscutPrice}
+                          {new Intl.NumberFormat('ko-KR').format(alarm.losscutPrice)}
                         </Typography>
                       </Box>
                     </TableCell>
@@ -336,13 +337,13 @@ export default function InBoxContentContainer() {
                         </TableCell>
                         <TableCell align="right" style={{ padding: '0' }}>
                           <Box display="flex" flexDirection="row">
-                            <StyledTooltip title="수정">
+                            <StyledTooltip title="재등록">
                               <IconButton
                                 id="alarm-delete-button"
                                 className={classes.action}
                                 onClick={(e) => handleOnModifyButton(e, alarm.alarmId)}
                               >
-                                <EditIcon />
+                                <RedoIcon />
                               </IconButton>
                             </StyledTooltip>
                             <StyledTooltip title="삭제">
