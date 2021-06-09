@@ -5,6 +5,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
+
 import { useAuthed } from './hooks';
 
 import InboxPage from './inbox/pages/InboxPage';
@@ -18,7 +19,27 @@ import ReaddReadyDocumentPage from './readddocs/pages/ReaddReadyDocumentPage';
 import ReaddReviewDocumentPage from './readddocs/pages/ReaddReviewDocumentPage';
 import LoginPage from './login/pages/LoginPage';
 import NotFoundPage from './NotFoundPage';
-// import { Component } from 'react';
+
+// const Desktop = ({ children }) => {
+//   const isDesktop = useMediaQuery({ minWidth: 992 });
+//   return isDesktop ? children : (<MobileLoginPage />);
+// };
+
+// const Mobile = ({ chilren }) => {
+//   const isMobile = useMediaQuery({ maxWidth: 767 });
+//   return isMobile ? chilren : (<MobileLoginPage />);
+// };
+
+// const LoginComponent = () => (
+//   <>
+//     <Desktop>
+//       <LoginPage />
+//     </Desktop>
+//     <Mobile>
+//       <MobileLoginPage />
+//     </Mobile>
+//   </>
+// );
 
 const AuthedRoute = ({ component: Component, ...rest }) => {
   console.log(rest);
