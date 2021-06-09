@@ -17,6 +17,7 @@ import ModifyReviewDocumentPage from './modifydocs/pages/ModifyReviewDocumentPag
 import ReaddReadyDocumentPage from './readddocs/pages/ReaddReadyDocumentPage';
 import ReaddReviewDocumentPage from './readddocs/pages/ReaddReviewDocumentPage';
 import LoginPage from './login/pages/LoginPage';
+import NotFoundPage from './NotFoundPage';
 // import { Component } from 'react';
 
 const AuthedRoute = ({ component: Component, ...rest }) => {
@@ -46,6 +47,10 @@ const UnAuthedRoute = ({ component: Component, ...rest }) => {
             alert('이미 로그인이 되어 있습니다.');
             return <Redirect to={{ pathname: '/inbox', state: { from: props.location } }} />;
           }
+
+          if (rest.path === '/') {
+            return <Redirect to={{ pathname: '/inbox', state: { from: props.location } }} />;
+          }
         }
         return <Component {...props} />;
       }}
@@ -58,6 +63,7 @@ export default function RootPage() {
   return (
     <Router>
       <Switch>
+        <AuthedRoute exact path="/" component={() => (<Redirect to={{ pathname: '/inbox' }} />)} />
         <UnAuthedRoute path="/login" component={LoginPage} />
         <AuthedRoute path="/review-docs/:id" component={ModifyReviewDocumentPage} />
         <AuthedRoute path="/review-docs" component={ReviewDocumentPage} />
@@ -68,6 +74,7 @@ export default function RootPage() {
         <AuthedRoute path="/review-readd-docs/:id" component={ReaddReviewDocumentPage} />
         <AuthedRoute exact path="/inbox" component={InboxPage} />
         <AuthedRoute exact path="/inbox/losscut" component={InboxLosscutPage} />
+        <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>
   );

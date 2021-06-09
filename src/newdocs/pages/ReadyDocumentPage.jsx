@@ -13,6 +13,18 @@ const items = [
 const contentsLink = { link: '/review-docs' };
 
 export default function ReadyDocumentPage() {
+  const alertUser = (e) => {
+    e.preventDefault();
+    e.returnValue = '';
+  };
+
+  React.useEffect(() => {
+    window.addEventListener('beforeunload', alertUser);
+    return () => {
+      window.removeEventListener('beforeunload', alertUser);
+    };
+  }, []);
+
   return (
     <DrawerLayout
       pageTitleContainer={<PageTitleContainer items={items} />}

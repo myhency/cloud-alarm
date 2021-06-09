@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
@@ -133,6 +133,14 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
   const { alarmDocument } = useSelector((state) => ({
     alarmDocument: state.alarmDocument,
   }));
+
+  console.log(alarmDocument);
+
+  useEffect(() => {
+    if (alarmDocument.itemName === '' && alarmDocument.itemCode === '') {
+      history.push('/add-docs');
+    }
+  }, []);
 
   const [itemInfo, setItemInfo] = React.useState({
     itemName: alarmDocument.itemName,

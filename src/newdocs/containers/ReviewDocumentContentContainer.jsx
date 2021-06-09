@@ -124,6 +124,12 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
   }
 
   useEffect(() => {
+    if (alarmDocument.itemName === '' && alarmDocument.itemCode === '') {
+      history.push('/add-docs');
+    }
+  }, []);
+
+  useEffect(() => {
     if (!createdAlarm.result) {
       setFailOpen(true);
     }
