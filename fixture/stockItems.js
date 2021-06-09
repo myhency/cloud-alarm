@@ -15599,6 +15599,14 @@ const stockItems = [
     createdAt: null,
     lastUpdatedAt: null,
   },
+  {
+    id: 1951,
+    itemName: '조선내화',
+    itemCode: '000480',
+    theme: '내화물 관련주, 폐기물 처리관련주',
+    createdAt: null,
+    lastUpdatedAt: null,
+  },
 ];
 
 export {

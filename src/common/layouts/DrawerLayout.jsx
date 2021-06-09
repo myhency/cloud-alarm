@@ -177,7 +177,7 @@ export default function DrawerLayout({
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleProfileButton}
-              color="#b4dfe5"
+              style={{ color: '#b4dfe5' }}
             >
               <ExitToAppIcon style={{ color: '#b4dfe5' }} />
             </IconButton>

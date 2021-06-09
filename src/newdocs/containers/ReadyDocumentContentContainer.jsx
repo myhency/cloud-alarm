@@ -16,6 +16,8 @@ import { indigo } from '@material-ui/core/colors';
 import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
 
+import { NextButton, BackButton } from '../components/Buttons';
+
 import {
   setAlarmDocument,
   clearAlarmDetail,
@@ -33,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     // padding: theme.spacing(3),
-    backgroundColor: '#ecfeff',
+    backgroundColor: '#FFFFFF',
   },
   root: {
     display: 'flex',
@@ -120,16 +122,6 @@ const CssTextField = withStyles({
     },
   },
 })(TextField);
-
-const NextButton = withStyles((theme) => ({
-  root: {
-    color: theme.palette.getContrastText(indigo[700]),
-    backgroundColor: indigo[700],
-    '&:hover': {
-      backgroundColor: indigo[900],
-    },
-  },
-}))(Button);
 
 export default function ReadyDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
@@ -295,19 +287,13 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               }
             />
           </Box>
-          <Box display="flex">
-            <Box display="flex" flexDirection="row">
-              <NextButton
-                style={{ backgroundColor: 'hotpink', margin: '0 5px 0 0' }}
-                onClick={handleOnBackClick}
-              >
-                뒤로
-              </NextButton>
-              <NextButton onClick={(e) => handleOnClick(e, contentsLink.link)}>
-                다음
-              </NextButton>
-            </Box>
-            <Box display="flex" flexDirection="row-reverse" flexGrow="1" />
+          <Box display="flex" justifyContent="space-between">
+            <BackButton onClick={handleOnBackClick}>
+              뒤로
+            </BackButton>
+            <NextButton onClick={(e) => handleOnClick(e, contentsLink.link)}>
+              다음
+            </NextButton>
           </Box>
           <Dialog
             open={open}

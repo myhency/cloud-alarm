@@ -20,6 +20,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { indigo } from '@material-ui/core/colors';
 import ProgressToolBar from '../components/ProgressToolBar';
 
+import { NextButton } from '../components/Buttons';
+
 import {
   loadStockItemList,
   setAlarmDocument,
@@ -127,16 +129,6 @@ const CssAutocomplete = withStyles({
     },
   },
 })(Autocomplete);
-
-const NextButton = withStyles(() => ({
-  root: {
-    color: '#b4dfe5',
-    backgroundColor: '#303C6C',
-    '&:hover': {
-      backgroundColor: '#262f53',
-    },
-  },
-}))(Button);
 
 export default function AddDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
