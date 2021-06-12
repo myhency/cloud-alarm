@@ -22,6 +22,18 @@ export const LoginContentsBox = withStyles(() => ({
   },
 }))(Box);
 
+export const LoginContentsSmallBox = withStyles(() => ({
+  root: {
+    width: '70vw',
+    // height: '70vh',
+    borderRadius: '10px',
+    backgroundColor: '#303C6C',
+    // padding: '50px 20px 50px 20px',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+}))(Box);
+
 export const LogoImageBox = withStyles(() => ({
   root: {
     display: 'flex',
