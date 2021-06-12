@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -208,9 +209,15 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     }
   }
 
+  const isDesktop = useMediaQuery({
+    query: '(min-width: 701px) and (max-width: 2048px)',
+  });
+
   return (
     <main className={classes.content}>
-      <div className={classes.toolbar} />
+      {isDesktop && (
+        <div className={classes.toolbar} />
+      )}
       <ProgressToolBar />
       <div
         style={{

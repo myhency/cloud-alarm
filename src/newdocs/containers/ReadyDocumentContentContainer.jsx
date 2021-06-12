@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
@@ -192,9 +193,15 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
     setOpen(false);
   }
 
+  const isDesktop = useMediaQuery({
+    query: '(min-width: 701px) and (max-width: 2048px)',
+  });
+
   return (
     <main className={classes.content}>
-      <div className={classes.toolbar} />
+      {isDesktop && (
+        <div className={classes.toolbar} />
+      )}
       <ProgressToolBar />
       <div
         style={{
@@ -208,7 +215,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
         <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
           <Typography
             variant="h4"
-            style={{ marginTop: '10px', marginBottom: '10px' }}
+            style={{ marginTop: '10px', marginBottom: '10px', color: '#303C6C' }}
           >
             정보입력
           </Typography>
