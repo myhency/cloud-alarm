@@ -66,7 +66,7 @@ export default function MobileAlarmModal({
   const history = useHistory();
 
   const handleOnModifyButton = (e, id) => {
-    history.push(`/ready-docs/${id}`);
+    history.push(`/readd-ready-docs/${id}`);
   };
 
   function makeModalBody() {
