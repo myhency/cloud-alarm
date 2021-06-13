@@ -11,6 +11,7 @@ export default function InBoxModalContainer({ openState, onClose }) {
 
   return (
     <MobileAlarmModal
+      alarmId={alarmDetail.alarmId}
       itemName={alarmDetail.itemName}
       itemCode={alarmDetail.itemCode}
       recommendPrice={alarmDetail.recommendPrice}

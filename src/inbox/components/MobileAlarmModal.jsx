@@ -1,8 +1,18 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import { Box, Divider, Typography } from '@material-ui/core';
+import {
+  Box,
+  Divider,
+  Typography,
+  Tooltip,
+  IconButton,
+} from '@material-ui/core';
+
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 import InBoxModalContent from './_InBoxModalContent';
 
@@ -15,6 +25,8 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
     width: '90vw',
+    height: '90vh',
+    overflow: 'scroll',
     backgroundColor: theme.palette.background.paper,
     borderRadius: '0.5rem',
     boxShadow: theme.shadows[5],
@@ -26,7 +38,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const StyledTooltip = withStyles({
+  tooltip: {
+    backgroundColor: 'rgba(0,0,0,0.72)',
+    fontSize: 12,
+    marginTop: 0,
+  },
+})(Tooltip);
+
 export default function MobileAlarmModal({
+  alarmId,
   itemName,
   itemCode,
   recommendPrice,
@@ -42,6 +63,11 @@ export default function MobileAlarmModal({
   onClose,
 }) {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleOnModifyButton = (e, id) => {
+    history.push(`/ready-docs/${id}`);
+  };
 
   function makeModalBody() {
     return (
@@ -69,6 +95,22 @@ export default function MobileAlarmModal({
             losscutAt={losscutAt}
           />
         </div>
+        <Box display="flex" flexDirection="row">
+          <StyledTooltip title="수정">
+            <IconButton
+              id="alarm-delete-button"
+              className={classes.action}
+              onClick={(e) => handleOnModifyButton(e, alarmId)}
+            >
+              <EditIcon />
+            </IconButton>
+          </StyledTooltip>
+          <StyledTooltip title="삭제">
+            <IconButton className={classes.action}>
+              <DeleteIcon />
+            </IconButton>
+          </StyledTooltip>
+        </Box>
       </div>
     );
   }
