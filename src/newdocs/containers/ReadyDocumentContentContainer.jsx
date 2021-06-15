@@ -17,7 +17,7 @@ import { indigo } from '@material-ui/core/colors';
 import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { NextButton, BackButton } from '../components/Buttons';
+import { NextButton, BackButton } from '../../common/components/Buttons';
 
 import {
   setAlarmDocument,

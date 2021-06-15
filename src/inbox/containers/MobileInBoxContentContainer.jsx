@@ -129,15 +129,9 @@ export default function InBoxContentContainer() {
     alarms: state.alarms,
   }));
 
-  useEffect(() => {
-    dispatch(loadAlarmList());
-  }, []);
   const [selected, setSelected] = React.useState([]);
   const [hoveredId, setHoveredId] = React.useState(null);
   const [detailModalOpened, setDetailModalOpened] = React.useState(false);
-
-  const numSelected = selected.length;
-  const rowCount = alarms.length;
 
   const handleDetailOpen = (e, id) => {
     dispatch(loadAlarmDetail(id));
@@ -148,6 +142,13 @@ export default function InBoxContentContainer() {
     dispatch(clearAlarmDetail());
     setDetailModalOpened(false);
   }
+
+  useEffect(() => {
+    dispatch(loadAlarmList());
+  }, []);
+
+  const numSelected = selected.length;
+  const rowCount = alarms.length;
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
