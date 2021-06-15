@@ -28,3 +28,34 @@ export const SmallNewDocumentButton = withStyles(() => ({
     },
   },
 }))(IconButton);
+
+export const NextButton = withStyles(() => ({
+  root: {
+    color: '#b4dfe5',
+    backgroundColor: '#303C6C',
+    '&:hover': {
+      backgroundColor: '#262f53',
+    },
+  },
+}))(Button);
+
+export const BackButton = withStyles(() => ({
+  root: {
+    color: '#b4dfe5',
+    backgroundColor: '#F4976C',
+    '&:hover': {
+      backgroundColor: '#e98455',
+    },
+  },
+}))(Button);
+
+export const LoginButton = withStyles(() => ({
+  root: {
+    width: '100%',
+    color: '#5F6366',
+    backgroundColor: '#B4DFE5',
+    '&:hover': {
+      backgroundColor: '#D2FDFF',
+    },
+  },
+}))(Button);

@@ -21,7 +21,7 @@ import {
   LoginContentsSmallBox,
   LogoImageBox,
 } from '../components/Boxes';
-import LoginButton from '../components/Buttons';
+import { LoginButton } from '../../common/components/Buttons';
 import LoginInput from '../components/Inputs';
 
 import BreadStockLogoImage from '../../assets/images/bread-stock-logo.png';

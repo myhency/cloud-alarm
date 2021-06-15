@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
     width: '90vw',
-    height: '80vh',
+    height: '70vh',
     overflow: 'scroll',
     backgroundColor: theme.palette.background.paper,
     borderRadius: '0.5rem',
