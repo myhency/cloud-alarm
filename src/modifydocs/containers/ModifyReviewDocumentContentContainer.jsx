@@ -113,6 +113,7 @@ export default function ModifyReviewDocumentContentContainer({ contentsLink, id 
           losscutPrice: alarmDocument.losscutPrice,
           comment: alarmDocument.comment,
           theme: alarmDocument.theme,
+          alarmStatus: alarmDocument.alarmStatus,
         }),
       );
     }
