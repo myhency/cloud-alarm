@@ -67,6 +67,7 @@ const initialAlarmDocument = {
   losscutPrice: 0,
   comment: '',
   theme: '',
+  alarmStatus: '',
 };
 
 function parseDocument(document) {
@@ -436,6 +437,7 @@ const { actions, reducer } = createSlice({
         losscutPrice,
         comment,
         theme,
+        alarmStatus,
       },
     }) {
       return {
@@ -448,6 +450,7 @@ const { actions, reducer } = createSlice({
           losscutPrice,
           comment,
           theme,
+          alarmStatus,
         },
       };
     },

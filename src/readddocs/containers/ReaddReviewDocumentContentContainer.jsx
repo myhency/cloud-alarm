@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
-  Grid,
   Typography,
   TextField,
   Button,
@@ -16,6 +16,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { pink, indigo } from '@material-ui/core/colors';
 import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
+
+import { NextButton, BackButton } from '../../common/components/Buttons';
 
 import {
   clearAlarmDetail,
@@ -51,26 +53,6 @@ const useStyles = makeStyles((theme) => ({
     height: '89vh',
   },
 }));
-
-const NextButton = withStyles((theme) => ({
-  root: {
-    color: theme.palette.getContrastText(indigo[700]),
-    backgroundColor: indigo[700],
-    '&:hover': {
-      backgroundColor: indigo[900],
-    },
-  },
-}))(Button);
-
-const BackButton = withStyles((theme) => ({
-  root: {
-    color: theme.palette.getContrastText(indigo[700]),
-    backgroundColor: pink[700],
-    '&:hover': {
-      backgroundColor: pink[900],
-    },
-  },
-}))(Button);
 
 const CssTextField = withStyles({
   root: {
@@ -162,122 +144,105 @@ export default function ReaddReviewDocumentContentContainer({ contentsLink, id }
     dispatch(clearAlarmDocument());
   }
 
+  const isDesktop = useMediaQuery({
+    query: '(min-width: 701px) and (max-width: 2048px)',
+  });
+
   return (
     <main className={classes.content}>
-      <div className={classes.toolbar} />
+      {isDesktop && (
+        <div className={classes.toolbar} />
+      )}
       <ProgressToolBar />
-      <Grid lg={12} xs={12} item>
-        <Grid container justify="center">
-          <Grid lg={8} xs={8} item>
-            <div
-              style={{
-                width: '100%',
-                justifyContent: 'center',
-                padding: '20px',
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px',
+        }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
+          <Typography
+            variant="h4"
+            style={{ marginTop: '10px', marginBottom: '10px' }}
+          >
+            검토 및 저장
+          </Typography>
+          <Typography
+            variant="h5"
+            style={{ marginTop: '10px', marginBottom: '10px' }}
+          >
+            {alarmDocument.itemName}
+            (
+            {alarmDocument.itemCode}
+            )에 대한 요약
+          </Typography>
+          <Box style={{ margin: '10px 0 0 0' }}>
+            <CssTextField
+              required
+              name="recommendPrice"
+              label="돌파가격"
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                readOnly: true,
               }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  width: '100%',
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  style={{ marginTop: '10px', marginBottom: '10px' }}
-                >
-                  검토 및 저장
-                </Typography>
-                <Typography
-                  variant="h5"
-                  style={{ marginTop: '10px', marginBottom: '10px' }}
-                >
-                  {alarmDocument.itemName}
-                  (
-                  {alarmDocument.itemCode}
-                  )에 대한 요약
-                </Typography>
-                <Box style={{ margin: '10px 0 0 0' }}>
-                  <CssTextField
-                    required
-                    name="recommendPrice"
-                    label="돌파가격"
-                    variant="outlined"
-                    fullWidth
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    value={alarmDocument.recommendPrice}
-                  />
-                </Box>
-                <Box style={{ margin: '10px 0 0px 0' }}>
-                  <CssTextField
-                    required
-                    name="losscutPrice"
-                    label="손절가격"
-                    variant="outlined"
-                    fullWidth
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    value={alarmDocument.losscutPrice}
-                  />
-                </Box>
-                <Box style={{ margin: '10px 0 0px 0' }}>
-                  <CssTextField
-                    name="comment"
-                    label="코멘트"
-                    multiline
-                    rows={5}
-                    variant="outlined"
-                    fullWidth
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    value={alarmDocument.comment}
-                  />
-                </Box>
-                <Box style={{ margin: '10px 0 30px 0' }}>
-                  <CssTextField
-                    name="theme"
-                    label="테마"
-                    multiline
-                    rows={5}
-                    variant="outlined"
-                    fullWidth
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    value={alarmDocument.theme}
-                  />
-                </Box>
-                <Box display="flex">
-                  <Box display="flex" flexDirection="row">
-                    <BackButton
-                      style={{
-                        backgroundColor: 'hotpink',
-                        margin: '0 5px 0 0',
-                      }}
-                      onClick={(e) => handleOnBackClick(e)}
-                    >
-                      뒤로
-                    </BackButton>
-                    <NextButton onClick={(e) => handleOnClick(e)}>
-                      저장
-                    </NextButton>
-                  </Box>
-                  <Box
-                    display="flex"
-                    flexDirection="row-reverse"
-                    flexGrow="1"
-                  />
-                </Box>
-              </div>
-            </div>
-          </Grid>
-        </Grid>
-      </Grid>
+              value={alarmDocument.recommendPrice}
+            />
+          </Box>
+          <Box style={{ margin: '10px 0 0px 0' }}>
+            <CssTextField
+              required
+              name="losscutPrice"
+              label="손절가격"
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                readOnly: true,
+              }}
+              value={alarmDocument.losscutPrice}
+            />
+          </Box>
+          <Box style={{ margin: '10px 0 0px 0' }}>
+            <CssTextField
+              name="comment"
+              label="코멘트"
+              multiline
+              rows={5}
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                readOnly: true,
+              }}
+              value={alarmDocument.comment}
+            />
+          </Box>
+          <Box style={{ margin: '10px 0 30px 0' }}>
+            <CssTextField
+              name="theme"
+              label="테마"
+              multiline
+              rows={5}
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                readOnly: true,
+              }}
+              value={alarmDocument.theme}
+            />
+          </Box>
+          <Box display="flex" justifyContent="space-between">
+            <BackButton onClick={handleOnBackClick}>
+              뒤로
+            </BackButton>
+            <NextButton onClick={(e) => handleOnClick(e, contentsLink.link)}>
+              다음
+            </NextButton>
+          </Box>
+        </div>
+      </div>
       <Dialog
         open={warningOpen}
         onClose={handleClose}

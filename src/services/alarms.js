@@ -126,9 +126,10 @@ export async function updateAlarmDocument(updatedAlarmDocument) {
     losscutPrice,
     comment,
     theme,
+    alarmStatus,
   } = updatedAlarmDocument;
   return axios.put(`/api/v1/platform/alarm/stockItem/${alarmId}`, {
-    itemName, itemCode, recommendPrice, losscutPrice, comment, theme,
+    itemName, itemCode, recommendPrice, losscutPrice, comment, theme, alarmStatus,
   }, {
     headers: {
       Authorization: `Bearer ${Cookies.get('accessToken')}`,

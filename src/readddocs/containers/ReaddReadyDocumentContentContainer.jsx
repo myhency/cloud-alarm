@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -15,6 +16,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { indigo } from '@material-ui/core/colors';
 import ProgressToolBar from '../components/ProgressToolBar';
+
+import { NextButton, BackButton } from '../../common/components/Buttons';
 
 import {
   setAlarmDocument,
@@ -121,16 +124,6 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
-const NextButton = withStyles((theme) => ({
-  root: {
-    color: theme.palette.getContrastText(indigo[700]),
-    backgroundColor: indigo[700],
-    '&:hover': {
-      backgroundColor: indigo[900],
-    },
-  },
-}))(Button);
-
 export default function ReaddReadyDocumentContentContainer({ contentsLink, id }) {
   const history = useHistory();
   const classes = useStyles();
@@ -192,9 +185,15 @@ export default function ReaddReadyDocumentContentContainer({ contentsLink, id })
     setOpen(false);
   }
 
+  const isDesktop = useMediaQuery({
+    query: '(min-width: 701px) and (max-width: 2048px)',
+  });
+
   return (
     <main className={classes.content}>
-      <div className={classes.toolbar} />
+      {isDesktop && (
+        <div className={classes.toolbar} />
+      )}
       <ProgressToolBar />
       <div
         style={{
@@ -282,19 +281,13 @@ export default function ReaddReadyDocumentContentContainer({ contentsLink, id })
               value={itemInfo.theme ? itemInfo.theme : alarmDetail.theme}
             />
           </Box>
-          <Box display="flex">
-            <Box display="flex" flexDirection="row">
-              <NextButton
-                style={{ backgroundColor: 'hotpink', margin: '0 5px 0 0' }}
-                onClick={(e) => handleOnBackClick(e)}
-              >
-                뒤로
-              </NextButton>
-              <NextButton onClick={(e) => handleOnClick(e, contentsLink.link)}>
-                다음
-              </NextButton>
-            </Box>
-            <Box display="flex" flexDirection="row-reverse" flexGrow="1" />
+          <Box display="flex" justifyContent="space-between">
+            <BackButton onClick={handleOnBackClick}>
+              뒤로
+            </BackButton>
+            <NextButton onClick={(e) => handleOnClick(e, contentsLink.link)}>
+              다음
+            </NextButton>
           </Box>
           <Dialog
             open={open}

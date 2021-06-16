@@ -171,6 +171,7 @@ export default function ModifyReadyDocumentContentContainer({ contentsLink, id }
           losscutPrice: itemInfo.losscutPrice || alarmDetail.losscutPrice,
           comment: itemInfo.comment || alarmDetail.comment,
           theme: itemInfo.theme || alarmDetail.theme,
+          alarmStatus: itemInfo.alarmStatus || alarmDetail.alarmStatus,
         }),
       );
       history.push(`${link}/${id}`);
