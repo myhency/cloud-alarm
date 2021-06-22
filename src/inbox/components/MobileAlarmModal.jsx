@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -90,7 +91,9 @@ export default function MobileAlarmModal({
             theme={theme}
             createdAt={createdAt}
             lastUpdatedAt={lastUpdatedAt}
-            alarmStatus={alarmStatus}
+            alarmStatus={alarmStatus === 'ALARMED' ? '알림완료'
+              : alarmStatus === 'ALARM_CREATED' ? '알림전'
+                : alarmStatus}
             alarmedAt={alarmedAt}
             losscutAt={losscutAt}
           />

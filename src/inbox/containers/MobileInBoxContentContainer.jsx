@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -244,7 +245,9 @@ export default function InBoxContentContainer() {
               </div>
               <div>
                 <Typography style={{ color: '#747171', fontSize: '14px' }}>
-                  {alarm.alarmStatus}
+                  {alarm.alarmStatus === 'ALARMED' ? '알림완료'
+                    : alarm.alarmStatus === 'ALARM_CREATED' ? '알림전'
+                      : alarm.alarmStatus}
                 </Typography>
               </div>
             </Box>
