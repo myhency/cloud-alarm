@@ -18,23 +18,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import ViewCompactIcon from '@material-ui/icons/ViewCompact';
 
-const useStyles = makeStyles(() => ({
-  newContactBox: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '5px',
-    marginBottom: '5px',
-  },
-  inbox: {
-    fontWeight: 'bold',
-    fontSize: '14px',
-    color: '#000000',
-  },
-  listItem: {
-    borderRadius: '30px 30px 30px 30px',
-    justifyContent: 'center',
-  },
-}));
+import { useStyles } from '../../common/components/Styles';
 
 const NewContactButton = withStyles(() => ({
   root: {
