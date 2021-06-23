@@ -240,7 +240,7 @@ export default function InBoxContentContainer() {
               }}
               >
                 <Typography style={{ color: '#adadad', fontSize: '12px' }}>
-                  {alarm.modifiedDate}
+                  {String(alarm.modifiedDate).replace('T', ' ')}
                 </Typography>
               </div>
               <div>
