@@ -68,3 +68,56 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
 }));
+
+export const useMobileStyles = makeStyles((theme) => ({
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  },
+  content: {
+    flexGrow: 1,
+    // padding: theme.spacing(3),
+    height: '100%',
+    // backgroundColor: '#FBE8A6',
+  },
+  tableHeaderRoot: {
+    display: 'flex',
+    alignItems: 'center',
+    borderBottom: '1px solid lightgrey',
+    height: '60px',
+    paddingTop: '5px',
+    paddingBottom: '5px',
+  },
+  tableRoot: {
+    width: '100%',
+  },
+  paper: {
+    width: '100%',
+    marginBottom: theme.spacing(2),
+  },
+  table: {
+    minWidth: 750,
+  },
+  visuallyHidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    top: 20,
+    width: 1,
+  },
+  checkbox: {
+    width: '48px',
+    padding: '0 0 0 0',
+  },
+  typographySub: {
+    color: 'grey',
+  },
+}));
