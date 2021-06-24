@@ -15,6 +15,14 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import AddIcon from '@material-ui/icons/Add';
 import CancelScheduleSendIcon from '@material-ui/icons/CancelScheduleSend';
 import PieChartIcon from '@material-ui/icons/PieChart';
+import AlarmOffIcon from '@material-ui/icons/AlarmOff';
+import AlarmIcon from '@material-ui/icons/Alarm';
+import AlarmAddIcon from '@material-ui/icons/AlarmAdd';
+import TrendingDownIcon from '@material-ui/icons/TrendingDown';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import SendIcon from '@material-ui/icons/Send';
+import TelegramIcon from '@material-ui/icons/Telegram';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 
 import {
   BaseBox,
@@ -62,7 +70,7 @@ export default function InBoxMenuListContainer({
     <BaseBox>
       <NewDocumentBox>
         <NewDocumentButton
-          startIcon={<AddIcon style={{ fontSize: 40, color: '#b4dfe5' }} />}
+          startIcon={<TelegramIcon style={{ fontSize: 40, color: '#b4dfe5' }} />}
           onClick={handleNewDocumentOnClick}
         >
           <Typography style={{ color: '#b4dfe5' }}>
@@ -78,7 +86,7 @@ export default function InBoxMenuListContainer({
           onClick={(e) => handleClick(e, '/inbox', 1)}
         >
           <ListItemIcon>
-            <InboxIcon />
+            <NotificationsActiveIcon />
           </ListItemIcon>
           <ListItemText primary="알리미 리스트" />
           <ListItemSecondaryAction>
@@ -92,7 +100,21 @@ export default function InBoxMenuListContainer({
           onClick={(e) => handleClick(e, '/inbox/losscut', 2)}
         >
           <ListItemIcon>
-            <CancelScheduleSendIcon />
+            <TrendingUpIcon />
+          </ListItemIcon>
+          <ListItemText primary="알림완료" />
+          <ListItemSecondaryAction>
+            <Typography variant="subtitle1">{state2Count}</Typography>
+          </ListItemSecondaryAction>
+        </MenuListItem>
+        <MenuListItem
+          button
+          key={2}
+          selected={selectedIndex === 2}
+          onClick={(e) => handleClick(e, '/inbox/losscut', 2)}
+        >
+          <ListItemIcon>
+            <TrendingDownIcon />
           </ListItemIcon>
           <ListItemText primary="손절처리 알림" />
           <ListItemSecondaryAction>
