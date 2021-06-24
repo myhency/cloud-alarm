@@ -264,7 +264,7 @@ export default function InBoxContentContainer() {
                           <Typography>{alarm.alarmStatus}</Typography>
                         </TableCell>
                         <TableCell align="right" width="15%">
-                          <Typography>{alarm.modifiedDate}</Typography>
+                          <Typography>{String(alarm.modifiedDate).replace('T', ' ')}</Typography>
                         </TableCell>
                       </>
                     )}
