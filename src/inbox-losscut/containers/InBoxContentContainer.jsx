@@ -1,19 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { makeStyles, withStyles, fade } from '@material-ui/core/styles';
 import {
   Box,
   IconButton,
   Checkbox,
-  Tooltip,
   TableContainer,
   Table,
   TableBody,
   TableRow,
   TableCell,
   Typography,
-  InputBase,
 } from '@material-ui/core';
 
 // Icons
