@@ -96,6 +96,24 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: '0.8rem',
     color: 'grey',
   },
+  inboxHeaderBox: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: '1rem 0rem',
+  },
+  profileBox: {
+    fontSize: '1.2rem',
+    width: '5em',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  buttonGroupBox: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 }));
 
 export const useMobileStyles = makeStyles((theme) => ({

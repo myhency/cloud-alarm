@@ -2,29 +2,8 @@ import React from 'react';
 
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 
-import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box } from '@material-ui/core';
-
-const useStyles = makeStyles(() => ({
-  inboxHeaderBox: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    margin: '1rem 0rem',
-  },
-  profileBox: {
-    fontSize: '1.2rem',
-    width: '5em',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  buttonGroupBox: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-}));
+import { useStyles } from '../../common/components/Styles';
 
 export default function InBoxModalHeader({ recommendPrice }) {
   const classes = useStyles();
