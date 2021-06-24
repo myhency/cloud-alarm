@@ -7,6 +7,7 @@ import {
   Typography,
   ListItemIcon,
   ListItemText,
+  Divider,
 } from '@material-ui/core';
 
 // Icons
@@ -15,6 +16,7 @@ import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 
 import {
   BaseBox,
@@ -87,7 +89,8 @@ export default function InBoxMenuListContainer({
           <ListItemIcon>
             <TrendingUpIcon />
           </ListItemIcon>
-          <ListItemText primary="알림완료" />
+          {/* 알림완료 */}
+          <ListItemText primary="Comming soon" />
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state2Count}</Typography>
           </ListItemSecondaryAction>
@@ -111,9 +114,24 @@ export default function InBoxMenuListContainer({
           key={4}
         >
           <ListItemIcon>
+            <PostAddIcon />
+          </ListItemIcon>
+          {/* 종목등록 */}
+          <ListItemText primary="Comming soon" />
+          <ListItemSecondaryAction>
+            <Typography variant="subtitle1">{state2Count}</Typography>
+          </ListItemSecondaryAction>
+        </MenuListItem>
+        <Divider />
+        <MenuListItem
+          button
+          key={5}
+        >
+          <ListItemIcon>
             <PieChartIcon />
           </ListItemIcon>
-          <ListItemText primary="나의 포트폴리오" />
+          {/* 나의 포트폴리오 */}
+          <ListItemText primary="Comming soon" />
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
