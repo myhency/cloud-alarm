@@ -94,7 +94,7 @@ export default function InBoxMenuListContainer({
         </MenuListItem>
         <MenuListItem
           button
-          key={2}
+          key={3}
           selected={selectedIndex === 2}
           onClick={(e) => handleClick(e, '/inbox/losscut', 2)}
         >
@@ -108,7 +108,7 @@ export default function InBoxMenuListContainer({
         </MenuListItem>
         <MenuListItem
           button
-          key={3}
+          key={4}
         >
           <ListItemIcon>
             <PieChartIcon />

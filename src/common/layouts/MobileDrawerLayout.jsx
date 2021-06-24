@@ -14,7 +14,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { useStyles } from '../components/Styles';
 
-export default function TemporaryDrawer({
+export default function MobileDrawerLayout({
   pageTitleContainer,
   menuList,
   content,
@@ -54,7 +54,12 @@ export default function TemporaryDrawer({
             height: '9vh',
           }}
         >
-          <Typography variant="h6" style={{ color: '#b4dfe5' }}>클라우드의 주식훈련소</Typography>
+          <Typography
+            variant="h6"
+            style={{ color: '#b4dfe5' }}
+          >
+            클라우드의 주식훈련소
+          </Typography>
         </Box>
       </div>
       {menuList}
@@ -70,8 +75,14 @@ export default function TemporaryDrawer({
       >
         <AppBar position="static" style={{ backgroundColor: '#303C6C' }}>
           <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <MenuIcon style={{ color: '#b4dfe5' }} onClick={toggleDrawer('left', true)} />
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer('left', true)}
+            >
+              <MenuIcon style={{ color: '#b4dfe5' }} />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
               {pageTitleContainer}
