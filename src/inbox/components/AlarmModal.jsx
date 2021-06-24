@@ -1,31 +1,12 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { Box, Divider, Typography } from '@material-ui/core';
 
 import InBoxModalContent from './_InBoxModalContent';
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paper: {
-    position: 'absolute',
-    width: 500,
-    backgroundColor: theme.palette.background.paper,
-    borderRadius: '0.5rem',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  title: {
-    margin: '1rem 0rem',
-    fontSize: '2rem',
-  },
-}));
+import { useStyles } from '../../common/components/Styles';
 
 export default function AlarmModal({
   itemName,
@@ -46,7 +27,7 @@ export default function AlarmModal({
 
   function makeModalBody() {
     return (
-      <div className={classes.paper}>
+      <div className={classes.modalPaper}>
         <Box display="flex" flexDirection="row" alignItems="flex-end">
           <Typography variant="h4">{itemName}</Typography>
           <Typography variant="h6">

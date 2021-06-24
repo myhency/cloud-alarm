@@ -114,6 +114,19 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalPaper: {
+    position: 'absolute',
+    width: 500,
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: '0.5rem',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
 export const useMobileStyles = makeStyles((theme) => ({
