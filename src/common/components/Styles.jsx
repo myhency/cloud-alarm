@@ -67,6 +67,16 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: '30px 30px 30px 30px',
     justifyContent: 'center',
   },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+  list: {
+    backgroundColor: '#303C6C',
+    width: 250,
+  },
 }));
 
 export const useMobileStyles = makeStyles((theme) => ({

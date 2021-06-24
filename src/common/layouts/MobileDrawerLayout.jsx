@@ -1,50 +1,22 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
   Toolbar,
   Drawer,
-  // Menu,
-  // MenuItem,
   IconButton,
   Typography,
-  Paper,
-  Divider,
   Box,
-  Button,
 } from '@material-ui/core';
+
+// icons
 import MenuIcon from '@material-ui/icons/Menu';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  list: {
-    backgroundColor: '#303C6C',
-    width: 250,
-  },
-  paper: {
-    width: '100vw',
-    height: '9vh',
-    border: 0,
-    paddingLeft: '30px',
-    backgroundColor: '#303C6C',
-    color: '#b4dfe5',
-    fontSize: 16,
-  },
-}));
+import { useStyles } from '../components/Styles';
 
 export default function TemporaryDrawer({
   pageTitleContainer,
   menuList,
-  menuListSmall,
   content,
 }) {
   const classes = useStyles();
