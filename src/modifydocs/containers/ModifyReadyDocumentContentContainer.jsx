@@ -2,127 +2,26 @@ import React, { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Typography,
   Box,
   Button,
-  TextField,
 } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { indigo } from '@material-ui/core/colors';
 import ProgressToolBar from '../components/ProgressToolBar';
 
 import { NextButton, BackButton } from '../../common/components/Buttons';
+import { CssTextField } from '../../common/components/TextFields';
+import { useStyles } from '../../common/components/Styles';
 
 import {
   setAlarmDocument,
   loadAlarmDetail,
 } from '../../state/slice';
-
-const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    // padding: theme.spacing(3),
-    backgroundColor: '#FFFFFF',
-  },
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    borderBottom: '1px solid lightgrey',
-    height: '60px',
-    paddingTop: '5px',
-    paddingBottom: '5px',
-  },
-  contentRoot: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingTop: '5px',
-  },
-  exitButton: {
-    marginLeft: '10px',
-  },
-  nextButton: {
-    marginRight: '10px',
-  },
-  stepTitle: {
-    '& > *': {
-      margin: theme.spacing(0),
-    },
-    color: theme.palette.text.secondary,
-    display: 'flex',
-    alignContent: 'space-between',
-    alignItems: 'center',
-  },
-  stepContent: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& > *': {
-      margin: theme.spacing(1),
-      width: theme.spacing(16),
-      height: theme.spacing(16),
-    },
-  },
-  dropZone: {
-    backgroundColor: 'pink',
-    marginTop: theme.spacing(4),
-    width: '30%',
-    height: '50px',
-    overflowX: 'auto',
-    // marginBottom: theme.spacing(2),
-    margin: 'auto',
-  },
-  formControl: {
-    margin: theme.spacing(1, 2),
-    minWidth: 170,
-    display: 'flex',
-    justifyContent: 'space-between',
-    height: '5px',
-  },
-  baseBox: {
-    display: 'flex',
-    border: '1px solid',
-    borderColor: '#D3D3D3',
-    borderRadius: '5px 5px 5px 5px',
-    margin: '0 15px 0 15px',
-    padding: '10px',
-    justifyContent: 'center',
-  },
-}));
-
-const CssTextField = withStyles({
-  root: {
-    '& label.Mui-focused': {
-      color: indigo[700],
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: indigo[700],
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: indigo[700],
-      },
-      '&:hover fieldset': {
-        borderColor: indigo[700],
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: indigo[700],
-      },
-    },
-  },
-})(TextField);
 
 export default function ModifyReadyDocumentContentContainer({ contentsLink, id }) {
   const history = useHistory();

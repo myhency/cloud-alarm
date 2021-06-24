@@ -16,11 +16,11 @@ import {
 } from '@material-ui/core';
 
 import {
-  BaseBox,
+  LoginBaseBox,
   LoginContentsBox,
   LoginContentsSmallBox,
   LogoImageBox,
-} from '../components/Boxes';
+} from '../../common/components/Boxes';
 import { LoginButton } from '../../common/components/Buttons';
 import LoginInput from '../components/Inputs';
 
@@ -86,7 +86,7 @@ export default function LoginPage() {
   return (
     <>
       {isDesktop && (
-        <BaseBox>
+        <LoginBaseBox>
           <LoginContentsBox>
             <LogoImageBox>
               <img
@@ -149,10 +149,10 @@ export default function LoginPage() {
               </Button>
             </DialogActions>
           </Dialog>
-        </BaseBox>
+        </LoginBaseBox>
       )}
       {isMobile && (
-        <BaseBox>
+        <LoginBaseBox>
           <LoginContentsSmallBox>
             <LogoImageBox>
               <img
@@ -215,7 +215,7 @@ export default function LoginPage() {
               </Button>
             </DialogActions>
           </Dialog>
-        </BaseBox>
+        </LoginBaseBox>
       )}
     </>
   );

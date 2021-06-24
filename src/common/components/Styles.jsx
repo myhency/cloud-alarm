@@ -127,6 +127,13 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  progressToolBarRoot: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+    backgroundColor: '#f4976c',
+    margin: '0px',
+  },
 }));
 
 export const useMobileStyles = makeStyles((theme) => ({
