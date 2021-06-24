@@ -1,8 +1,5 @@
 import React from 'react';
 
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { indigo } from '@material-ui/core/colors';
-
 import MessageIcon from '@material-ui/icons/Message';
 import CategoryIcon from '@material-ui/icons/Category';
 import ScheduleIcon from '@material-ui/icons/Schedule';
@@ -13,53 +10,10 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import {
   Box,
-  TextField,
   InputAdornment,
 } from '@material-ui/core';
-
-const useStyles = makeStyles(() => ({
-  contactContentBox: {
-    fontSize: '1.2rem',
-    margin: '1rem 0rem',
-  },
-  flexRowBox: {
-    display: 'flex',
-    alignItems: 'center',
-    margin: '0.4rem 0.4rem',
-    width: '100%',
-  },
-  rowContent: {
-    marginLeft: '1rem',
-    marginRight: '1rem',
-  },
-  rowType: {
-    width: '8rem',
-    fontSize: '0.8rem',
-    color: 'grey',
-  },
-}));
-
-const CssTextField = withStyles({
-  root: {
-    '& label.Mui-focused': {
-      color: indigo[700],
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: indigo[700],
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: indigo[700],
-      },
-      '&:hover fieldset': {
-        borderColor: indigo[700],
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: indigo[700],
-      },
-    },
-  },
-})(TextField);
+import { CssTextField } from '../../common/components/TextFields';
+import { useStyles } from '../../common/components/Styles';
 
 export default function InboxModalContent({
   recommendPrice, losscutPrice, comment, theme, createdAt, lastUpdatedAt, alarmStatus,

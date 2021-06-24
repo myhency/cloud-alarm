@@ -77,6 +77,25 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: '#303C6C',
     width: 250,
   },
+  contactContentBox: {
+    fontSize: '1.2rem',
+    margin: '1rem 0rem',
+  },
+  flexRowBox: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0.4rem 0.4rem',
+    width: '100%',
+  },
+  rowContent: {
+    marginLeft: '1rem',
+    marginRight: '1rem',
+  },
+  rowType: {
+    width: '8rem',
+    fontSize: '0.8rem',
+    color: 'grey',
+  },
 }));
 
 export const useMobileStyles = makeStyles((theme) => ({
