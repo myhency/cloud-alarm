@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 
 import {
   List,
@@ -23,12 +22,6 @@ import {
 } from '../components/Boxes';
 import { NewDocumentButton } from '../components/Buttons';
 import MenuListItem from '../components/ListItems';
-
-const useStyles = makeStyles(() => ({
-  logo: {
-    height: '120px',
-  },
-}));
 
 export default function InBoxMenuListContainer({
   totalCount = '',
@@ -101,7 +94,7 @@ export default function InBoxMenuListContainer({
         </MenuListItem>
         <MenuListItem
           button
-          key={2}
+          key={3}
           selected={selectedIndex === 2}
           onClick={(e) => handleClick(e, '/inbox/losscut', 2)}
         >
@@ -115,7 +108,7 @@ export default function InBoxMenuListContainer({
         </MenuListItem>
         <MenuListItem
           button
-          key={3}
+          key={4}
         >
           <ListItemIcon>
             <PieChartIcon />

@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
-  Grid,
   Typography,
-  TextField,
   Button,
   Box,
 } from '@material-ui/core';
@@ -14,11 +11,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { pink, indigo } from '@material-ui/core/colors';
 import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
 
 import { NextButton, BackButton } from '../../common/components/Buttons';
+
+import { CssTextField } from '../../common/components/TextFields';
+import { useStyles } from '../../common/components/Styles';
 
 import {
   clearAlarmDetail,
@@ -27,58 +26,7 @@ import {
   clearAlarmDocument,
 } from '../../state/slice';
 
-const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    // padding: theme.spacing(3),
-    backgroundColor: '#FFFFFF',
-  },
-  form: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '100%',
-    },
-  },
-  contentRight: {
-    backgroundColor: theme.palette.background.paper,
-    width: '100%',
-    borderLeft: '1px solid lightgrey',
-    height: '89vh',
-  },
-}));
-
-const CssTextField = withStyles({
-  root: {
-    '& label.Mui-focused': {
-      color: indigo[700],
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: indigo[700],
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: indigo[700],
-      },
-      '&:hover fieldset': {
-        borderColor: indigo[700],
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: indigo[700],
-      },
-    },
-  },
-})(TextField);
-
 export default function ModifyReviewDocumentContentContainer({ contentsLink, id }) {
-  console.log(id);
   const history = useHistory();
   const classes = useStyles();
 

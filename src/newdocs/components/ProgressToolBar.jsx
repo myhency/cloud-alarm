@@ -5,22 +5,11 @@ import {
   IconButton,
   Typography,
 } from '@material-ui/core';
-import {
-  makeStyles,
-} from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import DoneIcon from '@material-ui/icons/Done';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 
-const useStyles = makeStyles(() => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-    backgroundColor: '#f4976c',
-    margin: '0px',
-  },
-}));
+import { useStyles } from '../../common/components/Styles';
 
 export default function ProgressToolBar() {
   const isDesktop = useMediaQuery({
@@ -35,7 +24,7 @@ export default function ProgressToolBar() {
   return (
     <>
       {isDesktop && (
-        <div className={classes.root}>
+        <div className={classes.progressToolBarRoot}>
           <IconButton aria-label="delete">
             <CloseIcon style={{ color: '#D2FDFF' }} />
           </IconButton>
@@ -71,10 +60,7 @@ export default function ProgressToolBar() {
         </div>
       )}
       {isMobile && (
-        <div className={classes.root}>
-          {/* <IconButton aria-label="delete">
-            <CloseIcon style={{ color: '#D2FDFF' }} />
-          </IconButton> */}
+        <div className={classes.progressToolBarRoot}>
           <Box display="flex" flexDirection="row" flexGrow="1" justifyContent="center" p={1} m={1}>
             <RadioButtonCheckedIcon fontSize="small" style={{ color: '#D2FDFF' }} />
             <Typography style={{ color: '#D2FDFF', marginLeft: '5px', fontSize: '10px' }}>종목추가</Typography>
@@ -101,9 +87,6 @@ export default function ProgressToolBar() {
             <RadioButtonCheckedIcon fontSize="small" style={{ color: '#D2FDFF' }} />
             <Typography style={{ color: '#D2FDFF', marginLeft: '5px', fontSize: '10px' }}>검토 및 저장</Typography>
           </Box>
-          {/* <IconButton aria-label="delete">
-            <DoneIcon style={{ color: '#D2FDFF' }} />
-          </IconButton> */}
         </div>
       )}
     </>

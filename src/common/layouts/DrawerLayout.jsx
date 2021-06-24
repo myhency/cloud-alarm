@@ -122,7 +122,7 @@ export default function DrawerLayout({
   const theme = useTheme();
   // const history = useHistory();
   const [drawerOpen, setDrawerOpen] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [anchorEl, setAnchorEl] = React.useState(null);
   // const profileMenuOpen = Boolean(anchorEl);
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
@@ -130,9 +130,9 @@ export default function DrawerLayout({
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
-  const handleProfileButton = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleProfileButton = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
   // const handleProfileMenuClose = () => {
   //   setAnchorEl(null);
   // };
@@ -176,7 +176,7 @@ export default function DrawerLayout({
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleProfileButton}
+              // onClick={handleProfileButton}
               style={{ color: '#b4dfe5' }}
             >
               <ExitToAppIcon style={{ color: '#b4dfe5' }} />
