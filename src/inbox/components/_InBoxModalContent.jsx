@@ -16,7 +16,13 @@ import { CssTextField } from '../../common/components/TextFields';
 import { useStyles } from '../../common/components/Styles';
 
 export default function InboxModalContent({
-  recommendPrice, losscutPrice, comment, theme, createdAt, lastUpdatedAt, alarmStatus,
+  recommendPrice,
+  losscutPrice,
+  comment,
+  theme,
+  createdAt,
+  lastUpdatedAt,
+  alarmStatus,
 }) {
   const classes = useStyles();
 
