@@ -1,21 +1,9 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { makeStyles, withStyles, fade } from '@material-ui/core/styles';
 import {
   Box,
-  IconButton,
-  Checkbox,
-  Tooltip,
-  TableContainer,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
   Typography,
-  InputBase,
-  Divider,
 } from '@material-ui/core';
 
 import {
@@ -25,113 +13,15 @@ import {
 } from '../../state/slice';
 
 import MobileInBoxModalContainer from './MobileInBoxModalContainer';
-
-const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    // padding: theme.spacing(3),
-    height: '100%',
-    // backgroundColor: '#FBE8A6',
-  },
-  tableHeaderRoot: {
-    display: 'flex',
-    alignItems: 'center',
-    borderBottom: '1px solid lightgrey',
-    height: '60px',
-    paddingTop: '5px',
-    paddingBottom: '5px',
-  },
-  tableRoot: {
-    width: '100%',
-  },
-  paper: {
-    width: '100%',
-    marginBottom: theme.spacing(2),
-  },
-  table: {
-    minWidth: 750,
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: 'rect(0 0 0 0)',
-    height: 1,
-    margin: -1,
-    overflow: 'hidden',
-    padding: 0,
-    position: 'absolute',
-    top: 20,
-    width: 1,
-  },
-  checkbox: {
-    width: '48px',
-    padding: '0 0 0 0',
-  },
-  typographySub: {
-    color: 'grey',
-  },
-}));
-
-const StyledTooltip = withStyles({
-  tooltip: {
-    backgroundColor: 'rgba(0,0,0,0.72)',
-    fontSize: 12,
-    marginTop: 0,
-  },
-})(Tooltip);
-
-const SearchInput = withStyles((theme) => ({
-  root: {
-    'label + &': {
-      marginTop: theme.spacing(3),
-    },
-  },
-  input: {
-    borderRadius: 4,
-    backgroundColor: '#ced4da',
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 12px',
-    minWidth: '300px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-      borderColor: '#ced4da',
-      backgroundColor: 'white',
-    },
-  },
-}))(InputBase);
+import { useMobileStyles } from '../../common/components/Styles';
 
 export default function InBoxContentContainer() {
-  const history = useHistory();
-  const classes = useStyles();
+  const classes = useMobileStyles();
   const dispatch = useDispatch();
   const { alarms } = useSelector((state) => ({
     alarms: state.alarms,
   }));
 
-  const [selected, setSelected] = React.useState([]);
-  const [hoveredId, setHoveredId] = React.useState(null);
   const [detailModalOpened, setDetailModalOpened] = React.useState(false);
 
   const handleDetailOpen = (e, id) => {
@@ -147,44 +37,6 @@ export default function InBoxContentContainer() {
   useEffect(() => {
     dispatch(loadAlarmList());
   }, []);
-
-  const numSelected = selected.length;
-  const rowCount = alarms.length;
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = alarms.map((alarm) => alarm.alarmId);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const isSelected = (id) => selected.indexOf(id) !== -1;
-
-  const handleOnChange = (e, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
-  const handleOnModifyButton = (e, id) => {
-    history.push(`/ready-docs/${id}`);
-  };
 
   return (
     <main className={classes.content}>
