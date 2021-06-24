@@ -11,16 +11,9 @@ import {
 } from '@material-ui/core';
 
 // Icons
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import AddIcon from '@material-ui/icons/Add';
-import CancelScheduleSendIcon from '@material-ui/icons/CancelScheduleSend';
 import PieChartIcon from '@material-ui/icons/PieChart';
-import AlarmOffIcon from '@material-ui/icons/AlarmOff';
-import AlarmIcon from '@material-ui/icons/Alarm';
-import AlarmAddIcon from '@material-ui/icons/AlarmAdd';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import SendIcon from '@material-ui/icons/Send';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 
@@ -43,7 +36,6 @@ export default function InBoxMenuListContainer({
   state3Count = '',
 }) {
   const history = useHistory();
-  const classes = useStyles();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -96,8 +88,8 @@ export default function InBoxMenuListContainer({
         <MenuListItem
           button
           key={2}
-          selected={selectedIndex === 2}
-          onClick={(e) => handleClick(e, '/inbox/losscut', 2)}
+          // selected={selectedIndex === 2}
+          // onClick={(e) => handleClick(e, '/inbox/losscut', 2)}
         >
           <ListItemIcon>
             <TrendingUpIcon />
