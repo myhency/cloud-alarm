@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 
 import {
   List,
@@ -23,12 +22,6 @@ import {
 } from '../components/Boxes';
 import { NewDocumentButton } from '../components/Buttons';
 import MenuListItem from '../components/ListItems';
-
-const useStyles = makeStyles(() => ({
-  logo: {
-    height: '120px',
-  },
-}));
 
 export default function InBoxMenuListContainer({
   totalCount = '',
