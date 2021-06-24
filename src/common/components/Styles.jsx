@@ -180,4 +180,19 @@ export const useMobileStyles = makeStyles((theme) => ({
   typographySub: {
     color: 'grey',
   },
+  modalPaper: {
+    position: 'absolute',
+    width: '90vw',
+    height: '80vh',
+    overflow: 'scroll',
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: '0.5rem',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));

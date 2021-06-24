@@ -1,13 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import {
   Box,
   Divider,
   Typography,
-  Tooltip,
   IconButton,
 } from '@material-ui/core';
 
@@ -16,35 +14,8 @@ import RedoIcon from '@material-ui/icons/Redo';
 
 import InBoxModalContent from './_InBoxModalContent';
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paper: {
-    position: 'absolute',
-    width: '90vw',
-    height: '80vh',
-    overflow: 'scroll',
-    backgroundColor: theme.palette.background.paper,
-    borderRadius: '0.5rem',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  title: {
-    margin: '1rem 0rem',
-    fontSize: '2rem',
-  },
-}));
-
-const StyledTooltip = withStyles({
-  tooltip: {
-    backgroundColor: 'rgba(0,0,0,0.72)',
-    fontSize: 12,
-    marginTop: 0,
-  },
-})(Tooltip);
+import { StyledTooltip } from '../../common/components/Tooltips';
+import { useMobileStyles } from '../../common/components/Styles';
 
 export default function MobileAlarmModal({
   alarmId,
@@ -62,7 +33,7 @@ export default function MobileAlarmModal({
   openState,
   onClose,
 }) {
-  const classes = useStyles();
+  const classes = useMobileStyles();
   const history = useHistory();
 
   const handleOnModifyButton = (e, id) => {
@@ -71,7 +42,7 @@ export default function MobileAlarmModal({
 
   function makeModalBody() {
     return (
-      <div className={classes.paper}>
+      <div className={classes.modalPaper}>
         <Box display="flex" flexDirection="row" alignItems="flex-end">
           <Typography variant="h4">{itemName}</Typography>
           <Typography variant="h6">
