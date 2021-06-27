@@ -21,7 +21,7 @@ import { NextButton, BackButton } from '../../common/components/Buttons';
 
 import {
   setAlarmDocument,
-  loadLosscutAlarmDetail,
+  loadHistoryAlarmDetail,
 } from '../../state/slice';
 
 const useStyles = makeStyles((theme) => ({
@@ -133,7 +133,7 @@ export default function ReaddReadyDocumentContentContainer({ contentsLink, id })
   }));
 
   useEffect(() => {
-    dispatch(loadLosscutAlarmDetail(id));
+    dispatch(loadHistoryAlarmDetail(id));
   }, []);
 
   const [open, setOpen] = React.useState(false);

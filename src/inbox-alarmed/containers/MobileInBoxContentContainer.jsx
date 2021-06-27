@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 
 import {
-  loadLosscutAlarmList,
+  loadAlarmedAlarmList,
   loadHistoryAlarmDetail,
   clearAlarmDetail,
 } from '../../state/slice';
@@ -22,7 +22,7 @@ export default function InBoxContentContainer() {
   }));
 
   useEffect(() => {
-    dispatch(loadLosscutAlarmList());
+    dispatch(loadAlarmedAlarmList());
   }, []);
 
   const [detailModalOpened, setDetailModalOpened] = React.useState(false);

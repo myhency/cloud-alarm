@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -25,7 +26,7 @@ import { SearchInput } from '../../common/components/Inputs';
 import { StyledTooltip } from '../../common/components/Tooltips';
 
 import {
-  loadLosscutAlarmList,
+  loadAlarmedAlarmList,
   loadHistoryAlarmDetail,
   clearAlarmDetail,
 } from '../../state/slice';
@@ -37,11 +38,11 @@ export default function InBoxContentContainer() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { alarms } = useSelector((state) => ({
-    alarms: state.losscutAlarms,
+    alarms: state.alarmedAlarms,
   }));
 
   useEffect(() => {
-    dispatch(loadLosscutAlarmList());
+    dispatch(loadAlarmedAlarmList());
   }, []);
   const [selected, setSelected] = React.useState([]);
   const [hoveredId, setHoveredId] = React.useState(null);
@@ -261,7 +262,11 @@ export default function InBoxContentContainer() {
                     ) : (
                       <>
                         <TableCell align="right" width="10%">
-                          <Typography>{alarm.alarmStatus === 'LOSSCUT' ? '손절처리' : alarm.alarmStatus}</Typography>
+                          <Typography>
+                            {alarm.alarmStatus === 'ALARMED' ? '알림완료'
+                              : alarm.alarmStatus === 'ALARM_CREATED' ? '알림전'
+                                : alarm.alarmStatus}
+                          </Typography>
                         </TableCell>
                         <TableCell align="right" width="15%">
                           <Typography>{String(alarm.modifiedDate).replace('T', ' ')}</Typography>

@@ -10,6 +10,7 @@ import { useAuthed } from './hooks';
 
 import InboxPage from './inbox/pages/InboxPage';
 import InboxLosscutPage from './inbox-losscut/pages/InboxLosscutPage';
+import InboxAlarmedPage from './inbox-alarmed/pages/InboxAlarmedPage';
 import AddDocumentPage from './newdocs/pages/AddDocumentPage';
 import ReadyDocumentPage from './newdocs/pages/ReadyDocumentPage';
 import ReviewDocumentPage from './newdocs/pages/ReviewDocumentPage';
@@ -95,6 +96,7 @@ export default function RootPage() {
         <AuthedRoute path="/review-readd-docs/:id" component={ReaddReviewDocumentPage} />
         <AuthedRoute exact path="/inbox" component={InboxPage} />
         <AuthedRoute exact path="/inbox/losscut" component={InboxLosscutPage} />
+        <AuthedRoute exact path="/inbox/alarmed" component={InboxAlarmedPage} />
         <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>
