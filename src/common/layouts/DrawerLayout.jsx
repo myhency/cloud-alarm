@@ -25,6 +25,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import TelegramIcon from '@material-ui/icons/Telegram';
 
 // Images
 // import LogoImage from '../../assets/images/bread-stock-logo.png';
@@ -171,6 +172,17 @@ export default function DrawerLayout({
             {pageTitleContainer}
           </Typography>
           <div>
+            <a target="_blank" href="https://t.me/joinchat/CNWUmvadLcUxOWQ1" rel="noreferrer">
+              <IconButton
+                className={classes.profileButton}
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                style={{ color: '#b4dfe5', textAlign: 'center' }}
+              >
+                <TelegramIcon style={{ color: '#b4dfe5' }} />
+              </IconButton>
+            </a>
             <IconButton
               className={classes.profileButton}
               aria-label="account of current user"

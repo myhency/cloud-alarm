@@ -11,6 +11,7 @@ import {
 // icons
 import MenuIcon from '@material-ui/icons/Menu';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import TelegramIcon from '@material-ui/icons/Telegram';
 
 import { useStyles } from '../components/Styles';
 
@@ -87,6 +88,17 @@ export default function MobileDrawerLayout({
             <Typography variant="h6" className={classes.title}>
               {pageTitleContainer}
             </Typography>
+            <a target="_blank" href="https://t.me/joinchat/CNWUmvadLcUxOWQ1" rel="noreferrer">
+              <IconButton
+                className={classes.profileButton}
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                style={{ color: '#b4dfe5', textAlign: 'center' }}
+              >
+                <TelegramIcon style={{ color: '#b4dfe5' }} />
+              </IconButton>
+            </a>
             <IconButton
               className={classes.profileButton}
               aria-label="account of current user"
