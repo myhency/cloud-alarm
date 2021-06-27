@@ -92,14 +92,14 @@ export default function InBoxContentContainer() {
               }}
               >
                 <Typography style={{ color: '#adadad', fontSize: '12px' }}>
-                  {alarm.alarmStatus === 'ALARMED' ? '알림완료'
-                    : alarm.alarmStatus === 'ALARM_CREATED' ? '알림전'
-                      : alarm.alarmStatus}
+                  {String(alarm.modifiedDate).replace('T', ' ')}
                 </Typography>
               </div>
               <div>
                 <Typography style={{ color: '#747171', fontSize: '14px' }}>
-                  {String(alarm.modifiedDate).replace('T', ' ')}
+                  {alarm.alarmStatus === 'ALARMED' ? '알림완료'
+                    : alarm.alarmStatus === 'ALARM_CREATED' ? '알림전'
+                      : alarm.alarmStatus}
                 </Typography>
               </div>
             </Box>
