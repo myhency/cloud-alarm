@@ -18,7 +18,7 @@ export default function InBoxContentContainer() {
   const classes = useMobileStyles();
   const dispatch = useDispatch();
   const { alarms } = useSelector((state) => ({
-    alarms: state.losscutAlarms,
+    alarms: state.alarmedAlarms,
   }));
 
   useEffect(() => {
