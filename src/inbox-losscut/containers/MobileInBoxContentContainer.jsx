@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -91,12 +92,14 @@ export default function InBoxContentContainer() {
               }}
               >
                 <Typography style={{ color: '#adadad', fontSize: '12px' }}>
-                  {alarm.modifiedDate}
+                  {alarm.alarmStatus === 'LOSSCUT' ? '손절완료'
+                    : alarm.alarmStatus === 'ALARM_CREATED' ? '알림전'
+                      : alarm.alarmStatus}
                 </Typography>
               </div>
               <div>
                 <Typography style={{ color: '#747171', fontSize: '14px' }}>
-                  {alarm.alarmStatus}
+                  {String(alarm.modifiedDate).replace('T', ' ')}
                 </Typography>
               </div>
             </Box>
