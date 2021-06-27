@@ -12,8 +12,9 @@ import {
 import {
   fetchAlarmList,
   fetchLosscutAlarmList,
+  fetchAlarmedAlarmList,
   fetchAlarmDetail,
-  fetchLosscutAlarmDetail,
+  fetchHistoryAlarmDetail,
   saveAlarmDocument,
   updateAlarmDocument,
   fetchAlarmByItemCode,
@@ -70,38 +71,6 @@ const initialAlarmDocument = {
   alarmStatus: '',
 };
 
-function parseDocument(document) {
-  const {
-    id,
-    name,
-    receiver,
-    lastUpdated,
-  } = document;
-  const totalCount = receiver.length;
-  const completeCount = receiver.filter((rec) => rec.isSigned === true).length;
-
-  // TODO. 사인상태표시로직 개발해야 함
-  // receiver.map((v, i) => {
-  //   if (v.name === userName && v.email === userEmail && !v.isSigned) {
-  //     progressState = '서명해야 함'
-  //   }
-  // })
-
-  return {
-    id,
-    name,
-    receiver,
-    totalCount,
-    completeCount,
-    lastUpdated,
-    signState: '구현 예정',
-  };
-}
-
-function parseDocuments(documents, userName, userEmail) {
-  return documents.map((document) => parseDocument(document, userName, userEmail));
-}
-
 function parseAlarm(alarm) {
   const {
     alarmId,
@@ -134,6 +103,10 @@ function parseAlarms(alarms) {
 
 function parseLosscutAlarms(losscutAlarms) {
   return losscutAlarms.map((losscutAlarm) => parseAlarm(losscutAlarm));
+}
+
+function parseAlarmedAlarms(alarmedAlarms) {
+  return alarmedAlarms.map((alarmedAlarm) => parseAlarm(alarmedAlarm));
 }
 
 function parseStockItem(stockItem) {
@@ -187,6 +160,7 @@ const { actions, reducer } = createSlice({
     documents: [],
     alarms: [],
     losscutAlarms: [],
+    alarmedAlarms: [],
     stockItems: [],
     alarmId: { alarmId: 0 },
   },
@@ -283,19 +257,6 @@ const { actions, reducer } = createSlice({
       };
     },
 
-    setDocuments(state, { payload: documents }) {
-      const parsedDocuments = parseDocuments(
-        documents,
-        state.loggedInUserName,
-        state.loggedInUserEmail,
-      );
-
-      return {
-        ...state,
-        documents: parsedDocuments,
-      };
-    },
-
     setLosscutAlarms(state, { payload: losscutAlarms }) {
       const parsedLosscutAlarms = parseLosscutAlarms(
         losscutAlarms,
@@ -306,6 +267,19 @@ const { actions, reducer } = createSlice({
       return {
         ...state,
         losscutAlarms: parsedLosscutAlarms,
+      };
+    },
+
+    setAlarmedAlarms(state, { payload: alarmedAlarms }) {
+      const parsedAlarmedAlarms = parseAlarmedAlarms(
+        alarmedAlarms,
+      );
+
+      // console.log(losscutAlarms);
+
+      return {
+        ...state,
+        alarmedAlarms: parsedAlarmedAlarms,
       };
     },
 
@@ -473,6 +447,7 @@ export const {
   clearAccessToken,
   setDocuments,
   setLosscutAlarms,
+  setAlarmedAlarms,
   setAlarms,
   setStockItems,
   setAlarmDocument,
@@ -577,6 +552,19 @@ export function loadLosscutAlarmList() {
   };
 }
 
+export function loadAlarmedAlarmList() {
+  return async (dispatch) => {
+    const { result, data } = await fetchAlarmedAlarmList();
+
+    console.log(data, result);
+    if (!result) {
+      console.log(data);
+      // return;
+    }
+    dispatch(setAlarmedAlarms(data));
+  };
+}
+
 export function loadStockItemList() {
   return async (dispatch) => {
     const { result, data } = await fetchStockItemList();
@@ -661,9 +649,9 @@ export function loadAlarmDetail(_id) {
   };
 }
 
-export function loadLosscutAlarmDetail(_id) {
+export function loadHistoryAlarmDetail(_id) {
   return async (dispatch) => {
-    const { result, data } = await fetchLosscutAlarmDetail(_id);
+    const { result, data } = await fetchHistoryAlarmDetail(_id);
 
     console.log(data, result);
 

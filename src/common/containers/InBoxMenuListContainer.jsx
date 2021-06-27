@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -48,8 +49,9 @@ export default function InBoxMenuListContainer({
   useEffect(() => {
     // eslint-disable-next-line no-nested-ternary
     const initIndex = history.location.pathname === '/inbox' ? 1
-      : history.location.pathname === '/inbox/losscut' ? 2
-        : 0;
+      : history.location.pathname === '/inbox/alarmed' ? 2
+        : history.location.pathname === '/inbox/losscut' ? 3
+          : 0;
     setSelectedIndex(initIndex);
   }, []);
 
@@ -83,14 +85,14 @@ export default function InBoxMenuListContainer({
         <MenuListItem
           button
           key={2}
-          // selected={selectedIndex === 2}
-          // onClick={(e) => handleClick(e, '/inbox/losscut', 2)}
+          selected={selectedIndex === 2}
+          onClick={(e) => handleClick(e, '/inbox/alarmed', 2)}
         >
           <ListItemIcon>
             <TrendingUpIcon />
           </ListItemIcon>
           {/* 알림완료 */}
-          <ListItemText primary="Comming soon" />
+          <ListItemText primary="알람완료 알림" />
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state2Count}</Typography>
           </ListItemSecondaryAction>
@@ -98,8 +100,8 @@ export default function InBoxMenuListContainer({
         <MenuListItem
           button
           key={3}
-          selected={selectedIndex === 2}
-          onClick={(e) => handleClick(e, '/inbox/losscut', 2)}
+          selected={selectedIndex === 3}
+          onClick={(e) => handleClick(e, '/inbox/losscut', 3)}
         >
           <ListItemIcon>
             <TrendingDownIcon />
