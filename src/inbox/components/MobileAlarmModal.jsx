@@ -43,7 +43,7 @@ export default function MobileAlarmModal({
   };
 
   function makeModalBody() {
-    const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${itemCode}`;
+    const chartLink = `https://m.alphasquare.co.kr/service/chart?code=${itemCode}`;
 
     return (
       <div className={classes.modalPaper}>
