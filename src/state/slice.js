@@ -75,6 +75,7 @@ function parseAlarm(alarm) {
   const {
     alarmId,
     itemName,
+    itemCode,
     recommendPrice,
     losscutPrice,
     createdDate,
@@ -87,6 +88,7 @@ function parseAlarm(alarm) {
   return {
     alarmId,
     itemName,
+    itemCode,
     recommendPrice,
     losscutPrice,
     createdDate,
