@@ -21,6 +21,8 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import ShowChartIcon from '@material-ui/icons/ShowChart';
+
 import { useStyles } from '../../common/components/Styles';
 import { SearchInput } from '../../common/components/Inputs';
 import { StyledTooltip } from '../../common/components/Tooltips';
@@ -161,6 +163,7 @@ export default function InBoxContentContainer() {
               {alarms.map((alarm) => {
                 const isItemSelected = isSelected(alarm.alarmId);
                 const labelId = `enhanced-table-checkbox-${alarm.alarmId}`;
+                const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${alarm.itemCode}`;
 
                 return (
                   <TableRow
@@ -235,43 +238,46 @@ export default function InBoxContentContainer() {
                         </Typography>
                       </Box>
                     </TableCell>
+                    <TableCell align="right" width="10%">
+                      <Typography>
+                        {alarm.alarmStatus === 'ALARMED' ? '알림완료'
+                          : alarm.alarmStatus === 'ALARM_CREATED' ? '알림전'
+                            : alarm.alarmStatus}
+                      </Typography>
+                    </TableCell>
                     {hoveredId === alarm.alarmId ? (
-                      <>
-                        <TableCell align="right" width="10%">
-                          <Typography>{alarm.state}</Typography>
-                        </TableCell>
-                        <TableCell align="right" style={{ padding: '0' }}>
-                          <Box display="flex" flexDirection="row">
-                            <StyledTooltip title="수정">
+                      <TableCell align="right" width="15%" style={{ padding: '0' }}>
+                        <Box flexDirection="row">
+                          <StyledTooltip title="차트보기">
+                            <a target="_blank" href={chartLink} rel="noreferrer">
                               <IconButton
-                                id="alarm-delete-button"
+                                id="alarm-chart-button"
                                 className={classes.action}
-                                onClick={(e) => handleOnModifyButton(e, alarm.alarmId)}
                               >
-                                <EditIcon />
+                                <ShowChartIcon />
                               </IconButton>
-                            </StyledTooltip>
-                            <StyledTooltip title="삭제">
-                              <IconButton className={classes.action}>
-                                <DeleteIcon />
-                              </IconButton>
-                            </StyledTooltip>
-                          </Box>
-                        </TableCell>
-                      </>
+                            </a>
+                          </StyledTooltip>
+                          <StyledTooltip title="수정">
+                            <IconButton
+                              id="alarm-modify-button"
+                              className={classes.action}
+                              onClick={(e) => handleOnModifyButton(e, alarm.alarmId)}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </StyledTooltip>
+                          <StyledTooltip title="삭제">
+                            <IconButton className={classes.action}>
+                              <DeleteIcon />
+                            </IconButton>
+                          </StyledTooltip>
+                        </Box>
+                      </TableCell>
                     ) : (
-                      <>
-                        <TableCell align="right" width="10%">
-                          <Typography>
-                            {alarm.alarmStatus === 'ALARMED' ? '알림완료'
-                              : alarm.alarmStatus === 'ALARM_CREATED' ? '알림전'
-                                : alarm.alarmStatus}
-                          </Typography>
-                        </TableCell>
-                        <TableCell align="right" width="15%">
-                          <Typography>{String(alarm.modifiedDate).replace('T', ' ')}</Typography>
-                        </TableCell>
-                      </>
+                      <TableCell align="right" width="15%">
+                        <Typography>{String(alarm.modifiedDate).replace('T', ' ')}</Typography>
+                      </TableCell>
                     )}
                   </TableRow>
                 );

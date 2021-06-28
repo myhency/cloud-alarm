@@ -11,6 +11,7 @@ import {
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import RedoIcon from '@material-ui/icons/Redo';
+import ShowChartIcon from '@material-ui/icons/ShowChart';
 
 import InBoxModalContent from './_InBoxModalContent';
 
@@ -41,6 +42,8 @@ export default function MobileAlarmModal({
   };
 
   function makeModalBody() {
+    const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${itemCode}`;
+
     return (
       <div className={classes.modalPaper}>
         <Box display="flex" flexDirection="row" alignItems="flex-end">
@@ -67,6 +70,16 @@ export default function MobileAlarmModal({
           />
         </div>
         <Box display="flex" flexDirection="row">
+          <StyledTooltip title="차트보기">
+            <a target="_blank" href={chartLink} rel="noreferrer">
+              <IconButton
+                id="alarm-chart-button"
+                className={classes.action}
+              >
+                <ShowChartIcon />
+              </IconButton>
+            </a>
+          </StyledTooltip>
           <StyledTooltip title="수정">
             <IconButton
               id="alarm-delete-button"
