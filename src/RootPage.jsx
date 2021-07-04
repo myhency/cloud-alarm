@@ -18,6 +18,8 @@ import ModifyReadyDocumentPage from './modifydocs/pages/ModifyReadyDocumentPage'
 import ModifyReviewDocumentPage from './modifydocs/pages/ModifyReviewDocumentPage';
 import ReaddReadyDocumentPage from './readddocs/pages/ReaddReadyDocumentPage';
 import ReaddReviewDocumentPage from './readddocs/pages/ReaddReviewDocumentPage';
+import VolumeListPage from './analyze-volume/pages/VolumeListPage';
+import VolumeDetailPage from './analyze-volume/pages/VolumeDetailPage';
 import LoginPage from './login/pages/LoginPage';
 import NotFoundPage from './NotFoundPage';
 
@@ -87,6 +89,8 @@ export default function RootPage() {
       <Switch>
         <AuthedRoute exact path="/" component={() => (<Redirect to={{ pathname: '/inbox' }} />)} />
         <UnAuthedRoute path="/login" component={LoginPage} />
+        <AuthedRoute path="/analyze/volume/:date" component={VolumeDetailPage} />
+        <AuthedRoute path="/analyze/volume" component={VolumeListPage} />
         <AuthedRoute path="/review-docs/:id" component={ModifyReviewDocumentPage} />
         <AuthedRoute path="/review-docs" component={ReviewDocumentPage} />
         <AuthedRoute path="/add-docs" component={AddDocumentPage} />
