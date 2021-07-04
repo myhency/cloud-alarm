@@ -10,6 +10,10 @@ import {
   fetchDocumentList,
 } from '../services/documents';
 import {
+  fetchVolumeDateList,
+  fetchVolumeDataList,
+} from '../services/analyze';
+import {
   fetchAlarmList,
   fetchLosscutAlarmList,
   fetchAlarmedAlarmList,
@@ -70,6 +74,18 @@ const initialAlarmDocument = {
   theme: '',
   alarmStatus: '',
 };
+
+// const initialVolumeDataList = {[
+//   id: 0,
+//   itemName: '',
+//   itemCode: '',
+//   closingPrice: 0,
+//   fluctuationRate: 0,
+//   volume: 0,
+//   numberOfOutstandingShares: 0,
+//   marketCap: 0,
+//   marketType: '',
+// ]};
 
 function parseAlarm(alarm) {
   const {
@@ -165,6 +181,8 @@ const { actions, reducer } = createSlice({
     alarmedAlarms: [],
     stockItems: [],
     alarmId: { alarmId: 0 },
+    volumeDateList: [],
+    volumeDataList: [],
   },
   // 이 부분이 reducer
   reducers: {
@@ -430,6 +448,28 @@ const { actions, reducer } = createSlice({
         },
       };
     },
+
+    setVolumeDateList(state, {
+      payload: {
+        volumeDateList,
+      },
+    }) {
+      return {
+        ...state,
+        volumeDateList,
+      };
+    },
+
+    setVolumeDataList(state, {
+      payload: {
+        volumeDataList,
+      },
+    }) {
+      return {
+        ...state,
+        volumeDataList,
+      };
+    },
   },
 });
 
@@ -457,6 +497,8 @@ export const {
   setCreateAlarmResult,
   setModifiedAlarmResult,
   setAlarmId,
+  setVolumeDateList,
+  setVolumeDataList,
 } = actions;
 
 export default reducer;
@@ -773,5 +815,31 @@ export function getLoginToken(dataToSubmit) {
     dispatch(setAccessToken(
       accessToken,
     ));
+  };
+}
+
+export function loadVolumeDateList() {
+  return async (dispatch) => {
+    const { result, data } = await fetchVolumeDateList();
+    const volumeDateList = data;
+
+    console.log(data);
+
+    dispatch(setVolumeDateList({
+      volumeDateList,
+    }));
+  };
+}
+
+export function loadVolumeDataList(date) {
+  return async (dispatch) => {
+    const { result, data } = await fetchVolumeDataList(date);
+    const volumeDataList = data;
+
+    console.log(data);
+
+    dispatch(setVolumeDataList({
+      volumeDataList,
+    }));
   };
 }

@@ -18,6 +18,7 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import PostAddIcon from '@material-ui/icons/PostAdd';
+import ViewListIcon from '@material-ui/icons/ViewList';
 
 import {
   BaseBox,
@@ -51,7 +52,8 @@ export default function InBoxMenuListContainer({
     const initIndex = history.location.pathname === '/inbox' ? 1
       : history.location.pathname === '/inbox/alarmed' ? 2
         : history.location.pathname === '/inbox/losscut' ? 3
-          : 0;
+          : history.location.pathname === '/analyze/volume' ? 6
+            : 0;
     setSelectedIndex(initIndex);
   }, []);
 
@@ -134,6 +136,20 @@ export default function InBoxMenuListContainer({
           </ListItemIcon>
           {/* 나의 포트폴리오 */}
           <ListItemText primary="Comming soon" />
+          <ListItemSecondaryAction>
+            <Typography variant="subtitle1">{state3Count}</Typography>
+          </ListItemSecondaryAction>
+        </MenuListItem>
+        <MenuListItem
+          button
+          selected={selectedIndex === 6}
+          key={6}
+          onClick={(e) => handleClick(e, '/analyze/volume', 6)}
+        >
+          <ListItemIcon>
+            <ViewListIcon />
+          </ListItemIcon>
+          <ListItemText primary="유통주식수/거래량" />
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
