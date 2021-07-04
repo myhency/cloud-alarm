@@ -145,7 +145,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">종목명</Typography>
@@ -155,7 +154,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">현재가(원)</Typography>
@@ -165,7 +163,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">등락(%)</Typography>
@@ -175,7 +172,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">거래량</Typography>
@@ -185,7 +181,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">유통 주식수 대비 거래량(%)</Typography>
@@ -195,7 +190,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">거래대금(억)</Typography>
@@ -205,7 +199,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">시가총액(억원)</Typography>
@@ -215,7 +208,7 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
+                    widht="15%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">테마</Typography>
@@ -235,7 +228,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{volumeData.itemName}</Typography>
@@ -244,7 +236,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{volumeData.closingPrice}</Typography>
@@ -253,7 +244,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{volumeData.fluctuationRate}</Typography>
@@ -262,7 +252,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{volumeData.volume}</Typography>
@@ -271,7 +260,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{Math.round(volumeBy * 100) / 100}</Typography>
@@ -280,7 +268,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{amount}</Typography>
@@ -289,10 +276,18 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{Math.round(volumeData.marketCap)}</Typography>
+                          </Box>
+                        </TableCell>
+                        <TableCell
+                          scope="row"
+                          padding="none"
+                          widht="15%"
+                        >
+                          <Box display="flex" flexDirection="column">
+                            <Typography>{volumeData.theme}</Typography>
                           </Box>
                         </TableCell>
                       </TableRow>
@@ -315,7 +310,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">종목명</Typography>
@@ -325,7 +319,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">현재가(원)</Typography>
@@ -335,7 +328,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">등락(%)</Typography>
@@ -345,7 +337,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">거래량</Typography>
@@ -355,7 +346,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">유통 주식수 대비 거래량(%)</Typography>
@@ -365,7 +355,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">거래대금(억)</Typography>
@@ -375,7 +364,6 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">시가총액(억원)</Typography>
@@ -385,7 +373,7 @@ export default function VolumeDetailContentContainer({ date }) {
                     component="th"
                     scope="row"
                     padding="none"
-                    width="10%"
+                    widht="15%"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography variant="h6">테마</Typography>
@@ -405,7 +393,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{volumeData.itemName}</Typography>
@@ -414,7 +401,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{volumeData.closingPrice}</Typography>
@@ -423,7 +409,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{volumeData.fluctuationRate}</Typography>
@@ -432,7 +417,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{volumeData.volume}</Typography>
@@ -441,7 +425,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{Math.round(volumeBy * 100) / 100}</Typography>
@@ -450,7 +433,6 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{amount}</Typography>
@@ -459,10 +441,18 @@ export default function VolumeDetailContentContainer({ date }) {
                         <TableCell
                           scope="row"
                           padding="none"
-                          width="10%"
                         >
                           <Box display="flex" flexDirection="column">
                             <Typography>{Math.round(volumeData.marketCap)}</Typography>
+                          </Box>
+                        </TableCell>
+                        <TableCell
+                          scope="row"
+                          padding="none"
+                          widht="15%"
+                        >
+                          <Box display="flex" flexDirection="column">
+                            <Typography>{volumeData.theme}</Typography>
                           </Box>
                         </TableCell>
                       </TableRow>
