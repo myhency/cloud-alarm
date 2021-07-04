@@ -216,8 +216,8 @@ export default function VolumeDetailContentContainer({ date }) {
                   </TableCell>
                 </TableRow>
                 {volumeDataList.map((volumeData) => {
-                  const volumeBy = (volumeData.volume / (volumeData.numberOfOutstandingShares * 1000)) * 100;
-                  const amount = (volumeData.volume * volumeData.closingPrice) / 100000000;
+                  const volumeBy = Math.round((volumeData.volume / (volumeData.numberOfOutstandingShares * 1000)) * 100 * 100) / 100;
+                  const amount = Math.round((volumeData.volume * volumeData.closingPrice) / 100000000);
 
                   if (volumeData.marketType === 'Kospi') {
                     return (
@@ -262,7 +262,7 @@ export default function VolumeDetailContentContainer({ date }) {
                           padding="none"
                         >
                           <Box display="flex" flexDirection="column">
-                            <Typography>{Math.round(volumeBy * 100) / 100}</Typography>
+                            <Typography>{volumeBy}</Typography>
                           </Box>
                         </TableCell>
                         <TableCell
@@ -381,8 +381,8 @@ export default function VolumeDetailContentContainer({ date }) {
                   </TableCell>
                 </TableRow>
                 {volumeDataList.map((volumeData) => {
-                  const volumeBy = (volumeData.volume / (volumeData.numberOfOutstandingShares * 1000)) * 100;
-                  const amount = (volumeData.volume * volumeData.closingPrice) / 100000000;
+                  const volumeBy = Math.round((volumeData.volume / (volumeData.numberOfOutstandingShares * 1000)) * 100 * 100) / 100;
+                  const amount = Math.round((volumeData.volume * volumeData.closingPrice) / 100000000);
 
                   if (volumeData.marketType === 'Kosdaq') {
                     return (
@@ -427,7 +427,7 @@ export default function VolumeDetailContentContainer({ date }) {
                           padding="none"
                         >
                           <Box display="flex" flexDirection="column">
-                            <Typography>{Math.round(volumeBy * 100) / 100}</Typography>
+                            <Typography>{volumeBy}</Typography>
                           </Box>
                         </TableCell>
                         <TableCell
