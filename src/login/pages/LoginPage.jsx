@@ -52,6 +52,7 @@ export default function LoginPage() {
   }));
 
   const [password, setPassword] = React.useState('');
+  const [userName, setUserName] = React.useState('');
   const [alertOpen, setAlertOpen] = React.useState(false);
 
   function handleOnChangePassword(e) {
@@ -60,9 +61,15 @@ export default function LoginPage() {
     setPassword(value);
   }
 
+  function handleOnChangeUserName(e) {
+    const { value } = e.target;
+
+    setUserName(value);
+  }
+
   function handleLoginButtonOnClick() {
     dispatch(getLoginToken({
-      userName: 'cloud',
+      userName,
       password,
     }));
   }
@@ -116,6 +123,13 @@ export default function LoginPage() {
             >
               알리미 리스트로 이동
             </Typography>
+            <LoginInput
+              placeholder="사용자명을 입력하세요"
+              type="text"
+              style={{ margin: '0 20px 10px 20px' }}
+              onChange={handleOnChangeUserName}
+              value={userName}
+            />
             <LoginInput
               placeholder="패스워드를 입력하세요"
               type="password"
@@ -182,6 +196,13 @@ export default function LoginPage() {
             >
               알리미 리스트로 이동
             </Typography>
+            <LoginInput
+              placeholder="사용자명을 입력하세요"
+              type="text"
+              style={{ margin: '0 20px 10px 20px' }}
+              onChange={handleOnChangeUserName}
+              value={userName}
+            />
             <LoginInput
               placeholder="패스워드를 입력하세요"
               type="password"
