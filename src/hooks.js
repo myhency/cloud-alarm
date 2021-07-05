@@ -9,9 +9,15 @@ export const useAuthed = () => {
       const accessToken = Cookies.get('accessToken');
       const key = 'breadstockcloud';
       const res = jwt.verify(accessToken, key);
-      return res;
+      return {
+        authed: true,
+        role: res.roles[0],
+      };
     } catch (err) {
-      return false;
+      return {
+        authed: false,
+        role: undefined,
+      };
     }
   });
   return authed;

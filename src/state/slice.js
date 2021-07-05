@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
 
 import { fetchSignProgressStatus } from '../services/dashboard';
 import {
@@ -810,6 +811,9 @@ export function getLoginToken(dataToSubmit) {
 
     if (result) {
       Cookies.set('accessToken', accessToken);
+      const key = 'breadstockcloud';
+      const res = jwt.verify(accessToken, key);
+      Cookies.set('role', res.roles[0]);
     }
 
     dispatch(setAccessToken(

@@ -1,11 +1,12 @@
 import * as React from 'react';
+import Cookies from 'js-cookie';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 // Router
-// import {
-//   useHistory,
-// } from 'react-router-dom';
+import {
+  useHistory,
+} from 'react-router-dom';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {
@@ -121,7 +122,7 @@ export default function DrawerLayout({
 }) {
   const classes = useStyles();
   const theme = useTheme();
-  // const history = useHistory();
+  const history = useHistory();
   const [drawerOpen, setDrawerOpen] = React.useState(true);
   // const [anchorEl, setAnchorEl] = React.useState(null);
   // const profileMenuOpen = Boolean(anchorEl);
@@ -131,9 +132,13 @@ export default function DrawerLayout({
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
-  // const handleProfileButton = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
+
+  const handleLogoutButton = () => {
+    alert('로그인 페이지로 이동합니다.');
+    Cookies.remove('accessToken');
+    Cookies.remove('role');
+    history.push('/login');
+  };
   // const handleProfileMenuClose = () => {
   //   setAnchorEl(null);
   // };
@@ -188,7 +193,7 @@ export default function DrawerLayout({
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              // onClick={handleProfileButton}
+              onClick={handleLogoutButton}
               style={{ color: '#b4dfe5' }}
             >
               <ExitToAppIcon style={{ color: '#b4dfe5' }} />
