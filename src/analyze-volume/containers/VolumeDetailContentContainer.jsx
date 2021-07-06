@@ -142,6 +142,7 @@ function VolumeDataTable({ marketType, value }) {
           {result.map((volumeData) => {
             const volumeBy = Math.round((volumeData.volume / (volumeData.numberOfOutstandingShares * 1000)) * 100 * 100) / 100;
             const amount = Math.round((volumeData.volume * volumeData.closingPrice) / 100000000);
+            const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${volumeData.itemCode}`;
 
             if (volumeData.marketType === marketType) {
               return (
@@ -154,7 +155,11 @@ function VolumeDataTable({ marketType, value }) {
                     padding="none"
                   >
                     <Box display="flex" flexDirection="column">
-                      <Typography>{volumeData.itemName}</Typography>
+                      <a target="_blank" href={chartLink} rel="noreferrer">
+                        <Typography style={{ color: '#0061B0' }}>
+                          {volumeData.itemName}
+                        </Typography>
+                      </a>
                     </Box>
                   </TableCell>
                   <TableCell
@@ -162,7 +167,9 @@ function VolumeDataTable({ marketType, value }) {
                     padding="none"
                   >
                     <Box display="flex" flexDirection="column">
-                      <Typography>{volumeData.closingPrice}</Typography>
+                      <Typography>
+                        {new Intl.NumberFormat('ko-KR').format(volumeData.closingPrice)}
+                      </Typography>
                     </Box>
                   </TableCell>
                   <TableCell
@@ -170,7 +177,13 @@ function VolumeDataTable({ marketType, value }) {
                     padding="none"
                   >
                     <Box display="flex" flexDirection="column">
-                      <Typography>{volumeData.fluctuationRate}</Typography>
+                      <Typography
+                        style={{
+                          color: volumeData.fluctuationRate > 0 ? 'red' : 'blue',
+                        }}
+                      >
+                        {volumeData.fluctuationRate}
+                      </Typography>
                     </Box>
                   </TableCell>
                   <TableCell
@@ -178,7 +191,9 @@ function VolumeDataTable({ marketType, value }) {
                     padding="none"
                   >
                     <Box display="flex" flexDirection="column">
-                      <Typography>{volumeData.volume}</Typography>
+                      <Typography>
+                        {new Intl.NumberFormat('ko-KR').format(volumeData.volume)}
+                      </Typography>
                     </Box>
                   </TableCell>
                   <TableCell
@@ -194,7 +209,9 @@ function VolumeDataTable({ marketType, value }) {
                     padding="none"
                   >
                     <Box display="flex" flexDirection="column">
-                      <Typography>{amount}</Typography>
+                      <Typography>
+                        {new Intl.NumberFormat('ko-KR').format(amount)}
+                      </Typography>
                     </Box>
                   </TableCell>
                   <TableCell
@@ -202,7 +219,9 @@ function VolumeDataTable({ marketType, value }) {
                     padding="none"
                   >
                     <Box display="flex" flexDirection="column">
-                      <Typography>{Math.round(volumeData.marketCap)}</Typography>
+                      <Typography>
+                        {new Intl.NumberFormat('ko-KR').format(Math.round(volumeData.marketCap))}
+                      </Typography>
                     </Box>
                   </TableCell>
                   <TableCell
