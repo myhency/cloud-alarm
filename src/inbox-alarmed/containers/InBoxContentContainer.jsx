@@ -95,7 +95,7 @@ export default function InBoxContentContainer() {
   };
 
   const handleOnModifyButton = (e, id) => {
-    history.push(`/readd-ready-docs/${id}`);
+    history.push(`/ready-docs/${id}`);
   };
 
   return (
@@ -328,7 +328,7 @@ export default function InBoxContentContainer() {
                               </IconButton>
                             </a>
                           </StyledTooltip>
-                          <StyledTooltip title="재등록">
+                          <StyledTooltip title="수정">
                             <IconButton
                               id="alarm-delete-button"
                               className={classes.action}
