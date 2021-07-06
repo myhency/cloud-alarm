@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 
 import DeleteIcon from '@material-ui/icons/Delete';
-import RedoIcon from '@material-ui/icons/Redo';
+import EditIcon from '@material-ui/icons/Edit';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -39,7 +39,7 @@ export default function MobileAlarmModal({
   const history = useHistory();
 
   const handleOnModifyButton = (e, id) => {
-    history.push(`/readd-ready-docs/${id}`);
+    history.push(`/ready-docs/${id}`);
   };
 
   function makeModalBody() {
@@ -94,7 +94,7 @@ export default function MobileAlarmModal({
               className={classes.action}
               onClick={(e) => handleOnModifyButton(e, alarmId)}
             >
-              <RedoIcon />
+              <EditIcon />
             </IconButton>
           </StyledTooltip>
           <StyledTooltip title="삭제">

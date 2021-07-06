@@ -19,7 +19,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import RedoIcon from '@material-ui/icons/Redo';
+import EditIcon from '@material-ui/icons/Edit';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
 
@@ -334,7 +334,7 @@ export default function InBoxContentContainer() {
                               className={classes.action}
                               onClick={(e) => handleOnModifyButton(e, alarm.alarmId)}
                             >
-                              <RedoIcon />
+                              <EditIcon />
                             </IconButton>
                           </StyledTooltip>
                           <StyledTooltip title="삭제">
