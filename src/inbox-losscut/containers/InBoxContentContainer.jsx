@@ -159,6 +159,76 @@ export default function InBoxContentContainer() {
             aria-label="enhanced table"
           >
             <TableBody>
+              <TableRow
+                id="head"
+                style={{ cursor: 'pointer', height: '4vh', backgroundColor: '#FBFBFB' }}
+                role="checkbox"
+                tabIndex={-1}
+                key="head"
+              >
+                <TableCell className={classes.checkbox}>
+                  {/* <Checkbox
+                    checked={false}
+                    inputProps={{ 'aria-labelledby': 0 }}
+                  /> */}
+                </TableCell>
+                <TableCell
+                  component="th"
+                  id="col1"
+                  scope="row"
+                  padding="none"
+                  width="10%"
+                >
+                  <Box display="flex" flexDirection="column">
+                    <Typography variant="subtitle2">종목명</Typography>
+                  </Box>
+                </TableCell>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  padding="none"
+                  width="10%"
+                >
+                  <Box display="flex" flexDirection="column">
+                    <Typography variant="subtitle2">
+                      돌파가격
+                    </Typography>
+                  </Box>
+                </TableCell>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  padding="none"
+                  width="10%"
+                >
+                  <Box display="flex" flexDirection="column">
+                    <Typography variant="subtitle2">
+                      손절가격
+                    </Typography>
+                  </Box>
+                </TableCell>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  padding="none"
+                >
+                  <Box display="flex" flexDirection="column">
+                    <Typography variant="subtitle2">
+                      코멘트
+                    </Typography>
+                  </Box>
+                </TableCell>
+                <TableCell align="right" width="10%">
+                  <Typography variant="subtitle2">
+                    알림상태
+                  </Typography>
+                </TableCell>
+                <TableCell align="right" width="15%">
+                  <Typography variant="subtitle2">
+                    최근 업데이트
+                  </Typography>
+                </TableCell>
+              </TableRow>
               {alarms.map((alarm) => {
                 const isItemSelected = isSelected(alarm.alarmId);
                 const labelId = `enhanced-table-checkbox-${alarm.alarmId}`;

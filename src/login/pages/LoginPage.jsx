@@ -74,6 +74,12 @@ export default function LoginPage() {
     }));
   }
 
+  function handleOnKeyDown(e) {
+    if (e.keyCode === 13) {
+      handleLoginButtonOnClick();
+    }
+  }
+
   function handleAlertClose() {
     setPassword('');
     setAlertOpen(false);
@@ -136,6 +142,7 @@ export default function LoginPage() {
               style={{ margin: '0 20px 10px 20px' }}
               onChange={handleOnChangePassword}
               value={password}
+              onKeyDown={handleOnKeyDown}
             />
             <Box style={{ margin: '0 20px 40px 20px' }}>
               <LoginButton onClick={handleLoginButtonOnClick}>

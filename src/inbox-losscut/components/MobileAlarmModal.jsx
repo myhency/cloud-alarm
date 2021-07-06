@@ -12,6 +12,7 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import RedoIcon from '@material-ui/icons/Redo';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
+import CloseIcon from '@material-ui/icons/Close';
 
 import InBoxModalContent from './_InBoxModalContent';
 
@@ -47,12 +48,19 @@ export default function MobileAlarmModal({
     return (
       <div className={classes.modalPaper}>
         <Box display="flex" flexDirection="row" alignItems="flex-end">
-          <Typography variant="h4">{itemName}</Typography>
-          <Typography variant="h6">
-&nbsp;(
-            {itemCode}
-            )
-          </Typography>
+          <Box flexGrow={1} display="flex" flexDirection="row" alignItems="flex-end">
+            <Typography variant="h6">{itemName}</Typography>
+            <Typography variant="subtitle2">
+  &nbsp;(
+              {itemCode}
+              )
+            </Typography>
+          </Box>
+          <Box>
+            <IconButton onClick={onClose}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
         </Box>
         <Divider />
         <div className="modal-description">
