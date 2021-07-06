@@ -312,7 +312,8 @@ export default function InBoxContentContainer() {
                       <Typography>
                         {alarm.alarmStatus === 'ALARMED' ? '알림완료'
                           : alarm.alarmStatus === 'ALARM_CREATED' ? '알림전'
-                            : alarm.alarmStatus}
+                            : alarm.alarmStatus === 'PRICE_UPDATE' ? '가격수정됨'
+                              : alarm.alarmStatus}
                       </Typography>
                     </TableCell>
                     {hoveredId === alarm.alarmId ? (
