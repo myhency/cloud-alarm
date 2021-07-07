@@ -6,6 +6,7 @@ import PageTitleContainer from '../../common/containers/PageTitleContainer';
 import InBoxMenuListContainer from '../../common/containers/InBoxMenuListContainer';
 import InBoxMenuListContainerSmall from '../../common/containers/InBoxMenuListContainerSmall';
 import VolumeDetailContentContainer from '../containers/VolumeDetailContentContainer';
+import MobileVolumeDetailContentContainer from '../containers/MobileVolumeDetailContentContainer';
 // import MobileInBoxContentContainer from '../containers/MobileInBoxContentContainer';
 
 const items = [
@@ -35,14 +36,18 @@ export default function VolumeDetailPage({ match }) {
           )}
         />
       )}
-      {/* {isMobile && (
+      {isMobile && (
         <MobileDrawerLayout
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={<MobileInBoxContentContainer />}
+          content={(
+            <MobileVolumeDetailContentContainer
+              date={match.params.date}
+            />
+          )}
         />
-      )} */}
+      )}
     </>
   );
 }
