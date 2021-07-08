@@ -6,6 +6,7 @@ import PageTitleContainer from '../../common/containers/PageTitleContainer';
 import InBoxMenuListContainer from '../../common/containers/InBoxMenuListContainer';
 import InBoxMenuListContainerSmall from '../../common/containers/InBoxMenuListContainerSmall';
 import VolumeListContentContainer from '../containers/VolumeListContentContainer';
+import MobileVolumeListContentContainer from '../containers/MobileVolumeListContentContainer';
 // import MobileInBoxContentContainer from '../containers/MobileInBoxContentContainer';
 
 const items = [
@@ -30,14 +31,14 @@ export default function VolumeListPage() {
           content={<VolumeListContentContainer />}
         />
       )}
-      {/* {isMobile && (
+      {isMobile && (
         <MobileDrawerLayout
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={<MobileInBoxContentContainer />}
+          content={<MobileVolumeListContentContainer />}
         />
-      )} */}
+      )}
     </>
   );
 }
