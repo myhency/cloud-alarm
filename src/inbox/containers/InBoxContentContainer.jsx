@@ -12,7 +12,13 @@ import {
   TableRow,
   TableCell,
   Typography,
+  Button,
 } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 // Icons
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -31,6 +37,8 @@ import {
   loadAlarmList,
   loadAlarmDetail,
   clearAlarmDetail,
+  removeAlarmDocument,
+  clearCreatedAlarm,
 } from '../../state/slice';
 
 import InBoxModalContainer from './InBoxModalContainer';
@@ -48,10 +56,16 @@ export default function InBoxContentContainer() {
   }, []);
   const [selected, setSelected] = React.useState([]);
   const [hoveredId, setHoveredId] = React.useState(null);
+  const [warningOpen, setWarningOpen] = React.useState(false);
+  const [toBeDeletedId, setToBeDeletedId] = React.useState(0);
   const [detailModalOpened, setDetailModalOpened] = React.useState(false);
 
   const numSelected = selected.length;
   const rowCount = alarms.length;
+
+  function handleCancelClose() {
+    setWarningOpen(false);
+  }
 
   const handleDetailOpen = (e, id) => {
     dispatch(loadAlarmDetail(id));
@@ -96,6 +110,19 @@ export default function InBoxContentContainer() {
 
   const handleOnModifyButton = (e, id) => {
     history.push(`/ready-docs/${id}`);
+  };
+
+  const handleOnDeleteButton = (e, id) => {
+    setWarningOpen(true);
+    setToBeDeletedId(id);
+  };
+
+  const handleConfirmClose = () => {
+    const id = toBeDeletedId;
+    dispatch(removeAlarmDocument(id));
+    dispatch(clearCreatedAlarm());
+    setWarningOpen(false);
+    window.location.reload();
   };
 
   return (
@@ -339,7 +366,10 @@ export default function InBoxContentContainer() {
                             </IconButton>
                           </StyledTooltip>
                           <StyledTooltip title="삭제">
-                            <IconButton className={classes.action}>
+                            <IconButton
+                              className={classes.action}
+                              onClick={(e) => handleOnDeleteButton(e, alarm.alarmId)}
+                            >
                               <DeleteIcon />
                             </IconButton>
                           </StyledTooltip>
@@ -357,6 +387,29 @@ export default function InBoxContentContainer() {
           </Table>
         </TableContainer>
       </div>
+      <Dialog
+        open={warningOpen}
+        onClose={handleCancelClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          알람을 삭제합니다.
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            알람을 삭제하면 해당 종목의 알림을 받을 수 없습니다. 계속 진행하시겠습니까?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelClose} color="secondary" autoFocus>
+            취소
+          </Button>
+          <Button onClick={handleConfirmClose} color="secondary" autoFocus>
+            확인
+          </Button>
+        </DialogActions>
+      </Dialog>
     </main>
   );
 }

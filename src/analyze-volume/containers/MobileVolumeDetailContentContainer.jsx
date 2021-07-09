@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -131,10 +132,10 @@ function VolumeDataTable({ marketType, value }) {
         const amount = Math.round((volumeData.volume * volumeData.closingPrice) / 100000000);
         const chartLink = `https://m.alphasquare.co.kr/service/chart?code=${volumeData.itemCode}`;
         const chartEmoji = volumeData.fluctuationRate > 0 ? '📈 ' : '📉 ';
-        const shortHandTheme = volumeData.theme == null 
+        const shortHandTheme = volumeData.theme == null
           ? '' : volumeData.theme.length > 35
             ? `${volumeData.theme.substring(0, 35)}...`
-              : volumeData.theme;
+            : volumeData.theme;
 
         if (volumeData.marketType === marketType) {
           return (

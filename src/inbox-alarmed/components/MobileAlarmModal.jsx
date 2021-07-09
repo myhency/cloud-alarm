@@ -7,7 +7,13 @@ import {
   Divider,
   Typography,
   IconButton,
+  Button,
 } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -34,9 +40,27 @@ export default function MobileAlarmModal({
   losscutAt,
   openState,
   onClose,
+  handleParentConfirmClose,
 }) {
   const classes = useMobileStyles();
   const history = useHistory();
+
+  const [warningOpen, setWarningOpen] = React.useState(false);
+  const [toBeDeletedId, setToBeDeletedId] = React.useState(0);
+
+  function handleCancelClose() {
+    setWarningOpen(false);
+  }
+
+  const handleOnDeleteButton = (e, id) => {
+    setWarningOpen(true);
+    setToBeDeletedId(id);
+  };
+
+  const handleConfirmClose = () => {
+    setWarningOpen(false);
+    handleParentConfirmClose(toBeDeletedId);
+  };
 
   const handleOnModifyButton = (e, id) => {
     history.push(`/ready-docs/${id}`);
@@ -98,11 +122,37 @@ export default function MobileAlarmModal({
             </IconButton>
           </StyledTooltip>
           <StyledTooltip title="삭제">
-            <IconButton className={classes.action}>
+            <IconButton
+              className={classes.action}
+              onClick={(e) => handleOnDeleteButton(e, alarmId)}
+            >
               <DeleteIcon />
             </IconButton>
           </StyledTooltip>
         </Box>
+        <Dialog
+          open={warningOpen}
+          onClose={handleCancelClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            알람을 삭제합니다.
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              알람을 삭제하면 해당 종목의 알림을 받을 수 없습니다. 계속 진행하시겠습니까?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCancelClose} color="secondary" autoFocus>
+              취소
+            </Button>
+            <Button onClick={handleConfirmClose} color="secondary" autoFocus>
+              확인
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

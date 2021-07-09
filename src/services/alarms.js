@@ -165,3 +165,19 @@ export async function updateAlarmDocument(updatedAlarmDocument) {
       data: error,
     }));
 }
+
+export async function deleteAlarmDoument(alarmId) {
+  return axios.delete(`/api/v1/platform/alarm/stockItem/${alarmId}`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get('accessToken')}`,
+    },
+  })
+    .then((response) => ({
+      result: true,
+      data: response.data.data,
+    }))
+    .catch((error) => ({
+      result: false,
+      data: error,
+    }));
+}
