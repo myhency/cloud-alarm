@@ -10,6 +10,8 @@ import {
   loadAlarmList,
   loadAlarmDetail,
   clearAlarmDetail,
+  removeAlarmDocument,
+  clearCreatedAlarm,
 } from '../../state/slice';
 
 import MobileInBoxModalContainer from './MobileInBoxModalContainer';
@@ -38,11 +40,18 @@ export default function InBoxContentContainer() {
     dispatch(loadAlarmList());
   }, []);
 
+  function handleConfirmClose(id) {
+    dispatch(removeAlarmDocument(id));
+    dispatch(clearCreatedAlarm());
+    window.location.reload();
+  }
+
   return (
     <main className={classes.content}>
       <MobileInBoxModalContainer
         openState={detailModalOpened}
         onClose={handleDetailClose}
+        handleConfirmClose={handleConfirmClose}
       />
       {alarms.map((alarm) => {
         const key = alarm.alarmId;

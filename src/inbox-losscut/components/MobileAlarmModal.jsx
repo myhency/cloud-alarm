@@ -88,18 +88,13 @@ export default function MobileAlarmModal({
               </IconButton>
             </a>
           </StyledTooltip>
-          <StyledTooltip title="수정">
+          <StyledTooltip title="재등록">
             <IconButton
               id="alarm-delete-button"
               className={classes.action}
               onClick={(e) => handleOnModifyButton(e, alarmId)}
             >
               <RedoIcon />
-            </IconButton>
-          </StyledTooltip>
-          <StyledTooltip title="삭제">
-            <IconButton className={classes.action}>
-              <DeleteIcon />
             </IconButton>
           </StyledTooltip>
         </Box>

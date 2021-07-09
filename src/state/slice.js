@@ -23,6 +23,7 @@ import {
   saveAlarmDocument,
   updateAlarmDocument,
   fetchAlarmByItemCode,
+  deleteAlarmDoument,
 } from '../services/alarms';
 import {
   fetchStockItemList,
@@ -401,6 +402,35 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    setDeletedAlarmResult(state, {
+      payload: {
+        result, alarmId, itemName, itemCode, recommendPrice,
+        losscutPrice, comment, theme,
+        createdDate, modifiedDate, alarmStatus,
+        alarmedAt, losscutAt,
+      },
+    }) {
+      return {
+        ...state,
+        deletedAlarm: {
+          ...state.createdAlarm,
+          result,
+          alarmId,
+          itemName,
+          itemCode,
+          recommendPrice,
+          losscutPrice,
+          comment,
+          theme,
+          createdDate,
+          modifiedDate,
+          alarmStatus,
+          alarmedAt,
+          losscutAt,
+        },
+      };
+    },
+
     setStockItems(state, { payload: stockItems }) {
       const parsedStockItems = parseStockItems(
         stockItems,
@@ -497,6 +527,7 @@ export const {
   setAlarmDetail,
   setCreateAlarmResult,
   setModifiedAlarmResult,
+  setDeletedAlarmResult,
   setAlarmId,
   setVolumeDateList,
   setVolumeDataList,
@@ -785,6 +816,37 @@ export function modifyAlarmDocument(modifiedAlarmDocument) {
     } = data;
 
     dispatch(setModifiedAlarmResult({
+      result,
+      alarmId,
+      itemName,
+      itemCode,
+      recommendPrice,
+      losscutPrice,
+      comment,
+      theme,
+      createdDate,
+      modifiedDate,
+      alarmStatus,
+      alarmedAt,
+      losscutAt,
+    }));
+  };
+}
+
+export function removeAlarmDocument(id) {
+  return async (dispatch) => {
+    const { result, data } = await deleteAlarmDoument(id);
+
+    console.log(result, data);
+
+    const {
+      alarmId, itemName, itemCode, recommendPrice,
+      losscutPrice, comment, theme,
+      createdDate, modifiedDate, alarmStatus,
+      alarmedAt, losscutAt,
+    } = data;
+
+    dispatch(setDeletedAlarmResult({
       result,
       alarmId,
       itemName,

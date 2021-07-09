@@ -312,7 +312,7 @@ export default function InBoxContentContainer() {
                     </TableCell>
                     {hoveredId === alarm.alarmId ? (
                       <TableCell align="right" width="15%" style={{ padding: '0 5 0 0' }}>
-                        <Box display="flex" flexDirection="row">
+                        <Box flexDirection="row">
                           <StyledTooltip title="차트보기">
                             <a target="_blank" href={chartLink} rel="noreferrer">
                               <IconButton
@@ -332,11 +332,11 @@ export default function InBoxContentContainer() {
                               <RedoIcon />
                             </IconButton>
                           </StyledTooltip>
-                          <StyledTooltip title="삭제">
+                          {/* <StyledTooltip title="삭제">
                             <IconButton className={classes.action}>
                               <DeleteIcon />
                             </IconButton>
-                          </StyledTooltip>
+                          </StyledTooltip> */}
                         </Box>
                       </TableCell>
                     ) : (
