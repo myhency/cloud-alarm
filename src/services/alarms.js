@@ -44,7 +44,7 @@ export async function fetchLosscutAlarmList() {
 }
 
 export async function fetchAlarmedAlarmList() {
-  return axios.get('/api/v1/platform/alarm/status?status=ALARMED', {
+  return axios.get('/api/v1/platform/alarm/stockItem/status?status=ALARMED', {
     headers: {
       Authorization: `Bearer ${Cookies.get('accessToken')}`,
     },
