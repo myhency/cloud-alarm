@@ -35,7 +35,7 @@ import { StyledTooltip } from '../../common/components/Tooltips';
 
 import {
   loadAlarmedAlarmList,
-  loadHistoryAlarmDetail,
+  loadAlarmDetail,
   clearAlarmDetail,
   removeAlarmDocument,
   clearCreatedAlarm,
@@ -68,7 +68,7 @@ export default function InBoxContentContainer() {
   }
 
   const handleDetailOpen = (e, id) => {
-    dispatch(loadHistoryAlarmDetail(id));
+    dispatch(loadAlarmDetail(id));
     setDetailModalOpened(true);
   };
 
