@@ -8,7 +8,7 @@ import {
 
 import {
   loadAlarmedAlarmList,
-  loadHistoryAlarmDetail,
+  loadAlarmDetail,
   clearAlarmDetail,
   removeAlarmDocument,
   clearCreatedAlarm,
@@ -31,7 +31,7 @@ export default function InBoxContentContainer() {
   const [detailModalOpened, setDetailModalOpened] = React.useState(false);
 
   const handleDetailOpen = (e, id) => {
-    dispatch(loadHistoryAlarmDetail(id));
+    dispatch(loadAlarmDetail(id));
     setDetailModalOpened(true);
   };
 
