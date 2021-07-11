@@ -1905,7 +1905,7 @@ const stockItems = [
   },
   {
     id: 239,
-    itemName: 'LG상사',
+    itemName: 'LX인터내셔널',
     itemCode: '001120',
     theme: '자원개발, 종합상사',
     createdAt: null,
