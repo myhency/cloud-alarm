@@ -121,7 +121,7 @@ export default function InBoxMenuListContainer({
             <PostAddIcon />
           </ListItemIcon>
           {/* 종목등록 */}
-          <ListItemText primary="Comming soon" />
+          <ListItemText primary="종목 리스트" />
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state2Count}</Typography>
           </ListItemSecondaryAction>
