@@ -13,6 +13,47 @@ export const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100%',
   },
+  forTest: {
+    height: '0%',
+    width: '33%',
+    padding: '15px',
+  },
+  forTest2: {
+    height: '0%',
+    width: '67%',
+    padding: '15px',
+  },
+  breadItem: {
+    margin: '10px 0 0 0',
+  },
+  paperForTest: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: 'black',
+    backgroundColor: '#00233E',
+    margin: '0 0 10px 0',
+  },
+  boxForBreadItem: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    padding: theme.spacing(1),
+    textAlign: 'left',
+    border: '1px solid #00233E',
+    color: 'black',
+  },
+  boxForBreadItemNumber: {
+    display: 'flex',
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    backgroundColor: '#FBE8A6',
+    margin: '0 10px 0 0',
+  },
+  boxForBreadItemFooter: {
+    display: 'flex',
+    padding: theme.spacing(1),
+    backgroundColor: '#00233E',
+  },
   tableHeaderRoot: {
     display: 'flex',
     alignItems: 'center',
@@ -20,6 +61,19 @@ export const useStyles = makeStyles((theme) => ({
     height: '60px',
     paddingTop: '5px',
     paddingBottom: '5px',
+  },
+  tableHeaderRoot_2: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    borderBottom: '1px solid lightgrey',
+    height: '70px',
+    padding: '0px 15px 0px 15px',
+  },
+  breadRoot: {
+    display: 'flex',
+    direction: 'row',
+    // padding: '15px 15px 0px 15px',
   },
   tableRoot: {
     width: '100%',

@@ -19,6 +19,7 @@ import TelegramIcon from '@material-ui/icons/Telegram';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import ViewListIcon from '@material-ui/icons/ViewList';
+import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 
 import {
   BaseBox,
@@ -53,7 +54,8 @@ export default function InBoxMenuListContainer({
       : history.location.pathname === '/inbox/alarmed' ? 2
         : history.location.pathname === '/inbox/losscut' ? 3
           : history.location.pathname === '/analyze/volume' ? 6
-            : 0;
+            : history.location.pathname === '/bread/shuttle/home' ? 7
+              : 0;
     setSelectedIndex(initIndex);
   }, []);
 
@@ -150,6 +152,20 @@ export default function InBoxMenuListContainer({
             <ViewListIcon />
           </ListItemIcon>
           <ListItemText primary="유통주식수/거래량" />
+          <ListItemSecondaryAction>
+            <Typography variant="subtitle1">{state3Count}</Typography>
+          </ListItemSecondaryAction>
+        </MenuListItem>
+        <MenuListItem
+          button
+          selected={selectedIndex === 7}
+          key={7}
+          onClick={(e) => handleClick(e, '/bread/shuttle/home', 7)}
+        >
+          <ListItemIcon>
+            <AirportShuttleIcon />
+          </ListItemIcon>
+          <ListItemText primary="빵셔틀" />
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
