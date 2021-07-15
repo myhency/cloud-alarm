@@ -17,6 +17,7 @@ import {
   Card,
   CardContent,
   CardActions,
+  CardActionArea,
 } from '@material-ui/core';
 
 // Icons
@@ -32,6 +33,10 @@ import { useStyles } from '../../common/components/Styles';
 import { SearchInput } from '../../common/components/Inputs';
 import { StyledTooltip } from '../../common/components/Tooltips';
 
+import NaverLogo from '../../assets/images/naver.jpg';
+import FnLogo from '../../assets/images/fn.jpg';
+import AlphaLogo from '../../assets/images/alpha.jpg';
+
 import {
   loadAlarmList,
   loadAlarmDetail,
@@ -39,6 +44,84 @@ import {
   removeAlarmDocument,
   clearCreatedAlarm,
 } from '../../state/slice';
+
+function SevenBreadItem({
+  id, itemName, itemCode, insertTime, fluctuationRate, closingPrice = 0, losscutPrice = 0,
+}) {
+  const classes = useStyles();
+  const alphaLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${itemCode}`;
+  const fnLink = `http://comp.fnguide.com/SVO2/ASP/SVD_Main.asp?pGB=1&gicode=A${itemCode}`;
+  const naverLink = `https://finance.naver.com/item/main.nhn?code=${itemCode}`;
+
+  return (
+    <Card key={id} style={{ marginBottom: '12px', backgroundColor: '#fffdec' }}>
+      <CardContent>
+        <Box style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+        >
+          <Typography variant="button" style={{ flexGrow: 1, fontSize: '1.15rem' }}>
+            {itemName}
+          </Typography>
+          <Typography>
+            {closingPrice}
+          </Typography>
+          <Typography variant="caption" style={{ color: 'red', marginLeft: '3px' }}>
+            (
+            {fluctuationRate}
+            %)
+          </Typography>
+        </Box>
+      </CardContent>
+      <CardActionArea>
+        <Box className={classes.boxFor007ItemContent}>
+          <Typography
+            variant="body2"
+            style={{
+              flexGrow: '1',
+              color: '#414a77',
+              height: '100%',
+              verticalAlign: 'middle',
+            }}
+          >
+            기준가격
+            &nbsp;
+            {losscutPrice}
+            원
+          </Typography>
+        </Box>
+      </CardActionArea>
+      <CardActionArea>
+        <Box className={classes.boxFor007ItemFooter}>
+          <Typography
+            variant="body2"
+            style={{
+              flexGrow: '1',
+              color: '#ffdea9',
+              height: '100%',
+              verticalAlign: 'middle',
+            }}
+          >
+            ⏲️
+            &nbsp;
+            {insertTime}
+          </Typography>
+          <a target="_blank" href={alphaLink} rel="noreferrer">
+            <img src={AlphaLogo} alt="logo" />
+          </a>
+          <a target="_blank" href={fnLink} rel="noreferrer">
+            <img src={FnLogo} alt="logo" />
+          </a>
+          <a target="_blank" href={naverLink} rel="noreferrer">
+            <img src={NaverLogo} alt="logo" />
+          </a>
+        </Box>
+      </CardActionArea>
+    </Card>
+  );
+}
 
 export default function SevenBreadMainContentContainer() {
   const classes = useStyles();
@@ -124,7 +207,7 @@ export default function SevenBreadMainContentContainer() {
             <Grid item lg={3} sm={3} xs={12}>
               {/* 타이틀 */}
               <Box style={{ padding: '10px' }}>
-                <Paper elevation={2} style={{ padding: '10px', backgroundColor: '#fff1ec' }}>
+                <Paper elevation={2} style={{ padding: '10px', backgroundColor: '#fffef8' }}>
                   <Typography variant="h5" align="center">
                     실시간 007빵
                   </Typography>
@@ -132,35 +215,29 @@ export default function SevenBreadMainContentContainer() {
               </Box>
               {/* 실시간 007빵 컨텐츠 */}
               <Box style={{ padding: '10px' }}>
-                <Card>
-                  <CardContent>
-                    <Box style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}
-                    >
-                      <Typography variant="h6" style={{ flexGrow: 1 }}>현대리바트</Typography>
-                      <Typography style={{ color: 'red' }}>3.45%</Typography>
-                    </Box>
-                  </CardContent>
-                  <CardActions style={{ backgroundColor: '#f7bbb1' }}>
-                    <Box style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}
-                    >
-                      <Typography style={{ flexGrow: 1 }}>포착시간</Typography>
-                      <Typography style={{ color: 'red' }}>3.45%</Typography>
-                    </Box>
-                  </CardActions>
-                </Card>
+                <SevenBreadItem
+                  id="1"
+                  itemName="효성중공업"
+                  itemCode="298040"
+                  fluctuationRate="4.69"
+                  insertTime="09:02:04"
+                  closingPrice="82,600"
+                  losscutPrice="78,900"
+                />
+                <SevenBreadItem
+                  id="2"
+                  itemName="에이스토리"
+                  itemCode="241840"
+                  fluctuationRate="2.17"
+                  insertTime="09:10:19"
+                  closingPrice="40,000"
+                  losscutPrice="39,150"
+                />
               </Box>
             </Grid>
             <Grid item lg={9} sm={9} xs={12}>
               <Box style={{ padding: '10px' }}>
-                <Paper elevation={2} style={{ padding: '10px', backgroundColor: '#ecfbfc' }}>
+                <Paper elevation={2} style={{ padding: '10px', backgroundColor: '#f6fdfd' }}>
                   <Typography variant="h5" align="center">
                     007빵 리스트
                   </Typography>

@@ -20,6 +20,7 @@ import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import Filter7Icon from '@material-ui/icons/Filter7';
+import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 
 import {
   BaseBox,
@@ -55,7 +56,8 @@ export default function InBoxMenuListContainer({
         : history.location.pathname === '/inbox/losscut' ? 3
           : history.location.pathname === '/analyze/volume' ? 6
             : history.location.pathname === '/seven-bread/main' ? 7
-              : 0;
+              : history.location.pathname === '/bread/shuttle/home' ? 8
+                : 0;
     setSelectedIndex(initIndex);
   }, []);
 
@@ -170,6 +172,20 @@ export default function InBoxMenuListContainer({
             <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
         </MenuListItem>
+        {/* <MenuListItem
+          button
+          selected={selectedIndex === 8}
+          key={8}
+          onClick={(e) => handleClick(e, '/bread/shuttle/home', 8)}
+        >
+          <ListItemIcon>
+            <AirportShuttleIcon />
+          </ListItemIcon>
+          <ListItemText primary="빵셔틀" />
+          <ListItemSecondaryAction>
+            <Typography variant="subtitle1">{state3Count}</Typography>
+          </ListItemSecondaryAction>
+        </MenuListItem> */}
       </List>
     </BaseBox>
   );

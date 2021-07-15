@@ -22,6 +22,7 @@ import ReaddReviewDocumentPage from './readddocs/pages/ReaddReviewDocumentPage';
 import VolumeListPage from './analyze-volume/pages/VolumeListPage';
 import VolumeDetailPage from './analyze-volume/pages/VolumeDetailPage';
 import SevenBreadMainPage from './seven-bread/pages/SevenBreadMainPage';
+import BreadPage from './bread/pages/BreadPage';
 import LoginPage from './login/pages/LoginPage';
 import NotFoundPage from './NotFoundPage';
 
@@ -129,6 +130,7 @@ export default function RootPage() {
         <AllAuthedRoute exact path="/inbox/losscut" component={InboxLosscutPage} />
         <AllAuthedRoute exact path="/inbox/alarmed" component={InboxAlarmedPage} />
         <AllAuthedRoute exact path="/seven-bread/main" component={SevenBreadMainPage} />
+        <AllAuthedRoute exact path="/bread/shuttle/home" component={BreadPage} />
         <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>
