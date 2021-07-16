@@ -9,7 +9,7 @@ const alarms = [
     theme: '반도체 장비, 플렉서블 디스플레이, LCD 장비, OLED(유기 발광 다이오드)',
     createdAt: '2020/12/16',
     state: '알림완료',
-    updatedAt: '2021/04/14 09:43'
+    updatedAt: '2021/04/14 09:43',
   },
   {
     id: 2,
@@ -21,9 +21,9 @@ const alarms = [
     theme: '제약업체, 코로나19(나파모스타트)',
     createdAt: '2020/07/31',
     state: '손절완료',
-    updatedAt: '2021/01/18 09:43'
-  }
-]
+    updatedAt: '2021/01/18 09:43',
+  },
+];
 
 export {
   alarms,

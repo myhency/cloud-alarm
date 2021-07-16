@@ -1,7 +1,9 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
 import {
   Box,
   Grid,
@@ -10,6 +12,7 @@ import {
   Checkbox,
   TableContainer,
   Table,
+  TableHead,
   TableBody,
   TableRow,
   TableCell,
@@ -28,6 +31,7 @@ import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
+import AddIcon from '@material-ui/icons/Add';
 
 import { useStyles } from '../../common/components/Styles';
 import { SearchInput } from '../../common/components/Inputs';
@@ -38,12 +42,37 @@ import FnLogo from '../../assets/images/fn.jpg';
 import AlphaLogo from '../../assets/images/alpha.jpg';
 
 import {
+  loadSevenBreadList,
   loadAlarmList,
   loadAlarmDetail,
   clearAlarmDetail,
   removeAlarmDocument,
   clearCreatedAlarm,
 } from '../../state/slice';
+
+const columns = [
+  {
+    id: '0', label: '포착일', width: '9%',
+  },
+  {
+    id: '1', label: '투자자', width: '6%', align: 'center',
+  },
+  {
+    id: '2', label: '종목명', width: '11%',
+  },
+  {
+    id: '3', label: '현재가', width: '12%', align: 'right',
+  },
+  {
+    id: '4', label: '포착일종가', width: '10%', align: 'right',
+  },
+  {
+    id: '5', label: '거래량', width: '11%', align: 'right',
+  },
+  {
+    id: '6', label: '테마',
+  },
+];
 
 function SevenBreadItem({
   id, itemName, itemCode, insertTime, fluctuationRate, closingPrice = 0, losscutPrice = 0,
@@ -123,19 +152,25 @@ function SevenBreadItem({
   );
 }
 
+const StyledTableCell = withStyles(() => ({
+  head: {
+    backgroundColor: '#faffff',
+  },
+}))(TableCell);
+
 export default function SevenBreadMainContentContainer() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { alarms } = useSelector((state) => ({
-    alarms: state.alarms,
+  const { sevenBreads } = useSelector((state) => ({
+    sevenBreads: state.sevenBreadList,
   }));
 
   const [selected, setSelected] = React.useState([]);
   const [hoveredId, setHoveredId] = React.useState(null);
 
   const numSelected = selected.length;
-  const rowCount = alarms.length;
+  const rowCount = sevenBreads.length;
 
   function handleCancelClose() {
     setWarningOpen(false);
@@ -153,7 +188,7 @@ export default function SevenBreadMainContentContainer() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = alarms.map((alarm) => alarm.alarmId);
+      const newSelecteds = sevenBreads.map((sevenBread) => sevenBread.id);
       setSelected(newSelecteds);
       return;
     }
@@ -192,7 +227,7 @@ export default function SevenBreadMainContentContainer() {
   };
 
   useEffect(() => {
-    dispatch(loadAlarmList());
+    dispatch(loadSevenBreadList());
   }, []);
 
   return (
@@ -247,130 +282,139 @@ export default function SevenBreadMainContentContainer() {
                 <Box style={{ border: '1px solid lightgrey', padding: '10px' }}>
                   <div className={classes.tableHeaderRoot}>
                     <Box display="flex" flexDirection="row" style={{ width: '100%' }}>
-                      <Checkbox
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={handleSelectAllClick}
-                        inputProps={{ 'aria-label': 'select all desserts' }}
-                      />
-                      {(rowCount > 0 && numSelected === rowCount)
-                        || (numSelected > 0 && numSelected < rowCount)
-                        ? (
-                          <>
-                            <StyledTooltip title="삭제">
-                              <IconButton className={classes.action}>
-                                <DeleteIcon />
-                              </IconButton>
-                            </StyledTooltip>
-                            <StyledTooltip title="내려받기">
-                              <IconButton className={classes.action}>
-                                <GetAppIcon />
-                              </IconButton>
-                            </StyledTooltip>
-                          </>
-                        ) : (
-                          <IconButton>
-                            <RefreshIcon />
-                          </IconButton>
-                        )}
-                      <SearchInput placeholder="검색" />
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        flexGrow={1}
-                        justifyContent="flex-end"
-                        fontSize={12}
-                      >
-                        <Typography>2 개 중 1-50</Typography>
-                        <IconButton disabled>
-                          <KeyboardArrowLeftIcon />
+                      <StyledTooltip title="종목추가">
+                        <IconButton
+                          id="alarm-modify-button"
+                          className={classes.action}
+                        >
+                          <AddIcon />
                         </IconButton>
-                        <IconButton>
-                          <KeyboardArrowRightIcon />
-                        </IconButton>
-                      </Box>
+                      </StyledTooltip>
                     </Box>
                   </div>
                   <div className={classes.root}>
-                    <TableContainer>
+                    <TableContainer style={{ height: '70vh' }}>
                       <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
                         size="medium"
-                        aria-label="enhanced table"
+                        aria-label="sticky table"
+                        stickyHeader
                       >
-                        <TableBody>
-                          <TableRow
-                            id="head"
-                            style={{ cursor: 'pointer', height: '4vh', backgroundColor: '#FBFBFB' }}
-                            role="checkbox"
-                            tabIndex={-1}
-                            key="head"
-                          >
-                            <TableCell className={classes.checkbox}>
-                              {/* <Checkbox
-                                checked={false}
-                                inputProps={{ 'aria-labelledby': 0 }}
-                              /> */}
-                            </TableCell>
-                            <TableCell
-                              component="th"
-                              id="col1"
-                              scope="row"
-                              padding="none"
-                              width="10%"
-                            >
-                              <Box display="flex" flexDirection="column">
-                                <Typography variant="subtitle2">종목명</Typography>
-                              </Box>
-                            </TableCell>
-                            <TableCell
-                              component="th"
-                              scope="row"
-                              padding="none"
-                              width="10%"
-                            >
-                              <Box display="flex" flexDirection="column">
-                                <Typography variant="subtitle2">
-                                  돌파가격
-                                </Typography>
-                              </Box>
-                            </TableCell>
-                            <TableCell
-                              component="th"
-                              scope="row"
-                              padding="none"
-                              width="10%"
-                            >
-                              <Box display="flex" flexDirection="column">
-                                <Typography variant="subtitle2">
-                                  손절가격
-                                </Typography>
-                              </Box>
-                            </TableCell>
-                            <TableCell
-                              component="th"
-                              scope="row"
-                              padding="none"
-                            >
-                              <Box display="flex" flexDirection="column">
-                                <Typography variant="subtitle2">
-                                  코멘트
-                                </Typography>
-                              </Box>
-                            </TableCell>
-                            <TableCell align="right" width="10%">
-                              <Typography variant="subtitle2">
-                                알림상태
-                              </Typography>
-                            </TableCell>
-                            <TableCell align="right" width="15%">
-                              <Typography variant="subtitle2">
-                                최근 업데이트
-                              </Typography>
-                            </TableCell>
+                        <TableHead>
+                          <TableRow>
+                            {columns.map((column) => (<StyledTableCell key={column.id} align={column.align} width={column.width}>{column.label}</StyledTableCell>))}
                           </TableRow>
-                          {alarms.map((alarm) => {
+                        </TableHead>
+                        <TableBody>
+                          {sevenBreads.map((sevenBread) => {
+                            const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${sevenBread.itemCode}`;
+
+                            return (
+                              <TableRow
+                                key={sevenBread.id}
+                                id={sevenBread.id}
+                                style={{ cursor: 'pointer', height: '4vh' }}
+                                hover
+                                role="checkbox"
+                                tabIndex={-1}
+                                onMouseOver={() => setHoveredId(sevenBread.id)}
+                                onMouseLeave={() => setHoveredId(null)}
+                              >
+                                <TableCell>
+                                  <Typography>
+                                    {sevenBread.createdDate}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="center">
+                                  <Typography>
+                                    {sevenBread.majorHandler === 'B' ? '외,기'
+                                      : sevenBread.majorHandler === 'G' ? '기'
+                                        : '외'}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell>
+                                  <Typography>
+                                    {sevenBread.itemName}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right" flexDirection="column">
+                                  <Typography>
+                                    {new Intl.NumberFormat('ko-KR').format(sevenBread.closingPrice)}
+                                  </Typography>
+                                  <Typography
+                                    variant="caption"
+                                    style={{
+                                      color: sevenBread.fluctuationRate > 0 ? 'red' : 'blue',
+                                    }}
+                                  >
+                                    (
+                                    {sevenBread.fluctuationRate}
+                                    %)
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right">
+                                  <Typography style={{
+                                    // 현재가가 포착일종가보다 크면 포착일종가는 손절가가되고
+                                    // 작으면 돌파가격이 된다.
+                                    color: sevenBread.capturedPrice >= sevenBread.closingPrice ? 'red' : 'blue',
+                                    fontWeight: 'bold',
+                                  }}
+                                  >
+                                    {new Intl.NumberFormat('ko-KR').format(sevenBread.capturedPrice)}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right">
+                                  <Typography>
+                                    {new Intl.NumberFormat('ko-KR').format(sevenBread.volume)}
+                                  </Typography>
+                                </TableCell>
+                                {hoveredId !== sevenBread.id ? (
+                                  <TableCell>
+                                    <Typography>
+                                      {sevenBread.theme.length > 130 ? `${sevenBread.theme.substring(0, 130)}...` : sevenBread.theme}
+                                    </Typography>
+                                  </TableCell>
+                                ) : (
+                                  <TableCell>
+                                    <Box style={{ display: 'flex', flexDirection: 'row' }}>
+                                      <Box style={{ flexGrow: 1 }} />
+                                      <Box>
+                                        <StyledTooltip title="차트보기">
+                                          <a target="_blank" href={chartLink} rel="noreferrer">
+                                            <IconButton
+                                              id="alarm-chart-button"
+                                              className={classes.action}
+                                            >
+                                              <ShowChartIcon />
+                                            </IconButton>
+                                          </a>
+                                        </StyledTooltip>
+                                        {/* <StyledTooltip title="수정">
+                                          <IconButton
+                                            id="alarm-modify-button"
+                                            className={classes.action}
+                                            onClick={(e) => handleOnModifyButton(e, sevenBread.id)}
+                                          >
+                                            <EditIcon />
+                                          </IconButton>
+                                        </StyledTooltip> */}
+                                        <StyledTooltip title="삭제">
+                                          <IconButton
+                                            className={classes.action}
+                                            onClick={(e) => handleOnDeleteButton(e, sevenBread.id)}
+                                          >
+                                            <DeleteIcon />
+                                          </IconButton>
+                                        </StyledTooltip>
+                                      </Box>
+                                    </Box>
+                                  </TableCell>
+                                )}
+                              </TableRow>
+                            );
+                          })}
+                          {/* {alarms.map((alarm) => {
                             const isItemSelected = isSelected(alarm.alarmId);
                             const labelId = `enhanced-table-checkbox-${alarm.alarmId}`;
                             const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${alarm.itemCode}`;
@@ -495,7 +539,7 @@ export default function SevenBreadMainContentContainer() {
                                 )}
                               </TableRow>
                             );
-                          })}
+                          })} */}
                         </TableBody>
                       </Table>
                     </TableContainer>

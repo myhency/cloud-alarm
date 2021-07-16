@@ -31,6 +31,9 @@ import {
 import {
   getJwtToken,
 } from '../services/auth';
+import {
+  fetchSevenBreadList,
+} from '../services/sevenbread';
 
 import locales from '../locales.json';
 
@@ -185,6 +188,7 @@ const { actions, reducer } = createSlice({
     alarmId: { alarmId: 0 },
     volumeDateList: [],
     volumeDataList: [],
+    sevenBreadList: [],
   },
   // 이 부분이 reducer
   reducers: {
@@ -501,6 +505,17 @@ const { actions, reducer } = createSlice({
         volumeDataList,
       };
     },
+
+    setSevenBreadList(state, {
+      payload: {
+        sevenBreadList,
+      },
+    }) {
+      return {
+        ...state,
+        sevenBreadList,
+      };
+    },
   },
 });
 
@@ -531,6 +546,7 @@ export const {
   setAlarmId,
   setVolumeDateList,
   setVolumeDataList,
+  setSevenBreadList,
 } = actions;
 
 export default reducer;
@@ -906,6 +922,17 @@ export function loadVolumeDataList(date) {
 
     dispatch(setVolumeDataList({
       volumeDataList,
+    }));
+  };
+}
+
+export function loadSevenBreadList() {
+  return async (dispatch) => {
+    const { result, data } = await fetchSevenBreadList();
+    const sevenBreadList = data;
+
+    dispatch(setSevenBreadList({
+      sevenBreadList,
     }));
   };
 }
