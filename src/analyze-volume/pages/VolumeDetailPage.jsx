@@ -9,10 +9,7 @@ import VolumeDetailContentContainer from '../containers/VolumeDetailContentConta
 import MobileVolumeDetailContentContainer from '../containers/MobileVolumeDetailContentContainer';
 // import MobileInBoxContentContainer from '../containers/MobileInBoxContentContainer';
 
-const items = [
-  { title: '유통주식수/거래량', link: '/analyze/volume' },
-  { title: '상세', link: '/analyze/volume' },
-];
+
 
 export default function VolumeDetailPage({ match }) {
   const isDesktop = useMediaQuery({
@@ -21,6 +18,11 @@ export default function VolumeDetailPage({ match }) {
   const isMobile = useMediaQuery({
     query: '(min-width: 280px) and (max-width: 700px)',
   });
+
+  const items = [
+    { title: '유통주식수/거래량', link: '/analyze/volume' },
+    { title: `상세 - ${match.params.date}`, link: `/analyze/volume/${match.params.date}` },
+  ];
 
   return (
     <>
