@@ -33,6 +33,7 @@ import {
 } from '../services/auth';
 import {
   fetchSevenBreadList,
+  fetchSevenBreadItemByItemCode,
 } from '../services/sevenbread';
 
 import locales from '../locales.json';
@@ -189,6 +190,7 @@ const { actions, reducer } = createSlice({
     volumeDateList: [],
     volumeDataList: [],
     sevenBreadList: [],
+    sevenBreadItemId: { sevenBreadItemId: 0 },
   },
   // 이 부분이 reducer
   reducers: {
@@ -273,6 +275,13 @@ const { actions, reducer } = createSlice({
       return {
         ...state,
         alarmId: { alarmId: 0 },
+      };
+    },
+
+    clearSevenBreadItemId(state) {
+      return {
+        ...state,
+        sevenBreadItemId: { sevenBreadItemId: 0 },
       };
     },
 
@@ -458,6 +467,18 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    setSevenBreadItemId(state, {
+      payload: { sevenBreadItemId },
+    }) {
+      return {
+        ...state,
+        sevenBreadItemId: {
+          ...state.sevenBreadItemId,
+          sevenBreadItemId,
+        },
+      };
+    },
+
     setAlarmDocument(state, {
       payload: {
         itemName,
@@ -533,6 +554,7 @@ export const {
   clearCreatedAlarm,
   clearAlarmDocument,
   clearAccessToken,
+  clearSevenBreadItemId,
   setDocuments,
   setLosscutAlarms,
   setAlarmedAlarms,
@@ -547,6 +569,7 @@ export const {
   setVolumeDateList,
   setVolumeDataList,
   setSevenBreadList,
+  setSevenBreadItemId,
 } = actions;
 
 export default reducer;
@@ -933,6 +956,25 @@ export function loadSevenBreadList() {
 
     dispatch(setSevenBreadList({
       sevenBreadList,
+    }));
+  };
+}
+
+export function loadSevenBreadItemByItemCode(_itemCode) {
+  return async (dispatch) => {
+    const { result, data } = await fetchSevenBreadItemByItemCode(_itemCode);
+
+    console.log(data);
+
+    if (data) {
+      dispatch(setSevenBreadItemId({
+        sevenBreadItemId: data.id,
+      }));
+      return;
+    }
+
+    dispatch(setSevenBreadItemId({
+      sevenBreadItemId: undefined,
     }));
   };
 }

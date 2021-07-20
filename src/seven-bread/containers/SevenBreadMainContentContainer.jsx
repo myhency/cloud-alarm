@@ -9,7 +9,6 @@ import {
   Grid,
   Paper,
   Typography,
-  Checkbox,
   TableContainer,
   Table,
   TableHead,
@@ -19,22 +18,26 @@ import {
   IconButton,
   Card,
   CardContent,
-  CardActions,
   CardActionArea,
+  Button,
 } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 // Icons
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
 import AddIcon from '@material-ui/icons/Add';
+import FaceIcon from '@material-ui/icons/Face';
+import BusinessIcon from '@material-ui/icons/Business';
+import StopIcon from '@material-ui/icons/Stop';
+import HelpIcon from '@material-ui/icons/Help';
+import PersonIcon from '@material-ui/icons/Person';
 
 import { useStyles } from '../../common/components/Styles';
-import { SearchInput } from '../../common/components/Inputs';
 import { StyledTooltip } from '../../common/components/Tooltips';
 
 import NaverLogo from '../../assets/images/naver.jpg';
@@ -43,11 +46,8 @@ import AlphaLogo from '../../assets/images/alpha.jpg';
 
 import {
   loadSevenBreadList,
-  loadAlarmList,
   loadAlarmDetail,
   clearAlarmDetail,
-  removeAlarmDocument,
-  clearCreatedAlarm,
 } from '../../state/slice';
 
 const columns = [
@@ -64,10 +64,10 @@ const columns = [
     id: '3', label: '현재가', width: '12%', align: 'right',
   },
   {
-    id: '4', label: '포착일종가', width: '10%', align: 'right',
+    id: '5', label: '거래량', width: '11%', align: 'right',
   },
   {
-    id: '5', label: '거래량', width: '11%', align: 'right',
+    id: '4', label: '포착일종가', width: '10%', align: 'right',
   },
   {
     id: '6', label: '테마',
@@ -166,64 +166,30 @@ export default function SevenBreadMainContentContainer() {
     sevenBreads: state.sevenBreadList,
   }));
 
-  const [selected, setSelected] = React.useState([]);
   const [hoveredId, setHoveredId] = React.useState(null);
-
-  const numSelected = selected.length;
-  const rowCount = sevenBreads.length;
+  const [warningOpen, setWarningOpen] = React.useState(false);
+  const [toBeDeletedId, setToBeDeletedId] = React.useState(0);
 
   function handleCancelClose() {
     setWarningOpen(false);
   }
 
-  const handleDetailOpen = (e, id) => {
-    dispatch(loadAlarmDetail(id));
-    setDetailModalOpened(true);
-  };
-
-  function handleDetailClose() {
-    dispatch(clearAlarmDetail());
-    setDetailModalOpened(false);
-  }
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = sevenBreads.map((sevenBread) => sevenBread.id);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const isSelected = (id) => selected.indexOf(id) !== -1;
-
-  const handleOnChange = (e, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
-  const handleOnModifyButton = (e, id) => {
-    history.push(`/ready-docs/${id}`);
+  const handleConfirmClose = () => {
+    const id = toBeDeletedId;
+    // dispatch(removeAlarmDocument(id));
+    // dispatch(clearCreatedAlarm());
+    setWarningOpen(false);
+    window.location.reload();
   };
 
   const handleOnDeleteButton = (e, id) => {
     setWarningOpen(true);
     setToBeDeletedId(id);
+  };
+
+  const handleNewSevenBreadItemOnClick = (e) => {
+    e.preventDefault();
+    history.push('/seven-bread/item/add');
   };
 
   useEffect(() => {
@@ -271,29 +237,107 @@ export default function SevenBreadMainContentContainer() {
               </Box>
             </Grid>
             <Grid item lg={9} sm={9} xs={12}>
-              <Box style={{ padding: '10px' }}>
+              {/* <Box style={{ padding: '10px' }}>
                 <Paper elevation={2} style={{ padding: '10px', backgroundColor: '#f6fdfd' }}>
                   <Typography variant="h5" align="center">
                     007빵 리스트
                   </Typography>
                 </Paper>
-              </Box>
+              </Box> */}
               <Box style={{ padding: '10px' }}>
                 <Box style={{ border: '1px solid lightgrey', padding: '10px' }}>
                   <div className={classes.tableHeaderRoot}>
-                    <Box display="flex" flexDirection="row" style={{ width: '100%' }}>
+                    <Box style={{
+                      display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center', paddingBottom: '10px',
+                    }}
+                    >
+                      <Box style={{
+                        display: 'flex', flexDirection: 'column', borderRight: '1px solid lightgrey', paddingRight: '10px',
+                      }}
+                      >
+                        <Box style={{
+                          display: 'flex', flexDirection: 'row',
+                        }}
+                        >
+                          <BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />
+                          &nbsp;
+                          <Typography variant="caption">
+                            기관매수
+                          </Typography>
+                        </Box>
+                        <Box style={{
+                          display: 'flex', alignItems: 'center', flexDirection: 'row',
+                        }}
+                        >
+                          <FaceIcon fontSize="small" style={{ color: '#dda900' }} />
+                          &nbsp;
+                          <Typography variant="caption">
+                            외인매수
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Box style={{
+                        display: 'flex', flexDirection: 'column', flexGrow: 1, marginLeft: '10px',
+                      }}
+                      >
+                        <Box style={{
+                          display: 'flex', flexDirection: 'row',
+                        }}
+                        >
+                          <StopIcon fontSize="small" style={{ color: 'red' }} />
+                          &nbsp;
+                          <Typography variant="caption">
+                            현재가가 포착일 종가보다
+                          </Typography>
+                          &nbsp;
+                          <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
+                            높은
+                          </Typography>
+                          &nbsp;
+                          <Typography variant="caption">
+                            경우 (포착일 종가를 손절가격으로 설정)
+                          </Typography>
+                        </Box>
+                        <Box style={{
+                          display: 'flex', alignItems: 'center', flexDirection: 'row',
+                        }}
+                        >
+                          <StopIcon fontSize="small" style={{ color: 'blue' }} />
+                          &nbsp;
+                          <Typography variant="caption">
+                            현재가가 포착일 종가보다
+                          </Typography>
+                          &nbsp;
+                          <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
+                            낮은
+                          </Typography>
+                          &nbsp;
+                          <Typography variant="caption">
+                            경우 (포착일 종가를 매수가격으로 설정)
+                          </Typography>
+                        </Box>
+                      </Box>
                       <StyledTooltip title="종목추가">
                         <IconButton
                           id="alarm-modify-button"
                           className={classes.action}
+                          onClick={handleNewSevenBreadItemOnClick}
                         >
                           <AddIcon />
+                        </IconButton>
+                      </StyledTooltip>
+                      <StyledTooltip title="도움말">
+                        <IconButton
+                          id="alarm-modify-button"
+                          className={classes.action}
+                        >
+                          <HelpIcon />
                         </IconButton>
                       </StyledTooltip>
                     </Box>
                   </div>
                   <div className={classes.root}>
-                    <TableContainer style={{ height: '70vh' }}>
+                    <TableContainer style={{ height: '80vh' }}>
                       <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
@@ -323,22 +367,30 @@ export default function SevenBreadMainContentContainer() {
                               >
                                 <TableCell>
                                   <Typography>
-                                    {sevenBread.createdDate}
+                                    {String(sevenBread.createdDate).substr(0, 10)}
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="center">
-                                  <Typography>
+                                  {/* <Typography>
                                     {sevenBread.majorHandler === 'B' ? '외,기'
                                       : sevenBread.majorHandler === 'G' ? '기'
                                         : '외'}
-                                  </Typography>
+                                  </Typography> */}
+                                  {sevenBread.majorHandler === 'B' ? (
+                                    <>
+                                      <FaceIcon fontSize="small" style={{ color: '#dda900' }} />
+                                      <BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />
+                                    </>
+                                  )
+                                    : sevenBread.majorHandler === 'G' ? (<BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />)
+                                      : (<FaceIcon fontSize="small" style={{ color: '#dda900' }} />)}
                                 </TableCell>
                                 <TableCell>
                                   <Typography>
                                     {sevenBread.itemName}
                                   </Typography>
                                 </TableCell>
-                                <TableCell align="right" flexDirection="column">
+                                <TableCell align="right" style={{ flexDirection: 'column' }}>
                                   <Typography>
                                     {new Intl.NumberFormat('ko-KR').format(sevenBread.closingPrice)}
                                   </Typography>
@@ -354,6 +406,11 @@ export default function SevenBreadMainContentContainer() {
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="right">
+                                  <Typography>
+                                    {new Intl.NumberFormat('ko-KR').format(sevenBread.volume)}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right">
                                   <Typography style={{
                                     // 현재가가 포착일종가보다 크면 포착일종가는 손절가가되고
                                     // 작으면 돌파가격이 된다.
@@ -364,15 +421,10 @@ export default function SevenBreadMainContentContainer() {
                                     {new Intl.NumberFormat('ko-KR').format(sevenBread.capturedPrice)}
                                   </Typography>
                                 </TableCell>
-                                <TableCell align="right">
-                                  <Typography>
-                                    {new Intl.NumberFormat('ko-KR').format(sevenBread.volume)}
-                                  </Typography>
-                                </TableCell>
                                 {hoveredId !== sevenBread.id ? (
                                   <TableCell>
                                     <Typography>
-                                      {sevenBread.theme.length > 130 ? `${sevenBread.theme.substring(0, 130)}...` : sevenBread.theme}
+                                      {sevenBread.theme.length > 89 ? `${sevenBread.theme.substring(0, 89)}...` : sevenBread.theme}
                                     </Typography>
                                   </TableCell>
                                 ) : (
@@ -414,132 +466,6 @@ export default function SevenBreadMainContentContainer() {
                               </TableRow>
                             );
                           })}
-                          {/* {alarms.map((alarm) => {
-                            const isItemSelected = isSelected(alarm.alarmId);
-                            const labelId = `enhanced-table-checkbox-${alarm.alarmId}`;
-                            const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${alarm.itemCode}`;
-
-                            return (
-                              <TableRow
-                                id={alarm.alarmId}
-                                style={{ cursor: 'pointer', height: '4vh' }}
-                                hover
-                                role="checkbox"
-                                aria-checked={isItemSelected}
-                                tabIndex={-1}
-                                key={alarm.alarmId}
-                                selected={isItemSelected}
-                                onMouseOver={() => setHoveredId(alarm.alarmId)}
-                                onMouseLeave={() => setHoveredId(null)}
-                              >
-                                <TableCell className={classes.checkbox}>
-                                  <Checkbox
-                                    checked={isItemSelected}
-                                    inputProps={{ 'aria-labelledby': labelId }}
-                                    onChange={(event) => handleOnChange(event, alarm.alarmId)}
-                                  />
-                                </TableCell>
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  padding="none"
-                                  width="10%"
-                                  onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
-                                >
-                                  <Box display="flex" flexDirection="column">
-                                    <Typography>{alarm.itemName}</Typography>
-                                  </Box>
-                                </TableCell>
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  padding="none"
-                                  width="10%"
-                                  onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
-                                >
-                                  <Box display="flex" flexDirection="column">
-                                    <Typography style={{ color: 'red' }}>
-                                      {new Intl.NumberFormat('ko-KR').format(alarm.recommendPrice)}
-                                    </Typography>
-                                  </Box>
-                                </TableCell>
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  padding="none"
-                                  width="10%"
-                                  onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
-                                >
-                                  <Box display="flex" flexDirection="column">
-                                    <Typography style={{ color: 'blue' }}>
-                                      {new Intl.NumberFormat('ko-KR').format(alarm.losscutPrice)}
-                                    </Typography>
-                                  </Box>
-                                </TableCell>
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  padding="none"
-                                  onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
-                                >
-                                  <Box display="flex" flexDirection="column">
-                                    <Typography className={classes.typographySub}>
-                                      {alarm.comment}
-                                    </Typography>
-                                  </Box>
-                                </TableCell>
-                                <TableCell align="right" width="10%">
-                                  <Typography>
-                                    {alarm.alarmStatus === 'ALARMED' ? '알림완료'
-                                      : alarm.alarmStatus === 'ALARM_CREATED' ? '알림전'
-                                        : alarm.alarmStatus === 'PRICE_UPDATED' ? '가격수정됨'
-                                          : alarm.alarmStatus}
-                                  </Typography>
-                                </TableCell>
-                                {hoveredId === alarm.alarmId ? (
-                                  <TableCell align="right" width="15%" style={{ padding: '0' }}>
-                                    <Box flexDirection="row">
-                                      <StyledTooltip title="차트보기">
-                                        <a target="_blank" href={chartLink} rel="noreferrer">
-                                          <IconButton
-                                            id="alarm-chart-button"
-                                            className={classes.action}
-                                          >
-                                            <ShowChartIcon />
-                                          </IconButton>
-                                        </a>
-                                      </StyledTooltip>
-                                      <StyledTooltip title="수정">
-                                        <IconButton
-                                          id="alarm-modify-button"
-                                          className={classes.action}
-                                          onClick={(e) => handleOnModifyButton(e, alarm.alarmId)}
-                                        >
-                                          <EditIcon />
-                                        </IconButton>
-                                      </StyledTooltip>
-                                      <StyledTooltip title="삭제">
-                                        <IconButton
-                                          className={classes.action}
-                                          onClick={(e) => handleOnDeleteButton(e, alarm.alarmId)}
-                                        >
-                                          <DeleteIcon />
-                                        </IconButton>
-                                      </StyledTooltip>
-                                    </Box>
-                                  </TableCell>
-                                ) : (
-                                  <TableCell align="right" width="15%">
-                                    <Typography>{String(alarm.modifiedDate).replace('T', ' ')}</Typography>
-                                  </TableCell>
-                                )}
-                              </TableRow>
-                            );
-                          })} */}
                         </TableBody>
                       </Table>
                     </TableContainer>
@@ -550,6 +476,29 @@ export default function SevenBreadMainContentContainer() {
           </Grid>
         </Box>
       </div>
+      <Dialog
+        open={warningOpen}
+        onClose={handleCancelClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          종목을 삭제합니다.
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            종목을 삭제하면 해당 종목의 실시간 감시를 할 수 없습니다. 계속 진행하시겠습니까?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelClose} color="secondary" autoFocus>
+            취소
+          </Button>
+          <Button onClick={handleConfirmClose} color="secondary" autoFocus>
+            확인
+          </Button>
+        </DialogActions>
+      </Dialog>
     </main>
   );
 }
