@@ -35,7 +35,6 @@ import FaceIcon from '@material-ui/icons/Face';
 import BusinessIcon from '@material-ui/icons/Business';
 import StopIcon from '@material-ui/icons/Stop';
 import HelpIcon from '@material-ui/icons/Help';
-import PersonIcon from '@material-ui/icons/Person';
 
 import { useStyles } from '../../common/components/Styles';
 import { StyledTooltip } from '../../common/components/Tooltips';
@@ -46,8 +45,11 @@ import AlphaLogo from '../../assets/images/alpha.jpg';
 
 import {
   loadSevenBreadList,
-  loadAlarmDetail,
-  clearAlarmDetail,
+  removeSevenBreadItemDocument,
+  clearDeletedSevenBreadItem,
+  onSevenBreadItemAdd,
+  onSevenBreadItemUpdate,
+  loadSevenBreadItems,
 } from '../../state/slice';
 
 const columns = [
@@ -75,7 +77,18 @@ const columns = [
 ];
 
 function SevenBreadItem({
-  id, itemName, itemCode, insertTime, fluctuationRate, closingPrice = 0, losscutPrice = 0,
+  id,
+  itemName,
+  itemCode,
+  alarmedTime,
+  fluctuationRate,
+  fluctuationRateBy,
+  presentPrice,
+  closingPrice = 0,
+  losscutPrice = 0,
+  capturedDate,
+  capturedPrice,
+  alarmStatus,
 }) {
   const classes = useStyles();
   const alphaLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${itemCode}`;
@@ -95,9 +108,9 @@ function SevenBreadItem({
             {itemName}
           </Typography>
           <Typography>
-            {closingPrice}
+            {presentPrice}
           </Typography>
-          <Typography variant="caption" style={{ color: 'red', marginLeft: '3px' }}>
+          <Typography variant="caption" style={{ color: fluctuationRate > 0 ? 'red' : 'blue', marginLeft: '3px' }}>
             (
             {fluctuationRate}
             %)
@@ -106,24 +119,74 @@ function SevenBreadItem({
       </CardContent>
       <CardActionArea>
         <Box className={classes.boxFor007ItemContent}>
-          <Typography
-            variant="body2"
-            style={{
-              flexGrow: '1',
-              color: '#414a77',
-              height: '100%',
-              verticalAlign: 'middle',
-            }}
-          >
-            기준가격
-            &nbsp;
-            {losscutPrice}
-            원
-          </Typography>
+          <Box style={{ display: 'flex', flexDirection: 'row' }}>
+            <Typography
+              variant="body2"
+              style={{
+                color: '#414a77',
+                height: '100%',
+                verticalAlign: 'middle',
+              }}
+            >
+              포착일 종가(원/대비)
+            </Typography>
+            <Typography
+              variant="body2"
+              style={{
+                flexGrow: '1',
+                color: '#414a77',
+                height: '100%',
+                verticalAlign: 'middle',
+                textAlign: 'right',
+              }}
+            >
+              포착일
+            </Typography>
+          </Box>
+          <Box style={{ display: 'flex', flexDirection: 'row' }}>
+            <Typography
+              variant="body2"
+              style={{
+                color: '#414a77',
+                height: '100%',
+                verticalAlign: 'middle',
+              }}
+            >
+              {capturedPrice}
+              /
+            </Typography>
+            <Typography
+              variant="body2"
+              style={{
+                color: fluctuationRateBy > 0 ? 'red' : 'blue',
+                height: '100%',
+                verticalAlign: 'middle',
+              }}
+            >
+              (
+              {fluctuationRateBy}
+              %)
+            </Typography>
+            <Typography
+              variant="body2"
+              style={{
+                flexGrow: '1',
+                color: '#414a77',
+                height: '100%',
+                verticalAlign: 'middle',
+                textAlign: 'right',
+              }}
+            >
+              {capturedDate}
+            </Typography>
+          </Box>
         </Box>
       </CardActionArea>
       <CardActionArea>
-        <Box className={classes.boxFor007ItemFooter}>
+        <Box
+          className={classes.boxFor007ItemFooter}
+          style={{ backgroundColor: alarmStatus === 'UP' ? '#414a77' : 'darkgrey' }}
+        >
           <Typography
             variant="body2"
             style={{
@@ -135,7 +198,7 @@ function SevenBreadItem({
           >
             ⏲️
             &nbsp;
-            {insertTime}
+            {alarmedTime}
           </Typography>
           <a target="_blank" href={alphaLink} rel="noreferrer">
             <img src={AlphaLogo} alt="logo" />
@@ -166,9 +229,51 @@ export default function SevenBreadMainContentContainer() {
     sevenBreads: state.sevenBreadList,
   }));
 
+  const { deletedSevenBreadItem } = useSelector((state) => ({
+    deletedSevenBreadItem: state.deletedSevenBreadItem,
+  }));
+
+  const { sevenBreadRealTimeList } = useSelector((state) => ({
+    sevenBreadRealTimeList: state.sevenBreadRealTimeList,
+  }));
+
+  // console.log('sevenBreadRealTimeList');
+  // console.log(sevenBreadRealTimeList);
+
+  useEffect(() => {
+    dispatch(loadSevenBreadList());
+    console.log('loadSevenBreadList:dispatch');
+  }, [deletedSevenBreadItem]);
+
+  useEffect(() => {
+    dispatch(loadSevenBreadItems());
+    console.log('loadSevenBreadItems:dispatch');
+  }, []);
+
+  useEffect(() => {
+    dispatch(onSevenBreadItemAdd());
+    console.log('onSevenBreadItemAdd:dispatch');
+  }, []);
+
+  useEffect(() => {
+    dispatch(onSevenBreadItemUpdate());
+    console.log('onSevenBreadItemUpdate:dispatch');
+  }, []);
+
   const [hoveredId, setHoveredId] = React.useState(null);
   const [warningOpen, setWarningOpen] = React.useState(false);
   const [toBeDeletedId, setToBeDeletedId] = React.useState(0);
+  // const [sevenBreadRealTimeItems, setSevenBreadRealTimeItems] = React.useState(sevenBreadRealTimeList);
+
+  // useEffect(() => {
+  //   sevenBreadBase.on('child_added', () => {
+  //     getSevenBreadRealTimeList();
+  //   });
+  //   getSevenBreadRealTimeList();
+  // }, []);
+
+  // console.log('sevenBreadRealTimeList');
+  // console.log(sevenBreadRealTimeList);
 
   function handleCancelClose() {
     setWarningOpen(false);
@@ -176,10 +281,10 @@ export default function SevenBreadMainContentContainer() {
 
   const handleConfirmClose = () => {
     const id = toBeDeletedId;
-    // dispatch(removeAlarmDocument(id));
-    // dispatch(clearCreatedAlarm());
+    dispatch(removeSevenBreadItemDocument(id));
+    dispatch(clearDeletedSevenBreadItem());
     setWarningOpen(false);
-    window.location.reload();
+    dispatch(loadSevenBreadList());
   };
 
   const handleOnDeleteButton = (e, id) => {
@@ -191,10 +296,6 @@ export default function SevenBreadMainContentContainer() {
     e.preventDefault();
     history.push('/seven-bread/item/add');
   };
-
-  useEffect(() => {
-    dispatch(loadSevenBreadList());
-  }, []);
 
   return (
     <main className={classes.content}>
@@ -208,32 +309,37 @@ export default function SevenBreadMainContentContainer() {
             <Grid item lg={3} sm={3} xs={12}>
               {/* 타이틀 */}
               <Box style={{ padding: '10px' }}>
-                <Paper elevation={2} style={{ padding: '10px', backgroundColor: '#fffef8' }}>
-                  <Typography variant="h5" align="center">
+                <Paper elevation={2} style={{ padding: '10px', backgroundColor: '#303C6C' }}>
+                  <Typography style={{ color: '#b4dfe5' }} variant="h5" align="center">
                     실시간 007빵
                   </Typography>
                 </Paper>
               </Box>
               {/* 실시간 007빵 컨텐츠 */}
               <Box style={{ padding: '10px' }}>
-                <SevenBreadItem
-                  id="1"
-                  itemName="효성중공업"
-                  itemCode="298040"
-                  fluctuationRate="4.69"
-                  insertTime="09:02:04"
-                  closingPrice="82,600"
-                  losscutPrice="78,900"
-                />
-                <SevenBreadItem
-                  id="2"
-                  itemName="에이스토리"
-                  itemCode="241840"
-                  fluctuationRate="2.17"
-                  insertTime="09:10:19"
-                  closingPrice="40,000"
-                  losscutPrice="39,150"
-                />
+                {Object.keys(sevenBreadRealTimeList).length === 0 ? (
+                  <Box style={{ marginTop: '20px' }}>
+                    <Typography style={{ textAlign: 'center' }}>
+                      실시간 가격 감시중...
+                    </Typography>
+                  </Box>
+                )
+                  : Object.entries(sevenBreadRealTimeList).map((item) => (
+                    <SevenBreadItem
+                      key={item[1].itemCode}
+                      id={item[1].itemCode}
+                      itemName={item[1].itemName}
+                      itemCode={item[1].itemCode}
+                      fluctuationRate={item[1].fluctuationRate}
+                      fluctuationRateBy={item[1].fluctuationRateBy}
+                      presentPrice={new Intl.NumberFormat('ko-KR').format(item[1].presentPrice)}
+                      alarmedTime={item[1].alarmedTime}
+                      alarmStatus={item[1].alarmStatus}
+                      closingPrice={new Intl.NumberFormat('ko-KR').format(item[1].closingPrice)}
+                      capturedPrice={new Intl.NumberFormat('ko-KR').format(item[1].capturedPrice)}
+                      capturedDate={String(item[1].capturedDate).substr(0, 10)}
+                    />
+                  ))}
               </Box>
             </Grid>
             <Grid item lg={9} sm={9} xs={12}>
@@ -302,7 +408,7 @@ export default function SevenBreadMainContentContainer() {
                           display: 'flex', alignItems: 'center', flexDirection: 'row',
                         }}
                         >
-                          <StopIcon fontSize="small" style={{ color: 'blue' }} />
+                          <StopIcon fontSize="small" style={{ color: 'grey' }} />
                           &nbsp;
                           <Typography variant="caption">
                             현재가가 포착일 종가보다
@@ -353,12 +459,18 @@ export default function SevenBreadMainContentContainer() {
                         <TableBody>
                           {sevenBreads.map((sevenBread) => {
                             const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${sevenBread.itemCode}`;
+                            const rowColor = ((String(sevenBread.capturedDate).substr(0, 10).substr(8, 9) * 1) % 2) === 0
+                              ? '#fafafa' : '#ffffff';
 
                             return (
                               <TableRow
                                 key={sevenBread.id}
                                 id={sevenBread.id}
-                                style={{ cursor: 'pointer', height: '4vh' }}
+                                style={{
+                                  // cursor: 'pointer',
+                                  height: '4vh',
+                                  backgroundColor: `${rowColor}`,
+                                }}
                                 hover
                                 role="checkbox"
                                 tabIndex={-1}
@@ -367,7 +479,7 @@ export default function SevenBreadMainContentContainer() {
                               >
                                 <TableCell>
                                   <Typography>
-                                    {String(sevenBread.createdDate).substr(0, 10)}
+                                    {String(sevenBread.capturedDate).substr(0, 10)}
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="center">
@@ -414,8 +526,8 @@ export default function SevenBreadMainContentContainer() {
                                   <Typography style={{
                                     // 현재가가 포착일종가보다 크면 포착일종가는 손절가가되고
                                     // 작으면 돌파가격이 된다.
-                                    color: sevenBread.capturedPrice >= sevenBread.closingPrice ? 'red' : 'blue',
-                                    fontWeight: 'bold',
+                                    color: sevenBread.capturedPrice >= sevenBread.closingPrice ? 'grey' : 'red',
+                                    fontWeight: sevenBread.capturedPrice >= sevenBread.closingPrice ? '' : 'bold',
                                   }}
                                   >
                                     {new Intl.NumberFormat('ko-KR').format(sevenBread.capturedPrice)}
@@ -424,7 +536,9 @@ export default function SevenBreadMainContentContainer() {
                                 {hoveredId !== sevenBread.id ? (
                                   <TableCell>
                                     <Typography>
-                                      {sevenBread.theme.length > 89 ? `${sevenBread.theme.substring(0, 89)}...` : sevenBread.theme}
+                                      {sevenBread.theme == null ? ''
+                                        : sevenBread.theme.length > 89 ? `${sevenBread.theme.substring(0, 89)}...`
+                                          : sevenBread.theme}
                                     </Typography>
                                   </TableCell>
                                 ) : (
@@ -491,7 +605,7 @@ export default function SevenBreadMainContentContainer() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelClose} color="secondary" autoFocus>
+          <Button onClick={handleCancelClose} color="secondary">
             취소
           </Button>
           <Button onClick={handleConfirmClose} color="secondary" autoFocus>

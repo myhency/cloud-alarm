@@ -64,7 +64,8 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     padding: theme.spacing(1),
     backgroundColor: '#fff4cc',
-    alignItems: 'center',
+    flexDirection: 'column',
+    // alignItems: 'center',
   },
   tableHeaderRoot: {
     display: 'flex',

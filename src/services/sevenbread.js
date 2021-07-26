@@ -1,15 +1,9 @@
 /* eslint-disable import/prefer-default-export */
-import { sevenBread } from '../../fixture/sevenbread';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { ControlCameraSharp } from '@material-ui/icons';
+import firebase from '../Firebase';
 
-// export async function fetchSevenBreadList() {
-//   return new Promise((resolve, _) => setTimeout(() => resolve({
-//     result: true,
-//     data: sevenBread,
-//   }), 500));
-// }
+const db = firebase.database();
 
 export async function fetchSevenBreadList() {
   return axios.get('/api/v1/platform/sevenbread/item', {
@@ -17,10 +11,13 @@ export async function fetchSevenBreadList() {
       Authorization: `Bearer ${Cookies.get('accessToken')}`,
     },
   })
-    .then((response) => ({
-      result: true,
-      data: response.data.data,
-    }))
+    .then((response) => {
+      console.log(response);
+      return {
+        result: true,
+        data: response.data.data,
+      };
+    })
     .catch((error) => {
       if (error.response) {
         console.log(error.response.status);
@@ -38,12 +35,123 @@ export async function fetchSevenBreadItemByItemCode(itemCode) {
       Authorization: `Bearer ${Cookies.get('accessToken')}`,
     },
   })
-    .then((response) => ({
-      result: true,
-      data: response.data.data,
-    }))
+    .then((response) => {
+      console.log(response);
+      return {
+        result: true,
+        data: response.data.data,
+      };
+    })
     .catch((error) => ({
       result: false,
       data: error,
     }));
+}
+
+export async function saveSevenBreadItemDocument(newSevenBreadItemDocument) {
+  const {
+    itemName,
+    itemCode,
+    capturedDate,
+    majorHandler,
+    theme,
+  } = newSevenBreadItemDocument;
+
+  return axios.post('/api/v1/platform/sevenbread/item', {
+    itemName, itemCode, capturedDate, majorHandler, theme,
+  }, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get('accessToken')}`,
+    },
+  })
+    .then((response) => {
+      console.log(response);
+      return {
+        result: true,
+        data: response.data.data,
+      };
+    })
+    .catch((error) => ({
+      result: false,
+      data: error,
+    }));
+}
+
+export async function deleteSevenBreadItemDocument(id) {
+  return axios.delete(`/api/v1/platform/sevenbread/item/${id}`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get('accessToken')}`,
+    },
+  })
+    .then((response) => {
+      console.log(response);
+      return {
+        result: true,
+        data: response.data.data,
+      };
+    })
+    .catch((error) => ({
+      result: false,
+      data: error,
+    }));
+}
+
+export async function getSevenBreadRealTimeList() {
+  const d = new Date();
+  const month = String(d.getMonth() + 1).length === 1 ? `0${String(d.getMonth() + 1)}`
+    : String(d.getMonth() + 1);
+  const day = String(d.getDate()).length === 1 ? `0${String(d.getDate())}`
+    : String(d.getDate());
+  const sevenBreadBase = db.ref(`/sevenbread/alarm/${d.getFullYear()}${month}${day}`);
+  return sevenBreadBase.get()
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log('getSevenBreadRealTimeList');
+        console.log(snapshot.val());
+        return snapshot.val();
+      }
+      return {};
+    })
+    .catch((error) => {
+      console.log(error);
+      return {};
+    });
+}
+
+export function createSevenBreadItemAddListener(callback) {
+  const d = new Date();
+  const month = String(d.getMonth() + 1).length === 1 ? `0${String(d.getMonth() + 1)}`
+    : String(d.getMonth() + 1);
+  const day = String(d.getDate()).length === 1 ? `0${String(d.getDate())}`
+    : String(d.getDate());
+  const sevenBreadBase = db.ref(`/sevenbread/alarm/${d.getFullYear()}${month}${day}`);
+  return sevenBreadBase.on('child_added', () => {
+    sevenBreadBase.once('value')
+      .then((data) => {
+        callback(data.val());
+      })
+      .catch((error) => {
+        console.log(error);
+        return {};
+      });
+  });
+}
+
+export function updateSevenBreadItemAddListener(callback) {
+  const d = new Date();
+  const month = String(d.getMonth() + 1).length === 1 ? `0${String(d.getMonth() + 1)}`
+    : String(d.getMonth() + 1);
+  const day = String(d.getDate()).length === 1 ? `0${String(d.getDate())}`
+    : String(d.getDate());
+  const sevenBreadBase = db.ref(`/sevenbread/alarm/${d.getFullYear()}${month}${day}`);
+  return sevenBreadBase.on('child_changed', () => {
+    sevenBreadBase.once('value')
+      .then((data) => {
+        callback(data.val());
+      })
+      .catch((error) => {
+        console.log(error);
+        return {};
+      });
+  });
 }

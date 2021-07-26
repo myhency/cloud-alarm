@@ -51,9 +51,14 @@ export default function InBoxContentContainer() {
     alarms: state.alarms,
   }));
 
+  const { deletedAlarm } = useSelector((state) => ({
+    deletedAlarm: state.deletedAlarm,
+  }));
+
   useEffect(() => {
     dispatch(loadAlarmList());
-  }, []);
+  }, [deletedAlarm]);
+
   const [selected, setSelected] = React.useState([]);
   const [hoveredId, setHoveredId] = React.useState(null);
   const [warningOpen, setWarningOpen] = React.useState(false);
@@ -122,7 +127,7 @@ export default function InBoxContentContainer() {
     dispatch(removeAlarmDocument(id));
     dispatch(clearCreatedAlarm());
     setWarningOpen(false);
-    window.location.reload();
+    dispatch(loadAlarmList());
   };
 
   return (

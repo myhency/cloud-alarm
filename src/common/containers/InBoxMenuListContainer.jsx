@@ -20,7 +20,6 @@ import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import Filter7Icon from '@material-ui/icons/Filter7';
-import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 
 import {
   BaseBox,

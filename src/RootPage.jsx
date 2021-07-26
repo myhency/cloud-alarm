@@ -23,6 +23,8 @@ import VolumeListPage from './analyze-volume/pages/VolumeListPage';
 import VolumeDetailPage from './analyze-volume/pages/VolumeDetailPage';
 import SevenBreadMainPage from './seven-bread/pages/SevenBreadMainPage';
 import AddSevenBreadItemPage from './seven-bread/pages/AddSevenBreadItemPage';
+import ReadySevenBreadItemPage from './seven-bread/pages/ReadySevenBreadItemPage';
+import ReviewSevenBreadItemPage from './seven-bread/pages/ReviewSevenBreadItemPage';
 import BreadPage from './bread/pages/BreadPage';
 import LoginPage from './login/pages/LoginPage';
 import NotFoundPage from './NotFoundPage';
@@ -133,6 +135,8 @@ export default function RootPage() {
         <AllAuthedRoute exact path="/seven-bread/main" component={SevenBreadMainPage} />
         <AllAuthedRoute exact path="/bread/shuttle/home" component={BreadPage} />
         <AdminAuthedRoute exact path="/seven-bread/item/add" component={AddSevenBreadItemPage} />
+        <AdminAuthedRoute exact path="/seven-bread/item/ready" component={ReadySevenBreadItemPage} />
+        <AdminAuthedRoute exact path="/seven-bread/item/review" component={ReviewSevenBreadItemPage} />
         <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Typography,
   Box,
@@ -13,146 +12,78 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { indigo } from '@material-ui/core/colors';
 import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
 
 import { NextButton, BackButton } from '../../common/components/Buttons';
 
+import { useStyles } from '../../common/components/Styles';
 import {
-  setAlarmDocument,
+  CssTextField,
+  CssAutocomplete,
+} from '../../common/components/TextFields';
+
+import {
+  setSevenBreadItemDocument,
   clearAlarmDetail,
 } from '../../state/slice';
 
-const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    // padding: theme.spacing(3),
-    backgroundColor: '#FFFFFF',
-  },
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    borderBottom: '1px solid lightgrey',
-    height: '60px',
-    paddingTop: '5px',
-    paddingBottom: '5px',
-  },
-  contentRoot: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingTop: '5px',
-  },
-  exitButton: {
-    marginLeft: '10px',
-  },
-  nextButton: {
-    marginRight: '10px',
-  },
-  stepTitle: {
-    '& > *': {
-      margin: theme.spacing(0),
-    },
-    color: theme.palette.text.secondary,
-    display: 'flex',
-    alignContent: 'space-between',
-    alignItems: 'center',
-  },
-  stepContent: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& > *': {
-      margin: theme.spacing(1),
-      width: theme.spacing(16),
-      height: theme.spacing(16),
-    },
-  },
-  dropZone: {
-    backgroundColor: 'pink',
-    marginTop: theme.spacing(4),
-    width: '30%',
-    height: '50px',
-    overflowX: 'auto',
-    // marginBottom: theme.spacing(2),
-    margin: 'auto',
-  },
-  formControl: {
-    margin: theme.spacing(1, 2),
-    minWidth: 170,
-    display: 'flex',
-    justifyContent: 'space-between',
-    height: '5px',
-  },
-  baseBox: {
-    display: 'flex',
-    border: '1px solid',
-    borderColor: '#D3D3D3',
-    borderRadius: '5px 5px 5px 5px',
-    margin: '0 15px 0 15px',
-    padding: '10px',
-    justifyContent: 'center',
-  },
-}));
+const handlers = [
+  { title: '기관', value: 'G' },
+  { title: '외인', value: 'W' },
+  { title: '기관/외인', value: 'B' },
+];
 
-const CssTextField = withStyles({
-  root: {
-    '& label.Mui-focused': {
-      color: indigo[700],
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: indigo[700],
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: indigo[700],
-      },
-      '&:hover fieldset': {
-        borderColor: indigo[700],
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: indigo[700],
-      },
-    },
-  },
-})(TextField);
+function getToday() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = (`0${1 + date.getMonth()}`).slice(-2);
+  const day = (`0${date.getDate()}`).slice(-2);
+
+  return `${year}-${month}-${day}`;
+}
 
 export default function ReadyDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
   const classes = useStyles();
+  const today = getToday();
 
   const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
-  const { alarmDocument } = useSelector((state) => ({
-    alarmDocument: state.alarmDocument,
+  const { sevenBreadItemDocument } = useSelector((state) => ({
+    sevenBreadItemDocument: state.sevenBreadItemDocument,
   }));
 
-  console.log(alarmDocument);
+  console.log(sevenBreadItemDocument);
 
   useEffect(() => {
-    if (alarmDocument.itemName === '' && alarmDocument.itemCode === '') {
-      history.push('/add-docs');
+    if (sevenBreadItemDocument.itemName === '' && sevenBreadItemDocument.itemCode === '') {
+      history.push('/seven-bread/item/add');
     }
   }, []);
 
   const [itemInfo, setItemInfo] = React.useState({
-    itemName: alarmDocument.itemName,
-    itemCode: alarmDocument.itemCode,
-    recommendPrice: '',
-    losscutPrice: '',
-    comment: '',
-    theme: alarmDocument.theme,
+    itemName: sevenBreadItemDocument.itemName,
+    itemCode: sevenBreadItemDocument.itemCode,
+    theme: sevenBreadItemDocument.theme,
+    majorHandler: '',
+    capturedDate: '',
   });
 
-  function handleOnChange(event) {
+  console.log('itemInfo');
+  console.log(itemInfo);
+
+  function handleOnChange(event, v) {
+    if (v) {
+      setItemInfo({
+        ...itemInfo,
+        majorHandler: v.value,
+      });
+      return;
+    }
+
+    console.log(event.target);
     const { name, value } = event.target;
 
     setItemInfo({
@@ -163,21 +94,20 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
 
   function handleOnClick(event, link) {
     if ((itemInfo.itemName === '' || itemInfo.itemCode === ''
-    || itemInfo.recommendPrice === '' || itemInfo.losscutPrice === '')
-    && (alarmDocument.itemName === '' || alarmDocument.itemCode === ''
-    || alarmDocument.recommendPrice === '' || alarmDocument.losscutPrice === '')) {
+    || itemInfo.majorHandler === '' || itemInfo.capturedDate === '')
+    && (sevenBreadItemDocument.itemName === '' || sevenBreadItemDocument.itemCode === ''
+    || sevenBreadItemDocument.majorHandler === '' || sevenBreadItemDocument.capturedDate === '')) {
       setOpen(true);
     } else {
       event.preventDefault();
       dispatch(
-        setAlarmDocument({
-          itemName: alarmDocument.itemName,
-          itemCode: alarmDocument.itemCode,
-          recommendPrice:
-            itemInfo.recommendPrice || alarmDocument.recommendPrice,
-          losscutPrice: itemInfo.losscutPrice || alarmDocument.losscutPrice,
-          comment: itemInfo.comment || alarmDocument.comment,
-          theme: itemInfo.theme || alarmDocument.theme,
+        setSevenBreadItemDocument({
+          itemName: sevenBreadItemDocument.itemName,
+          itemCode: sevenBreadItemDocument.itemCode,
+          majorHandler:
+            itemInfo.majorHandler || sevenBreadItemDocument.majorHandler,
+          capturedDate: itemInfo.capturedDate || sevenBreadItemDocument.capturedDate || today,
+          theme: itemInfo.theme || sevenBreadItemDocument.theme,
         }),
       );
       history.push(link);
@@ -228,7 +158,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.itemName}
+              value={sevenBreadItemDocument.itemName}
             />
           </Box>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -240,52 +170,35 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.itemCode}
+              value={sevenBreadItemDocument.itemCode}
+            />
+          </Box>
+          <Box style={{ margin: '10px 0 0 0' }}>
+            <CssAutocomplete
+              name="majorHandler"
+              id="combo-box"
+              options={handlers}
+              getOptionLabel={(handler) => handler.title}
+              getOptionSelected={(option, value) => option.title === value.title}
+              renderInput={(params) => (
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                <TextField required {...params} label="수급주체" variant="outlined" />
+              )}
+              onChange={(event, value) => handleOnChange(event, value)}
             />
           </Box>
           <Box style={{ margin: '10px 0 0 0' }}>
             <CssTextField
-              required
-              name="recommendPrice"
-              label="돌파가격"
+              name="capturedDate"
+              label="포착일"
+              type="date"
+              defaultValue={today}
               variant="outlined"
               fullWidth
-              onChange={handleOnChange}
-              value={
-                (itemInfo.recommendPrice
-                  ? itemInfo.recommendPrice
-                  : alarmDocument.recommendPrice) || ''
-              }
-            />
-          </Box>
-          <Box style={{ margin: '10px 0 0px 0' }}>
-            <CssTextField
-              required
-              name="losscutPrice"
-              label="손절가격"
-              variant="outlined"
-              fullWidth
-              onChange={handleOnChange}
-              value={
-                (itemInfo.losscutPrice
-                  ? itemInfo.losscutPrice
-                  : alarmDocument.losscutPrice) || ''
-              }
-            />
-          </Box>
-          <Box style={{ margin: '10px 0 0px 0' }}>
-            <CssTextField
-              name="comment"
-              label="코멘트"
-              multiline
-              rows={5}
-              variant="outlined"
-              fullWidth
-              onChange={handleOnChange}
-              value={
-                (itemInfo.comment ? itemInfo.comment : alarmDocument.comment)
-                || ''
-              }
+              onChange={(e, value) => handleOnChange(e, value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
           </Box>
           <Box style={{ margin: '10px 0 30px 0' }}>
@@ -298,7 +211,7 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
               fullWidth
               onChange={handleOnChange}
               value={
-                (itemInfo.theme ? itemInfo.theme : alarmDocument.theme) || ''
+                (itemInfo.theme ? itemInfo.theme : sevenBreadItemDocument.theme) || ''
               }
             />
           </Box>

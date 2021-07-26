@@ -3,9 +3,6 @@ import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
-  makeStyles,
-} from '@material-ui/core/styles';
-import {
   Typography,
   Box,
   Button,
@@ -18,16 +15,17 @@ import {
 } from '@material-ui/core';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { NextButton } from '../components/Buttons';
+import { NextButton } from '../../common/components/Buttons';
 
 import { CssAutocomplete } from '../../common/components/TextFields';
 import { useStyles } from '../../common/components/Styles';
 
 import {
   loadStockItemList,
-  setAlarmDocument,
+  setSevenBreadItemDocument,
   loadSevenBreadItemByItemCode,
   clearSevenBreadItemId,
+  setSevenBreadItemId,
 } from '../../state/slice';
 
 export default function AddDocumentContentContainer({ contentsLink }) {
@@ -55,11 +53,14 @@ export default function AddDocumentContentContainer({ contentsLink }) {
 
   useEffect(() => {
     dispatch(loadStockItemList());
-    if (sevenBreadItemId.sevenBreadItemId !== undefined && sevenBreadItemId.sevenBreadItemId !== 0) {
+    console.log(setSevenBreadItemId);
+    if (sevenBreadItemId.sevenBreadItemId !== undefined
+      && sevenBreadItemId.sevenBreadItemId !== 0
+    ) {
       setExistOpen(true);
     } else if (sevenBreadItemId.sevenBreadItemId === undefined) {
       dispatch(
-        setAlarmDocument({
+        setSevenBreadItemDocument({
           itemName: items.itemName,
           itemCode: items.itemCode,
           theme: items.theme,
@@ -191,7 +192,7 @@ export default function AddDocumentContentContainer({ contentsLink }) {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                확인버튼을 클릭하면 정보입력 화면으로 이동합니다. ()
+                확인버튼을 클릭하면 정보입력 화면으로 이동합니다. (기존종목이 업데이트됩니다)
               </DialogContentText>
             </DialogContent>
             <DialogActions>
