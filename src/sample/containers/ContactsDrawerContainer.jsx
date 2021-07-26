@@ -6,7 +6,6 @@ export default function ContactsDrawerContainer({
   handleDrawerClose,
   children,
 }) {
-  console.log(children);
   const {
     totalCount,
     state1Count,

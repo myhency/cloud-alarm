@@ -45,15 +45,12 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     stockItems: state.stockItems,
   }));
 
-  console.log('items:', items);
-
   const { sevenBreadItemId } = useSelector((state) => ({
     sevenBreadItemId: state.sevenBreadItemId,
   }));
 
   useEffect(() => {
     dispatch(loadStockItemList());
-    console.log(setSevenBreadItemId);
     if (sevenBreadItemId.sevenBreadItemId !== undefined
       && sevenBreadItemId.sevenBreadItemId !== 0
     ) {
@@ -90,8 +87,6 @@ export default function AddDocumentContentContainer({ contentsLink }) {
 
   function handleExistClose() {
     setExistOpen(false);
-    console.log(sevenBreadItemId);
-    console.log(`${contentsLink.link}/${sevenBreadItemId.sevenBreadItemId}`);
     history.push(`${contentsLink.link}/${sevenBreadItemId.sevenBreadItemId}`);
     dispatch(clearSevenBreadItemId());
   }

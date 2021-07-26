@@ -6,7 +6,6 @@ export default function DrawerContainer({
   handleDrawerClose,
   children,
 }) {
-  console.log(children);
   const {
     totalCount,
     state1Count,

@@ -237,43 +237,25 @@ export default function SevenBreadMainContentContainer() {
     sevenBreadRealTimeList: state.sevenBreadRealTimeList,
   }));
 
-  // console.log('sevenBreadRealTimeList');
-  // console.log(sevenBreadRealTimeList);
-
   useEffect(() => {
     dispatch(loadSevenBreadList());
-    console.log('loadSevenBreadList:dispatch');
   }, [deletedSevenBreadItem]);
 
   useEffect(() => {
     dispatch(loadSevenBreadItems());
-    console.log('loadSevenBreadItems:dispatch');
   }, []);
 
   useEffect(() => {
     dispatch(onSevenBreadItemAdd());
-    console.log('onSevenBreadItemAdd:dispatch');
   }, []);
 
   useEffect(() => {
     dispatch(onSevenBreadItemUpdate());
-    console.log('onSevenBreadItemUpdate:dispatch');
   }, []);
 
   const [hoveredId, setHoveredId] = React.useState(null);
   const [warningOpen, setWarningOpen] = React.useState(false);
   const [toBeDeletedId, setToBeDeletedId] = React.useState(0);
-  // const [sevenBreadRealTimeItems, setSevenBreadRealTimeItems] = React.useState(sevenBreadRealTimeList);
-
-  // useEffect(() => {
-  //   sevenBreadBase.on('child_added', () => {
-  //     getSevenBreadRealTimeList();
-  //   });
-  //   getSevenBreadRealTimeList();
-  // }, []);
-
-  // console.log('sevenBreadRealTimeList');
-  // console.log(sevenBreadRealTimeList);
 
   function handleCancelClose() {
     setWarningOpen(false);

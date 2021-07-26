@@ -55,8 +55,6 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
     sevenBreadItemDocument: state.sevenBreadItemDocument,
   }));
 
-  console.log(sevenBreadItemDocument);
-
   useEffect(() => {
     if (sevenBreadItemDocument.itemName === '' && sevenBreadItemDocument.itemCode === '') {
       history.push('/seven-bread/item/add');
@@ -71,9 +69,6 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
     capturedDate: '',
   });
 
-  console.log('itemInfo');
-  console.log(itemInfo);
-
   function handleOnChange(event, v) {
     if (v) {
       setItemInfo({
@@ -83,7 +78,6 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
       return;
     }
 
-    console.log(event.target);
     const { name, value } = event.target;
 
     setItemInfo({

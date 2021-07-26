@@ -22,7 +22,6 @@ export default function ReaddReadyDocumentPage({ match }) {
     query: '(min-width: 280px) and (max-width: 700px)',
   });
 
-  console.log(match);
   return (
     <>
       {isDesktop && (

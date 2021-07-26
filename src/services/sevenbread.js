@@ -12,7 +12,6 @@ export async function fetchSevenBreadList() {
     },
   })
     .then((response) => {
-      console.log(response);
       return {
         result: true,
         data: response.data.data,
@@ -36,7 +35,6 @@ export async function fetchSevenBreadItemByItemCode(itemCode) {
     },
   })
     .then((response) => {
-      console.log(response);
       return {
         result: true,
         data: response.data.data,
@@ -65,7 +63,6 @@ export async function saveSevenBreadItemDocument(newSevenBreadItemDocument) {
     },
   })
     .then((response) => {
-      console.log(response);
       return {
         result: true,
         data: response.data.data,
@@ -84,7 +81,6 @@ export async function deleteSevenBreadItemDocument(id) {
     },
   })
     .then((response) => {
-      console.log(response);
       return {
         result: true,
         data: response.data.data,
@@ -106,8 +102,6 @@ export async function getSevenBreadRealTimeList() {
   return sevenBreadBase.get()
     .then((snapshot) => {
       if (snapshot.exists()) {
-        console.log('getSevenBreadRealTimeList');
-        console.log(snapshot.val());
         return snapshot.val();
       }
       return {};

@@ -328,8 +328,6 @@ const { actions, reducer } = createSlice({
         losscutAlarms,
       );
 
-      // console.log(losscutAlarms);
-
       return {
         ...state,
         losscutAlarms: parsedLosscutAlarms,
@@ -340,8 +338,6 @@ const { actions, reducer } = createSlice({
       const parsedAlarmedAlarms = parseAlarmedAlarms(
         alarmedAlarms,
       );
-
-      // console.log(losscutAlarms);
 
       return {
         ...state,
@@ -597,8 +593,6 @@ const { actions, reducer } = createSlice({
         id,
       },
     }) {
-      console.log(result);
-      console.log(id);
       return {
         ...state,
         createdSevenBreadItem: {
@@ -614,8 +608,6 @@ const { actions, reducer } = createSlice({
         id,
       },
     }) {
-      console.log(result);
-      console.log(id);
       return {
         ...state,
         deletedSevenBreadItem: {
@@ -750,7 +742,6 @@ export function loadAlarmList() {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmList();
 
-    console.log(data, result);
     if (!result) {
       console.log(data);
       // return;
@@ -763,7 +754,6 @@ export function loadLosscutAlarmList() {
   return async (dispatch) => {
     const { result, data } = await fetchLosscutAlarmList();
 
-    console.log(data, result);
     if (!result) {
       console.log(data);
       // return;
@@ -776,7 +766,6 @@ export function loadAlarmedAlarmList() {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmedAlarmList();
 
-    console.log(data, result);
     if (!result) {
       console.log(data);
       // return;
@@ -799,15 +788,12 @@ export function loadStockItemList() {
 export function loadAlarmDocument() {
   return (dispach, getState) => {
     const { alarmDocument } = getState();
-    console.log(alarmDocument);
   };
 }
 
 export function loadAlarmIdByItemCode(_itemCode) {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmByItemCode(_itemCode);
-
-    console.log(data);
 
     if (data) {
       dispatch(setAlarmId({
@@ -825,8 +811,6 @@ export function loadAlarmIdByItemCode(_itemCode) {
 export function loadAlarmDetail(_id) {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmDetail(_id);
-
-    console.log(data, result);
 
     if (!result) {
       dispatch(setAlarmDetail({
@@ -873,8 +857,6 @@ export function loadHistoryAlarmDetail(_id) {
   return async (dispatch) => {
     const { result, data } = await fetchHistoryAlarmDetail(_id);
 
-    console.log(data, result);
-
     if (!result) {
       dispatch(setAlarmDetail({
         itemName: 'error',
@@ -920,7 +902,6 @@ export function createAlarmDocument(newAlarmDocument) {
   return async (dispatch) => {
     const { result, data } = await saveAlarmDocument(newAlarmDocument);
 
-    console.log(data);
     const {
       alarmId, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
@@ -950,8 +931,6 @@ export function modifyAlarmDocument(modifiedAlarmDocument) {
   return async (dispatch) => {
     const { result, data } = await updateAlarmDocument(modifiedAlarmDocument);
 
-    console.log(result, data);
-
     const {
       alarmId, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
@@ -980,8 +959,6 @@ export function modifyAlarmDocument(modifiedAlarmDocument) {
 export function removeAlarmDocument(id) {
   return async (dispatch) => {
     const { result, data } = await deleteAlarmDoument(id);
-
-    console.log(result, data);
 
     const {
       alarmId, itemName, itemCode, recommendPrice,
@@ -1013,8 +990,6 @@ export function getLoginToken(dataToSubmit) {
     const { result, data } = await getJwtToken(dataToSubmit);
     const accessToken = data;
 
-    console.log(data);
-
     if (result) {
       Cookies.set('accessToken', accessToken);
       const key = 'breadstockcloud';
@@ -1033,8 +1008,6 @@ export function loadVolumeDateList() {
     const { result, data } = await fetchVolumeDateList();
     const volumeDateList = data;
 
-    console.log(data);
-
     dispatch(setVolumeDateList({
       volumeDateList,
     }));
@@ -1045,8 +1018,6 @@ export function loadVolumeDataList(date) {
   return async (dispatch) => {
     const { result, data } = await fetchVolumeDataList(date);
     const volumeDataList = data;
-
-    console.log(data);
 
     dispatch(setVolumeDataList({
       volumeDataList,
@@ -1069,8 +1040,6 @@ export function loadSevenBreadItemByItemCode(_itemCode) {
   return async (dispatch) => {
     const { result, data } = await fetchSevenBreadItemByItemCode(_itemCode);
 
-    console.log(data);
-
     if (data) {
       dispatch(setSevenBreadItemId({
         sevenBreadItemId: data.id,
@@ -1088,8 +1057,6 @@ export function createSevenBreadItemDocument(newSevenBreadItemDocument) {
   return async (dispatch) => {
     const { result, data } = await saveSevenBreadItemDocument(newSevenBreadItemDocument);
 
-    console.log(data.id);
-
     dispatch(setCreatedSevenBreadItem({
       result,
       id: data.id,
@@ -1101,8 +1068,6 @@ export function removeSevenBreadItemDocument(id) {
   return async (dispatch) => {
     const { result, data } = await deleteSevenBreadItemDocument(id);
 
-    console.log(data.id);
-
     dispatch(setDeletedSevenBreadItemDocument({
       result,
       id: data.id,
@@ -1113,9 +1078,6 @@ export function removeSevenBreadItemDocument(id) {
 export function loadSevenBreadItems() {
   return async (dispatch) => {
     const list = await getSevenBreadRealTimeList();
-
-    console.log('loadSevenBreadItems');
-    console.log(list);
 
     dispatch(setSevenBreadRealTimeList({
       sevenBreadRealTimeList: list,

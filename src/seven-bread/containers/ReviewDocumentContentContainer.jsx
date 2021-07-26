@@ -45,8 +45,6 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
     createdSevenBreadItem: state.createdSevenBreadItem,
   }));
 
-  console.log(createdSevenBreadItem);
-
   function handleOnClick(event) {
     if (
       sevenBreadItemDocument.itemName === ''
