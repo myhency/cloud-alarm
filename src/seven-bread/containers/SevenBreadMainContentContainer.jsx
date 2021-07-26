@@ -1,6 +1,8 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
+import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -270,6 +272,13 @@ export default function SevenBreadMainContentContainer() {
   };
 
   const handleOnDeleteButton = (e, id) => {
+    const accessToken = Cookies.get('accessToken');
+    const key = 'breadstockcloud';
+    const res = jwt.verify(accessToken, key);
+    if (res.sub !== 'admin') {
+      alert('관리자만 접근할 수 있습니다.');
+      return;
+    }
     setWarningOpen(true);
     setToBeDeletedId(id);
   };
