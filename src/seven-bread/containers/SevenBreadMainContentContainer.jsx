@@ -279,12 +279,20 @@ export default function SevenBreadMainContentContainer() {
     history.push('/seven-bread/item/add');
   };
 
+  const sevenBreadRealTimeArray = Object.entries(sevenBreadRealTimeList);
+
+  const mapped = sevenBreadRealTimeArray.map((value, i) => ({
+    index: i,
+    value: value[1].alarmedTime,
+  }));
+
+  mapped.sort((a, b) => +(a.value < b.value) || +(a.value === b.value) - 1);
+
+  const sevenBreadRealTimeItems = mapped.map((el) => sevenBreadRealTimeArray[el.index]);
+
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
-      {/* <div className={classes.tableHeaderRoot}>
-        tableheader
-      </div> */}
       <div className={classes.root}>
         <Box style={{ flexGrow: 1, padding: '1rem 1rem 0 1rem' }}>
           <Grid container>
@@ -306,22 +314,23 @@ export default function SevenBreadMainContentContainer() {
                     </Typography>
                   </Box>
                 )
-                  : Object.entries(sevenBreadRealTimeList).map((item) => (
-                    <SevenBreadItem
-                      key={item[1].itemCode}
-                      id={item[1].itemCode}
-                      itemName={item[1].itemName}
-                      itemCode={item[1].itemCode}
-                      fluctuationRate={item[1].fluctuationRate}
-                      fluctuationRateBy={item[1].fluctuationRateBy}
-                      presentPrice={new Intl.NumberFormat('ko-KR').format(item[1].presentPrice)}
-                      alarmedTime={item[1].alarmedTime}
-                      alarmStatus={item[1].alarmStatus}
-                      closingPrice={new Intl.NumberFormat('ko-KR').format(item[1].closingPrice)}
-                      capturedPrice={new Intl.NumberFormat('ko-KR').format(item[1].capturedPrice)}
-                      capturedDate={String(item[1].capturedDate).substr(0, 10)}
-                    />
-                  ))}
+                  : sevenBreadRealTimeItems
+                    .map((item) => (
+                      <SevenBreadItem
+                        key={item[1].itemCode}
+                        id={item[1].itemCode}
+                        itemName={item[1].itemName}
+                        itemCode={item[1].itemCode}
+                        fluctuationRate={item[1].fluctuationRate}
+                        fluctuationRateBy={item[1].fluctuationRateBy}
+                        presentPrice={new Intl.NumberFormat('ko-KR').format(item[1].presentPrice)}
+                        alarmedTime={item[1].alarmedTime}
+                        alarmStatus={item[1].alarmStatus}
+                        closingPrice={new Intl.NumberFormat('ko-KR').format(item[1].closingPrice)}
+                        capturedPrice={new Intl.NumberFormat('ko-KR').format(item[1].capturedPrice)}
+                        capturedDate={String(item[1].capturedDate).substr(0, 10)}
+                      />
+                    ))}
               </Box>
             </Grid>
             <Grid item lg={9} sm={9} xs={12}>
