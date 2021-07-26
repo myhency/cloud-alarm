@@ -17,7 +17,7 @@ export default function PageTitleContainer({ items }) {
   }
 
   return (
-    <Breadcrumbs>
+    <Breadcrumbs style={{ color: '#B4DFE5' }}>
       {items.map((item) => (
         <Link
           key={item.title}

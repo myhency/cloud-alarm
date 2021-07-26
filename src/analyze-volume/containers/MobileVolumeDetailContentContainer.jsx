@@ -238,8 +238,6 @@ export default function MobileVolumeDetailContentContainer({ date }) {
     volumeDataList: state.volumeDataList,
   }));
 
-  console.log(date);
-
   useEffect(() => {
     dispatch(loadVolumeDataList(date));
   }, []);

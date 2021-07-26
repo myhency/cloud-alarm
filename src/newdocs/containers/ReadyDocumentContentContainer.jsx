@@ -135,8 +135,6 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
     alarmDocument: state.alarmDocument,
   }));
 
-  console.log(alarmDocument);
-
   useEffect(() => {
     if (alarmDocument.itemName === '' && alarmDocument.itemCode === '') {
       history.push('/add-docs');

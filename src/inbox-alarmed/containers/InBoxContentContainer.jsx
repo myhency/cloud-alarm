@@ -51,9 +51,14 @@ export default function InBoxContentContainer() {
     alarms: state.alarmedAlarms,
   }));
 
+  const { deletedAlarm } = useSelector((state) => ({
+    deletedAlarm: state.deletedAlarm,
+  }));
+
   useEffect(() => {
     dispatch(loadAlarmedAlarmList());
-  }, []);
+  }, [deletedAlarm]);
+
   const [selected, setSelected] = React.useState([]);
   const [hoveredId, setHoveredId] = React.useState(null);
   const [warningOpen, setWarningOpen] = React.useState(false);

@@ -5,16 +5,16 @@ import MobileDrawerLayout from '../../common/layouts/MobileDrawerLayout';
 import PageTitleContainer from '../../common/containers/PageTitleContainer';
 import InBoxMenuListContainer from '../../common/containers/InBoxMenuListContainer';
 import InBoxMenuListContainerSmall from '../../common/containers/InBoxMenuListContainerSmall';
-import ReaddReadyDocumentContentContainer from '../containers/ReaddReadyDocumentContentContainer';
+import AddDocumentContentContainer from '../containers/AddDocumentContentContainer';
 
 const items = [
-  { title: '알리미 리스트', link: '/inbox' },
-  { title: '새 알리미', link: '/add-docs' },
+  { title: '007빵', link: '/seven-bread/main' },
+  { title: '종목추가', link: '/seven-bread/item/add' },
 ];
 
-const contentsLink = { link: '/review-readd-docs' };
+const contentsLink = { link: '/seven-bread/item/ready' };
 
-export default function ReaddReadyDocumentPage({ match }) {
+export default function AddSevenBreadItemPage() {
   const isDesktop = useMediaQuery({
     query: '(min-width: 701px) and (max-width: 2048px)',
   });
@@ -29,12 +29,7 @@ export default function ReaddReadyDocumentPage({ match }) {
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={(
-            <ReaddReadyDocumentContentContainer
-              contentsLink={contentsLink}
-              id={match.params.id}
-            />
-          )}
+          content={<AddDocumentContentContainer contentsLink={contentsLink} />}
         />
       )}
       {isMobile && (
@@ -42,12 +37,7 @@ export default function ReaddReadyDocumentPage({ match }) {
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={(
-            <ReaddReadyDocumentContentContainer
-              contentsLink={contentsLink}
-              id={match.params.id}
-            />
-          )}
+          content={<AddDocumentContentContainer contentsLink={contentsLink} />}
         />
       )}
     </>

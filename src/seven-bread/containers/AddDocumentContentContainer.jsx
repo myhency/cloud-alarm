@@ -3,10 +3,6 @@ import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
-  makeStyles,
-  withStyles,
-} from '@material-ui/core/styles';
-import {
   Typography,
   Box,
   Button,
@@ -17,119 +13,20 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { indigo } from '@material-ui/core/colors';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { NextButton } from '../components/Buttons';
+import { NextButton } from '../../common/components/Buttons';
+
+import { CssAutocomplete } from '../../common/components/TextFields';
+import { useStyles } from '../../common/components/Styles';
 
 import {
   loadStockItemList,
-  setAlarmDocument,
-  loadAlarmIdByItemCode,
-  clearAlarmId,
+  setSevenBreadItemDocument,
+  loadSevenBreadItemByItemCode,
+  clearSevenBreadItemId,
+  setSevenBreadItemId,
 } from '../../state/slice';
-
-const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    // padding: theme.spacing(3),
-    // backgroundColor: '#FFFFFF',
-  },
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    borderBottom: '1px solid lightgrey',
-    height: '60px',
-    paddingTop: '5px',
-    paddingBottom: '5px',
-  },
-  contentRoot: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingTop: '5px',
-  },
-  exitButton: {
-    marginLeft: '10px',
-  },
-  nextButton: {
-    marginRight: '10px',
-    backgroundColor: '#303C6C',
-  },
-  stepTitle: {
-    '& > *': {
-      margin: theme.spacing(0),
-    },
-    color: theme.palette.text.secondary,
-    display: 'flex',
-    alignContent: 'space-between',
-    alignItems: 'center',
-  },
-  stepContent: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& > *': {
-      margin: theme.spacing(1),
-      width: theme.spacing(16),
-      height: theme.spacing(16),
-    },
-  },
-  dropZone: {
-    backgroundColor: 'pink',
-    marginTop: theme.spacing(4),
-    width: '30%',
-    height: '50px',
-    overflowX: 'auto',
-    // marginBottom: theme.spacing(2),
-    margin: 'auto',
-  },
-  formControl: {
-    margin: theme.spacing(1, 2),
-    minWidth: 170,
-    display: 'flex',
-    justifyContent: 'space-between',
-    height: '5px',
-  },
-  baseBox: {
-    display: 'flex',
-    border: '1px solid',
-    borderColor: '#D3D3D3',
-    borderRadius: '5px 5px 5px 5px',
-    margin: '0 15px 0 15px',
-    padding: '10px',
-    justifyContent: 'center',
-  },
-}));
-
-const CssAutocomplete = withStyles({
-  root: {
-    '& label.Mui-focused': {
-      color: indigo[700],
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: indigo[700],
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: indigo[700],
-      },
-      '&:hover fieldset': {
-        borderColor: indigo[700],
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: indigo[700],
-      },
-    },
-  },
-})(Autocomplete);
 
 export default function AddDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
@@ -148,33 +45,35 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     stockItems: state.stockItems,
   }));
 
-  const { alarmId } = useSelector((state) => ({
-    alarmId: state.alarmId,
+  const { sevenBreadItemId } = useSelector((state) => ({
+    sevenBreadItemId: state.sevenBreadItemId,
   }));
 
   useEffect(() => {
     dispatch(loadStockItemList());
-    if (alarmId.alarmId !== undefined && alarmId.alarmId !== 0) {
+    if (sevenBreadItemId.sevenBreadItemId !== undefined
+      && sevenBreadItemId.sevenBreadItemId !== 0
+    ) {
       setExistOpen(true);
-    } else if (alarmId.alarmId === undefined) {
+    } else if (sevenBreadItemId.sevenBreadItemId === undefined) {
       dispatch(
-        setAlarmDocument({
+        setSevenBreadItemDocument({
           itemName: items.itemName,
           itemCode: items.itemCode,
           theme: items.theme,
         }),
       );
       history.push(contentsLink.link);
-      dispatch(clearAlarmId());
+      dispatch(clearSevenBreadItemId());
     }
-  }, [alarmId]);
+  }, [sevenBreadItemId]);
 
   function handleOnClick() {
     if (items.itemName === '') {
       setOpen(true);
     } else {
       // 입력한 종목이 알리미 리스트에 있는지 확인.
-      dispatch(loadAlarmIdByItemCode(items.itemCode));
+      dispatch(loadSevenBreadItemByItemCode(items.itemCode));
     }
   }
 
@@ -182,10 +81,14 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     setOpen(false);
   }
 
+  function handleExistCancelClose() {
+    setExistOpen(false);
+  }
+
   function handleExistClose() {
     setExistOpen(false);
-    history.push(`${contentsLink.link}/${alarmId.alarmId}`);
-    dispatch(clearAlarmId());
+    history.push(`${contentsLink.link}/${sevenBreadItemId.sevenBreadItemId}`);
+    dispatch(clearSevenBreadItemId());
   }
 
   function handleOnChange(e, value) {
@@ -280,16 +183,19 @@ export default function AddDocumentContentContainer({ contentsLink }) {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">
-              입력하신 종목은 이미 알리미 리스트에 등록되어 있습니다.
+              입력하신 종목은 이미 007빵 리스트에 등록되어 있습니다.
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                확인버튼을 클릭하면 알람 수정화면으로 이동합니다.
+                확인버튼을 클릭하면 정보입력 화면으로 이동합니다. (기존종목이 업데이트됩니다)
               </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleExistClose} color="secondary" autoFocus>
                 확인
+              </Button>
+              <Button onClick={handleExistCancelClose} color="secondary">
+                취소
               </Button>
             </DialogActions>
           </Dialog>

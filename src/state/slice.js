@@ -31,6 +31,15 @@ import {
 import {
   getJwtToken,
 } from '../services/auth';
+import {
+  fetchSevenBreadList,
+  fetchSevenBreadItemByItemCode,
+  saveSevenBreadItemDocument,
+  deleteSevenBreadItemDocument,
+  getSevenBreadRealTimeList,
+  createSevenBreadItemAddListener,
+  updateSevenBreadItemAddListener,
+} from '../services/sevenbread';
 
 import locales from '../locales.json';
 
@@ -77,17 +86,18 @@ const initialAlarmDocument = {
   alarmStatus: '',
 };
 
-// const initialVolumeDataList = {[
-//   id: 0,
-//   itemName: '',
-//   itemCode: '',
-//   closingPrice: 0,
-//   fluctuationRate: 0,
-//   volume: 0,
-//   numberOfOutstandingShares: 0,
-//   marketCap: 0,
-//   marketType: '',
-// ]};
+const initialSevenBreadItemDocument = {
+  itemName: '',
+  itemCode: '',
+  majorHandler: '',
+  theme: '',
+  capturedDate: '',
+};
+
+const initialCreatedSevenBreadItem = {
+  result: true,
+  id: 0,
+};
 
 function parseAlarm(alarm) {
   const {
@@ -185,6 +195,12 @@ const { actions, reducer } = createSlice({
     alarmId: { alarmId: 0 },
     volumeDateList: [],
     volumeDataList: [],
+    sevenBreadList: [],
+    sevenBreadItemId: { sevenBreadItemId: 0 },
+    sevenBreadItemDocument: initialSevenBreadItemDocument,
+    createdSevenBreadItem: initialCreatedSevenBreadItem,
+    deletedSevenBreadItem: initialCreatedSevenBreadItem,
+    sevenBreadRealTimeList: {},
   },
   // 이 부분이 reducer
   reducers: {
@@ -272,6 +288,27 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    clearSevenBreadItemId(state) {
+      return {
+        ...state,
+        sevenBreadItemId: { sevenBreadItemId: 0 },
+      };
+    },
+
+    clearSevenBreadItemDocument(state) {
+      return {
+        ...state,
+        sevenBreadItemDocument: initialSevenBreadItemDocument,
+      };
+    },
+
+    clearCreatedSevenBreadItem(state) {
+      return {
+        ...state,
+        createdSevenBreadItem: initialCreatedSevenBreadItem,
+      };
+    },
+
     clearAccessToken(state) {
       return {
         ...state,
@@ -279,12 +316,17 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    clearDeletedSevenBreadItem(state) {
+      return {
+        ...state,
+        deletedSevenBreadItem: initialCreatedSevenBreadItem,
+      };
+    },
+
     setLosscutAlarms(state, { payload: losscutAlarms }) {
       const parsedLosscutAlarms = parseLosscutAlarms(
         losscutAlarms,
       );
-
-      // console.log(losscutAlarms);
 
       return {
         ...state,
@@ -296,8 +338,6 @@ const { actions, reducer } = createSlice({
       const parsedAlarmedAlarms = parseAlarmedAlarms(
         alarmedAlarms,
       );
-
-      // console.log(losscutAlarms);
 
       return {
         ...state,
@@ -454,6 +494,18 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    setSevenBreadItemId(state, {
+      payload: { sevenBreadItemId },
+    }) {
+      return {
+        ...state,
+        sevenBreadItemId: {
+          ...state.sevenBreadItemId,
+          sevenBreadItemId,
+        },
+      };
+    },
+
     setAlarmDocument(state, {
       payload: {
         itemName,
@@ -480,6 +532,28 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    setSevenBreadItemDocument(state, {
+      payload: {
+        itemName,
+        itemCode,
+        majorHandler,
+        theme,
+        capturedDate,
+      },
+    }) {
+      return {
+        ...state,
+        sevenBreadItemDocument: {
+          ...state.sevenBreadItemDocument,
+          itemName,
+          itemCode,
+          majorHandler,
+          theme,
+          capturedDate,
+        },
+      };
+    },
+
     setVolumeDateList(state, {
       payload: {
         volumeDateList,
@@ -501,6 +575,58 @@ const { actions, reducer } = createSlice({
         volumeDataList,
       };
     },
+
+    setSevenBreadList(state, {
+      payload: {
+        sevenBreadList,
+      },
+    }) {
+      return {
+        ...state,
+        sevenBreadList,
+      };
+    },
+
+    setCreatedSevenBreadItem(state, {
+      payload: {
+        result,
+        id,
+      },
+    }) {
+      return {
+        ...state,
+        createdSevenBreadItem: {
+          result,
+          id,
+        },
+      };
+    },
+
+    setDeletedSevenBreadItemDocument(state, {
+      payload: {
+        result,
+        id,
+      },
+    }) {
+      return {
+        ...state,
+        deletedSevenBreadItem: {
+          result,
+          id,
+        },
+      };
+    },
+
+    setSevenBreadRealTimeList(state, {
+      payload: {
+        sevenBreadRealTimeList,
+      },
+    }) {
+      return {
+        ...state,
+        sevenBreadRealTimeList,
+      };
+    },
   },
 });
 
@@ -518,6 +644,7 @@ export const {
   clearCreatedAlarm,
   clearAlarmDocument,
   clearAccessToken,
+  clearSevenBreadItemId,
   setDocuments,
   setLosscutAlarms,
   setAlarmedAlarms,
@@ -531,6 +658,15 @@ export const {
   setAlarmId,
   setVolumeDateList,
   setVolumeDataList,
+  setSevenBreadList,
+  setSevenBreadItemId,
+  setSevenBreadItemDocument,
+  setCreatedSevenBreadItem,
+  clearCreatedSevenBreadItem,
+  clearSevenBreadItemDocument,
+  setDeletedSevenBreadItemDocument,
+  clearDeletedSevenBreadItem,
+  setSevenBreadRealTimeList,
 } = actions;
 
 export default reducer;
@@ -606,7 +742,6 @@ export function loadAlarmList() {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmList();
 
-    console.log(data, result);
     if (!result) {
       console.log(data);
       // return;
@@ -619,7 +754,6 @@ export function loadLosscutAlarmList() {
   return async (dispatch) => {
     const { result, data } = await fetchLosscutAlarmList();
 
-    console.log(data, result);
     if (!result) {
       console.log(data);
       // return;
@@ -632,7 +766,6 @@ export function loadAlarmedAlarmList() {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmedAlarmList();
 
-    console.log(data, result);
     if (!result) {
       console.log(data);
       // return;
@@ -655,15 +788,12 @@ export function loadStockItemList() {
 export function loadAlarmDocument() {
   return (dispach, getState) => {
     const { alarmDocument } = getState();
-    console.log(alarmDocument);
   };
 }
 
 export function loadAlarmIdByItemCode(_itemCode) {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmByItemCode(_itemCode);
-
-    console.log(data);
 
     if (data) {
       dispatch(setAlarmId({
@@ -681,8 +811,6 @@ export function loadAlarmIdByItemCode(_itemCode) {
 export function loadAlarmDetail(_id) {
   return async (dispatch) => {
     const { result, data } = await fetchAlarmDetail(_id);
-
-    console.log(data, result);
 
     if (!result) {
       dispatch(setAlarmDetail({
@@ -729,8 +857,6 @@ export function loadHistoryAlarmDetail(_id) {
   return async (dispatch) => {
     const { result, data } = await fetchHistoryAlarmDetail(_id);
 
-    console.log(data, result);
-
     if (!result) {
       dispatch(setAlarmDetail({
         itemName: 'error',
@@ -776,7 +902,6 @@ export function createAlarmDocument(newAlarmDocument) {
   return async (dispatch) => {
     const { result, data } = await saveAlarmDocument(newAlarmDocument);
 
-    console.log(data);
     const {
       alarmId, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
@@ -806,8 +931,6 @@ export function modifyAlarmDocument(modifiedAlarmDocument) {
   return async (dispatch) => {
     const { result, data } = await updateAlarmDocument(modifiedAlarmDocument);
 
-    console.log(result, data);
-
     const {
       alarmId, itemName, itemCode, recommendPrice,
       losscutPrice, comment, theme,
@@ -836,8 +959,6 @@ export function modifyAlarmDocument(modifiedAlarmDocument) {
 export function removeAlarmDocument(id) {
   return async (dispatch) => {
     const { result, data } = await deleteAlarmDoument(id);
-
-    console.log(result, data);
 
     const {
       alarmId, itemName, itemCode, recommendPrice,
@@ -869,8 +990,6 @@ export function getLoginToken(dataToSubmit) {
     const { result, data } = await getJwtToken(dataToSubmit);
     const accessToken = data;
 
-    console.log(data);
-
     if (result) {
       Cookies.set('accessToken', accessToken);
       const key = 'breadstockcloud';
@@ -889,8 +1008,6 @@ export function loadVolumeDateList() {
     const { result, data } = await fetchVolumeDateList();
     const volumeDateList = data;
 
-    console.log(data);
-
     dispatch(setVolumeDateList({
       volumeDateList,
     }));
@@ -902,10 +1019,88 @@ export function loadVolumeDataList(date) {
     const { result, data } = await fetchVolumeDataList(date);
     const volumeDataList = data;
 
-    console.log(data);
-
     dispatch(setVolumeDataList({
       volumeDataList,
     }));
+  };
+}
+
+export function loadSevenBreadList() {
+  return async (dispatch) => {
+    const { result, data } = await fetchSevenBreadList();
+    const sevenBreadList = data;
+
+    dispatch(setSevenBreadList({
+      sevenBreadList,
+    }));
+  };
+}
+
+export function loadSevenBreadItemByItemCode(_itemCode) {
+  return async (dispatch) => {
+    const { result, data } = await fetchSevenBreadItemByItemCode(_itemCode);
+
+    if (data) {
+      dispatch(setSevenBreadItemId({
+        sevenBreadItemId: data.id,
+      }));
+      return;
+    }
+
+    dispatch(setSevenBreadItemId({
+      sevenBreadItemId: undefined,
+    }));
+  };
+}
+
+export function createSevenBreadItemDocument(newSevenBreadItemDocument) {
+  return async (dispatch) => {
+    const { result, data } = await saveSevenBreadItemDocument(newSevenBreadItemDocument);
+
+    dispatch(setCreatedSevenBreadItem({
+      result,
+      id: data.id,
+    }));
+  };
+}
+
+export function removeSevenBreadItemDocument(id) {
+  return async (dispatch) => {
+    const { result, data } = await deleteSevenBreadItemDocument(id);
+
+    dispatch(setDeletedSevenBreadItemDocument({
+      result,
+      id: data.id,
+    }));
+  };
+}
+
+export function loadSevenBreadItems() {
+  return async (dispatch) => {
+    const list = await getSevenBreadRealTimeList();
+
+    dispatch(setSevenBreadRealTimeList({
+      sevenBreadRealTimeList: list,
+    }));
+  };
+}
+
+export function onSevenBreadItemAdd() {
+  return (dispatch) => {
+    createSevenBreadItemAddListener((v) => {
+      dispatch(setSevenBreadRealTimeList({
+        sevenBreadRealTimeList: v,
+      }));
+    });
+  };
+}
+
+export function onSevenBreadItemUpdate() {
+  return (dispatch) => {
+    updateSevenBreadItemAddListener((v) => {
+      dispatch(setSevenBreadRealTimeList({
+        sevenBreadRealTimeList: v,
+      }));
+    });
   };
 }

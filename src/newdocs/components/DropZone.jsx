@@ -109,7 +109,6 @@ const DocumentDropZone = ({
   } = useDropzone({
     accept: 'image/*',
     onDrop: (acceptedFiles) => {
-      console.log(acceptedFiles);
       setFiles(acceptedFiles.map((file) => Object.assign(file, {
         preview: URL.createObjectURL(file),
       })));
