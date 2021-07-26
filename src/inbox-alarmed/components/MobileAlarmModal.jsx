@@ -1,4 +1,6 @@
 import React from 'react';
+import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
 import { useHistory } from 'react-router-dom';
 
 import Modal from '@material-ui/core/Modal';
@@ -53,6 +55,13 @@ export default function MobileAlarmModal({
   }
 
   const handleOnDeleteButton = (e, id) => {
+    const accessToken = Cookies.get('accessToken');
+    const key = 'breadstockcloud';
+    const res = jwt.verify(accessToken, key);
+    if (res.sub !== 'admin') {
+      alert('관리자만 접근할 수 있습니다.');
+      return;
+    }
     setWarningOpen(true);
     setToBeDeletedId(id);
   };
