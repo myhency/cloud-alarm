@@ -53,7 +53,7 @@ export default function InBoxMenuListContainer({
     const initIndex = history.location.pathname === '/inbox' ? 1
       : history.location.pathname === '/inbox/alarmed' ? 2
         : history.location.pathname === '/inbox/losscut' ? 3
-          : history.location.pathname === '/analyze/volume' ? 6
+          : history.location.pathname.includes('/analyze/volume') ? 6
             : history.location.pathname === '/seven-bread/main' ? 7
               : history.location.pathname === '/bread/shuttle/home' ? 8
                 : 0;
