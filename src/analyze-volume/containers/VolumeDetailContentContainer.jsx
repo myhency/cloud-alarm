@@ -10,6 +10,7 @@ import {
   Typography,
   Tabs,
   Tab,
+  TableHead,
 } from '@material-ui/core';
 
 import { useStyles } from '../../common/components/Styles';
@@ -33,7 +34,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <Box>{children}</Box>
         </Box>
       )}
     </div>
@@ -42,103 +43,115 @@ function TabPanel(props) {
 
 function VolumeDataTable({ marketType, value }) {
   const mapped = value.map((el, i) => ({ index: i, value: (el.volume / el.numberOfOutstandingShares) }));
-  mapped.sort((a, b) => {
-    return b.value - a.value;
-  });
+  mapped.sort((a, b) => b.value - a.value);
 
-  const result = mapped.map((el) => {
-    return value[el.index];
-  });
+  const result = mapped.map((el) => value[el.index]);
+
+  console.log(result);
 
   return (
     <TableContainer>
-      <Table>
-        <TableBody>
+      <Table stickyHeader>
+        <TableHead>
           <TableRow
             id="header"
-            key="header"
           >
             <TableCell
               component="th"
               scope="row"
-              padding="none"
+              padding="default"
               width="10%"
+              key="1"
             >
               <Box display="flex" flexDirection="column">
-                <Typography variant="h6">종목명</Typography>
+                <Typography variant="body2">종목명</Typography>
               </Box>
             </TableCell>
             <TableCell
               component="th"
               scope="row"
-              padding="none"
+              padding="default"
               width="5%"
+              align="right"
+              key="2"
             >
               <Box display="flex" flexDirection="column">
-                <Typography variant="h6">현재가(원)</Typography>
+                <Typography variant="body2">현재가(원)</Typography>
               </Box>
             </TableCell>
             <TableCell
               component="th"
               scope="row"
-              padding="none"
+              padding="default"
               width="5%"
+              align="right"
+              key="3"
             >
               <Box display="flex" flexDirection="column">
-                <Typography variant="h6">등락(%)</Typography>
+                <Typography variant="body2">등락(%)</Typography>
               </Box>
             </TableCell>
             <TableCell
               component="th"
               scope="row"
-              padding="none"
+              padding="default"
               width="5%"
+              align="right"
+              key="4"
             >
               <Box display="flex" flexDirection="column">
-                <Typography variant="h6">거래량</Typography>
+                <Typography variant="body2">거래량</Typography>
               </Box>
             </TableCell>
             <TableCell
               component="th"
               scope="row"
-              padding="none"
+              padding="default"
               width="8%"
+              align="right"
+              key="5"
             >
               <Box display="flex" flexDirection="column">
-                <Typography variant="h6">유통 주식수 대비 거래량(%)</Typography>
+                <Typography variant="body2">유통 주식수 대비 거래량(%)</Typography>
               </Box>
             </TableCell>
             <TableCell
               component="th"
               scope="row"
-              padding="none"
+              padding="default"
+              width="8%"
+              align="right"
+              key="6"
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="body2">거래대금(억)</Typography>
+              </Box>
+            </TableCell>
+            <TableCell
+              component="th"
+              scope="row"
+              padding="default"
               width="5%"
+              key="7"
             >
               <Box display="flex" flexDirection="column">
-                <Typography variant="h6">거래대금(억)</Typography>
+                <Typography variant="body2">시가총액(억원)</Typography>
               </Box>
             </TableCell>
             <TableCell
               component="th"
               scope="row"
-              padding="none"
-              width="5%"
+              padding="default"
+              widht="10%"
+              key="8"
             >
               <Box display="flex" flexDirection="column">
-                <Typography variant="h6">시가총액(억원)</Typography>
-              </Box>
-            </TableCell>
-            <TableCell
-              component="th"
-              scope="row"
-              padding="none"
-              widht="15%"
-            >
-              <Box display="flex" flexDirection="column">
-                <Typography variant="h6">테마</Typography>
+                <Typography variant="body2">테마</Typography>
               </Box>
             </TableCell>
           </TableRow>
+        </TableHead>
+        <TableBody>
           {result.map((volumeData) => {
             const volumeBy = Math.round((volumeData.volume / (volumeData.numberOfOutstandingShares * 1000)) * 100 * 100) / 100;
             const amount = Math.round((volumeData.volume * volumeData.closingPrice) / 100000000);
@@ -152,7 +165,7 @@ function VolumeDataTable({ marketType, value }) {
                 >
                   <TableCell
                     scope="row"
-                    padding="none"
+                    padding="default"
                   >
                     <Box display="flex" flexDirection="column">
                       <a target="_blank" href={chartLink} rel="noreferrer">
@@ -164,7 +177,8 @@ function VolumeDataTable({ marketType, value }) {
                   </TableCell>
                   <TableCell
                     scope="row"
-                    padding="none"
+                    padding="default"
+                    align="right"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography>
@@ -174,7 +188,8 @@ function VolumeDataTable({ marketType, value }) {
                   </TableCell>
                   <TableCell
                     scope="row"
-                    padding="none"
+                    padding="default"
+                    align="right"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography
@@ -188,7 +203,8 @@ function VolumeDataTable({ marketType, value }) {
                   </TableCell>
                   <TableCell
                     scope="row"
-                    padding="none"
+                    padding="default"
+                    align="right"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography>
@@ -198,7 +214,8 @@ function VolumeDataTable({ marketType, value }) {
                   </TableCell>
                   <TableCell
                     scope="row"
-                    padding="none"
+                    padding="default"
+                    align="right"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography>{volumeBy}</Typography>
@@ -206,7 +223,8 @@ function VolumeDataTable({ marketType, value }) {
                   </TableCell>
                   <TableCell
                     scope="row"
-                    padding="none"
+                    padding="default"
+                    align="right"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography>
@@ -216,7 +234,8 @@ function VolumeDataTable({ marketType, value }) {
                   </TableCell>
                   <TableCell
                     scope="row"
-                    padding="none"
+                    padding="default"
+                    align="right"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography>
@@ -226,8 +245,7 @@ function VolumeDataTable({ marketType, value }) {
                   </TableCell>
                   <TableCell
                     scope="row"
-                    padding="none"
-                    widht="15%"
+                    padding="default"
                   >
                     <Box display="flex" flexDirection="column">
                       <Typography>{volumeData.theme}</Typography>
@@ -235,7 +253,7 @@ function VolumeDataTable({ marketType, value }) {
                   </TableCell>
                 </TableRow>
               );
-            } return (<></>);
+            }
           })}
         </TableBody>
       </Table>
@@ -263,6 +281,7 @@ export default function VolumeDetailContentContainer({ date }) {
     return {
       id: `simple-tab-${index}`,
       'aria-controls': `simple-tabpanel-${index}`,
+      key: `${index}`,
     };
   }
 
@@ -278,10 +297,10 @@ export default function VolumeDetailContentContainer({ date }) {
         </Box>
       </div>
       <div className={classes.root}>
-        <TabPanel value={value} index={0}>
+        <TabPanel value={value} index={0} key="kospi">
           <VolumeDataTable value={volumeDataList} marketType="Kospi" />
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={value} index={1} key="kosdaq">
           <VolumeDataTable value={volumeDataList} marketType="Kosdaq" />
         </TabPanel>
       </div>
