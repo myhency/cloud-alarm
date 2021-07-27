@@ -34,7 +34,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <Box>{children}</Box>
         </Box>
       )}
     </div>
@@ -139,11 +139,13 @@ function VolumeDataTable({ marketType, value }) {
 
         if (volumeData.marketType === marketType) {
           return (
-            <Box style={{
-              display: 'flex',
-              flexDirection: 'column',
-              borderBottom: '1px solid lightgrey',
-            }}
+            <Box
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                borderBottom: '1px solid lightgrey',
+              }}
+              key={volumeData.id}
             >
               <Box
                 style={{
@@ -225,7 +227,7 @@ function VolumeDataTable({ marketType, value }) {
               </Box>
             </Box>
           );
-        } return (<></>);
+        }
       })}
     </>
   );
