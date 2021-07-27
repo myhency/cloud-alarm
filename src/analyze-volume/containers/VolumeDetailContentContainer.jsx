@@ -60,7 +60,7 @@ function VolumeDataTable({ marketType, value }) {
               component="th"
               scope="row"
               padding="default"
-              width="10%"
+              width="8%"
               key="1"
             >
               <Box display="flex" flexDirection="column">
@@ -71,7 +71,7 @@ function VolumeDataTable({ marketType, value }) {
               component="th"
               scope="row"
               padding="default"
-              width="5%"
+              width="7%"
               align="right"
               key="2"
             >
@@ -83,7 +83,7 @@ function VolumeDataTable({ marketType, value }) {
               component="th"
               scope="row"
               padding="default"
-              width="5%"
+              width="7%"
               align="right"
               key="3"
             >
@@ -107,7 +107,7 @@ function VolumeDataTable({ marketType, value }) {
               component="th"
               scope="row"
               padding="default"
-              width="8%"
+              width="10%"
               align="right"
               key="5"
             >
@@ -131,8 +131,9 @@ function VolumeDataTable({ marketType, value }) {
               component="th"
               scope="row"
               padding="default"
-              width="5%"
+              width="10%"
               key="7"
+              align="right"
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="body2">시가총액(억원)</Typography>
@@ -142,7 +143,7 @@ function VolumeDataTable({ marketType, value }) {
               component="th"
               scope="row"
               padding="default"
-              widht="10%"
+              widht="45%"
               key="8"
             >
               <Box display="flex" flexDirection="column">
