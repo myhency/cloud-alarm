@@ -86,11 +86,10 @@ function SevenBreadItem({
   fluctuationRate,
   fluctuationRateBy,
   presentPrice,
-  closingPrice = 0,
-  losscutPrice = 0,
   capturedDate,
   capturedPrice,
   alarmStatus,
+  majorHandler,
 }) {
   const classes = useStyles();
   const alphaLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${itemCode}`;
@@ -106,7 +105,18 @@ function SevenBreadItem({
           alignItems: 'center',
         }}
         >
+          <Box>
+            {majorHandler === 'B' ? (
+              <>
+                <FaceIcon fontSize="small" style={{ color: '#dda900' }} />
+                <BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />
+              </>
+            )
+              : majorHandler === 'G' ? (<BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />)
+                : (<FaceIcon fontSize="small" style={{ color: '#dda900' }} />)}
+          </Box>
           <Typography variant="button" style={{ flexGrow: 1, fontSize: '1.15rem' }}>
+            &nbsp;
             {itemName}
           </Typography>
           <Typography>
@@ -338,6 +348,7 @@ export default function SevenBreadMainContentContainer() {
                         closingPrice={new Intl.NumberFormat('ko-KR').format(item[1].closingPrice)}
                         capturedPrice={new Intl.NumberFormat('ko-KR').format(item[1].capturedPrice)}
                         capturedDate={String(item[1].capturedDate).substr(0, 10)}
+                        majorHandler={item[1].majorHandler}
                       />
                     ))}
               </Box>
@@ -443,7 +454,7 @@ export default function SevenBreadMainContentContainer() {
                     </Box>
                   </div>
                   <div className={classes.root}>
-                    <TableContainer style={{ height: '80vh' }}>
+                    <TableContainer>
                       <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
@@ -468,7 +479,7 @@ export default function SevenBreadMainContentContainer() {
                                 id={sevenBread.id}
                                 style={{
                                   // cursor: 'pointer',
-                                  height: '4vh',
+                                  // height: '4vh',
                                   backgroundColor: `${rowColor}`,
                                 }}
                                 hover
