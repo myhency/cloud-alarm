@@ -26,10 +26,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
+import AddIcon from '@material-ui/icons/Add';
+import HelpIcon from '@material-ui/icons/Help';
 
 import { useStyles } from '../../common/components/Styles';
 import { SearchInput } from '../../common/components/Inputs';
@@ -132,6 +132,11 @@ export default function InBoxContentContainer() {
     dispatch(loadAlarmList());
   };
 
+  function handleNewDocumentOnClick(event) {
+    event.preventDefault();
+    history.push('/add-docs');
+  }
+
   return (
     <main className={classes.content}>
       <InBoxModalContainer
@@ -175,13 +180,30 @@ export default function InBoxContentContainer() {
             justifyContent="flex-end"
             fontSize={12}
           >
-            <Typography>2 개 중 1-50</Typography>
+            {/* <Typography>2 개 중 1-50</Typography>
             <IconButton disabled>
               <KeyboardArrowLeftIcon />
             </IconButton>
             <IconButton>
               <KeyboardArrowRightIcon />
-            </IconButton>
+            </IconButton> */}
+            <StyledTooltip title="종목추가">
+              <IconButton
+                id="alarm-modify-button"
+                className={classes.action}
+                onClick={handleNewDocumentOnClick}
+              >
+                <AddIcon />
+              </IconButton>
+            </StyledTooltip>
+            <StyledTooltip title="도움말">
+              <IconButton
+                id="alarm-modify-button"
+                className={classes.action}
+              >
+                <HelpIcon />
+              </IconButton>
+            </StyledTooltip>
           </Box>
         </Box>
       </div>
