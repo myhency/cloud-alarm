@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 
 import {
   List,
@@ -9,6 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
+  Collapse,
 } from '@material-ui/core';
 
 // Icons
@@ -20,6 +22,9 @@ import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import Filter7Icon from '@material-ui/icons/Filter7';
+import ListIcon from '@material-ui/icons/List';
+import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
 import {
   BaseBox,
@@ -27,6 +32,18 @@ import {
 } from '../components/Boxes';
 import { NewDocumentButton } from '../components/Buttons';
 import MenuListItem from '../components/ListItems';
+import { ExpandLess, ExpandMore } from '@material-ui/icons';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
+}));
 
 export default function InBoxMenuListContainer({
   totalCount = '',
@@ -34,8 +51,10 @@ export default function InBoxMenuListContainer({
   state3Count = '',
 }) {
   const history = useHistory();
+  const classes = useStyles();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [expand, setExpand] = React.useState(true);
 
   function handleNewDocumentOnClick(event) {
     event.preventDefault();
@@ -46,6 +65,10 @@ export default function InBoxMenuListContainer({
     event.preventDefault();
     setSelectedIndex(index);
     history.push(link);
+  }
+
+  function handleOnExpand() {
+    setExpand(!expand);
   }
 
   useEffect(() => {
@@ -60,20 +83,96 @@ export default function InBoxMenuListContainer({
     setSelectedIndex(initIndex);
   }, []);
 
+  const breadShuttleLink = 'https://bread-shuttle.web.app/login';
+
   return (
     <BaseBox>
       <NewDocumentBox>
-        <NewDocumentButton
+        {/* <NewDocumentButton
           startIcon={<TelegramIcon style={{ fontSize: 40, color: '#b4dfe5' }} />}
           onClick={handleNewDocumentOnClick}
         >
           <Typography style={{ color: '#b4dfe5' }}>
             새 알림 만들기
           </Typography>
-        </NewDocumentButton>
+        </NewDocumentButton> */}
       </NewDocumentBox>
       <List>
+        <a target="_blank" href={breadShuttleLink} rel="noreferrer">
+          <MenuListItem
+            button
+            key={0}
+          >
+            <ListItemIcon>
+              <AirportShuttleIcon />
+            </ListItemIcon>
+            <ListItemText primary="빵셔틀" />
+            <ListItemSecondaryAction>
+              <Typography variant="subtitle1">{totalCount}</Typography>
+            </ListItemSecondaryAction>
+          </MenuListItem>
+        </a>
         <MenuListItem
+          button
+          onClick={handleOnExpand}
+        >
+          <ListItemIcon>
+            <NotificationsActiveIcon />
+          </ListItemIcon>
+          <ListItemText primary="알리미" />
+          {expand ? <ExpandLess /> : <ExpandMore />}
+        </MenuListItem>
+        <Collapse in={expand} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <MenuListItem
+              className={classes.nested}
+              button
+              selected={selectedIndex === 1}
+              key={1}
+              onClick={(e) => handleClick(e, '/inbox', 1)}
+            >
+              <ListItemIcon>
+                <ListAltIcon />
+              </ListItemIcon>
+              <ListItemText primary="알리미 리스트" />
+              <ListItemSecondaryAction>
+                <Typography variant="subtitle1">{totalCount}</Typography>
+              </ListItemSecondaryAction>
+            </MenuListItem>
+            <MenuListItem
+              className={classes.nested}
+              button
+              key={2}
+              selected={selectedIndex === 2}
+              onClick={(e) => handleClick(e, '/inbox/alarmed', 2)}
+            >
+              <ListItemIcon>
+                <TrendingUpIcon />
+              </ListItemIcon>
+              {/* 알림완료 */}
+              <ListItemText primary="알람완료 알림" />
+              <ListItemSecondaryAction>
+                <Typography variant="subtitle1">{state2Count}</Typography>
+              </ListItemSecondaryAction>
+            </MenuListItem>
+            <MenuListItem
+              className={classes.nested}
+              button
+              key={3}
+              selected={selectedIndex === 3}
+              onClick={(e) => handleClick(e, '/inbox/losscut', 3)}
+            >
+              <ListItemIcon>
+                <TrendingDownIcon />
+              </ListItemIcon>
+              <ListItemText primary="손절처리 알림" />
+              <ListItemSecondaryAction>
+                <Typography variant="subtitle1">{state2Count}</Typography>
+              </ListItemSecondaryAction>
+            </MenuListItem>
+          </List>
+        </Collapse>
+        {/* <MenuListItem
           button
           selected={selectedIndex === 1}
           key={1}
@@ -86,8 +185,8 @@ export default function InBoxMenuListContainer({
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{totalCount}</Typography>
           </ListItemSecondaryAction>
-        </MenuListItem>
-        <MenuListItem
+        </MenuListItem> */}
+        {/* <MenuListItem
           button
           key={2}
           selected={selectedIndex === 2}
@@ -96,7 +195,6 @@ export default function InBoxMenuListContainer({
           <ListItemIcon>
             <TrendingUpIcon />
           </ListItemIcon>
-          {/* 알림완료 */}
           <ListItemText primary="알람완료 알림" />
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state2Count}</Typography>
@@ -123,13 +221,12 @@ export default function InBoxMenuListContainer({
           <ListItemIcon>
             <PostAddIcon />
           </ListItemIcon>
-          {/* 종목등록 */}
           <ListItemText primary="종목 리스트" />
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state2Count}</Typography>
           </ListItemSecondaryAction>
-        </MenuListItem>
-        <Divider />
+        </MenuListItem> */}
+        {/* <Divider />
         <MenuListItem
           button
           key={5}
@@ -137,12 +234,11 @@ export default function InBoxMenuListContainer({
           <ListItemIcon>
             <PieChartIcon />
           </ListItemIcon>
-          {/* 나의 포트폴리오 */}
           <ListItemText primary="Comming soon" />
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
-        </MenuListItem>
+        </MenuListItem> */}
         <MenuListItem
           button
           selected={selectedIndex === 6}
