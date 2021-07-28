@@ -26,13 +26,13 @@ import ListIcon from '@material-ui/icons/List';
 import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 
+import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import {
   BaseBox,
   NewDocumentBox,
 } from '../components/Boxes';
 import { NewDocumentButton } from '../components/Buttons';
 import MenuListItem from '../components/ListItems';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
