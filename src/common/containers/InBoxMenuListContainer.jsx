@@ -83,8 +83,6 @@ export default function InBoxMenuListContainer({
     setSelectedIndex(initIndex);
   }, []);
 
-  const breadShuttleLink = 'https://bread-shuttle.web.app/login';
-
   return (
     <BaseBox>
       <NewDocumentBox>
@@ -98,20 +96,20 @@ export default function InBoxMenuListContainer({
         </NewDocumentButton> */}
       </NewDocumentBox>
       <List>
-        <a target="_blank" href={breadShuttleLink} rel="noreferrer">
-          <MenuListItem
-            button
-            key={0}
-          >
-            <ListItemIcon>
-              <AirportShuttleIcon />
-            </ListItemIcon>
-            <ListItemText primary="빵셔틀" />
-            <ListItemSecondaryAction>
-              <Typography variant="subtitle1">{totalCount}</Typography>
-            </ListItemSecondaryAction>
-          </MenuListItem>
-        </a>
+        <MenuListItem
+          button
+          key={8}
+          selected={selectedIndex === 8}
+          onClick={(e) => handleClick(e, '/bread/shuttle/home', 8)}
+        >
+          <ListItemIcon>
+            <AirportShuttleIcon />
+          </ListItemIcon>
+          <ListItemText primary="빵셔틀" />
+          <ListItemSecondaryAction>
+            <Typography variant="subtitle1">{totalCount}</Typography>
+          </ListItemSecondaryAction>
+        </MenuListItem>
         <MenuListItem
           button
           onClick={handleOnExpand}

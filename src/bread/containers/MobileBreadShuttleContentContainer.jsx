@@ -88,7 +88,7 @@ import { useStyles } from '../../common/components/Styles';
 //   );
 // }
 
-export default function BreadShuttleContentContainer() {
+export default function MobileBreadShuttleContentContainer() {
   // const history = useHistory();
   const classes = useStyles();
   // const dispatch = useDispatch();
@@ -172,7 +172,7 @@ export default function BreadShuttleContentContainer() {
 
   return (
     <main className={classes.content}>
-      <div style={{ height: '100vh' }}>
+      <div>
         <iframe
           id="bread-shuttle"
           name="bread"
@@ -182,8 +182,7 @@ export default function BreadShuttleContentContainer() {
           style={{
             overflow: 'auto',
             width: '100%',
-            minHeight: '100vh',
-            paddingTop: '40px',
+            minHeight: '90vh',
           }}
         />
       </div>

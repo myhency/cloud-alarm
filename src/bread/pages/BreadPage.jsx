@@ -6,6 +6,7 @@ import PageTitleContainer from '../../common/containers/PageTitleContainer';
 import InBoxMenuListContainer from '../../common/containers/InBoxMenuListContainer';
 import InBoxMenuListContainerSmall from '../../common/containers/InBoxMenuListContainerSmall';
 import BreadShuttleContentContainer from '../containers/BreadShuttleContentContainer';
+import MobileBreadShuttleContentContainer from '../containers/MobileBreadShuttleContentContainer';
 // import MobileInBoxContentContainer from '../containers/MobileInBoxContentContainer';
 
 const items = [
@@ -30,14 +31,14 @@ export default function BreadPage() {
           content={<BreadShuttleContentContainer />}
         />
       )}
-      {/* {isMobile && (
+      {isMobile && (
         <MobileDrawerLayout
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={<MobileInBoxContentContainer />}
+          content={<MobileBreadShuttleContentContainer />}
         />
-      )} */}
+      )}
     </>
   );
 }
