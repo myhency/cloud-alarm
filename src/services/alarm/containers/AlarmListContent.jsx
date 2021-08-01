@@ -1,9 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
-import Cookies from 'js-cookie';
-import jwt from 'jsonwebtoken';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import queryString from 'query-string';
 import {
   Box,
   IconButton,
@@ -30,10 +29,11 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
 import AddIcon from '@material-ui/icons/Add';
 import HelpIcon from '@material-ui/icons/Help';
+import RedoIcon from '@material-ui/icons/Redo';
 
-import { useStyles } from '../../common/components/Styles';
-import { SearchInput } from '../../common/components/Inputs';
-import { StyledTooltip } from '../../common/components/Tooltips';
+import { useStyles } from '../../../common/components/Styles';
+import { SearchInput } from '../../../common/components/Inputs';
+import { StyledTooltip } from '../../../common/components/Tooltips';
 
 import {
   loadAlarmList,
@@ -41,11 +41,13 @@ import {
   clearAlarmDetail,
   removeAlarmDocument,
   clearCreatedAlarm,
-} from '../../state/alarmSlice';
+  loadHistoryAlarmDetail,
+  setAlarm,
+} from '../../../state/alarmSlice';
 
 import InBoxModalContainer from './InBoxModalContainer';
 
-export default function InBoxContentContainer() {
+export default function AlarmListContent() {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -53,13 +55,19 @@ export default function InBoxContentContainer() {
     alarms: state.alarm.alarms,
   }));
 
+  console.log(alarms);
+
   const { deletedAlarm } = useSelector((state) => ({
     deletedAlarm: state.alarm.deletedAlarm,
   }));
 
+  const { search } = history.location;
+  const queryObj = queryString.parse(search);
+  const { status } = queryObj;
+
   useEffect(() => {
-    dispatch(loadAlarmList());
-  }, [deletedAlarm]);
+    dispatch(loadAlarmList(status || 'active'));
+  }, [deletedAlarm, status]);
 
   const [selected, setSelected] = React.useState([]);
   const [hoveredId, setHoveredId] = React.useState(null);
@@ -75,7 +83,11 @@ export default function InBoxContentContainer() {
   }
 
   const handleDetailOpen = (e, id) => {
-    dispatch(loadAlarmDetail(id));
+    if (status === 'losscut') {
+      dispatch(loadHistoryAlarmDetail(id));
+    } else {
+      dispatch(loadAlarmDetail(id));
+    }
     setDetailModalOpened(true);
   };
 
@@ -115,8 +127,14 @@ export default function InBoxContentContainer() {
     setSelected(newSelected);
   };
 
-  const handleOnModifyButton = (e, id) => {
-    history.push(`/ready-docs/${id}`);
+  const handleOnModifyButton = (e, alarm) => {
+    console.log(alarm);
+    dispatch(setAlarm(alarm));
+    history.push(`/service/alarm/update/${alarm.alarmId}`);
+  };
+
+  const handleOnReAddButton = (e, id) => {
+    history.push(`/readd-ready-docs/${id}`);
   };
 
   const handleOnDeleteButton = (e, id) => {
@@ -134,7 +152,7 @@ export default function InBoxContentContainer() {
 
   function handleNewDocumentOnClick(event) {
     event.preventDefault();
-    history.push('/add-docs');
+    history.push('/service/alarm/new');
   }
 
   return (
@@ -369,7 +387,8 @@ export default function InBoxContentContainer() {
                         {alarm.alarmStatus === 'ALARMED' ? '알림완료'
                           : alarm.alarmStatus === 'ALARM_CREATED' ? '알림전'
                             : alarm.alarmStatus === 'PRICE_UPDATED' ? '가격수정됨'
-                              : alarm.alarmStatus}
+                              : alarm.alarmStatus === 'LOSSCUT' ? '손절처리'
+                                : alarm.alarmStatus}
                       </Typography>
                     </TableCell>
                     {hoveredId === alarm.alarmId ? (
@@ -385,23 +404,37 @@ export default function InBoxContentContainer() {
                               </IconButton>
                             </a>
                           </StyledTooltip>
-                          <StyledTooltip title="수정">
-                            <IconButton
-                              id="alarm-modify-button"
-                              className={classes.action}
-                              onClick={(e) => handleOnModifyButton(e, alarm.alarmId)}
-                            >
-                              <EditIcon />
-                            </IconButton>
-                          </StyledTooltip>
-                          <StyledTooltip title="삭제">
-                            <IconButton
-                              className={classes.action}
-                              onClick={(e) => handleOnDeleteButton(e, alarm.alarmId)}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </StyledTooltip>
+                          {alarm.alarmStatus === 'LOSSCUT' ? (
+                            <StyledTooltip title="재등록">
+                              <IconButton
+                                id="alarm-delete-button"
+                                className={classes.action}
+                                onClick={(e) => handleOnReAddButton(e, alarm.alarmId)}
+                              >
+                                <RedoIcon />
+                              </IconButton>
+                            </StyledTooltip>
+                          ) : (
+                            <>
+                              <StyledTooltip title="수정">
+                                <IconButton
+                                  id="alarm-modify-button"
+                                  className={classes.action}
+                                  onClick={(e) => handleOnModifyButton(e, alarm)}
+                                >
+                                  <EditIcon />
+                                </IconButton>
+                              </StyledTooltip>
+                              <StyledTooltip title="삭제">
+                                <IconButton
+                                  className={classes.action}
+                                  onClick={(e) => handleOnDeleteButton(e, alarm.alarmId)}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </StyledTooltip>
+                            </>
+                          )}
                         </Box>
                       </TableCell>
                     ) : (

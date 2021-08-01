@@ -1,4 +1,4 @@
-import { signProgressStatus } from '../../fixture/dashboard';
+import { signProgressStatus } from '../../../fixture/dashboard';
 
 export async function fetchSignProgressStatus() {
   // TODO: IMPL

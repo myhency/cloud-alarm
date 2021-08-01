@@ -2,15 +2,16 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 
-import AlarmModal from '../components/AlarmModal';
+import MobileAlarmModal from '../components/MobileAlarmModal';
 
-export default function InBoxModalContainer({ openState, onClose }) {
+export default function MobileInBoxModalContainer({ openState, onClose, handleConfirmClose }) {
   const { alarmDetail } = useSelector((state) => ({
     alarmDetail: state.alarm.alarmDetail,
   }));
 
   return (
-    <AlarmModal
+    <MobileAlarmModal
+      alarmId={alarmDetail.alarmId}
       itemName={alarmDetail.itemName}
       itemCode={alarmDetail.itemCode}
       recommendPrice={alarmDetail.recommendPrice}
@@ -24,6 +25,7 @@ export default function InBoxModalContainer({ openState, onClose }) {
       losscutAt={alarmDetail.losscutAt}
       openState={openState}
       onClose={onClose}
+      handleParentConfirmClose={handleConfirmClose}
     />
   );
 }

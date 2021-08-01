@@ -29,7 +29,7 @@ import BreadStockLogoImage from '../../assets/images/bread-stock-logo.png';
 import {
   getLoginToken,
   clearAccessToken,
-} from '../../state/slice';
+} from '../../state/authSlice';
 
 const useStyles = makeStyles(() => ({
   logo: {
@@ -48,7 +48,7 @@ export default function LoginPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { accessToken } = useSelector((state) => ({
-    accessToken: state.accessToken,
+    accessToken: state.auth.accessToken,
   }));
 
   const [password, setPassword] = React.useState('');
@@ -91,7 +91,7 @@ export default function LoginPage() {
       return;
     }
     if (accessToken !== null) {
-      history.push('/inbox');
+      history.push('/');
       dispatch(clearAccessToken());
     }
   }, [accessToken]);

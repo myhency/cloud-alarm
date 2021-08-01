@@ -1,4 +1,4 @@
-import { documentList } from '../../fixture/documents';
+import { documentList } from '../../../fixture/documents';
 
 export async function fetchDocumentList() {
   return new Promise((resolve, _) => setTimeout(() => resolve({

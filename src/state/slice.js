@@ -1,19 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-import Cookies from 'js-cookie';
-import jwt from 'jsonwebtoken';
 
-import { fetchSignProgressStatus } from '../services/dashboard';
+import { fetchSignProgressStatus } from './services/dashboard';
 import {
   fetchContacts,
   fetchContactDetail,
-} from '../services/contacts';
+} from './services/contacts';
 import {
   fetchDocumentList,
-} from '../services/documents';
+} from './services/documents';
 import {
   fetchVolumeDateList,
   fetchVolumeDataList,
-} from '../services/analyze';
+} from './services/analyze';
 import {
   fetchAlarmList,
   fetchLosscutAlarmList,
@@ -24,13 +22,13 @@ import {
   updateAlarmDocument,
   fetchAlarmByItemCode,
   deleteAlarmDoument,
-} from '../services/alarms';
+} from './services/alarms';
 import {
   fetchStockItemList,
-} from '../services/stockItems';
-import {
-  getJwtToken,
-} from '../services/auth';
+} from './services/stockItems';
+// import {
+//   getJwtToken,
+// } from '../services/auth';
 import {
   fetchSevenBreadList,
   fetchSevenBreadItemByItemCode,
@@ -39,7 +37,7 @@ import {
   getSevenBreadRealTimeList,
   createSevenBreadItemAddListener,
   updateSevenBreadItemAddListener,
-} from '../services/sevenbread';
+} from './services/sevenbread';
 
 import locales from '../locales.json';
 
@@ -172,7 +170,7 @@ const { actions, reducer } = createSlice({
   initialState: {
     contactId: 1,
     internalUserId: 1,
-    accessToken: null,
+    // accessToken: null,
     signProgressStatus: {
       signWait: null,
       signProgress: null,
@@ -309,12 +307,12 @@ const { actions, reducer } = createSlice({
       };
     },
 
-    clearAccessToken(state) {
-      return {
-        ...state,
-        accessToken: null,
-      };
-    },
+    // clearAccessToken(state) {
+    //   return {
+    //     ...state,
+    //     accessToken: null,
+    //   };
+    // },
 
     clearDeletedSevenBreadItem(state) {
       return {
@@ -631,7 +629,7 @@ const { actions, reducer } = createSlice({
 });
 
 export const {
-  setAccessToken,
+  // setAccessToken,
   setSignProgress,
   setMobileOpen,
   setLocale,
@@ -643,7 +641,7 @@ export const {
   clearModifiedAlarm,
   clearCreatedAlarm,
   clearAlarmDocument,
-  clearAccessToken,
+  // clearAccessToken,
   clearSevenBreadItemId,
   setDocuments,
   setLosscutAlarms,
@@ -985,23 +983,23 @@ export function removeAlarmDocument(id) {
   };
 }
 
-export function getLoginToken(dataToSubmit) {
-  return async (dispatch) => {
-    const { result, data } = await getJwtToken(dataToSubmit);
-    const accessToken = data;
+// export function getLoginToken(dataToSubmit) {
+//   return async (dispatch) => {
+//     const { result, data } = await getJwtToken(dataToSubmit);
+//     const accessToken = data;
 
-    if (result) {
-      Cookies.set('accessToken', accessToken);
-      const key = 'breadstockcloud';
-      const res = jwt.verify(accessToken, key);
-      Cookies.set('role', res.roles[0]);
-    }
+//     if (result) {
+//       Cookies.set('accessToken', accessToken);
+//       const key = 'breadstockcloud';
+//       const res = jwt.verify(accessToken, key);
+//       Cookies.set('role', res.roles[0]);
+//     }
 
-    dispatch(setAccessToken(
-      accessToken,
-    ));
-  };
-}
+//     dispatch(setAccessToken(
+//       accessToken,
+//     ));
+//   };
+// }
 
 export function loadVolumeDateList() {
   return async (dispatch) => {

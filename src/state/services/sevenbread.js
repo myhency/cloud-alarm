@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import firebase from '../Firebase';
+import firebase from '../../Firebase';
 
 const db = firebase.database();
 

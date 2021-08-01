@@ -1,4 +1,4 @@
-import { contactList } from '../../fixture/contacts';
+import { contactList } from '../../../fixture/contacts';
 
 export async function fetchContacts(contactId, internalUserId) {
   if (contactId !== 1 && internalUserId !== 1) {

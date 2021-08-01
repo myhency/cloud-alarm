@@ -9,6 +9,10 @@ import {
 
 import { useAuthed } from './hooks';
 
+import AlarmServiceHome from './services/alarm/pages/AlarmServiceHome';
+import NewAlarm from './services/alarm/pages/NewAlarm';
+import ReadyAlarm from './services/alarm/pages/ReadyAlarm';
+import ReviewAlarm from './services/alarm/pages/ReviewAlarm';
 import InboxPage from './inbox/pages/InboxPage';
 import InboxLosscutPage from './inbox-losscut/pages/InboxLosscutPage';
 import InboxAlarmedPage from './inbox-alarmed/pages/InboxAlarmedPage';
@@ -28,6 +32,7 @@ import ReviewSevenBreadItemPage from './seven-bread/pages/ReviewSevenBreadItemPa
 import BreadPage from './bread/pages/BreadPage';
 import LoginPage from './login/pages/LoginPage';
 import NotFoundPage from './NotFoundPage';
+
 
 // const Desktop = ({ children }) => {
 //   const isDesktop = useMediaQuery({ minWidth: 992 });
@@ -118,7 +123,12 @@ export default function RootPage() {
   return (
     <Router>
       <Switch>
-        <AllAuthedRoute exact path="/" component={() => (<Redirect to={{ pathname: '/inbox' }} />)} />
+        <AllAuthedRoute exact path="/" component={() => (<Redirect to={{ pathname: '/bread/shuttle/home' }} />)} />
+        <AllAuthedRoute exact path="/service/alarm" component={AlarmServiceHome} />
+        <AdminAuthedRoute exact path="/service/alarm/new" component={NewAlarm} />
+        <AdminAuthedRoute exact path="/service/alarm/ready" component={ReadyAlarm} />
+        <AdminAuthedRoute exact path="/service/alarm/review" component={ReviewAlarm} />
+        <AdminAuthedRoute exact path="/service/alarm/update/:id" component={ReadyAlarm} />
         <UnAuthedRoute path="/login" component={LoginPage} />
         <AllAuthedRoute path="/analyze/volume/:date" component={VolumeDetailPage} />
         <AllAuthedRoute path="/analyze/volume" component={VolumeListPage} />

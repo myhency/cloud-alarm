@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
@@ -56,11 +56,6 @@ export default function InBoxMenuListContainer({
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [expand, setExpand] = React.useState(true);
 
-  function handleNewDocumentOnClick(event) {
-    event.preventDefault();
-    history.push('/add-docs');
-  }
-
   function handleClick(event, link, index) {
     event.preventDefault();
     setSelectedIndex(index);
@@ -71,11 +66,13 @@ export default function InBoxMenuListContainer({
     setExpand(!expand);
   }
 
+  const { search, pathname } = history.location;
+
   useEffect(() => {
     // eslint-disable-next-line no-nested-ternary
-    const initIndex = history.location.pathname === '/inbox' ? 1
-      : history.location.pathname === '/inbox/alarmed' ? 2
-        : history.location.pathname === '/inbox/losscut' ? 3
+    const initIndex = pathname === '/service/alarm' ? 1
+      : search === '?status=alarmed' ? 2
+        : search === '?status=losscut' ? 3
           : history.location.pathname.includes('/analyze/volume') ? 6
             : history.location.pathname === '/seven-bread/main' ? 7
               : history.location.pathname === '/bread/shuttle/home' ? 8
@@ -127,7 +124,7 @@ export default function InBoxMenuListContainer({
               button
               selected={selectedIndex === 1}
               key={1}
-              onClick={(e) => handleClick(e, '/inbox', 1)}
+              onClick={(e) => handleClick(e, '/service/alarm?status=active', 1)}
             >
               <ListItemIcon>
                 <ListAltIcon />
@@ -142,7 +139,7 @@ export default function InBoxMenuListContainer({
               button
               key={2}
               selected={selectedIndex === 2}
-              onClick={(e) => handleClick(e, '/inbox/alarmed', 2)}
+              onClick={(e) => handleClick(e, '/service/alarm?status=alarmed', 2)}
             >
               <ListItemIcon>
                 <TrendingUpIcon />
@@ -158,7 +155,7 @@ export default function InBoxMenuListContainer({
               button
               key={3}
               selected={selectedIndex === 3}
-              onClick={(e) => handleClick(e, '/inbox/losscut', 3)}
+              onClick={(e) => handleClick(e, '/service/alarm?status=losscut', 3)}
             >
               <ListItemIcon>
                 <TrendingDownIcon />

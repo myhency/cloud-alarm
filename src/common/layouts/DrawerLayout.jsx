@@ -3,18 +3,14 @@ import Cookies from 'js-cookie';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-// Router
 import {
   useHistory,
 } from 'react-router-dom';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
 import {
   AppBar,
   Toolbar,
   Drawer,
-  // Menu,
-  // MenuItem,
   IconButton,
   Typography,
   Paper,
@@ -151,7 +147,6 @@ export default function DrawerLayout({
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -199,24 +194,6 @@ export default function DrawerLayout({
             >
               <ExitToAppIcon style={{ color: '#b4dfe5' }} />
             </IconButton>
-            {/* <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              getContentAnchorEl={null}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={profileMenuOpen}
-              onClose={handleProfileMenuClose}
-            >
-              <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
-              <MenuItem onClick={handleContactsMenuOnClick}>Contacts</MenuItem>
-            </Menu> */}
           </div>
         </Toolbar>
       </AppBar>
@@ -233,7 +210,6 @@ export default function DrawerLayout({
           }),
         }}
       >
-        {/* 로고가 들어가는 곳 */}
         <div className={classes.toolbar}>
           <Paper variant="outlined" square className={classes.paper}>
             클라우드의 주식훈련소
@@ -243,8 +219,7 @@ export default function DrawerLayout({
           </IconButton>
         </div>
         <Divider />
-        {/* {menuList} */}
-        {drawerOpen ? menuList : menuListSmall}
+        {drawerOpen ? menuList : <></>}
       </Drawer>
       {content}
     </div>
