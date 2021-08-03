@@ -69,12 +69,36 @@ export default function ProgressToolBar() {
 
   const { pathname } = history.location;
 
+  if (pathname.includes('new')) {
+    return (
+      <div className={classes.progressToolBarRoot}>
+        <Box display="flex" flexDirection="row" flexGrow="1" justifyContent="center" p={1} m={1}>
+          <Step isActive={pathname.includes('add')} mention="종목추가" />
+          <StepSeperator />
+          <Step isActive={pathname.includes('ready')} mention="정보입력" />
+          <StepSeperator />
+          <Step isActive={pathname.includes('review')} mention="검토 및 저장" />
+        </Box>
+      </div>
+    );
+  }
+
+  if (pathname.includes('update')) {
+    return (
+      <div className={classes.progressToolBarRoot}>
+        <Box display="flex" flexDirection="row" flexGrow="1" justifyContent="center" p={1} m={1}>
+          <Step isActive={pathname.includes('ready')} mention="정보수정" />
+          <StepSeperator />
+          <Step isActive={pathname.includes('review')} mention="검토 및 저장" />
+        </Box>
+      </div>
+    );
+  }
+
   return (
     <div className={classes.progressToolBarRoot}>
       <Box display="flex" flexDirection="row" flexGrow="1" justifyContent="center" p={1} m={1}>
-        <Step isActive={pathname.includes('new')} mention="종목추가" />
-        <StepSeperator />
-        <Step isActive={pathname.includes('ready')} mention="정보입력" />
+        <Step isActive={pathname.includes('ready')} mention="손절알림 재등록" />
         <StepSeperator />
         <Step isActive={pathname.includes('review')} mention="검토 및 저장" />
       </Box>

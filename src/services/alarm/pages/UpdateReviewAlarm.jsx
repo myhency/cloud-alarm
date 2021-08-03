@@ -5,28 +5,15 @@ import MobileDrawerLayout from '../../../common/layouts/MobileDrawerLayout';
 import PageTitleContainer from '../../../common/containers/PageTitleContainer';
 import InBoxMenuListContainer from '../../../common/containers/InBoxMenuListContainer';
 import InBoxMenuListContainerSmall from '../../../common/containers/InBoxMenuListContainerSmall';
-import ReviewItemContent from '../containers/ReviewItemContent';
+import UpdateReviewAlarmContent from '../containers/UpdateReviewAlarmContent';
 
 const items = [
   { title: '알리미 리스트', link: '/service/alarm?status=active' },
-  { title: '새 알리미', link: '/service/alarm/new' },
 ];
 
 const contentsLink = { link: '/service/alarm?status=active' };
 
-export default function ReviewAlarm() {
-  const alertUser = (e) => {
-    e.preventDefault();
-    e.returnValue = '';
-  };
-
-  React.useEffect(() => {
-    window.addEventListener('beforeunload', alertUser);
-    return () => {
-      window.removeEventListener('beforeunload', alertUser);
-    };
-  }, []);
-
+export default function UpdateReviewAlarm({ match }) {
   return (
     <>
       <Desktop>
@@ -34,7 +21,12 @@ export default function ReviewAlarm() {
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={<ReviewItemContent contentsLink={contentsLink} />}
+          content={(
+            <UpdateReviewAlarmContent
+              contentsLink={contentsLink}
+              id={match.params.id}
+            />
+          )}
         />
       </Desktop>
       <Mobile>
@@ -42,7 +34,12 @@ export default function ReviewAlarm() {
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={<ReviewItemContent contentsLink={contentsLink} />}
+          content={(
+            <UpdateReviewAlarmContent
+              contentsLink={contentsLink}
+              id={match.params.id}
+            />
+          )}
         />
       </Mobile>
     </>

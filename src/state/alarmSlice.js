@@ -116,6 +116,7 @@ const { actions, reducer } = createSlice({
     alarmId: { alarmId: 0 },
     newAlarm: initialNewAlarm,
     createdAlarm: initialCreatedAlarm,
+    modifiedAlarm: initialCreatedAlarm,
   },
 
   reducers: {
@@ -138,6 +139,7 @@ const { actions, reducer } = createSlice({
     },
 
     setAlarm(state, { payload: alarm }) {
+      console.log(alarm);
       const parsedAlarm = parseAlarm(
         alarm,
       );
@@ -345,6 +347,13 @@ const { actions, reducer } = createSlice({
         },
       };
     },
+
+    clearModifiedAlarm(state) {
+      return {
+        ...state,
+        modifiedAlarm: initialCreatedAlarm,
+      };
+    },
   },
 });
 
@@ -362,6 +371,7 @@ export const {
   setAlarmId,
   clearAlarmId,
   clearNewAlarm,
+  clearModifiedAlarm,
 } = actions;
 
 export default reducer;

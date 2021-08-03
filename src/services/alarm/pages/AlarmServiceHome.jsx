@@ -9,7 +9,7 @@ import AlarmListContent from '../containers/AlarmListContent';
 import MobileAlarmListContent from '../containers/MobileAlarmListContent';
 
 const items = [
-  { title: '알리미 리스트', link: '/service/alarm/home' },
+  { title: '알리미 리스트', link: '/service/alarm?status=active' },
 ];
 
 export default function AlarmServiceHome() {

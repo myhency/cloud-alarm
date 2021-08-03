@@ -130,7 +130,7 @@ export default function AlarmListContent() {
   const handleOnModifyButton = (e, alarm) => {
     console.log(alarm);
     dispatch(setAlarm(alarm));
-    history.push(`/service/alarm/update/${alarm.alarmId}`);
+    history.push(`/service/alarm/update/ready/${alarm.alarmId}`);
   };
 
   const handleOnReAddButton = (e, id) => {
@@ -150,9 +150,9 @@ export default function AlarmListContent() {
     dispatch(loadAlarmList());
   };
 
-  function handleNewDocumentOnClick(event) {
+  function handleNewAlarmOnClick(event) {
     event.preventDefault();
-    history.push('/service/alarm/new');
+    history.push('/service/alarm/new/add');
   }
 
   return (
@@ -209,7 +209,7 @@ export default function AlarmListContent() {
               <IconButton
                 id="alarm-modify-button"
                 className={classes.action}
-                onClick={handleNewDocumentOnClick}
+                onClick={handleNewAlarmOnClick}
               >
                 <AddIcon />
               </IconButton>

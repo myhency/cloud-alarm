@@ -10,9 +10,11 @@ import {
 import { useAuthed } from './hooks';
 
 import AlarmServiceHome from './services/alarm/pages/AlarmServiceHome';
-import NewAlarm from './services/alarm/pages/NewAlarm';
-import ReadyAlarm from './services/alarm/pages/ReadyAlarm';
-import ReviewAlarm from './services/alarm/pages/ReviewAlarm';
+import AddNewAlarm from './services/alarm/pages/AddNewAlarm';
+import AddReadyAlarm from './services/alarm/pages/AddReadyAlarm';
+import AddReviewAlarm from './services/alarm/pages/AddReviewAlarm';
+import UpdateReadyAlarm from './services/alarm/pages/UpdateReadyAlarm';
+import UpdateReviewAlarm from './services/alarm/pages/UpdateReviewAlarm';
 import InboxPage from './inbox/pages/InboxPage';
 import InboxLosscutPage from './inbox-losscut/pages/InboxLosscutPage';
 import InboxAlarmedPage from './inbox-alarmed/pages/InboxAlarmedPage';
@@ -125,18 +127,19 @@ export default function RootPage() {
       <Switch>
         <AllAuthedRoute exact path="/" component={() => (<Redirect to={{ pathname: '/bread/shuttle/home' }} />)} />
         <AllAuthedRoute exact path="/service/alarm" component={AlarmServiceHome} />
-        <AdminAuthedRoute exact path="/service/alarm/new" component={NewAlarm} />
-        <AdminAuthedRoute exact path="/service/alarm/ready" component={ReadyAlarm} />
-        <AdminAuthedRoute exact path="/service/alarm/review" component={ReviewAlarm} />
-        <AdminAuthedRoute exact path="/service/alarm/update/:id" component={ReadyAlarm} />
+        <AdminAuthedRoute exact path="/service/alarm/new/add" component={AddNewAlarm} />
+        <AdminAuthedRoute exact path="/service/alarm/new/ready" component={AddReadyAlarm} />
+        <AdminAuthedRoute exact path="/service/alarm/new/review" component={AddReviewAlarm} />
+        <AdminAuthedRoute exact path="/service/alarm/update/ready/:id" component={UpdateReadyAlarm} />
+        <AdminAuthedRoute exact path="/service/alarm/update/review/:id" component={UpdateReviewAlarm} />
         <UnAuthedRoute path="/login" component={LoginPage} />
         <AllAuthedRoute path="/analyze/volume/:date" component={VolumeDetailPage} />
         <AllAuthedRoute path="/analyze/volume" component={VolumeListPage} />
         <AdminAuthedRoute path="/review-docs/:id" component={ModifyReviewDocumentPage} />
-        <AdminAuthedRoute path="/review-docs" component={ReviewDocumentPage} />
-        <AdminAuthedRoute path="/add-docs" component={AddDocumentPage} />
+        {/* <AdminAuthedRoute path="/review-docs" component={ReviewDocumentPage} /> */}
+        {/* <AdminAuthedRoute path="/add-docs" component={AddDocumentPage} /> */}
         <AdminAuthedRoute path="/ready-docs/:id" component={ModifyReadyDocumentPage} />
-        <AdminAuthedRoute path="/ready-docs" component={ReadyDocumentPage} />
+        {/* <AdminAuthedRoute path="/ready-docs" component={ReadyDocumentPage} /> */}
         <AdminAuthedRoute path="/readd-ready-docs/:id" component={ReaddReadyDocumentPage} />
         <AdminAuthedRoute path="/review-readd-docs/:id" component={ReaddReviewDocumentPage} />
         <AllAuthedRoute exact path="/inbox" component={InboxPage} />

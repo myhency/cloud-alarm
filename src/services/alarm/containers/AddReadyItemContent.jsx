@@ -31,25 +31,25 @@ export default function ReadyItemContent({ contentsLink }) {
   const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
-  const { alarmDocument } = useSelector((state) => ({
-    alarmDocument: state.alarm.alarm,
+  const { newAlarm } = useSelector((state) => ({
+    newAlarm: state.alarm.newAlarm,
   }));
 
-  console.log(alarmDocument);
+  console.log(newAlarm);
 
   useEffect(() => {
-    if (alarmDocument.itemName === '' && alarmDocument.itemCode === '' && !pathname.includes('update')) {
-      history.push('/service/alarm/new');
+    if (newAlarm.itemName === '' && newAlarm.itemCode === '' && !pathname.includes('update')) {
+      history.push('/service/alarm/new/add');
     }
   }, []);
 
   const [itemInfo, setItemInfo] = React.useState({
-    itemName: alarmDocument.itemName,
-    itemCode: alarmDocument.itemCode,
+    itemName: newAlarm.itemName,
+    itemCode: newAlarm.itemCode,
     recommendPrice: '',
     losscutPrice: '',
     comment: '',
-    theme: alarmDocument.theme,
+    theme: newAlarm.theme,
   });
 
   function handleOnChange(event) {
@@ -64,20 +64,20 @@ export default function ReadyItemContent({ contentsLink }) {
   function handleOnClick(event, link) {
     if ((itemInfo.itemName === '' || itemInfo.itemCode === ''
     || itemInfo.recommendPrice === '' || itemInfo.losscutPrice === '')
-    && (alarmDocument.itemName === '' || alarmDocument.itemCode === ''
-    || alarmDocument.recommendPrice === '' || alarmDocument.losscutPrice === '')) {
+    && (newAlarm.itemName === '' || newAlarm.itemCode === ''
+    || newAlarm.recommendPrice === '' || newAlarm.losscutPrice === '')) {
       setOpen(true);
     } else {
       event.preventDefault();
       dispatch(
         setNewAlarm({
-          itemName: alarmDocument.itemName,
-          itemCode: alarmDocument.itemCode,
+          itemName: newAlarm.itemName,
+          itemCode: newAlarm.itemCode,
           recommendPrice:
-            itemInfo.recommendPrice || alarmDocument.recommendPrice,
-          losscutPrice: itemInfo.losscutPrice || alarmDocument.losscutPrice,
-          comment: itemInfo.comment || alarmDocument.comment,
-          theme: itemInfo.theme || alarmDocument.theme,
+            itemInfo.recommendPrice || newAlarm.recommendPrice,
+          losscutPrice: itemInfo.losscutPrice || newAlarm.losscutPrice,
+          comment: itemInfo.comment || newAlarm.comment,
+          theme: itemInfo.theme || newAlarm.theme,
         }),
       );
       history.push(link);
@@ -124,7 +124,7 @@ export default function ReadyItemContent({ contentsLink }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.itemName}
+              value={newAlarm.itemName}
             />
           </Box>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -136,7 +136,7 @@ export default function ReadyItemContent({ contentsLink }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.itemCode}
+              value={newAlarm.itemCode}
             />
           </Box>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -150,7 +150,7 @@ export default function ReadyItemContent({ contentsLink }) {
               value={
                 (itemInfo.recommendPrice
                   ? itemInfo.recommendPrice
-                  : alarmDocument.recommendPrice) || ''
+                  : newAlarm.recommendPrice) || ''
               }
             />
           </Box>
@@ -165,7 +165,7 @@ export default function ReadyItemContent({ contentsLink }) {
               value={
                 (itemInfo.losscutPrice
                   ? itemInfo.losscutPrice
-                  : alarmDocument.losscutPrice) || ''
+                  : newAlarm.losscutPrice) || ''
               }
             />
           </Box>
@@ -179,7 +179,7 @@ export default function ReadyItemContent({ contentsLink }) {
               fullWidth
               onChange={handleOnChange}
               value={
-                (itemInfo.comment ? itemInfo.comment : alarmDocument.comment)
+                (itemInfo.comment ? itemInfo.comment : newAlarm.comment)
                 || ''
               }
             />
@@ -194,7 +194,7 @@ export default function ReadyItemContent({ contentsLink }) {
               fullWidth
               onChange={handleOnChange}
               value={
-                (itemInfo.theme ? itemInfo.theme : alarmDocument.theme) || ''
+                (itemInfo.theme ? itemInfo.theme : newAlarm.theme) || ''
               }
             />
           </Box>

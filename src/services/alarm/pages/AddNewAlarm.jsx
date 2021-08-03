@@ -5,28 +5,16 @@ import MobileDrawerLayout from '../../../common/layouts/MobileDrawerLayout';
 import PageTitleContainer from '../../../common/containers/PageTitleContainer';
 import InBoxMenuListContainer from '../../../common/containers/InBoxMenuListContainer';
 import InBoxMenuListContainerSmall from '../../../common/containers/InBoxMenuListContainerSmall';
-import ReadyItemContent from '../containers/ReadyItemContent';
+import NewItemContent from '../containers/AddNewItemContent';
 
 const items = [
   { title: '알리미 리스트', link: '/service/alarm?status=active' },
   { title: '새 알리미', link: '/service/alarm/new' },
 ];
 
-const contentsLink = { link: '/service/alarm/review' };
+const contentsLink = { link: '/service/alarm/new/ready' };
 
-export default function ReadyAlarm() {
-  const alertUser = (e) => {
-    e.preventDefault();
-    e.returnValue = '';
-  };
-
-  React.useEffect(() => {
-    window.addEventListener('beforeunload', alertUser);
-    return () => {
-      window.removeEventListener('beforeunload', alertUser);
-    };
-  }, []);
-
+export default function NewAlarm() {
   return (
     <>
       <Desktop>
@@ -34,7 +22,7 @@ export default function ReadyAlarm() {
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={<ReadyItemContent contentsLink={contentsLink} />}
+          content={<NewItemContent contentsLink={contentsLink} />}
         />
       </Desktop>
       <Mobile>
@@ -42,7 +30,7 @@ export default function ReadyAlarm() {
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={<ReadyItemContent contentsLink={contentsLink} />}
+          content={<NewItemContent contentsLink={contentsLink} />}
         />
       </Mobile>
     </>

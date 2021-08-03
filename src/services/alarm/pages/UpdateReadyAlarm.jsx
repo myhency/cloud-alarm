@@ -5,16 +5,15 @@ import MobileDrawerLayout from '../../../common/layouts/MobileDrawerLayout';
 import PageTitleContainer from '../../../common/containers/PageTitleContainer';
 import InBoxMenuListContainer from '../../../common/containers/InBoxMenuListContainer';
 import InBoxMenuListContainerSmall from '../../../common/containers/InBoxMenuListContainerSmall';
-import NewItemContent from '../containers/NewItemContent';
+import UpdateReadyAlarmContent from '../containers/UpdateReadyAlarmContent';
 
 const items = [
   { title: '알리미 리스트', link: '/service/alarm?status=active' },
-  { title: '새 알리미', link: '/service/alarm/new' },
 ];
 
-const contentsLink = { link: '/service/alarm/ready' };
+const contentsLink = { link: '/service/alarm/update/review' };
 
-export default function NewAlarm() {
+export default function UpdateReadyAlarm({ match }) {
   return (
     <>
       <Desktop>
@@ -22,7 +21,12 @@ export default function NewAlarm() {
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={<NewItemContent contentsLink={contentsLink} />}
+          content={(
+            <UpdateReadyAlarmContent
+              contentsLink={contentsLink}
+              id={match.params.id}
+            />
+          )}
         />
       </Desktop>
       <Mobile>
@@ -30,7 +34,12 @@ export default function NewAlarm() {
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={<NewItemContent contentsLink={contentsLink} />}
+          content={(
+            <UpdateReadyAlarmContent
+              contentsLink={contentsLink}
+              id={match.params.id}
+            />
+          )}
         />
       </Mobile>
     </>
