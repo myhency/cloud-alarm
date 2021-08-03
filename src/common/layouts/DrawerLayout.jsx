@@ -173,7 +173,7 @@ export default function DrawerLayout({
             {pageTitleContainer}
           </Typography>
           <div>
-            <a target="_blank" href="https://t.me/joinchat/CNWUmvadLcUxOWQ1" rel="noreferrer">
+            <a target="_blank" href="https://t.me/joinchat/xIWvHhTRaY0xNGQ1" rel="noreferrer">
               <IconButton
                 className={classes.profileButton}
                 aria-label="account of current user"

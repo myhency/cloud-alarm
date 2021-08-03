@@ -26,7 +26,6 @@ import {
 export default function ReadyItemContent({ contentsLink }) {
   const history = useHistory();
   const classes = useStyles();
-  const { pathname } = history.location;
 
   const [open, setOpen] = React.useState(false);
 
@@ -35,22 +34,17 @@ export default function ReadyItemContent({ contentsLink }) {
     newAlarm: state.alarm.newAlarm,
   }));
 
-  console.log(newAlarm);
-
   useEffect(() => {
-    if (newAlarm.itemName === '' && newAlarm.itemCode === '' && !pathname.includes('update')) {
+    if (newAlarm.itemName === '' && newAlarm.itemCode === '') {
       history.push('/service/alarm/new/add');
     }
   }, []);
 
   const [itemInfo, setItemInfo] = React.useState({
-    itemName: newAlarm.itemName,
-    itemCode: newAlarm.itemCode,
-    recommendPrice: '',
-    losscutPrice: '',
-    comment: '',
-    theme: newAlarm.theme,
+    ...newAlarm,
   });
+
+  console.log(itemInfo);
 
   function handleOnChange(event) {
     const { name, value } = event.target;
@@ -61,26 +55,23 @@ export default function ReadyItemContent({ contentsLink }) {
     });
   }
 
-  function handleOnClick(event, link) {
-    if ((itemInfo.itemName === '' || itemInfo.itemCode === ''
-    || itemInfo.recommendPrice === '' || itemInfo.losscutPrice === '')
-    && (newAlarm.itemName === '' || newAlarm.itemCode === ''
-    || newAlarm.recommendPrice === '' || newAlarm.losscutPrice === '')) {
+  /**
+   * 다음 버튼을 클릭할 때 실행됨.
+   * @param {*} event
+   * @param {*} link
+   */
+  function handleOnClick(event) {
+    if (!itemInfo.recommendPrice || !itemInfo.losscutPrice) {
       setOpen(true);
     } else {
       event.preventDefault();
       dispatch(
         setNewAlarm({
-          itemName: newAlarm.itemName,
-          itemCode: newAlarm.itemCode,
-          recommendPrice:
-            itemInfo.recommendPrice || newAlarm.recommendPrice,
-          losscutPrice: itemInfo.losscutPrice || newAlarm.losscutPrice,
-          comment: itemInfo.comment || newAlarm.comment,
-          theme: itemInfo.theme || newAlarm.theme,
+          ...newAlarm,
+          ...itemInfo,
         }),
       );
-      history.push(link);
+      history.push('/service/alarm/new/review');
     }
   }
 
@@ -202,7 +193,7 @@ export default function ReadyItemContent({ contentsLink }) {
             <BackButton onClick={handleOnBackClick}>
               뒤로
             </BackButton>
-            <NextButton onClick={(e) => handleOnClick(e, contentsLink.link)}>
+            <NextButton onClick={handleOnClick}>
               다음
             </NextButton>
           </Box>

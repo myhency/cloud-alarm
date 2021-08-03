@@ -34,8 +34,8 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
   const [warningOpen, setWarningOpen] = React.useState(false);
 
   const dispatch = useDispatch();
-  const { alarmDocument } = useSelector((state) => ({
-    alarmDocument: state.alarm.newAlarm,
+  const { newAlarm } = useSelector((state) => ({
+    newAlarm: state.alarm.newAlarm,
   }));
   const { createdAlarm } = useSelector((state) => ({
     createdAlarm: state.alarm.createdAlarm,
@@ -65,8 +65,8 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
   }
 
   useEffect(() => {
-    if (alarmDocument.itemName === '' && alarmDocument.itemCode === '') {
-      history.push('/add-docs');
+    if (!newAlarm.itemName || !newAlarm.itemCode) {
+      history.push('/service/alarm/new/add');
     }
   }, []);
 

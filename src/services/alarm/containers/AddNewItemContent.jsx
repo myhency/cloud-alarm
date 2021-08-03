@@ -50,6 +50,10 @@ export default function NewItemContent({ contentsLink }) {
     alarmId: state.alarm.alarmId,
   }));
 
+  const { newAlarm } = useSelector((state) => ({
+    newAlarm: state.alarm.newAlarm,
+  }));
+
   useEffect(() => {
     dispatch(loadStockItemList());
     if (alarmId.alarmId !== undefined && alarmId.alarmId !== 0) {
@@ -57,12 +61,11 @@ export default function NewItemContent({ contentsLink }) {
     } else if (alarmId.alarmId === undefined) {
       dispatch(
         setNewAlarm({
-          itemName: items.itemName,
-          itemCode: items.itemCode,
-          theme: items.theme,
+          ...newAlarm,
+          ...items,
         }),
       );
-      history.push(contentsLink.link);
+      history.push('/service/alarm/new/ready');
       dispatch(clearAlarmId());
     }
   }, [alarmId]);

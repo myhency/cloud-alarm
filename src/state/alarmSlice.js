@@ -111,12 +111,11 @@ const { actions, reducer } = createSlice({
   name: 'application',
   initialState: {
     alarms: [],
-    alarm: initialAlarm,
-    alarmDetail: initialAlarmDetail,
     alarmId: { alarmId: 0 },
-    newAlarm: initialNewAlarm,
-    createdAlarm: initialCreatedAlarm,
-    modifiedAlarm: initialCreatedAlarm,
+    alarmDetail: initialAlarm,
+    newAlarm: initialAlarm,
+    updateAlarm: initialAlarm,
+    readdAlarm: initialAlarm,
   },
 
   reducers: {

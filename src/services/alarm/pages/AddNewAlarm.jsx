@@ -12,7 +12,7 @@ const items = [
   { title: '새 알리미', link: '/service/alarm/new' },
 ];
 
-const contentsLink = { link: '/service/alarm/new/ready' };
+const contentsLink = { link: '/service/alarm/update/ready' };
 
 export default function NewAlarm() {
   return (
