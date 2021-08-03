@@ -88,7 +88,7 @@ export default function MobileDrawerLayout({
             <Typography variant="h6" className={classes.title}>
               {pageTitleContainer}
             </Typography>
-            <a target="_blank" href="https://t.me/joinchat/CNWUmvadLcUxOWQ1" rel="noreferrer">
+            <a target="_blank" href="https://t.me/joinchat/xIWvHhTRaY0xNGQ1" rel="noreferrer">
               <IconButton
                 className={classes.profileButton}
                 aria-label="account of current user"
