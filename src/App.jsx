@@ -23,9 +23,7 @@ const theme = createMuiTheme({
     },
   },
   typography: {
-    subtitle1: {
-      fontSize: 10,
-    },
+    fontFamily: ['Spoqa Han Sans Neo', 'sans-serif'].join(','),
   },
 });
 
