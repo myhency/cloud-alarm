@@ -15,14 +15,6 @@ import AddReadyAlarm from './services/alarm/pages/AddReadyAlarm';
 import AddReviewAlarm from './services/alarm/pages/AddReviewAlarm';
 import UpdateReadyAlarm from './services/alarm/pages/UpdateReadyAlarm';
 import UpdateReviewAlarm from './services/alarm/pages/UpdateReviewAlarm';
-import InboxPage from './inbox/pages/InboxPage';
-import InboxLosscutPage from './inbox-losscut/pages/InboxLosscutPage';
-import InboxAlarmedPage from './inbox-alarmed/pages/InboxAlarmedPage';
-import AddDocumentPage from './newdocs/pages/AddDocumentPage';
-import ReadyDocumentPage from './newdocs/pages/ReadyDocumentPage';
-import ReviewDocumentPage from './newdocs/pages/ReviewDocumentPage';
-import ModifyReadyDocumentPage from './modifydocs/pages/ModifyReadyDocumentPage';
-import ModifyReviewDocumentPage from './modifydocs/pages/ModifyReviewDocumentPage';
 import ReaddReadyDocumentPage from './readddocs/pages/ReaddReadyDocumentPage';
 import ReaddReviewDocumentPage from './readddocs/pages/ReaddReviewDocumentPage';
 import VolumeListPage from './analyze-volume/pages/VolumeListPage';
@@ -34,28 +26,6 @@ import ReviewSevenBreadItemPage from './seven-bread/pages/ReviewSevenBreadItemPa
 import BreadPage from './bread/pages/BreadPage';
 import LoginPage from './login/pages/LoginPage';
 import NotFoundPage from './NotFoundPage';
-
-
-// const Desktop = ({ children }) => {
-//   const isDesktop = useMediaQuery({ minWidth: 992 });
-//   return isDesktop ? children : (<MobileLoginPage />);
-// };
-
-// const Mobile = ({ chilren }) => {
-//   const isMobile = useMediaQuery({ maxWidth: 767 });
-//   return isMobile ? chilren : (<MobileLoginPage />);
-// };
-
-// const LoginComponent = () => (
-//   <>
-//     <Desktop>
-//       <LoginPage />
-//     </Desktop>
-//     <Mobile>
-//       <MobileLoginPage />
-//     </Mobile>
-//   </>
-// );
 
 const AllAuthedRoute = ({ component: Component, ...rest }) => {
   const isAuthed = useAuthed();
@@ -135,16 +105,8 @@ export default function RootPage() {
         <UnAuthedRoute path="/login" component={LoginPage} />
         <AllAuthedRoute path="/analyze/volume/:date" component={VolumeDetailPage} />
         <AllAuthedRoute path="/analyze/volume" component={VolumeListPage} />
-        <AdminAuthedRoute path="/review-docs/:id" component={ModifyReviewDocumentPage} />
-        {/* <AdminAuthedRoute path="/review-docs" component={ReviewDocumentPage} /> */}
-        {/* <AdminAuthedRoute path="/add-docs" component={AddDocumentPage} /> */}
-        <AdminAuthedRoute path="/ready-docs/:id" component={ModifyReadyDocumentPage} />
-        {/* <AdminAuthedRoute path="/ready-docs" component={ReadyDocumentPage} /> */}
         <AdminAuthedRoute path="/readd-ready-docs/:id" component={ReaddReadyDocumentPage} />
         <AdminAuthedRoute path="/review-readd-docs/:id" component={ReaddReviewDocumentPage} />
-        <AllAuthedRoute exact path="/inbox" component={InboxPage} />
-        <AllAuthedRoute exact path="/inbox/losscut" component={InboxLosscutPage} />
-        <AllAuthedRoute exact path="/inbox/alarmed" component={InboxAlarmedPage} />
         <AllAuthedRoute exact path="/seven-bread/main" component={SevenBreadMainPage} />
         <AllAuthedRoute exact path="/bread/shuttle/home" component={BreadPage} />
         <AdminAuthedRoute exact path="/seven-bread/item/add" component={AddSevenBreadItemPage} />

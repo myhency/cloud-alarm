@@ -15,7 +15,6 @@ import {
 import {
   fetchAlarmList,
   fetchLosscutAlarmList,
-  fetchAlarmedAlarmList,
   fetchAlarmDetail,
   fetchHistoryAlarmDetail,
   saveAlarmDocument,
@@ -896,64 +895,6 @@ export function loadHistoryAlarmDetail(_id) {
   };
 }
 
-export function createAlarmDocument(newAlarmDocument) {
-  return async (dispatch) => {
-    const { result, data } = await saveAlarmDocument(newAlarmDocument);
-
-    const {
-      alarmId, itemName, itemCode, recommendPrice,
-      losscutPrice, comment, theme,
-      createdDate, modifiedDate, alarmStatus,
-      alarmedAt, losscutAt,
-    } = data;
-
-    dispatch(setCreateAlarmResult({
-      result,
-      alarmId,
-      itemName,
-      itemCode,
-      recommendPrice,
-      losscutPrice,
-      comment,
-      theme,
-      createdDate,
-      modifiedDate,
-      alarmStatus,
-      alarmedAt,
-      losscutAt,
-    }));
-  };
-}
-
-export function modifyAlarmDocument(modifiedAlarmDocument) {
-  return async (dispatch) => {
-    const { result, data } = await updateAlarmDocument(modifiedAlarmDocument);
-
-    const {
-      alarmId, itemName, itemCode, recommendPrice,
-      losscutPrice, comment, theme,
-      createdDate, modifiedDate, alarmStatus,
-      alarmedAt, losscutAt,
-    } = data;
-
-    dispatch(setModifiedAlarmResult({
-      result,
-      alarmId,
-      itemName,
-      itemCode,
-      recommendPrice,
-      losscutPrice,
-      comment,
-      theme,
-      createdDate,
-      modifiedDate,
-      alarmStatus,
-      alarmedAt,
-      losscutAt,
-    }));
-  };
-}
-
 export function removeAlarmDocument(id) {
   return async (dispatch) => {
     const { result, data } = await deleteAlarmDoument(id);
@@ -982,24 +923,6 @@ export function removeAlarmDocument(id) {
     }));
   };
 }
-
-// export function getLoginToken(dataToSubmit) {
-//   return async (dispatch) => {
-//     const { result, data } = await getJwtToken(dataToSubmit);
-//     const accessToken = data;
-
-//     if (result) {
-//       Cookies.set('accessToken', accessToken);
-//       const key = 'breadstockcloud';
-//       const res = jwt.verify(accessToken, key);
-//       Cookies.set('role', res.roles[0]);
-//     }
-
-//     dispatch(setAccessToken(
-//       accessToken,
-//     ));
-//   };
-// }
 
 export function loadVolumeDateList() {
   return async (dispatch) => {
