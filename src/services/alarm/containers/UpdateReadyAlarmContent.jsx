@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -12,6 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { Desktop } from '../../../utils/screenSelector';
 import ProgressToolBar from '../components/ProgressToolBar';
 
 import { NextButton, BackButton } from '../../../common/components/Buttons';
@@ -19,33 +19,33 @@ import { CssTextField } from '../../../common/components/TextFields';
 import { useStyles } from '../../../common/components/Styles';
 
 import {
-  setNewAlarm,
+  setUpdateAlarm,
   loadAlarmDetail,
 } from '../../../state/alarmSlice';
 
-export default function UpdateReadyAlarmContent({ contentsLink, id }) {
+export default function UpdateReadyAlarmContent({ id }) {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { alarmDetail } = useSelector((state) => ({
-    alarmDetail: state.alarm.alarmDetail,
-  }));
 
-  useEffect(() => {
-    dispatch(loadAlarmDetail(id));
-  }, []);
+  const { updateAlarm } = useSelector((state) => ({
+    updateAlarm: state.alarm.alarmDetail,
+  }));
 
   const [open, setOpen] = React.useState(false);
 
   const [itemInfo, setItemInfo] = React.useState({
     // TODO. Review에서 뒤로 버튼으로 넘어왔을 때 alarmDocument 내용으로 보여줘야 함
-    itemName: alarmDetail.itemName,
-    itemCode: alarmDetail.itemCode,
-    recommendPrice: alarmDetail.recommendPrice,
-    losscutPrice: alarmDetail.losscutPrice,
-    comment: alarmDetail.comment,
-    theme: alarmDetail.theme,
+    ...updateAlarm,
   });
+
+  useEffect(() => {
+    dispatch(loadAlarmDetail(id));
+  }, []);
+
+  useEffect(() => {
+    setItemInfo({ ...updateAlarm });
+  }, [updateAlarm]);
 
   function handleOnChange(event) {
     const { name, value } = event.target;
@@ -56,24 +56,25 @@ export default function UpdateReadyAlarmContent({ contentsLink, id }) {
     });
   }
 
-  function handleOnClick(event, link) {
-    if (alarmDetail.itemName === '' || alarmDetail.itemCode === ''
-    || (itemInfo.recommendPrice === '' && alarmDetail.recommendPrice === '') || (itemInfo.losscutPrice === '' && alarmDetail.losscutPrice === '')) {
-      setOpen(true);
+  function handleOnClick(event) {
+    if (!itemInfo.recommendPrice || !itemInfo.losscutPrice) {
+      setOpen(true); // 필수항목 입력 알람
     } else {
       event.preventDefault();
       dispatch(
-        setNewAlarm({
-          itemName: alarmDetail.itemName,
-          itemCode: alarmDetail.itemCode,
-          recommendPrice: itemInfo.recommendPrice || alarmDetail.recommendPrice,
-          losscutPrice: itemInfo.losscutPrice || alarmDetail.losscutPrice,
-          comment: itemInfo.comment || alarmDetail.comment,
-          theme: itemInfo.theme || alarmDetail.theme,
-          alarmStatus: itemInfo.alarmStatus || alarmDetail.alarmStatus,
+        setUpdateAlarm({
+          ...updateAlarm,
+          result: undefined,
+          itemName: itemInfo.itemName,
+          itemCode: itemInfo.itemCode,
+          recommendPrice: itemInfo.recommendPrice || updateAlarm.recommendPrice,
+          losscutPrice: itemInfo.losscutPrice || updateAlarm.losscutPrice,
+          comment: itemInfo.comment || updateAlarm.comment,
+          theme: itemInfo.theme || updateAlarm.theme,
+          alarmStatus: itemInfo.alarmStatus || updateAlarm.alarmStatus,
         }),
       );
-      history.push(`${link}/${id}`);
+      history.push(`/service/alarm/update/review/${id}`);
     }
   }
 
@@ -85,15 +86,11 @@ export default function UpdateReadyAlarmContent({ contentsLink, id }) {
     setOpen(false);
   }
 
-  const isDesktop = useMediaQuery({
-    query: '(min-width: 701px) and (max-width: 2048px)',
-  });
-
   return (
     <main className={classes.content}>
-      {isDesktop && (
+      <Desktop>
         <div className={classes.toolbar} />
-      )}
+      </Desktop>
       <ProgressToolBar />
       <div
         style={{
@@ -120,7 +117,7 @@ export default function UpdateReadyAlarmContent({ contentsLink, id }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDetail.itemName}
+              value={itemInfo.itemName}
             />
           </Box>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -132,7 +129,7 @@ export default function UpdateReadyAlarmContent({ contentsLink, id }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDetail.itemCode}
+              value={itemInfo.itemCode}
             />
           </Box>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -143,7 +140,7 @@ export default function UpdateReadyAlarmContent({ contentsLink, id }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.recommendPrice ? itemInfo.recommendPrice : alarmDetail.recommendPrice}
+              value={itemInfo.recommendPrice ? itemInfo.recommendPrice : updateAlarm.recommendPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -154,7 +151,7 @@ export default function UpdateReadyAlarmContent({ contentsLink, id }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.losscutPrice ? itemInfo.losscutPrice : alarmDetail.losscutPrice}
+              value={itemInfo.losscutPrice ? itemInfo.losscutPrice : updateAlarm.losscutPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -166,7 +163,7 @@ export default function UpdateReadyAlarmContent({ contentsLink, id }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.comment ? itemInfo.comment : alarmDetail.comment}
+              value={itemInfo.comment ? itemInfo.comment : updateAlarm.comment}
             />
           </Box>
           <Box style={{ margin: '10px 0 30px 0' }}>
@@ -178,14 +175,14 @@ export default function UpdateReadyAlarmContent({ contentsLink, id }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.theme ? itemInfo.theme : alarmDetail.theme}
+              value={itemInfo.theme ? itemInfo.theme : updateAlarm.theme}
             />
           </Box>
           <Box display="flex" justifyContent="space-between">
             <BackButton onClick={handleOnBackClick}>
               뒤로
             </BackButton>
-            <NextButton onClick={(e) => handleOnClick(e, contentsLink.link)}>
+            <NextButton onClick={handleOnClick}>
               다음
             </NextButton>
           </Box>

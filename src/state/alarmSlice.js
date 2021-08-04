@@ -227,35 +227,6 @@ const { actions, reducer } = createSlice({
       };
     },
 
-    setModifiedAlarmResult(state, {
-      payload: {
-        result, alarmId, itemName, itemCode, recommendPrice,
-        losscutPrice, comment, theme,
-        createdDate, modifiedDate, alarmStatus,
-        alarmedAt, losscutAt,
-      },
-    }) {
-      return {
-        ...state,
-        modifiedAlarm: {
-          ...state.createdAlarm,
-          result,
-          alarmId,
-          itemName,
-          itemCode,
-          recommendPrice,
-          losscutPrice,
-          comment,
-          theme,
-          createdDate,
-          modifiedDate,
-          alarmStatus,
-          alarmedAt,
-          losscutAt,
-        },
-      };
-    },
-
     setAlarmId(state, {
       payload: { alarmId },
     }) {
@@ -464,32 +435,31 @@ export function createAlarm(newAlarm) {
   };
 }
 
-export function modifyAlarmDocument(modifiedAlarmDocument) {
+export function modifyAlarm(modifiedAlarm) {
   return async (dispatch) => {
-    const { result, data } = await updateAlarmDocument(modifiedAlarmDocument);
+    const { result, data } = await updateAlarmDocument(modifiedAlarm);
 
-    const {
-      alarmId, itemName, itemCode, recommendPrice,
-      losscutPrice, comment, theme,
-      createdDate, modifiedDate, alarmStatus,
-      alarmedAt, losscutAt,
-    } = data;
-
-    dispatch(setModifiedAlarmResult({
-      result,
-      alarmId,
-      itemName,
-      itemCode,
-      recommendPrice,
-      losscutPrice,
-      comment,
-      theme,
-      createdDate,
-      modifiedDate,
-      alarmStatus,
-      alarmedAt,
-      losscutAt,
-    }));
+    if (result) {
+      dispatch(setUpdateAlarm({
+        result,
+        ...data,
+      }));
+    } else {
+      dispatch(setUpdateAlarm({
+        result,
+        itemName: 'error',
+        itemCode: 'error',
+        recommendPrice: 'error',
+        losscutPrice: 'error',
+        comment: 'error',
+        theme: 'error',
+        createdDate: 'error',
+        modifiedDate: 'error',
+        alarmStatus: 'error',
+        alarmedAt: 'error',
+        losscutAt: 'error',
+      }));
+    }
   };
 }
 

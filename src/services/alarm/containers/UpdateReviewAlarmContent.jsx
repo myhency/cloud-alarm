@@ -21,8 +21,8 @@ import { useStyles } from '../../../common/components/Styles';
 
 import {
   clearAlarmDetail,
-  clearModifiedAlarm,
-  modifyAlarmDocument,
+  clearUpdateAlarm,
+  modifyAlarm,
   clearNewAlarm,
 } from '../../../state/alarmSlice';
 
@@ -35,49 +35,53 @@ export default function UpdateReviewAlarmContent({ contentsLink, id }) {
   const [warningOpen, setWarningOpen] = React.useState(false);
 
   const dispatch = useDispatch();
-  const { alarmDocument } = useSelector((state) => ({
-    alarmDocument: state.alarm.newAlarm,
+  const { updateAlarm } = useSelector((state) => ({
+    updateAlarm: state.alarm.updateAlarm,
   }));
 
-  const { modifiedAlarm } = useSelector((state) => ({
-    modifiedAlarm: state.alarm.modifiedAlarm,
-  }));
+  useEffect(() => {
+    if (!updateAlarm.itemName && !updateAlarm.itemCode) {
+      history.push('/service/alarm?status=active');
+    }
+  }, []);
+
+  console.log(updateAlarm);
 
   function handleOnClick(event) {
-    if (
-      alarmDocument.itemName === ''
-      || alarmDocument.itemCode === ''
-      || alarmDocument.recommendPrice === ''
-      || alarmDocument.losscutPrice === ''
+    if (!updateAlarm.itemName
+      || !updateAlarm.itemCode
+      || !updateAlarm.recommendPrice
+      || !updateAlarm.losscutPrice
     ) {
       setWarningOpen(true);
     } else {
       event.preventDefault();
       dispatch(
-        modifyAlarmDocument({
+        modifyAlarm({
           alarmId: id,
-          itemName: alarmDocument.itemName,
-          itemCode: alarmDocument.itemCode,
-          recommendPrice: alarmDocument.recommendPrice,
-          losscutPrice: alarmDocument.losscutPrice,
-          comment: alarmDocument.comment,
-          theme: alarmDocument.theme,
-          alarmStatus: alarmDocument.alarmStatus === 'ALARMED' ? 'PRICE_UPDATED' : alarmDocument.alarmStatus,
+          itemName: updateAlarm.itemName,
+          itemCode: updateAlarm.itemCode,
+          recommendPrice: updateAlarm.recommendPrice,
+          losscutPrice: updateAlarm.losscutPrice,
+          comment: updateAlarm.comment,
+          theme: updateAlarm.theme,
+          alarmStatus: updateAlarm.alarmStatus === 'ALARMED' ? 'PRICE_UPDATED' : updateAlarm.alarmStatus,
         }),
       );
     }
   }
 
   useEffect(() => {
-    if (!modifiedAlarm.result) {
+    if (updateAlarm.result === undefined) return;
+
+    if (!updateAlarm.result) {
       setFailOpen(true);
     }
 
-    if (modifiedAlarm.result && modifiedAlarm.modifiedDate) {
+    if (updateAlarm.result && updateAlarm.modifiedDate) {
       setSuccessOpen(true);
     }
-    return () => {};
-  }, [modifiedAlarm]);
+  }, [updateAlarm]);
 
   function handleOnBackClick() {
     history.goBack();
@@ -85,13 +89,17 @@ export default function UpdateReviewAlarmContent({ contentsLink, id }) {
 
   function handleClose() {
     setWarningOpen(false);
+  }
+
+  function handleErrorClose() {
     setFailOpen(false);
+    history.push('/service/alarm?status=active');
   }
 
   function handleSuccessClose() {
     setSuccessOpen(false);
     history.push(contentsLink.link);
-    dispatch(clearModifiedAlarm());
+    dispatch(clearUpdateAlarm());
     dispatch(clearAlarmDetail());
     dispatch(clearNewAlarm());
   }
@@ -128,9 +136,9 @@ export default function UpdateReviewAlarmContent({ contentsLink, id }) {
             variant="h5"
             style={{ marginTop: '10px', marginBottom: '10px', color: '#303C6C' }}
           >
-            {alarmDocument.itemName}
+            {updateAlarm.itemName}
             (
-            {alarmDocument.itemCode}
+            {updateAlarm.itemCode}
             )에 대한 요약
           </Typography>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -143,7 +151,7 @@ export default function UpdateReviewAlarmContent({ contentsLink, id }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.recommendPrice}
+              value={updateAlarm.recommendPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -156,7 +164,7 @@ export default function UpdateReviewAlarmContent({ contentsLink, id }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.losscutPrice}
+              value={updateAlarm.losscutPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -170,7 +178,7 @@ export default function UpdateReviewAlarmContent({ contentsLink, id }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.comment}
+              value={updateAlarm.comment}
             />
           </Box>
           <Box style={{ margin: '10px 0 30px 0' }}>
@@ -184,7 +192,7 @@ export default function UpdateReviewAlarmContent({ contentsLink, id }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.theme}
+              value={updateAlarm.theme}
             />
           </Box>
           <Box display="flex" justifyContent="space-between">
@@ -220,7 +228,7 @@ export default function UpdateReviewAlarmContent({ contentsLink, id }) {
       </Dialog>
       <Dialog
         open={failOpen}
-        onClose={handleClose}
+        onClose={handleErrorClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -233,7 +241,7 @@ export default function UpdateReviewAlarmContent({ contentsLink, id }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="secondary" autoFocus>
+          <Button onClick={handleErrorClose} color="secondary" autoFocus>
             확인
           </Button>
         </DialogActions>
