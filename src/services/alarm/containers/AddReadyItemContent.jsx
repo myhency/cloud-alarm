@@ -34,6 +34,8 @@ export default function ReadyItemContent() {
     newAlarm: state.alarm.newAlarm,
   }));
 
+  console.log(newAlarm);
+
   useEffect(() => {
     if (newAlarm.itemName === '' && newAlarm.itemCode === '') {
       history.push('/service/alarm/new/add');
