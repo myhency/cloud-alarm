@@ -116,7 +116,7 @@ export async function fetchAlarmByItemCode(itemCode) {
     }));
 }
 
-export async function saveAlarmDocument(newAlarmDocument) {
+export async function saveAlarmDocument(newAlarm) {
   const {
     itemName,
     itemCode,
@@ -124,7 +124,7 @@ export async function saveAlarmDocument(newAlarmDocument) {
     losscutPrice,
     comment,
     theme,
-  } = newAlarmDocument;
+  } = newAlarm;
   return axios.post('/api/v1/platform/alarm/stockItem', {
     itemName, itemCode, recommendPrice, losscutPrice, comment, theme,
   }, {

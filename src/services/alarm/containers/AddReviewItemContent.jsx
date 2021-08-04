@@ -21,8 +21,7 @@ import { CssTextField } from '../../../common/components/TextFields';
 import {
   clearNewAlarm,
   clearAlarmId,
-  clearCreatedAlarm,
-  createAlarmDocument,
+  createAlarm,
 } from '../../../state/alarmSlice';
 
 export default function ReviewDocumentContentContainer({ contentsLink }) {
@@ -37,28 +36,19 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
   const { newAlarm } = useSelector((state) => ({
     newAlarm: state.alarm.newAlarm,
   }));
-  const { createdAlarm } = useSelector((state) => ({
-    createdAlarm: state.alarm.createdAlarm,
-  }));
 
   function handleOnClick(event) {
-    if (
-      alarmDocument.itemName === ''
-      || alarmDocument.itemCode === ''
-      || alarmDocument.recommendPrice === ''
-      || alarmDocument.losscutPrice === ''
+    if (!newAlarm.itemName
+      || !newAlarm.itemCode
+      || !newAlarm.recommendPrice
+      || !newAlarm.losscutPrice
     ) {
       setWarningOpen(true);
     } else {
       event.preventDefault();
       dispatch(
-        createAlarmDocument({
-          itemName: alarmDocument.itemName,
-          itemCode: alarmDocument.itemCode,
-          recommendPrice: alarmDocument.recommendPrice,
-          losscutPrice: alarmDocument.losscutPrice,
-          comment: alarmDocument.comment,
-          theme: alarmDocument.theme,
+        createAlarm({
+          ...newAlarm,
         }),
       );
     }
@@ -71,16 +61,16 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
   }, []);
 
   useEffect(() => {
-    if (!createdAlarm.result) {
+    if (!newAlarm.result) {
       setFailOpen(true);
     }
 
-    if (createdAlarm.result && createdAlarm.createdDate) {
+    if (newAlarm.result && newAlarm.alarmId) {
       setSuccessOpen(true);
     }
     return () => {
     };
-  }, [createdAlarm]);
+  }, [newAlarm]);
 
   function handleOnBackClick() {
     history.goBack();
@@ -94,7 +84,6 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
   function handleSuccessClose() {
     setSuccessOpen(false);
     history.push(contentsLink.link);
-    dispatch(clearCreatedAlarm());
     dispatch(clearNewAlarm());
     dispatch(clearAlarmId());
   }
@@ -131,9 +120,9 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
             variant="h5"
             style={{ marginTop: '10px', marginBottom: '10px', color: '#303C6C' }}
           >
-            {alarmDocument.itemName}
+            {newAlarm.itemName}
             (
-            {alarmDocument.itemCode}
+            {newAlarm.itemCode}
             )에 대한 요약
           </Typography>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -146,7 +135,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.recommendPrice}
+              value={newAlarm.recommendPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -159,7 +148,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.losscutPrice}
+              value={newAlarm.losscutPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -173,7 +162,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.comment}
+              value={newAlarm.comment}
             />
           </Box>
           <Box style={{ margin: '10px 0 30px 0' }}>
@@ -187,7 +176,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.theme}
+              value={newAlarm.theme}
             />
           </Box>
           <Box display="flex" justifyContent="space-between">

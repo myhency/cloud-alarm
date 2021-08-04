@@ -23,7 +23,7 @@ import {
   clearAlarmDetail,
 } from '../../../state/alarmSlice';
 
-export default function ReadyItemContent({ contentsLink }) {
+export default function ReadyItemContent() {
   const history = useHistory();
   const classes = useStyles();
 
@@ -43,8 +43,6 @@ export default function ReadyItemContent({ contentsLink }) {
   const [itemInfo, setItemInfo] = React.useState({
     ...newAlarm,
   });
-
-  console.log(itemInfo);
 
   function handleOnChange(event) {
     const { name, value } = event.target;
@@ -66,10 +64,7 @@ export default function ReadyItemContent({ contentsLink }) {
     } else {
       event.preventDefault();
       dispatch(
-        setNewAlarm({
-          ...newAlarm,
-          ...itemInfo,
-        }),
+        setNewAlarm({ ...newAlarm, ...itemInfo }),
       );
       history.push('/service/alarm/new/review');
     }

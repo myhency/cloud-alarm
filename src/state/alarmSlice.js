@@ -27,21 +27,6 @@ const initialAlarmDetail = {
 };
 
 const initialAlarm = {
-  alarmId: 0,
-  itemName: '',
-  itemCode: '',
-  recommendPrice: 0,
-  losscutPrice: 0,
-  comment: '',
-  theme: '',
-  createdDate: '',
-  modifiedDate: '',
-  alarmStatus: '',
-  alarmedAt: '',
-  losscutAt: '',
-};
-
-const initialCreatedAlarm = {
   result: true,
   alarmId: 0,
   itemName: '',
@@ -55,16 +40,6 @@ const initialCreatedAlarm = {
   alarmStatus: '',
   alarmedAt: '',
   losscutAt: '',
-};
-
-const initialNewAlarm = {
-  itemName: '',
-  itemCode: '',
-  recommendPrice: 0,
-  losscutPrice: 0,
-  comment: '',
-  theme: '',
-  alarmStatus: '',
 };
 
 function parseAlarm(alarm) {
@@ -94,10 +69,6 @@ function parseAlarm(alarm) {
     comment,
   };
 }
-
-// function parseAlarmedAlarms(alarmedAlarms) {
-//   return alarmedAlarms.map((alarmedAlarm) => parseAlarm(alarmedAlarm));
-// }
 
 function parseAlarms(alarms) {
   return alarms.map((alarm) => parseAlarm(alarm));
@@ -191,27 +162,13 @@ const { actions, reducer } = createSlice({
     },
 
     setNewAlarm(state, {
-      payload: {
-        itemName,
-        itemCode,
-        recommendPrice,
-        losscutPrice,
-        comment,
-        theme,
-        alarmStatus,
-      },
+      payload: newObj,
     }) {
       return {
         ...state,
         newAlarm: {
           ...state.newAlarm,
-          itemName,
-          itemCode,
-          recommendPrice,
-          losscutPrice,
-          comment,
-          theme,
-          alarmStatus,
+          ...newObj,
         },
       };
     },
@@ -226,7 +183,7 @@ const { actions, reducer } = createSlice({
     clearNewAlarm(state) {
       return {
         ...state,
-        newAlarm: initialNewAlarm,
+        newAlarm: initialAlarm,
       };
     },
 
@@ -258,24 +215,6 @@ const { actions, reducer } = createSlice({
         },
       };
     },
-
-    clearCreatedAlarm(state) {
-      return {
-        ...state,
-        createdAlarm: initialCreatedAlarm,
-      };
-    },
-
-    // setAlarmedAlarms(state, { payload: alarmedAlarms }) {
-    //   const parsedAlarmedAlarms = parseAlarmedAlarms(
-    //     alarmedAlarms,
-    //   );
-
-    //   return {
-    //     ...state,
-    //     alarmedAlarms: parsedAlarmedAlarms,
-    //   };
-    // },
 
     setCreateAlarmResult(state, {
       payload: {
@@ -350,7 +289,7 @@ const { actions, reducer } = createSlice({
     clearModifiedAlarm(state) {
       return {
         ...state,
-        modifiedAlarm: initialCreatedAlarm,
+        modifiedAlarm: initialAlarm,
       };
     },
   },
@@ -363,7 +302,6 @@ export const {
   setAlarmDetail,
   clearAlarmDetail,
   setDeletedAlarmResult,
-  clearCreatedAlarm,
   setNewAlarm,
   setCreateAlarmResult,
   setModifiedAlarmResult,
@@ -530,9 +468,9 @@ export function loadHistoryAlarmDetail(_id) {
   };
 }
 
-export function createAlarmDocument(newAlarmDocument) {
+export function createAlarm(newAlarm) {
   return async (dispatch) => {
-    const { result, data } = await saveAlarmDocument(newAlarmDocument);
+    const { result, data } = await saveAlarmDocument(newAlarm);
 
     const {
       alarmId, itemName, itemCode, recommendPrice,
@@ -541,7 +479,7 @@ export function createAlarmDocument(newAlarmDocument) {
       alarmedAt, losscutAt,
     } = data;
 
-    dispatch(setCreateAlarmResult({
+    dispatch(setNewAlarm({
       result,
       alarmId,
       itemName,

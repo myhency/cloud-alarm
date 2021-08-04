@@ -27,6 +27,7 @@ import {
   setNewAlarm,
   loadAlarmIdByItemCode,
   clearAlarmId,
+  clearNewAlarm,
 } from '../../../state/alarmSlice';
 
 export default function NewItemContent({ contentsLink }) {
@@ -56,14 +57,13 @@ export default function NewItemContent({ contentsLink }) {
 
   useEffect(() => {
     dispatch(loadStockItemList());
+    dispatch(clearNewAlarm());
+
     if (alarmId.alarmId !== undefined && alarmId.alarmId !== 0) {
       setExistOpen(true);
     } else if (alarmId.alarmId === undefined) {
       dispatch(
-        setNewAlarm({
-          ...newAlarm,
-          ...items,
-        }),
+        setNewAlarm({ ...newAlarm, ...items }),
       );
       history.push('/service/alarm/new/ready');
       dispatch(clearAlarmId());
@@ -87,6 +87,7 @@ export default function NewItemContent({ contentsLink }) {
     setExistOpen(false);
     history.push(`${contentsLink.link}/${alarmId.alarmId}`);
     dispatch(clearAlarmId());
+    dispatch(clearNewAlarm());
   }
 
   function handleOnChange(e, value) {
