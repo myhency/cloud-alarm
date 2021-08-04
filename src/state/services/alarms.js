@@ -76,7 +76,7 @@ export async function fetchAlarmDetail(id) {
   })
     .then((response) => ({
       result: true,
-      data: response.data,
+      data: response.data.data,
     }))
     .catch((error) => ({
       result: false,

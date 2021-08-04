@@ -61,6 +61,8 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
   }, []);
 
   useEffect(() => {
+    if (newAlarm.result === undefined) return;
+
     if (!newAlarm.result) {
       setFailOpen(true);
     }
@@ -68,8 +70,6 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
     if (newAlarm.result && newAlarm.alarmId) {
       setSuccessOpen(true);
     }
-    return () => {
-    };
   }, [newAlarm]);
 
   function handleOnBackClick() {

@@ -56,9 +56,11 @@ export default function NewItemContent({ contentsLink }) {
   }));
 
   useEffect(() => {
-    dispatch(loadStockItemList());
     dispatch(clearNewAlarm());
+    dispatch(loadStockItemList());
+  }, []);
 
+  useEffect(() => {
     if (alarmId.alarmId !== undefined && alarmId.alarmId !== 0) {
       setExistOpen(true);
     } else if (alarmId.alarmId === undefined) {

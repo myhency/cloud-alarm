@@ -11,23 +11,8 @@ import {
   deleteAlarmDoument,
 } from './services/alarms';
 
-const initialAlarmDetail = {
-  alarmId: 0,
-  itemName: '',
-  itemCode: '',
-  recommendPrice: 0,
-  losscutPrice: 0,
-  comment: '',
-  theme: '',
-  createdDate: '',
-  modifiedDate: '',
-  alarmStatus: '',
-  alarmedAt: '',
-  losscutAt: '',
-};
-
 const initialAlarm = {
-  result: true,
+  result: undefined,
   alarmId: 0,
   itemName: '',
   itemCode: '',
@@ -134,29 +119,14 @@ const { actions, reducer } = createSlice({
     },
 
     setAlarmDetail(state, {
-      payload: {
-        alarmId, itemName, itemCode, recommendPrice,
-        losscutPrice, comment, theme,
-        createdDate, modifiedDate, alarmStatus,
-        alarmedAt, losscutAt,
-      },
+      payload: detailObj,
     }) {
+      console.log(detailObj);
       return {
         ...state,
         alarmDetail: {
           ...state.alarmDetail,
-          alarmId,
-          itemName,
-          itemCode,
-          recommendPrice,
-          losscutPrice,
-          comment,
-          theme,
-          createdDate,
-          modifiedDate,
-          alarmStatus,
-          alarmedAt,
-          losscutAt,
+          ...detailObj,
         },
       };
     },
@@ -173,10 +143,22 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    setUpdateAlarm(state, {
+      payload: updateObj,
+    }) {
+      return {
+        ...state,
+        updateAlarm: {
+          ...state.updateAlarm,
+          ...updateObj,
+        },
+      };
+    },
+
     clearAlarmDetail(state) {
       return {
         ...state,
-        alarmDetail: initialAlarmDetail,
+        alarmDetail: initialAlarm,
       };
     },
 
@@ -286,10 +268,10 @@ const { actions, reducer } = createSlice({
       };
     },
 
-    clearModifiedAlarm(state) {
+    clearUpdateAlarm(state) {
       return {
         ...state,
-        modifiedAlarm: initialAlarm,
+        updateAlarm: initialAlarm,
       };
     },
   },
@@ -303,12 +285,13 @@ export const {
   clearAlarmDetail,
   setDeletedAlarmResult,
   setNewAlarm,
+  setUpdateAlarm,
   setCreateAlarmResult,
   setModifiedAlarmResult,
   setAlarmId,
   clearAlarmId,
   clearNewAlarm,
-  clearModifiedAlarm,
+  clearUpdateAlarm,
 } = actions;
 
 export default reducer;
@@ -343,6 +326,7 @@ export function loadAlarmDetail(_id) {
 
     if (!result) {
       dispatch(setAlarmDetail({
+        result,
         itemName: 'error',
         itemCode: 'error',
         recommendPrice: 'error',
@@ -358,26 +342,9 @@ export function loadAlarmDetail(_id) {
       return;
     }
 
-    const {
-      alarmId, itemName, itemCode, recommendPrice,
-      losscutPrice, comment, theme,
-      createdDate, modifiedDate, alarmStatus,
-      alarmedAt, losscutAt,
-    } = data.data;
-
     dispatch(setAlarmDetail({
-      alarmId,
-      itemName,
-      itemCode,
-      recommendPrice,
-      losscutPrice,
-      comment,
-      theme,
-      createdDate,
-      modifiedDate,
-      alarmStatus,
-      alarmedAt,
-      losscutAt,
+      result,
+      ...data,
     }));
   };
 }
