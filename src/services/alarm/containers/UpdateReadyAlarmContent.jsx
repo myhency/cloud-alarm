@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -140,7 +141,9 @@ export default function UpdateReadyAlarmContent({ id }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.recommendPrice ? itemInfo.recommendPrice : updateAlarm.recommendPrice}
+              value={itemInfo.recommendPrice === '' ? itemInfo.recommendPrice
+                : itemInfo.recommendPrice ? itemInfo.recommendPrice
+                  : updateAlarm.recommendPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -151,7 +154,9 @@ export default function UpdateReadyAlarmContent({ id }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.losscutPrice ? itemInfo.losscutPrice : updateAlarm.losscutPrice}
+              value={itemInfo.losscutPrice === '' ? itemInfo.losscutPrice
+                : itemInfo.losscutPrice ? itemInfo.losscutPrice
+                  : updateAlarm.losscutPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -163,7 +168,9 @@ export default function UpdateReadyAlarmContent({ id }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.comment ? itemInfo.comment : updateAlarm.comment}
+              value={itemInfo.comment === '' ? itemInfo.comment
+                : itemInfo.comment ? itemInfo.comment
+                  : updateAlarm.comment}
             />
           </Box>
           <Box style={{ margin: '10px 0 30px 0' }}>
@@ -175,7 +182,9 @@ export default function UpdateReadyAlarmContent({ id }) {
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.theme ? itemInfo.theme : updateAlarm.theme}
+              value={itemInfo.theme === '' ? itemInfo.theme
+                : itemInfo.theme ? itemInfo.theme
+                  : updateAlarm.theme}
             />
           </Box>
           <Box display="flex" justifyContent="space-between">
