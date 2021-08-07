@@ -79,11 +79,11 @@ export default function MobileAlarmModal({
   };
 
   const handleOnModifyButton = (e, id) => {
-    history.push(`/ready-docs/${id}`);
+    history.push(`/service/alarm/update/ready/${id}`);
   };
 
   const handleOnReAddButton = (e, id) => {
-    history.push(`/readd-ready-docs/${id}`);
+    history.push(`/service/alarm/readd/ready/${id}`);
   };
 
   function makeModalBody() {
@@ -118,7 +118,8 @@ export default function MobileAlarmModal({
             lastUpdatedAt={lastUpdatedAt}
             alarmStatus={alarmStatus === 'ALARMED' ? '알림완료'
               : alarmStatus === 'ALARM_CREATED' ? '알림전'
-                : alarmStatus}
+                : alarmStatus === 'LOSSCUT' ? '손절처리'
+                  : alarmStatus}
             alarmedAt={alarmedAt}
             losscutAt={losscutAt}
           />

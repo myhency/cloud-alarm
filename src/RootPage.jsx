@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import {
   BrowserRouter as Router,
@@ -15,8 +16,8 @@ import AddReadyAlarm from './services/alarm/pages/AddReadyAlarm';
 import AddReviewAlarm from './services/alarm/pages/AddReviewAlarm';
 import UpdateReadyAlarm from './services/alarm/pages/UpdateReadyAlarm';
 import UpdateReviewAlarm from './services/alarm/pages/UpdateReviewAlarm';
-import ReaddReadyDocumentPage from './readddocs/pages/ReaddReadyDocumentPage';
-import ReaddReviewDocumentPage from './readddocs/pages/ReaddReviewDocumentPage';
+import ReaddReadyAlarm from './services/alarm/pages/ReaddReadyAlarm';
+import ReaddReviewAlarm from './services/alarm/pages/ReaddReviewAlarm';
 import VolumeListPage from './analyze-volume/pages/VolumeListPage';
 import VolumeDetailPage from './analyze-volume/pages/VolumeDetailPage';
 import SevenBreadMainPage from './seven-bread/pages/SevenBreadMainPage';
@@ -102,11 +103,11 @@ export default function RootPage() {
         <AdminAuthedRoute exact path="/service/alarm/new/review" component={AddReviewAlarm} />
         <AdminAuthedRoute exact path="/service/alarm/update/ready/:id" component={UpdateReadyAlarm} />
         <AdminAuthedRoute exact path="/service/alarm/update/review/:id" component={UpdateReviewAlarm} />
+        <AdminAuthedRoute exact path="/service/alarm/readd/ready/:id" component={ReaddReadyAlarm} />
+        <AdminAuthedRoute exact path="/service/alarm/readd/review/:id" component={ReaddReviewAlarm} />
         <UnAuthedRoute path="/login" component={LoginPage} />
         <AllAuthedRoute path="/analyze/volume/:date" component={VolumeDetailPage} />
         <AllAuthedRoute path="/analyze/volume" component={VolumeListPage} />
-        <AdminAuthedRoute path="/readd-ready-docs/:id" component={ReaddReadyDocumentPage} />
-        <AdminAuthedRoute path="/review-readd-docs/:id" component={ReaddReviewDocumentPage} />
         <AllAuthedRoute exact path="/seven-bread/main" component={SevenBreadMainPage} />
         <AllAuthedRoute exact path="/bread/shuttle/home" component={BreadPage} />
         <AdminAuthedRoute exact path="/seven-bread/item/add" component={AddSevenBreadItemPage} />

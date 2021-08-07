@@ -13,7 +13,7 @@ import {
   loadAlarmDetail,
   clearAlarmDetail,
   removeAlarmDocument,
-  clearCreatedAlarm,
+  clearNewAlarm,
   loadHistoryAlarmDetail,
 } from '../../../state/alarmSlice';
 
@@ -58,7 +58,7 @@ export default function MobileAlarmListContent() {
 
   function handleConfirmClose(id) {
     dispatch(removeAlarmDocument(id));
-    dispatch(clearCreatedAlarm());
+    dispatch(clearNewAlarm());
     window.location.reload();
   }
 

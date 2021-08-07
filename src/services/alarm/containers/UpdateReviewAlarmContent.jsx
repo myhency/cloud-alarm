@@ -15,7 +15,6 @@ import { Desktop } from '../../../utils/screenSelector';
 import ProgressToolBar from '../components/ProgressToolBar';
 
 import { NextButton, BackButton } from '../../../common/components/Buttons';
-
 import { CssTextField } from '../../../common/components/TextFields';
 import { useStyles } from '../../../common/components/Styles';
 

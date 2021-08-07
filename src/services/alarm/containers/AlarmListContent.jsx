@@ -40,7 +40,7 @@ import {
   loadAlarmDetail,
   clearAlarmDetail,
   removeAlarmDocument,
-  clearCreatedAlarm,
+  clearNewAlarm,
   loadHistoryAlarmDetail,
   setAlarm,
 } from '../../../state/alarmSlice';
@@ -134,7 +134,7 @@ export default function AlarmListContent() {
   };
 
   const handleOnReAddButton = (e, id) => {
-    history.push(`/readd-ready-docs/${id}`);
+    history.push(`/service/alarm/readd/ready/${id}`);
   };
 
   const handleOnDeleteButton = (e, id) => {
@@ -145,7 +145,7 @@ export default function AlarmListContent() {
   const handleConfirmClose = () => {
     const id = toBeDeletedId;
     dispatch(removeAlarmDocument(id));
-    dispatch(clearCreatedAlarm());
+    dispatch(clearNewAlarm());
     setWarningOpen(false);
     dispatch(loadAlarmList());
   };

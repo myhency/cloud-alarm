@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Typography,
-  TextField,
   Button,
   Box,
 } from '@material-ui/core';
@@ -13,70 +10,22 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { pink, indigo } from '@material-ui/core/colors';
 import { useHistory } from 'react-router-dom';
+import { Desktop } from '../../../utils/screenSelector';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { NextButton, BackButton } from '../../common/components/Buttons';
+import { NextButton, BackButton } from '../../../common/components/Buttons';
+import { CssTextField } from '../../../common/components/TextFields';
+import { useStyles } from '../../../common/components/Styles';
 
 import {
   clearAlarmDetail,
-  clearCreatedAlarm,
-  createAlarmDocument,
-  clearAlarmDocument,
-} from '../../state/slice';
+  clearReaddAlarm,
+  createAlarm,
+  clearNewAlarm,
+} from '../../../state/alarmSlice';
 
-const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    // padding: theme.spacing(3),
-    backgroundColor: '#FFFFFF',
-  },
-  form: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '100%',
-    },
-  },
-  contentRight: {
-    backgroundColor: theme.palette.background.paper,
-    width: '100%',
-    borderLeft: '1px solid lightgrey',
-    height: '89vh',
-  },
-}));
-
-const CssTextField = withStyles({
-  root: {
-    '& label.Mui-focused': {
-      color: indigo[700],
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: indigo[700],
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: indigo[700],
-      },
-      '&:hover fieldset': {
-        borderColor: indigo[700],
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: indigo[700],
-      },
-    },
-  },
-})(TextField);
-
-export default function ReaddReviewDocumentContentContainer({ contentsLink, id }) {
+export default function ReaddReviewAlarmContent({ contentsLink }) {
   const history = useHistory();
   const classes = useStyles();
 
@@ -85,47 +34,47 @@ export default function ReaddReviewDocumentContentContainer({ contentsLink, id }
   const [warningOpen, setWarningOpen] = React.useState(false);
 
   const dispatch = useDispatch();
-  const { alarmDocument } = useSelector((state) => ({
-    alarmDocument: state.alarmDocument,
+  const { readdAlarm } = useSelector((state) => ({
+    readdAlarm: state.alarm.readdAlarm,
   }));
-  const { createdAlarm } = useSelector((state) => ({
-    createdAlarm: state.createdAlarm,
+  const { newAlarm } = useSelector((state) => ({
+    newAlarm: state.alarm.newAlarm,
   }));
 
   function handleOnClick(event) {
-    if (
-      alarmDocument.itemName === ''
-      || alarmDocument.itemCode === ''
-      || alarmDocument.recommendPrice === ''
-      || alarmDocument.losscutPrice === ''
+    if (!readdAlarm.itemName
+      || !readdAlarm.itemCode
+      || !readdAlarm.recommendPrice
+      || !readdAlarm.losscutPrice
     ) {
       setWarningOpen(true);
     } else {
       event.preventDefault();
       dispatch(
-        createAlarmDocument({
-          // alarmId: id,
-          itemName: alarmDocument.itemName,
-          itemCode: alarmDocument.itemCode,
-          recommendPrice: alarmDocument.recommendPrice,
-          losscutPrice: alarmDocument.losscutPrice,
-          comment: alarmDocument.comment,
-          theme: alarmDocument.theme,
+        createAlarm({
+          ...readdAlarm,
         }),
       );
     }
   }
 
   useEffect(() => {
-    if (!createdAlarm.result) {
+    if (!readdAlarm.itemName && !readdAlarm.itemCode) {
+      history.push('/service/alarm?status=active');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (newAlarm.result === undefined) return;
+
+    if (!newAlarm.result) {
       setFailOpen(true);
     }
 
-    if (createdAlarm.result && createdAlarm.createdDate) {
+    if (newAlarm.result && newAlarm.alarmId) {
       setSuccessOpen(true);
     }
-    return () => {};
-  }, [createdAlarm]);
+  }, [newAlarm]);
 
   function handleOnBackClick() {
     history.goBack();
@@ -139,20 +88,16 @@ export default function ReaddReviewDocumentContentContainer({ contentsLink, id }
   function handleSuccessClose() {
     setSuccessOpen(false);
     history.push(contentsLink.link);
-    dispatch(clearCreatedAlarm());
+    dispatch(clearReaddAlarm());
     dispatch(clearAlarmDetail());
-    dispatch(clearAlarmDocument());
+    dispatch(clearNewAlarm());
   }
-
-  const isDesktop = useMediaQuery({
-    query: '(min-width: 701px) and (max-width: 2048px)',
-  });
 
   return (
     <main className={classes.content}>
-      {isDesktop && (
+      <Desktop>
         <div className={classes.toolbar} />
-      )}
+      </Desktop>
       <ProgressToolBar />
       <div
         style={{
@@ -174,9 +119,9 @@ export default function ReaddReviewDocumentContentContainer({ contentsLink, id }
             variant="h5"
             style={{ marginTop: '10px', marginBottom: '10px' }}
           >
-            {alarmDocument.itemName}
+            {readdAlarm.itemName}
             (
-            {alarmDocument.itemCode}
+            {readdAlarm.itemCode}
             )에 대한 요약
           </Typography>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -189,7 +134,7 @@ export default function ReaddReviewDocumentContentContainer({ contentsLink, id }
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.recommendPrice}
+              value={readdAlarm.recommendPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -202,7 +147,7 @@ export default function ReaddReviewDocumentContentContainer({ contentsLink, id }
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.losscutPrice}
+              value={readdAlarm.losscutPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -216,7 +161,7 @@ export default function ReaddReviewDocumentContentContainer({ contentsLink, id }
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.comment}
+              value={readdAlarm.comment}
             />
           </Box>
           <Box style={{ margin: '10px 0 30px 0' }}>
@@ -230,7 +175,7 @@ export default function ReaddReviewDocumentContentContainer({ contentsLink, id }
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDocument.theme}
+              value={readdAlarm.theme}
             />
           </Box>
           <Box display="flex" justifyContent="space-between">

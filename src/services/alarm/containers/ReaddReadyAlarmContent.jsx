@@ -1,152 +1,51 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Typography,
   Box,
   Button,
-  TextField,
 } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { indigo } from '@material-ui/core/colors';
+import { Desktop } from '../../../utils/screenSelector';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { NextButton, BackButton } from '../../common/components/Buttons';
+import { useStyles } from '../../../common/components/Styles';
+import { NextButton, BackButton } from '../../../common/components/Buttons';
+import { CssTextField } from '../../../common/components/TextFields';
 
 import {
-  setAlarmDocument,
+  setReaddAlarm,
   loadHistoryAlarmDetail,
-} from '../../state/slice';
+} from '../../../state/alarmSlice';
 
-const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    // padding: theme.spacing(3),
-    backgroundColor: '#FFFFFF',
-  },
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    borderBottom: '1px solid lightgrey',
-    height: '60px',
-    paddingTop: '5px',
-    paddingBottom: '5px',
-  },
-  contentRoot: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingTop: '5px',
-  },
-  exitButton: {
-    marginLeft: '10px',
-  },
-  nextButton: {
-    marginRight: '10px',
-  },
-  stepTitle: {
-    '& > *': {
-      margin: theme.spacing(0),
-    },
-    color: theme.palette.text.secondary,
-    display: 'flex',
-    alignContent: 'space-between',
-    alignItems: 'center',
-  },
-  stepContent: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& > *': {
-      margin: theme.spacing(1),
-      width: theme.spacing(16),
-      height: theme.spacing(16),
-    },
-  },
-  dropZone: {
-    backgroundColor: 'pink',
-    marginTop: theme.spacing(4),
-    width: '30%',
-    height: '50px',
-    overflowX: 'auto',
-    // marginBottom: theme.spacing(2),
-    margin: 'auto',
-  },
-  formControl: {
-    margin: theme.spacing(1, 2),
-    minWidth: 170,
-    display: 'flex',
-    justifyContent: 'space-between',
-    height: '5px',
-  },
-  baseBox: {
-    display: 'flex',
-    border: '1px solid',
-    borderColor: '#D3D3D3',
-    borderRadius: '5px 5px 5px 5px',
-    margin: '0 15px 0 15px',
-    padding: '10px',
-    justifyContent: 'center',
-  },
-}));
-
-const CssTextField = withStyles({
-  root: {
-    '& label.Mui-focused': {
-      color: indigo[700],
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: indigo[700],
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: indigo[700],
-      },
-      '&:hover fieldset': {
-        borderColor: indigo[700],
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: indigo[700],
-      },
-    },
-  },
-})(TextField);
-
-export default function ReaddReadyDocumentContentContainer({ contentsLink, id }) {
+export default function ReaddReadyAlarmContent({ contentsLink, id }) {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { alarmDetail } = useSelector((state) => ({
-    alarmDetail: state.alarmDetail,
+  const { readdAlarm } = useSelector((state) => ({
+    readdAlarm: state.alarm.alarmDetail,
   }));
-
-  useEffect(() => {
-    dispatch(loadHistoryAlarmDetail(id));
-  }, []);
 
   const [open, setOpen] = React.useState(false);
 
   const [itemInfo, setItemInfo] = React.useState({
     // TODO. Review에서 뒤로 버튼으로 넘어왔을 때 alarmDocument 내용으로 보여줘야 함
-    itemName: alarmDetail.itemName,
-    itemCode: alarmDetail.itemCode,
-    recommendPrice: alarmDetail.recommendPrice,
-    losscutPrice: alarmDetail.losscutPrice,
-    comment: alarmDetail.comment,
-    theme: alarmDetail.theme,
+    ...readdAlarm,
   });
+
+  useEffect(() => {
+    dispatch(loadHistoryAlarmDetail(id));
+  }, []);
+
+  useEffect(() => {
+    setItemInfo({ ...readdAlarm });
+  }, [readdAlarm]);
 
   function handleOnChange(event) {
     const { name, value } = event.target;
@@ -157,23 +56,25 @@ export default function ReaddReadyDocumentContentContainer({ contentsLink, id })
     });
   }
 
-  function handleOnClick(event, link) {
-    if (alarmDetail.itemName === '' || alarmDetail.itemCode === ''
-    || (itemInfo.recommendPrice === '' && alarmDetail.recommendPrice === '') || (itemInfo.losscutPrice === '' && alarmDetail.losscutPrice === '')) {
-      setOpen(true);
+  function handleOnClick(event) {
+    if (!itemInfo.recommendPrice || !itemInfo.losscutPrice) {
+      setOpen(true); // 필수항목 입력 알람
     } else {
       event.preventDefault();
       dispatch(
-        setAlarmDocument({
-          itemName: alarmDetail.itemName,
-          itemCode: alarmDetail.itemCode,
-          recommendPrice: itemInfo.recommendPrice || alarmDetail.recommendPrice,
-          losscutPrice: itemInfo.losscutPrice || alarmDetail.losscutPrice,
-          comment: itemInfo.comment || alarmDetail.comment,
-          theme: itemInfo.theme || alarmDetail.theme,
+        setReaddAlarm({
+          ...readdAlarm,
+          result: undefined,
+          itemName: itemInfo.itemName,
+          itemCode: itemInfo.itemCode,
+          recommendPrice: itemInfo.recommendPrice || readdAlarm.recommendPrice,
+          losscutPrice: itemInfo.losscutPrice || readdAlarm.losscutPrice,
+          comment: itemInfo.comment || readdAlarm.comment,
+          theme: itemInfo.theme || readdAlarm.theme,
+          alarmStatus: itemInfo.alarmStatus || readdAlarm.alarmStatus,
         }),
       );
-      history.push(`${link}/${id}`);
+      history.push(`/service/alarm/readd/review/${id}`);
     }
   }
 
@@ -185,15 +86,11 @@ export default function ReaddReadyDocumentContentContainer({ contentsLink, id })
     setOpen(false);
   }
 
-  const isDesktop = useMediaQuery({
-    query: '(min-width: 701px) and (max-width: 2048px)',
-  });
-
   return (
     <main className={classes.content}>
-      {isDesktop && (
+      <Desktop>
         <div className={classes.toolbar} />
-      )}
+      </Desktop>
       <ProgressToolBar />
       <div
         style={{
@@ -220,7 +117,7 @@ export default function ReaddReadyDocumentContentContainer({ contentsLink, id })
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDetail.itemName}
+              value={itemInfo.itemName}
             />
           </Box>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -232,7 +129,7 @@ export default function ReaddReadyDocumentContentContainer({ contentsLink, id })
               InputProps={{
                 readOnly: true,
               }}
-              value={alarmDetail.itemCode}
+              value={itemInfo.itemCode}
             />
           </Box>
           <Box style={{ margin: '10px 0 0 0' }}>
@@ -243,7 +140,9 @@ export default function ReaddReadyDocumentContentContainer({ contentsLink, id })
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.recommendPrice ? itemInfo.recommendPrice : alarmDetail.recommendPrice}
+              value={itemInfo.recommendPrice === '' ? itemInfo.recommendPrice
+                : itemInfo.recommendPrice ? itemInfo.recommendPrice
+                  : readdAlarm.recommendPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -254,7 +153,9 @@ export default function ReaddReadyDocumentContentContainer({ contentsLink, id })
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.losscutPrice ? itemInfo.losscutPrice : alarmDetail.losscutPrice}
+              value={itemInfo.losscutPrice === '' ? itemInfo.losscutPrice
+                : itemInfo.losscutPrice ? itemInfo.losscutPrice
+                  : readdAlarm.losscutPrice}
             />
           </Box>
           <Box style={{ margin: '10px 0 0px 0' }}>
@@ -266,7 +167,9 @@ export default function ReaddReadyDocumentContentContainer({ contentsLink, id })
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.comment ? itemInfo.comment : alarmDetail.comment}
+              value={itemInfo.comment === '' ? itemInfo.comment
+                : itemInfo.comment ? itemInfo.comment
+                  : readdAlarm.comment}
             />
           </Box>
           <Box style={{ margin: '10px 0 30px 0' }}>
@@ -278,7 +181,9 @@ export default function ReaddReadyDocumentContentContainer({ contentsLink, id })
               variant="outlined"
               fullWidth
               onChange={handleOnChange}
-              value={itemInfo.theme ? itemInfo.theme : alarmDetail.theme}
+              value={itemInfo.theme === '' ? itemInfo.theme
+                : itemInfo.theme ? itemInfo.theme
+                  : readdAlarm.theme}
             />
           </Box>
           <Box display="flex" justifyContent="space-between">

@@ -75,13 +75,6 @@ const { actions, reducer } = createSlice({
   },
 
   reducers: {
-    clearAlarmId(state) {
-      return {
-        ...state,
-        alarmId: { alarmId: 0 },
-      };
-    },
-
     setAlarms(state, { payload: alarms }) {
       const parsedAlarms = parseAlarms(
         alarms,
@@ -155,17 +148,15 @@ const { actions, reducer } = createSlice({
       };
     },
 
-    clearAlarmDetail(state) {
+    setReaddAlarm(state, {
+      payload: readdObj,
+    }) {
       return {
         ...state,
-        alarmDetail: initialAlarm,
-      };
-    },
-
-    clearNewAlarm(state) {
-      return {
-        ...state,
-        newAlarm: initialAlarm,
+        readdAlarm: {
+          ...state.readdAlarm,
+          ...readdObj,
+        },
       };
     },
 
@@ -245,6 +236,34 @@ const { actions, reducer } = createSlice({
         updateAlarm: initialAlarm,
       };
     },
+
+    clearAlarmDetail(state) {
+      return {
+        ...state,
+        alarmDetail: initialAlarm,
+      };
+    },
+
+    clearNewAlarm(state) {
+      return {
+        ...state,
+        newAlarm: initialAlarm,
+      };
+    },
+
+    clearReaddAlarm(state) {
+      return {
+        ...state,
+        readdAlarm: initialAlarm,
+      };
+    },
+
+    clearAlarmId(state) {
+      return {
+        ...state,
+        alarmId: { alarmId: 0 },
+      };
+    },
   },
 });
 
@@ -253,16 +272,18 @@ export const {
   setAlarm,
   setLosscutAlarms,
   setAlarmDetail,
-  clearAlarmDetail,
   setDeletedAlarmResult,
   setNewAlarm,
   setUpdateAlarm,
+  setReaddAlarm,
   setCreateAlarmResult,
   setModifiedAlarmResult,
   setAlarmId,
   clearAlarmId,
+  clearAlarmDetail,
   clearNewAlarm,
   clearUpdateAlarm,
+  clearReaddAlarm,
 } = actions;
 
 export default reducer;
