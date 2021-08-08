@@ -73,9 +73,9 @@ export default function InBoxMenuListContainer({
     const initIndex = pathname === '/service/alarm' ? 1
       : search === '?status=alarmed' ? 2
         : search === '?status=losscut' ? 3
-          : history.location.pathname.includes('/analyze/volume') ? 6
-            : history.location.pathname === '/seven-bread/main' ? 7
-              : history.location.pathname === '/bread/shuttle/home' ? 8
+          : history.location.pathname.includes('/service/analyze/volume') ? 6
+            : history.location.pathname === '/service/seven-bread' ? 7
+              : history.location.pathname === '/service/bread-shuttle' ? 8
                 : 0;
     setSelectedIndex(initIndex);
   }, []);
@@ -97,7 +97,7 @@ export default function InBoxMenuListContainer({
           button
           key={8}
           selected={selectedIndex === 8}
-          onClick={(e) => handleClick(e, '/bread/shuttle/home', 8)}
+          onClick={(e) => handleClick(e, '/service/bread-shuttle', 8)}
         >
           <ListItemIcon>
             <AirportShuttleIcon />
@@ -252,7 +252,7 @@ export default function InBoxMenuListContainer({
           button
           selected={selectedIndex === 7}
           key={7}
-          onClick={(e) => handleClick(e, '/seven-bread/main', 7)}
+          onClick={(e) => handleClick(e, '/service/seven-bread', 7)}
         >
           <ListItemIcon>
             <Filter7Icon />

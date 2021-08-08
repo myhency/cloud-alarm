@@ -1,5 +1,4 @@
 import React from 'react';
-import { useMediaQuery } from 'react-responsive';
 import {
   Box,
   IconButton,
@@ -8,22 +7,16 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import DoneIcon from '@material-ui/icons/Done';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import { Mobile, Desktop } from '../../../utils/screenSelector';
 
-import { useStyles } from '../../common/components/Styles';
+import { useStyles } from '../../../common/components/Styles';
 
 export default function ProgressToolBar() {
-  const isDesktop = useMediaQuery({
-    query: '(min-width: 701px) and (max-width: 2048px)',
-  });
-  const isMobile = useMediaQuery({
-    query: '(min-width: 280px) and (max-width: 700px)',
-  });
-
   const classes = useStyles();
 
   return (
     <>
-      {isDesktop && (
+      <Desktop>
         <div className={classes.progressToolBarRoot}>
           <IconButton aria-label="delete">
             <CloseIcon style={{ color: '#D2FDFF' }} />
@@ -58,8 +51,8 @@ export default function ProgressToolBar() {
             <DoneIcon style={{ color: '#D2FDFF' }} />
           </IconButton>
         </div>
-      )}
-      {isMobile && (
+      </Desktop>
+      <Mobile>
         <div className={classes.progressToolBarRoot}>
           <Box display="flex" flexDirection="row" flexGrow="1" justifyContent="center" p={1} m={1}>
             <RadioButtonCheckedIcon fontSize="small" style={{ color: '#D2FDFF' }} />
@@ -88,7 +81,7 @@ export default function ProgressToolBar() {
             <Typography style={{ color: '#D2FDFF', marginLeft: '5px', fontSize: '10px' }}>검토 및 저장</Typography>
           </Box>
         </div>
-      )}
+      </Mobile>
     </>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -13,20 +12,23 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@material-ui/core';
+import { Desktop } from '../../../utils/screenSelector';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { NextButton } from '../../common/components/Buttons';
+import { NextButton } from '../../../common/components/Buttons';
 
-import { CssAutocomplete } from '../../common/components/TextFields';
-import { useStyles } from '../../common/components/Styles';
+import { CssAutocomplete } from '../../../common/components/TextFields';
+import { useStyles } from '../../../common/components/Styles';
 
 import {
-  loadStockItemList,
   setSevenBreadItemDocument,
   loadSevenBreadItemByItemCode,
   clearSevenBreadItemId,
-  setSevenBreadItemId,
-} from '../../state/slice';
+} from '../../../state/sevenBreadSlice';
+
+import {
+  loadStockItemList,
+} from '../../../state/stockItemSlice';
 
 export default function AddDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
@@ -42,11 +44,11 @@ export default function AddDocumentContentContainer({ contentsLink }) {
 
   const dispatch = useDispatch();
   const { stockItems } = useSelector((state) => ({
-    stockItems: state.stockItems,
+    stockItems: state.stockItem.stockItems,
   }));
 
   const { sevenBreadItemId } = useSelector((state) => ({
-    sevenBreadItemId: state.sevenBreadItemId,
+    sevenBreadItemId: state.sevenBread.sevenBreadItemId,
   }));
 
   useEffect(() => {
@@ -107,15 +109,11 @@ export default function AddDocumentContentContainer({ contentsLink }) {
     }
   }
 
-  const isDesktop = useMediaQuery({
-    query: '(min-width: 701px) and (max-width: 2048px)',
-  });
-
   return (
     <main className={classes.content}>
-      {isDesktop && (
+      <Desktop>
         <div className={classes.toolbar} />
-      )}
+      </Desktop>
       <ProgressToolBar />
       <div
         style={{

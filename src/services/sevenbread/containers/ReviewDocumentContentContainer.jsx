@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
+import { Mobile, Desktop } from '../../../utils/screenSelector';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Typography,
@@ -15,19 +15,18 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { NextButton, BackButton } from '../../common/components/Buttons';
-import { useStyles } from '../../common/components/Styles';
+import { NextButton, BackButton } from '../../../common/components/Buttons';
+import { useStyles } from '../../../common/components/Styles';
 import {
   CssTextField,
-} from '../../common/components/TextFields';
+} from '../../../common/components/TextFields';
 
 import {
   clearSevenBreadItemDocument,
   clearCreatedSevenBreadItem,
   clearSevenBreadItemId,
-  // clearSevenBreadItem,
   createSevenBreadItemDocument,
-} from '../../state/slice';
+} from '../../../state/sevenBreadSlice';
 
 export default function ReviewDocumentContentContainer({ contentsLink }) {
   const history = useHistory();
@@ -39,10 +38,10 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
 
   const dispatch = useDispatch();
   const { sevenBreadItemDocument } = useSelector((state) => ({
-    sevenBreadItemDocument: state.sevenBreadItemDocument,
+    sevenBreadItemDocument: state.sevenBread.sevenBreadItemDocument,
   }));
   const { createdSevenBreadItem } = useSelector((state) => ({
-    createdSevenBreadItem: state.createdSevenBreadItem,
+    createdSevenBreadItem: state.sevenBread.createdSevenBreadItem,
   }));
 
   function handleOnClick(event) {
@@ -69,7 +68,7 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
 
   useEffect(() => {
     if (sevenBreadItemDocument.itemName === '' && sevenBreadItemDocument.itemCode === '') {
-      history.push('/seven-bread/item/add');
+      history.push('/service/seven-bread/item/add');
     }
   }, []);
 
@@ -102,15 +101,11 @@ export default function ReviewDocumentContentContainer({ contentsLink }) {
     dispatch(clearSevenBreadItemId());
   }
 
-  const isDesktop = useMediaQuery({
-    query: '(min-width: 701px) and (max-width: 2048px)',
-  });
-
   return (
     <main className={classes.content}>
-      {isDesktop && (
+      <Desktop>
         <div className={classes.toolbar} />
-      )}
+      </Desktop>
       <ProgressToolBar />
       <div
         style={{

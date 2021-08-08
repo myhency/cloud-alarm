@@ -21,10 +21,10 @@ import ReaddReadyAlarm from './services/alarm/pages/ReaddReadyAlarm';
 import ReaddReviewAlarm from './services/alarm/pages/ReaddReviewAlarm';
 import VolumeListPage from './services/analyze-volume/pages/VolumeListPage';
 import VolumeDetailPage from './services/analyze-volume/pages/VolumeDetailPage';
-import SevenBreadMainPage from './seven-bread/pages/SevenBreadMainPage';
-import AddSevenBreadItemPage from './seven-bread/pages/AddSevenBreadItemPage';
-import ReadySevenBreadItemPage from './seven-bread/pages/ReadySevenBreadItemPage';
-import ReviewSevenBreadItemPage from './seven-bread/pages/ReviewSevenBreadItemPage';
+import SevenBreadMainPage from './services/sevenbread/pages/SevenBreadMainPage';
+import AddSevenBreadItemPage from './services/sevenbread/pages/AddSevenBreadItemPage';
+import ReadySevenBreadItemPage from './services/sevenbread/pages/ReadySevenBreadItemPage';
+import ReviewSevenBreadItemPage from './services/sevenbread/pages/ReviewSevenBreadItemPage';
 import BreadPage from './bread/pages/BreadPage';
 import NotFoundPage from './NotFoundPage';
 
@@ -97,7 +97,7 @@ export default function RootPage() {
     <Router>
       <Switch>
         <UnAuthedRoute path="/login" component={LoginPage} />
-        <AllAuthedRoute exact path="/" component={() => (<Redirect to={{ pathname: '/bread/shuttle/home' }} />)} />
+        <AllAuthedRoute exact path="/" component={() => (<Redirect to={{ pathname: '/service/bread-shuttle' }} />)} />
         <AllAuthedRoute exact path="/service/alarm" component={AlarmServiceHome} />
         <AdminAuthedRoute exact path="/service/alarm/new/add" component={AddNewAlarm} />
         <AdminAuthedRoute exact path="/service/alarm/new/ready" component={AddReadyAlarm} />
@@ -108,11 +108,11 @@ export default function RootPage() {
         <AdminAuthedRoute exact path="/service/alarm/readd/review/:id" component={ReaddReviewAlarm} />
         <AllAuthedRoute path="/service/analyze/volume/:date" component={VolumeDetailPage} />
         <AllAuthedRoute path="/service/analyze/volume" component={VolumeListPage} />
-        <AllAuthedRoute exact path="/seven-bread/main" component={SevenBreadMainPage} />
-        <AllAuthedRoute exact path="/bread/shuttle/home" component={BreadPage} />
-        <AdminAuthedRoute exact path="/seven-bread/item/add" component={AddSevenBreadItemPage} />
-        <AdminAuthedRoute exact path="/seven-bread/item/ready" component={ReadySevenBreadItemPage} />
-        <AdminAuthedRoute exact path="/seven-bread/item/review" component={ReviewSevenBreadItemPage} />
+        <AllAuthedRoute exact path="/service/seven-bread" component={SevenBreadMainPage} />
+        <AdminAuthedRoute exact path="/service/seven-bread/item/add" component={AddSevenBreadItemPage} />
+        <AdminAuthedRoute exact path="/service/seven-bread/item/ready" component={ReadySevenBreadItemPage} />
+        <AdminAuthedRoute exact path="/service/seven-bread/item/review" component={ReviewSevenBreadItemPage} />
+        <AllAuthedRoute exact path="/service/bread-shuttle" component={BreadPage} />
         <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>

@@ -38,12 +38,12 @@ import BusinessIcon from '@material-ui/icons/Business';
 import StopIcon from '@material-ui/icons/Stop';
 import HelpIcon from '@material-ui/icons/Help';
 
-import { useStyles } from '../../common/components/Styles';
-import { StyledTooltip } from '../../common/components/Tooltips';
+import { useStyles } from '../../../common/components/Styles';
+import { StyledTooltip } from '../../../common/components/Tooltips';
 
-import NaverLogo from '../../assets/images/naver.jpg';
-import FnLogo from '../../assets/images/fn.jpg';
-import AlphaLogo from '../../assets/images/alpha.jpg';
+import NaverLogo from '../../../assets/images/naver.jpg';
+import FnLogo from '../../../assets/images/fn.jpg';
+import AlphaLogo from '../../../assets/images/alpha.jpg';
 
 import {
   loadSevenBreadList,
@@ -52,7 +52,7 @@ import {
   onSevenBreadItemAdd,
   onSevenBreadItemUpdate,
   loadSevenBreadItems,
-} from '../../state/slice';
+} from '../../../state/sevenBreadSlice';
 
 const columns = [
   {
@@ -238,15 +238,15 @@ export default function SevenBreadMainContentContainer() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { sevenBreads } = useSelector((state) => ({
-    sevenBreads: state.sevenBreadList,
+    sevenBreads: state.sevenBread.sevenBreadList,
   }));
 
   const { deletedSevenBreadItem } = useSelector((state) => ({
-    deletedSevenBreadItem: state.deletedSevenBreadItem,
+    deletedSevenBreadItem: state.sevenBread.deletedSevenBreadItem,
   }));
 
   const { sevenBreadRealTimeList } = useSelector((state) => ({
-    sevenBreadRealTimeList: state.sevenBreadRealTimeList,
+    sevenBreadRealTimeList: state.sevenBread.sevenBreadRealTimeList,
   }));
 
   useEffect(() => {
@@ -295,7 +295,7 @@ export default function SevenBreadMainContentContainer() {
 
   const handleNewSevenBreadItemOnClick = (e) => {
     e.preventDefault();
-    history.push('/seven-bread/item/add');
+    history.push('/service/seven-bread/item/add');
   };
 
   const sevenBreadRealTimeArray = Object.entries(sevenBreadRealTimeList);

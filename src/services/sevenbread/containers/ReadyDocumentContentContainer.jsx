@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Typography,
@@ -13,20 +12,24 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
+import { Desktop } from '../../../utils/screenSelector';
 import ProgressToolBar from '../components/ProgressToolBar';
 
-import { NextButton, BackButton } from '../../common/components/Buttons';
+import { NextButton, BackButton } from '../../../common/components/Buttons';
 
-import { useStyles } from '../../common/components/Styles';
+import { useStyles } from '../../../common/components/Styles';
 import {
   CssTextField,
   CssAutocomplete,
-} from '../../common/components/TextFields';
+} from '../../../common/components/TextFields';
 
 import {
   setSevenBreadItemDocument,
+} from '../../../state/sevenBreadSlice';
+
+import {
   clearAlarmDetail,
-} from '../../state/slice';
+} from '../../../state/alarmSlice';
 
 const handlers = [
   { title: '기관', value: 'G' },
@@ -52,12 +55,12 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
 
   const dispatch = useDispatch();
   const { sevenBreadItemDocument } = useSelector((state) => ({
-    sevenBreadItemDocument: state.sevenBreadItemDocument,
+    sevenBreadItemDocument: state.sevenBread.sevenBreadItemDocument,
   }));
 
   useEffect(() => {
     if (sevenBreadItemDocument.itemName === '' && sevenBreadItemDocument.itemCode === '') {
-      history.push('/seven-bread/item/add');
+      history.push('/service/seven-bread/item/add');
     }
   }, []);
 
@@ -117,15 +120,11 @@ export default function ReadyDocumentContentContainer({ contentsLink }) {
     setOpen(false);
   }
 
-  const isDesktop = useMediaQuery({
-    query: '(min-width: 701px) and (max-width: 2048px)',
-  });
-
   return (
     <main className={classes.content}>
-      {isDesktop && (
+      <Desktop>
         <div className={classes.toolbar} />
-      )}
+      </Desktop>
       <ProgressToolBar />
       <div
         style={{

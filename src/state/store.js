@@ -4,18 +4,18 @@ import {
 
 import thunk from 'redux-thunk';
 
-import reducer from './slice';
 import authReducer from './authSlice';
 import alarmReducer from './alarmSlice';
 import stockItemReducer from './stockItemSlice';
 import analyzeVolumeReducer from './analyzeVolumeSlice';
+import sevenBreadReducer from './sevenBreadSlice';
 
 const rootReducer = combineReducers({
-  reducer,
   auth: authReducer,
   alarm: alarmReducer,
   stockItem: stockItemReducer,
   analyzeVolume: analyzeVolumeReducer,
+  sevenBread: sevenBreadReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
