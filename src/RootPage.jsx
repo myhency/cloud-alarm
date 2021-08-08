@@ -10,6 +10,7 @@ import {
 
 import { useAuthed } from './hooks';
 
+import LoginPage from './services/login/pages/LoginPage';
 import AlarmServiceHome from './services/alarm/pages/AlarmServiceHome';
 import AddNewAlarm from './services/alarm/pages/AddNewAlarm';
 import AddReadyAlarm from './services/alarm/pages/AddReadyAlarm';
@@ -25,7 +26,6 @@ import AddSevenBreadItemPage from './seven-bread/pages/AddSevenBreadItemPage';
 import ReadySevenBreadItemPage from './seven-bread/pages/ReadySevenBreadItemPage';
 import ReviewSevenBreadItemPage from './seven-bread/pages/ReviewSevenBreadItemPage';
 import BreadPage from './bread/pages/BreadPage';
-import LoginPage from './login/pages/LoginPage';
 import NotFoundPage from './NotFoundPage';
 
 const AllAuthedRoute = ({ component: Component, ...rest }) => {
@@ -96,6 +96,7 @@ export default function RootPage() {
   return (
     <Router>
       <Switch>
+        <UnAuthedRoute path="/login" component={LoginPage} />
         <AllAuthedRoute exact path="/" component={() => (<Redirect to={{ pathname: '/bread/shuttle/home' }} />)} />
         <AllAuthedRoute exact path="/service/alarm" component={AlarmServiceHome} />
         <AdminAuthedRoute exact path="/service/alarm/new/add" component={AddNewAlarm} />
@@ -105,7 +106,6 @@ export default function RootPage() {
         <AdminAuthedRoute exact path="/service/alarm/update/review/:id" component={UpdateReviewAlarm} />
         <AdminAuthedRoute exact path="/service/alarm/readd/ready/:id" component={ReaddReadyAlarm} />
         <AdminAuthedRoute exact path="/service/alarm/readd/review/:id" component={ReaddReviewAlarm} />
-        <UnAuthedRoute path="/login" component={LoginPage} />
         <AllAuthedRoute path="/analyze/volume/:date" component={VolumeDetailPage} />
         <AllAuthedRoute path="/analyze/volume" component={VolumeListPage} />
         <AllAuthedRoute exact path="/seven-bread/main" component={SevenBreadMainPage} />

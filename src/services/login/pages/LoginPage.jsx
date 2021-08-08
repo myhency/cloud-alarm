@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { useMediaQuery } from 'react-responsive';
-
 import {
   Box,
   Typography,
@@ -14,22 +12,23 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@material-ui/core';
+import { Mobile, Desktop } from '../../../utils/screenSelector';
 
 import {
   LoginBaseBox,
   LoginContentsBox,
   LoginContentsSmallBox,
   LogoImageBox,
-} from '../../common/components/Boxes';
-import { LoginButton } from '../../common/components/Buttons';
-import LoginInput from '../components/Inputs';
+} from '../../../common/components/Boxes';
+import { LoginButton } from '../../../common/components/Buttons';
+import { LoginInput } from '../../../common/components/Inputs';
 
-import BreadStockLogoImage from '../../assets/images/bread-stock-logo.png';
+import BreadStockLogoImage from '../../../assets/images/bread-stock-logo.png';
 
 import {
   getLoginToken,
   clearAccessToken,
-} from '../../state/authSlice';
+} from '../../../state/authSlice';
 
 const useStyles = makeStyles(() => ({
   logo: {
@@ -38,12 +37,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function LoginPage() {
-  const isDesktop = useMediaQuery({
-    query: '(min-width: 701px) and (max-width: 2048px)',
-  });
-  const isMobile = useMediaQuery({
-    query: '(min-width: 280px) and (max-width: 700px)',
-  });
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -98,7 +91,7 @@ export default function LoginPage() {
 
   return (
     <>
-      {isDesktop && (
+      <Desktop>
         <LoginBaseBox>
           <LoginContentsBox>
             <LogoImageBox>
@@ -171,8 +164,8 @@ export default function LoginPage() {
             </DialogActions>
           </Dialog>
         </LoginBaseBox>
-      )}
-      {isMobile && (
+      </Desktop>
+      <Mobile>
         <LoginBaseBox>
           <LoginContentsSmallBox>
             <LogoImageBox>
@@ -244,7 +237,7 @@ export default function LoginPage() {
             </DialogActions>
           </Dialog>
         </LoginBaseBox>
-      )}
+      </Mobile>
     </>
   );
 }
