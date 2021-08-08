@@ -19,8 +19,8 @@ import UpdateReadyAlarm from './services/alarm/pages/UpdateReadyAlarm';
 import UpdateReviewAlarm from './services/alarm/pages/UpdateReviewAlarm';
 import ReaddReadyAlarm from './services/alarm/pages/ReaddReadyAlarm';
 import ReaddReviewAlarm from './services/alarm/pages/ReaddReviewAlarm';
-import VolumeListPage from './analyze-volume/pages/VolumeListPage';
-import VolumeDetailPage from './analyze-volume/pages/VolumeDetailPage';
+import VolumeListPage from './services/analyze-volume/pages/VolumeListPage';
+import VolumeDetailPage from './services/analyze-volume/pages/VolumeDetailPage';
 import SevenBreadMainPage from './seven-bread/pages/SevenBreadMainPage';
 import AddSevenBreadItemPage from './seven-bread/pages/AddSevenBreadItemPage';
 import ReadySevenBreadItemPage from './seven-bread/pages/ReadySevenBreadItemPage';
@@ -106,8 +106,8 @@ export default function RootPage() {
         <AdminAuthedRoute exact path="/service/alarm/update/review/:id" component={UpdateReviewAlarm} />
         <AdminAuthedRoute exact path="/service/alarm/readd/ready/:id" component={ReaddReadyAlarm} />
         <AdminAuthedRoute exact path="/service/alarm/readd/review/:id" component={ReaddReviewAlarm} />
-        <AllAuthedRoute path="/analyze/volume/:date" component={VolumeDetailPage} />
-        <AllAuthedRoute path="/analyze/volume" component={VolumeListPage} />
+        <AllAuthedRoute path="/service/analyze/volume/:date" component={VolumeDetailPage} />
+        <AllAuthedRoute path="/service/analyze/volume" component={VolumeListPage} />
         <AllAuthedRoute exact path="/seven-bread/main" component={SevenBreadMainPage} />
         <AllAuthedRoute exact path="/bread/shuttle/home" component={BreadPage} />
         <AdminAuthedRoute exact path="/seven-bread/item/add" component={AddSevenBreadItemPage} />

@@ -238,7 +238,7 @@ export default function InBoxMenuListContainer({
           button
           selected={selectedIndex === 6}
           key={6}
-          onClick={(e) => handleClick(e, '/analyze/volume', 6)}
+          onClick={(e) => handleClick(e, '/service/analyze/volume', 6)}
         >
           <ListItemIcon>
             <ViewListIcon />
