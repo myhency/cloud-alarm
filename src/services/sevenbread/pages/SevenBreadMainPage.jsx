@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { Desktop } from '../../../utils/screenSelector';
+import { Mobile, Desktop } from '../../../utils/screenSelector';
 import DrawerLayout from '../../../common/layouts/DrawerLayout';
+import MobileDrawerLayout from '../../../common/layouts/MobileDrawerLayout';
 import PageTitleContainer from '../../../common/containers/PageTitleContainer';
 import InBoxMenuListContainer from '../../../common/containers/InBoxMenuListContainer';
 import InBoxMenuListContainerSmall from '../../../common/containers/InBoxMenuListContainerSmall';
 import SevenBreadMainContentContainer from '../containers/SevenBreadMainContentContainer';
+import MobileSevenBreadMainContentContainer from '../containers/MobileSevenBreadMainContentContainer';
 // import MobileInBoxContentContainer from '../containers/MobileInBoxContentContainer';
 
 const items = [
@@ -22,14 +24,14 @@ export default function SevenBreadMainPage() {
           content={<SevenBreadMainContentContainer />}
         />
       </Desktop>
-      {/* {isMobile && (
+      <Mobile>
         <MobileDrawerLayout
           pageTitleContainer={<PageTitleContainer items={items} />}
           menuList={<InBoxMenuListContainer />}
           menuListSmall={<InBoxMenuListContainerSmall />}
-          content={<MobileInBoxContentContainer />}
+          content={<MobileSevenBreadMainContentContainer />}
         />
-      )} */}
+      </Mobile>
     </>
   );
 }
