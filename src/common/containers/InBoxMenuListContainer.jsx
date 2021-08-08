@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
@@ -9,20 +9,15 @@ import {
   Typography,
   ListItemIcon,
   ListItemText,
-  Divider,
   Collapse,
 } from '@material-ui/core';
 
 // Icons
-import PieChartIcon from '@material-ui/icons/PieChart';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import TelegramIcon from '@material-ui/icons/Telegram';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-import PostAddIcon from '@material-ui/icons/PostAdd';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import Filter7Icon from '@material-ui/icons/Filter7';
-import ListIcon from '@material-ui/icons/List';
 import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 
@@ -31,7 +26,6 @@ import {
   BaseBox,
   NewDocumentBox,
 } from '../components/Boxes';
-import { NewDocumentButton } from '../components/Buttons';
 import MenuListItem from '../components/ListItems';
 
 const useStyles = makeStyles((theme) => ({

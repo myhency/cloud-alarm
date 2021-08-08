@@ -39,9 +39,8 @@ export default function VolumeListContentContainer() {
   useEffect(() => {
     dispatch(loadVolumeDateList());
   }, []);
-  const [selected, setSelected] = React.useState([]);
-  const [hoveredId, setHoveredId] = React.useState(null);
 
+  const [selected, setSelected] = React.useState([]);
   const numSelected = selected.length;
   const rowCount = volumeDateList.length;
 
@@ -153,8 +152,6 @@ export default function VolumeListContentContainer() {
                     tabIndex={-1}
                     key={volumeDate}
                     selected={isItemSelected}
-                    onMouseOver={() => setHoveredId(volumeDate)}
-                    onMouseLeave={() => setHoveredId(null)}
                   >
                     <TableCell className={classes.checkbox}>
                       <Checkbox

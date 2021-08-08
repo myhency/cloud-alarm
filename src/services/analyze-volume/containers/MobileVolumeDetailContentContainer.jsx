@@ -1,3 +1,7 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
+/* eslint-disable max-len */
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,7 +41,6 @@ function TabPanel(props) {
 }
 
 function VolumeDataTable({ marketType, value }) {
-  const classes = useMobileStyles();
   const mapped = value.map((el, i) => ({
     index: i,
     value: (el.volume / el.numberOfOutstandingShares),

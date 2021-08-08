@@ -1,3 +1,7 @@
+/* eslint-disable max-len */
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {

@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
-import { Mobile, Desktop } from '../../../utils/screenSelector';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Typography,
@@ -13,6 +12,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
+import { Desktop } from '../../../utils/screenSelector';
 import ProgressToolBar from '../components/ProgressToolBar';
 
 import { NextButton, BackButton } from '../../../common/components/Buttons';

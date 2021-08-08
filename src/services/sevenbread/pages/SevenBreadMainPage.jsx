@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Mobile, Desktop } from '../../../utils/screenSelector';
+import { Desktop } from '../../../utils/screenSelector';
 import DrawerLayout from '../../../common/layouts/DrawerLayout';
-import MobileDrawerLayout from '../../../common/layouts/MobileDrawerLayout';
 import PageTitleContainer from '../../../common/containers/PageTitleContainer';
 import InBoxMenuListContainer from '../../../common/containers/InBoxMenuListContainer';
 import InBoxMenuListContainerSmall from '../../../common/containers/InBoxMenuListContainerSmall';
