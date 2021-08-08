@@ -4,6 +4,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import { useSelector } from 'react-redux';
 
+import CssBaseline from '@material-ui/core/CssBaseline';
 import RootPage from './RootPage';
 
 const theme = createMuiTheme({
@@ -34,6 +35,7 @@ export default function App() {
 
   return (
     <MuiThemeProvider theme={theme}>
+      <CssBaseline />
       <RootPage localeText={localeText} />
     </MuiThemeProvider>
   );

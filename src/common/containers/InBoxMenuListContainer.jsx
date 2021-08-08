@@ -9,20 +9,15 @@ import {
   Typography,
   ListItemIcon,
   ListItemText,
-  Divider,
   Collapse,
 } from '@material-ui/core';
 
 // Icons
-import PieChartIcon from '@material-ui/icons/PieChart';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import TelegramIcon from '@material-ui/icons/Telegram';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-import PostAddIcon from '@material-ui/icons/PostAdd';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import Filter7Icon from '@material-ui/icons/Filter7';
-import ListIcon from '@material-ui/icons/List';
 import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 
@@ -31,7 +26,6 @@ import {
   BaseBox,
   NewDocumentBox,
 } from '../components/Boxes';
-import { NewDocumentButton } from '../components/Buttons';
 import MenuListItem from '../components/ListItems';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,11 +50,6 @@ export default function InBoxMenuListContainer({
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [expand, setExpand] = React.useState(true);
 
-  function handleNewDocumentOnClick(event) {
-    event.preventDefault();
-    history.push('/add-docs');
-  }
-
   function handleClick(event, link, index) {
     event.preventDefault();
     setSelectedIndex(index);
@@ -71,14 +60,16 @@ export default function InBoxMenuListContainer({
     setExpand(!expand);
   }
 
+  const { search, pathname } = history.location;
+
   useEffect(() => {
     // eslint-disable-next-line no-nested-ternary
-    const initIndex = history.location.pathname === '/inbox' ? 1
-      : history.location.pathname === '/inbox/alarmed' ? 2
-        : history.location.pathname === '/inbox/losscut' ? 3
-          : history.location.pathname.includes('/analyze/volume') ? 6
-            : history.location.pathname === '/seven-bread/main' ? 7
-              : history.location.pathname === '/bread/shuttle/home' ? 8
+    const initIndex = pathname === '/service/alarm' ? 1
+      : search === '?status=alarmed' ? 2
+        : search === '?status=losscut' ? 3
+          : history.location.pathname.includes('/service/analyze/volume') ? 6
+            : history.location.pathname === '/service/seven-bread' ? 7
+              : history.location.pathname === '/service/bread-shuttle' ? 8
                 : 0;
     setSelectedIndex(initIndex);
   }, []);
@@ -100,7 +91,7 @@ export default function InBoxMenuListContainer({
           button
           key={8}
           selected={selectedIndex === 8}
-          onClick={(e) => handleClick(e, '/bread/shuttle/home', 8)}
+          onClick={(e) => handleClick(e, '/service/bread-shuttle', 8)}
         >
           <ListItemIcon>
             <AirportShuttleIcon />
@@ -127,7 +118,7 @@ export default function InBoxMenuListContainer({
               button
               selected={selectedIndex === 1}
               key={1}
-              onClick={(e) => handleClick(e, '/inbox', 1)}
+              onClick={(e) => handleClick(e, '/service/alarm?status=active', 1)}
             >
               <ListItemIcon>
                 <ListAltIcon />
@@ -142,7 +133,7 @@ export default function InBoxMenuListContainer({
               button
               key={2}
               selected={selectedIndex === 2}
-              onClick={(e) => handleClick(e, '/inbox/alarmed', 2)}
+              onClick={(e) => handleClick(e, '/service/alarm?status=alarmed', 2)}
             >
               <ListItemIcon>
                 <TrendingUpIcon />
@@ -158,7 +149,7 @@ export default function InBoxMenuListContainer({
               button
               key={3}
               selected={selectedIndex === 3}
-              onClick={(e) => handleClick(e, '/inbox/losscut', 3)}
+              onClick={(e) => handleClick(e, '/service/alarm?status=losscut', 3)}
             >
               <ListItemIcon>
                 <TrendingDownIcon />
@@ -241,7 +232,7 @@ export default function InBoxMenuListContainer({
           button
           selected={selectedIndex === 6}
           key={6}
-          onClick={(e) => handleClick(e, '/analyze/volume', 6)}
+          onClick={(e) => handleClick(e, '/service/analyze/volume', 6)}
         >
           <ListItemIcon>
             <ViewListIcon />
@@ -255,7 +246,7 @@ export default function InBoxMenuListContainer({
           button
           selected={selectedIndex === 7}
           key={7}
-          onClick={(e) => handleClick(e, '/seven-bread/main', 7)}
+          onClick={(e) => handleClick(e, '/service/seven-bread', 7)}
         >
           <ListItemIcon>
             <Filter7Icon />
