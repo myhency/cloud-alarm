@@ -55,8 +55,6 @@ export default function AlarmListContent() {
     alarms: state.alarm.alarms,
   }));
 
-  console.log(alarms);
-
   const { deletedAlarm } = useSelector((state) => ({
     deletedAlarm: state.alarm.deletedAlarm,
   }));
@@ -128,7 +126,6 @@ export default function AlarmListContent() {
   };
 
   const handleOnModifyButton = (e, alarm) => {
-    console.log(alarm);
     dispatch(setAlarm(alarm));
     history.push(`/service/alarm/update/ready/${alarm.alarmId}`);
   };
