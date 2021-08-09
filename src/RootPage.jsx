@@ -52,11 +52,11 @@ const UnAuthedRoute = ({ component: Component, ...rest }) => {
         if (isAuthed.authed) {
           if (rest.path === '/login') {
             alert('이미 로그인이 되어 있습니다.');
-            return <Redirect to={{ pathname: '/inbox', state: { from: props.location } }} />;
+            return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
           }
 
           if (rest.path === '/') {
-            return <Redirect to={{ pathname: '/inbox', state: { from: props.location } }} />;
+            return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
           }
         }
         return <Component {...props} />;
