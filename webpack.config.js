@@ -69,5 +69,7 @@ module.exports = (env, argv) => ({
     },
     host: '192.168.29.242',
     port: 3000,
+    disableHostCheck: true,
+    compress: true,
   },
 });
