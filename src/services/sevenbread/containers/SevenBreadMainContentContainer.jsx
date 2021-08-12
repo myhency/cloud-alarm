@@ -355,13 +355,6 @@ export default function SevenBreadMainContentContainer() {
               </Box>
             </Grid>
             <Grid item lg={9} sm={9} xs={12}>
-              {/* <Box style={{ padding: '10px' }}>
-                <Paper elevation={2} style={{ padding: '10px', backgroundColor: '#f6fdfd' }}>
-                  <Typography variant="h5" align="center">
-                    007빵 리스트
-                  </Typography>
-                </Paper>
-              </Box> */}
               <Box style={{ padding: '10px' }}>
                 <Box style={{ border: '1px solid lightgrey', padding: '10px' }}>
                   <div className={classes.tableHeaderRoot}>
@@ -495,11 +488,6 @@ export default function SevenBreadMainContentContainer() {
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="center">
-                                  {/* <Typography>
-                                    {sevenBread.majorHandler === 'B' ? '외,기'
-                                      : sevenBread.majorHandler === 'G' ? '기'
-                                        : '외'}
-                                  </Typography> */}
                                   {sevenBread.majorHandler === 'B' ? (
                                     <>
                                       <FaceIcon fontSize="small" style={{ color: '#dda900' }} />
@@ -568,15 +556,6 @@ export default function SevenBreadMainContentContainer() {
                                             </IconButton>
                                           </a>
                                         </StyledTooltip>
-                                        {/* <StyledTooltip title="수정">
-                                          <IconButton
-                                            id="alarm-modify-button"
-                                            className={classes.action}
-                                            onClick={(e) => handleOnModifyButton(e, sevenBread.id)}
-                                          >
-                                            <EditIcon />
-                                          </IconButton>
-                                        </StyledTooltip> */}
                                         <StyledTooltip title="삭제">
                                           <IconButton
                                             className={classes.action}

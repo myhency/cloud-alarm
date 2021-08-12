@@ -60,11 +60,11 @@ export default function InBoxMenuListContainer({
     setExpand(!expand);
   }
 
-  const { search, pathname } = history.location;
+  const { search } = history.location;
 
   useEffect(() => {
     // eslint-disable-next-line no-nested-ternary
-    const initIndex = pathname === '/service/alarm' ? 1
+    const initIndex = search === '?status=active' ? 1
       : search === '?status=alarmed' ? 2
         : search === '?status=losscut' ? 3
           : history.location.pathname.includes('/service/analyze/volume') ? 6
@@ -76,16 +76,6 @@ export default function InBoxMenuListContainer({
 
   return (
     <BaseBox>
-      <NewDocumentBox>
-        {/* <NewDocumentButton
-          startIcon={<TelegramIcon style={{ fontSize: 40, color: '#b4dfe5' }} />}
-          onClick={handleNewDocumentOnClick}
-        >
-          <Typography style={{ color: '#b4dfe5' }}>
-            새 알림 만들기
-          </Typography>
-        </NewDocumentButton> */}
-      </NewDocumentBox>
       <List>
         <MenuListItem
           button
