@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -152,6 +153,10 @@ export default function AlarmListContent() {
     history.push('/service/alarm/new/add');
   }
 
+  function handleRefresh() {
+    history.go(0);
+  }
+
   return (
     <main className={classes.content}>
       <InBoxModalContainer
@@ -183,7 +188,7 @@ export default function AlarmListContent() {
                 </StyledTooltip>
               </>
             ) : (
-              <IconButton>
+              <IconButton onClick={handleRefresh}>
                 <RefreshIcon />
               </IconButton>
             )}
@@ -255,23 +260,43 @@ export default function AlarmListContent() {
                     <Typography variant="subtitle2">종목명</Typography>
                   </Box>
                 </TableCell>
+                {status === 'losscut' ? (
+                  <></>
+                ) : (
+                  <TableCell
+                    component="th"
+                    id="col1"
+                    scope="row"
+                    padding="none"
+                    width="6%"
+                  >
+                    <Box display="flex" flexDirection="column">
+                      <Typography variant="subtitle2">현재가</Typography>
+                    </Box>
+                  </TableCell>
+                )}
                 <TableCell
                   component="th"
                   scope="row"
                   padding="none"
-                  width="10%"
+                  width="7%"
                 >
                   <Box display="flex" flexDirection="column">
                     <Typography variant="subtitle2">
                       돌파가격
                     </Typography>
+                    {status === 'losscut' ? (
+                      <></>
+                    ) : (
+                      <Typography variant="caption">(현재가대비%)</Typography>
+                    )}
                   </Box>
                 </TableCell>
                 <TableCell
                   component="th"
                   scope="row"
                   padding="none"
-                  width="10%"
+                  width="7%"
                 >
                   <Box display="flex" flexDirection="column">
                     <Typography variant="subtitle2">
@@ -305,6 +330,8 @@ export default function AlarmListContent() {
                 const isItemSelected = isSelected(alarm.alarmId);
                 const labelId = `enhanced-table-checkbox-${alarm.alarmId}`;
                 const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${alarm.itemCode}`;
+                // const losscutBy = (100 - ((alarm.losscutPrice / alarm.closingPrice) * 100)).toFixed(2);
+                const recommendBy = (100 - ((alarm.recommendPrice / alarm.closingPrice) * 100)).toFixed(2);
 
                 return (
                   <TableRow
@@ -338,6 +365,24 @@ export default function AlarmListContent() {
                         <Typography>{alarm.itemName}</Typography>
                       </Box>
                     </TableCell>
+                    {status === 'losscut' ? (
+                      <></>
+                    ) : (
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                        width="10%"
+                        onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
+                      >
+                        <Box display="flex" flexDirection="column">
+                          <Typography>
+                            {new Intl.NumberFormat('ko-KR').format(alarm.closingPrice)}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                    )}
                     <TableCell
                       component="th"
                       id={labelId}
@@ -350,6 +395,15 @@ export default function AlarmListContent() {
                         <Typography style={{ color: 'red' }}>
                           {new Intl.NumberFormat('ko-KR').format(alarm.recommendPrice)}
                         </Typography>
+                        {status === 'losscut' ? (
+                          <></>
+                        ) : (
+                          <Typography variant="caption" style={{ color: recommendBy > 0 ? 'red' : 'blue' }}>
+                            (
+                            {recommendBy}
+                            %)
+                          </Typography>
+                        )}
                       </Box>
                     </TableCell>
                     <TableCell
