@@ -377,7 +377,7 @@ export default function AlarmListContent() {
                         onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
                       >
                         <Box display="flex" flexDirection="column">
-                          <Typography>
+                          <Typography style={{ color: '#505157' }}>
                             {new Intl.NumberFormat('ko-KR').format(alarm.closingPrice)}
                           </Typography>
                         </Box>
@@ -398,7 +398,7 @@ export default function AlarmListContent() {
                         {status === 'losscut' ? (
                           <></>
                         ) : (
-                          <Typography variant="caption" style={{ color: recommendBy > 0 ? 'red' : 'blue' }}>
+                          <Typography variant="caption" style={{ color: recommendBy > 0 ? '#f76565' : '#4d79ff' }}>
                             (
                             {recommendBy}
                             %)
