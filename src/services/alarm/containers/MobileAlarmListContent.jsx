@@ -101,7 +101,7 @@ export default function MobileAlarmListContent() {
                 {status === 'losscut' ? (
                   <></>
                 ) : (
-                  <Typography variant="caption" style={{ color: recommendBy > 0 ? 'red' : 'blue', marginLeft: '3px' }}>
+                  <Typography variant="caption" style={{ color: recommendBy > 0 ? '#f76565' : '#4d79ff', marginLeft: '3px' }}>
                     (
                     {recommendBy}
                     %)
@@ -135,7 +135,7 @@ export default function MobileAlarmListContent() {
                 <></>
               ) : (
                 <div>
-                  <Typography>
+                  <Typography style={{ color: '#505157' }}>
                     {new Intl.NumberFormat('ko-KR').format(alarm.closingPrice)}
                   </Typography>
                 </div>
