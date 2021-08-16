@@ -71,6 +71,8 @@ export default function MobileAlarmListContent() {
       />
       {alarms.map((alarm) => {
         const key = alarm.alarmId;
+        const recommendBy = (100 - ((alarm.recommendPrice / alarm.closingPrice) * 100)).toFixed(2);
+
         return (
           <Box
             style={{
@@ -92,10 +94,19 @@ export default function MobileAlarmListContent() {
                   {alarm.itemName}
                 </Typography>
               </div>
-              <div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Typography style={{ color: 'red' }}>
                   {new Intl.NumberFormat('ko-KR').format(alarm.recommendPrice)}
                 </Typography>
+                {status === 'losscut' ? (
+                  <></>
+                ) : (
+                  <Typography variant="caption" style={{ color: recommendBy > 0 ? 'red' : 'blue', marginLeft: '3px' }}>
+                    (
+                    {recommendBy}
+                    %)
+                  </Typography>
+                )}
               </div>
               <div>
                 <Typography style={{ color: 'blue' }}>
@@ -120,6 +131,15 @@ export default function MobileAlarmListContent() {
                   {String(alarm.modifiedDate).replace('T', ' ')}
                 </Typography>
               </div>
+              {status === 'losscut' ? (
+                <></>
+              ) : (
+                <div>
+                  <Typography>
+                    {new Intl.NumberFormat('ko-KR').format(alarm.closingPrice)}
+                  </Typography>
+                </div>
+              )}
               <div>
                 <Typography style={{ color: '#747171', fontSize: '14px' }}>
                   {alarm.alarmStatus === 'ALARMED' ? '알림완료'
