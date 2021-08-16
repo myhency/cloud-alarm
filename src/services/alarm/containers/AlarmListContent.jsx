@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable max-len */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
@@ -15,6 +16,8 @@ import {
   TableCell,
   Typography,
   Button,
+  TableHead,
+  TableSortLabel,
 } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -48,6 +51,114 @@ import {
 
 import InBoxModalContainer from './InBoxModalContainer';
 
+const headCells = [
+  { id: 'itemName', numeric: false, disablePadding: true, label: '종목명' },
+  { id: 'closingPrice', numeric: false, disablePadding: true, label: '현재가' },
+  { id: 'recommendPrice', numeric: false, disablePadding: true, label: '돌파가격' },
+  { id: 'losscutPrice', numeric: false, disablePadding: true, label: '손절가격' },
+  { id: 'comment', numeric: false, disablePadding: true, label: '코멘트' },
+  { id: 'alarmStatus', numeric: true, disablePadding: false, label: '알람상태' },
+  { id: 'modifiedDate', numeric: true, disablePadding: false, label: '최근 업데이트' },
+];
+
+function EnhancedTableHead(props) {
+  const { status, order, orderBy, onRequestSort } = props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+
+  return (
+    <TableHead>
+      <TableRow
+        style={{ height: '4vh', backgroundColor: '#FBFBFB' }}
+      >
+        <TableCell padding="checkbox" key="check">
+          <></>
+        </TableCell>
+        {headCells.map((headCell) => {
+          if (status === 'losscut' && headCell.id === 'closingPrice') {
+            return null;
+          }
+          if (headCell.id === 'recommendPrice') {
+            return (
+              <TableCell
+                key={headCell.id}
+                align={headCell.numeric ? 'right' : 'left'}
+                padding={headCell.disablePadding ? 'none' : 'default'}
+                sortDirection={orderBy === headCell.id ? order : false}
+              >
+                <TableSortLabel
+                  active={orderBy === headCell.id}
+                  direction={orderBy === headCell.id ? order : 'asc'}
+                  onClick={createSortHandler(headCell.id)}
+                >
+                  <Box display="flex" flexDirection="column">
+                    <Typography variant="subtitle2">
+                      {headCell.label}
+                    </Typography>
+                    {status === 'losscut' ? (
+                      <></>
+                    ) : (
+                      <Typography variant="caption">(현재가대비%)</Typography>
+                    )}
+                  </Box>
+                </TableSortLabel>
+              </TableCell>
+            );
+          }
+          return (
+            <TableCell
+              key={headCell.id}
+              align={headCell.numeric ? 'right' : 'left'}
+              padding={headCell.disablePadding ? 'none' : 'default'}
+              sortDirection={orderBy === headCell.id ? order : false}
+            >
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+              </TableSortLabel>
+            </TableCell>
+          );
+        })}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+function descendingComparator(a, b, orderBy) {
+  if (orderBy === 'recommendPrice') {
+    return (100 - ((a.recommendPrice / a.closingPrice) * 100)).toFixed(2)
+      - (100 - ((b.recommendPrice / b.closingPrice) * 100)).toFixed(2);
+  }
+
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
 export default function AlarmListContent() {
   const history = useHistory();
   const classes = useStyles();
@@ -73,6 +184,8 @@ export default function AlarmListContent() {
   const [warningOpen, setWarningOpen] = React.useState(false);
   const [toBeDeletedId, setToBeDeletedId] = React.useState(0);
   const [detailModalOpened, setDetailModalOpened] = React.useState(false);
+  const [order, setOrder] = React.useState('desc');
+  const [orderBy, setOrderBy] = React.useState('modifiedDate');
 
   const numSelected = selected.length;
   const rowCount = alarms.length;
@@ -157,6 +270,12 @@ export default function AlarmListContent() {
     history.go(0);
   }
 
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
   return (
     <main className={classes.content}>
       <InBoxModalContainer
@@ -235,98 +354,188 @@ export default function AlarmListContent() {
             size="medium"
             aria-label="enhanced table"
           >
+            <EnhancedTableHead
+              classes={classes}
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              status={status}
+            />
             <TableBody>
-              <TableRow
-                id="head"
-                style={{ cursor: 'pointer', height: '4vh', backgroundColor: '#FBFBFB' }}
-                role="checkbox"
-                tabIndex={-1}
-                key="head"
-              >
-                <TableCell className={classes.checkbox}>
-                  {/* <Checkbox
-                    checked={false}
-                    inputProps={{ 'aria-labelledby': 0 }}
-                  /> */}
-                </TableCell>
-                <TableCell
-                  component="th"
-                  id="col1"
-                  scope="row"
-                  padding="none"
-                  width="10%"
-                >
-                  <Box display="flex" flexDirection="column">
-                    <Typography variant="subtitle2">종목명</Typography>
-                  </Box>
-                </TableCell>
-                {status === 'losscut' ? (
-                  <></>
-                ) : (
-                  <TableCell
-                    component="th"
-                    id="col1"
-                    scope="row"
-                    padding="none"
-                    width="6%"
-                  >
-                    <Box display="flex" flexDirection="column">
-                      <Typography variant="subtitle2">현재가</Typography>
-                    </Box>
-                  </TableCell>
-                )}
-                <TableCell
-                  component="th"
-                  scope="row"
-                  padding="none"
-                  width="7%"
-                >
-                  <Box display="flex" flexDirection="column">
-                    <Typography variant="subtitle2">
-                      돌파가격
-                    </Typography>
-                    {status === 'losscut' ? (
-                      <></>
-                    ) : (
-                      <Typography variant="caption">(현재가대비%)</Typography>
-                    )}
-                  </Box>
-                </TableCell>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  padding="none"
-                  width="7%"
-                >
-                  <Box display="flex" flexDirection="column">
-                    <Typography variant="subtitle2">
-                      손절가격
-                    </Typography>
-                  </Box>
-                </TableCell>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  padding="none"
-                >
-                  <Box display="flex" flexDirection="column">
-                    <Typography variant="subtitle2">
-                      코멘트
-                    </Typography>
-                  </Box>
-                </TableCell>
-                <TableCell align="right" width="10%">
-                  <Typography variant="subtitle2">
-                    알림상태
-                  </Typography>
-                </TableCell>
-                <TableCell align="right" width="15%">
-                  <Typography variant="subtitle2">
-                    최근 업데이트
-                  </Typography>
-                </TableCell>
-              </TableRow>
-              {alarms.map((alarm) => {
+              {stableSort(alarms, getComparator(order, orderBy))
+                .map((alarm) => {
+                  const isItemSelected = isSelected(alarm.alarmId);
+                  const labelId = `enhanced-table-checkbox-${alarm.alarmId}`;
+                  const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${alarm.itemCode}`;
+                  // const losscutBy = (100 - ((alarm.losscutPrice / alarm.closingPrice) * 100)).toFixed(2);
+                  const recommendBy = (100 - ((alarm.recommendPrice / alarm.closingPrice) * 100)).toFixed(2);
+
+                  return (
+                    <TableRow
+                      id={alarm.alarmId}
+                      style={{ cursor: 'pointer', height: '4vh' }}
+                      hover
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={alarm.alarmId}
+                      selected={isItemSelected}
+                      onMouseOver={() => setHoveredId(alarm.alarmId)}
+                      onMouseLeave={() => setHoveredId(null)}
+                    >
+                      <TableCell className={classes.checkbox}>
+                        <Checkbox
+                          checked={isItemSelected}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                          onChange={(event) => handleOnChange(event, alarm.alarmId)}
+                        />
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                        width="10%"
+                        onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
+                      >
+                        <Box display="flex" flexDirection="column">
+                          <Typography>{alarm.itemName}</Typography>
+                        </Box>
+                      </TableCell>
+                      {status === 'losscut' ? (
+                        <></>
+                      ) : (
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                          width="10%"
+                          onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
+                        >
+                          <Box display="flex" flexDirection="column">
+                            <Typography style={{ color: '#505157' }}>
+                              {new Intl.NumberFormat('ko-KR').format(alarm.closingPrice)}
+                            </Typography>
+                          </Box>
+                        </TableCell>
+                      )}
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                        width="10%"
+                        onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
+                      >
+                        <Box display="flex" flexDirection="column">
+                          <Typography style={{ color: 'red' }}>
+                            {new Intl.NumberFormat('ko-KR').format(alarm.recommendPrice)}
+                          </Typography>
+                          {status === 'losscut' ? (
+                            <></>
+                          ) : (
+                            <Typography variant="caption" style={{ color: recommendBy > 0 ? '#f76565' : '#4d79ff' }}>
+                              (
+                              {recommendBy}
+                              %)
+                            </Typography>
+                          )}
+                        </Box>
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                        width="10%"
+                        onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
+                      >
+                        <Box display="flex" flexDirection="column">
+                          <Typography style={{ color: 'blue' }}>
+                            {new Intl.NumberFormat('ko-KR').format(alarm.losscutPrice)}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                        onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
+                      >
+                        <Box display="flex" flexDirection="column">
+                          <Typography className={classes.typographySub}>
+                            {alarm.comment}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell align="right" width="10%">
+                        <Typography>
+                          {alarm.alarmStatus === 'ALARMED' ? '알림완료'
+                            : alarm.alarmStatus === 'ALARM_CREATED' ? '알림전'
+                              : alarm.alarmStatus === 'PRICE_UPDATED' ? '가격수정됨'
+                                : alarm.alarmStatus === 'LOSSCUT' ? '손절처리'
+                                  : alarm.alarmStatus}
+                        </Typography>
+                      </TableCell>
+                      {hoveredId === alarm.alarmId ? (
+                        <TableCell align="right" width="15%" style={{ padding: '0' }}>
+                          <Box flexDirection="row">
+                            <StyledTooltip title="차트보기">
+                              <a target="_blank" href={chartLink} rel="noreferrer">
+                                <IconButton
+                                  id="alarm-chart-button"
+                                  className={classes.action}
+                                >
+                                  <ShowChartIcon />
+                                </IconButton>
+                              </a>
+                            </StyledTooltip>
+                            {alarm.alarmStatus === 'LOSSCUT' ? (
+                              <StyledTooltip title="재등록">
+                                <IconButton
+                                  id="alarm-delete-button"
+                                  className={classes.action}
+                                  onClick={(e) => handleOnReAddButton(e, alarm.alarmId)}
+                                >
+                                  <RedoIcon />
+                                </IconButton>
+                              </StyledTooltip>
+                            ) : (
+                              <>
+                                <StyledTooltip title="수정">
+                                  <IconButton
+                                    id="alarm-modify-button"
+                                    className={classes.action}
+                                    onClick={(e) => handleOnModifyButton(e, alarm)}
+                                  >
+                                    <EditIcon />
+                                  </IconButton>
+                                </StyledTooltip>
+                                <StyledTooltip title="삭제">
+                                  <IconButton
+                                    className={classes.action}
+                                    onClick={(e) => handleOnDeleteButton(e, alarm.alarmId)}
+                                  >
+                                    <DeleteIcon />
+                                  </IconButton>
+                                </StyledTooltip>
+                              </>
+                            )}
+                          </Box>
+                        </TableCell>
+                      ) : (
+                        <TableCell align="right" width="15%">
+                          <Typography>{String(alarm.modifiedDate).replace('T', ' ')}</Typography>
+                        </TableCell>
+                      )}
+                    </TableRow>
+                  );
+                })}
+              {/* {alarms.map((alarm) => {
                 const isItemSelected = isSelected(alarm.alarmId);
                 const labelId = `enhanced-table-checkbox-${alarm.alarmId}`;
                 const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${alarm.itemCode}`;
@@ -495,7 +704,7 @@ export default function AlarmListContent() {
                     )}
                   </TableRow>
                 );
-              })}
+              })} */}
             </TableBody>
           </Table>
         </TableContainer>
