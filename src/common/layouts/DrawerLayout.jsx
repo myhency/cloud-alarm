@@ -212,7 +212,7 @@ export default function DrawerLayout({
       >
         <div className={classes.toolbar}>
           <Paper variant="outlined" square className={classes.paper}>
-            클라우드의 주식훈련소
+            빵셔틀
           </Paper>
           <IconButton style={{ color: '#b4dfe5' }} onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}

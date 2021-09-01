@@ -99,7 +99,7 @@ export default function LoginPage() {
                 className={classes.logo}
                 src={BreadStockLogoImage}
                 alt="logo"
-                style={{ width: '15vw', height: 'auto' }}
+                style={{ width: '25vw', height: 'auto' }}
               />
             </LogoImageBox>
             <Typography
@@ -110,7 +110,7 @@ export default function LoginPage() {
                 color: '#e3e2df',
               }}
             >
-              훈련소 알리미
+              {/* 훈련소 알리미 */}
             </Typography>
             <Typography
               variant="body1"
@@ -120,7 +120,7 @@ export default function LoginPage() {
                 color: '#e3e2df',
               }}
             >
-              알리미 리스트로 이동
+              {/* 알리미 리스트로 이동 */}
             </Typography>
             <LoginInput
               placeholder="사용자명을 입력하세요"
@@ -184,7 +184,7 @@ export default function LoginPage() {
                 color: '#e3e2df',
               }}
             >
-              훈련소 알리미
+              {/* 훈련소 알리미 */}
             </Typography>
             <Typography
               variant="body1"
@@ -194,7 +194,7 @@ export default function LoginPage() {
                 color: '#e3e2df',
               }}
             >
-              알리미 리스트로 이동
+              {/* 알리미 리스트로 이동 */}
             </Typography>
             <LoginInput
               placeholder="사용자명을 입력하세요"
