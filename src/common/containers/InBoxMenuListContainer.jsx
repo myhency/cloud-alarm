@@ -86,7 +86,7 @@ export default function InBoxMenuListContainer({
           <ListItemIcon>
             <AirportShuttleIcon />
           </ListItemIcon>
-          <ListItemText primary="빵셔틀" />
+          <ListItemText primary="빅파이" />
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{totalCount}</Typography>
           </ListItemSecondaryAction>

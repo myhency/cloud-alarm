@@ -10,7 +10,7 @@ import MobileBreadShuttleContentContainer from '../containers/MobileBreadShuttle
 // import MobileInBoxContentContainer from '../containers/MobileInBoxContentContainer';
 
 const items = [
-  { title: '빵셔틀', link: '/service/bread/shuttle/home' },
+  { title: '빅파이', link: '/service/bread/shuttle/home' },
 ];
 
 export default function BreadPage() {

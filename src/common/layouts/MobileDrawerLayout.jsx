@@ -59,7 +59,7 @@ export default function MobileDrawerLayout({
             variant="h6"
             style={{ color: '#b4dfe5' }}
           >
-            클라우드의 주식훈련소
+            빵셔틀
           </Typography>
         </Box>
       </div>

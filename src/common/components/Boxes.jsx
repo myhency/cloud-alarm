@@ -42,7 +42,7 @@ export const LoginBaseBox = withStyles(() => ({
 
 export const LoginContentsBox = withStyles(() => ({
   root: {
-    width: '25vw',
+    width: '35vw',
     borderRadius: '10px',
     backgroundColor: '#303C6C',
     // padding: '50px 20px 50px 20px',
