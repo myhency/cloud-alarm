@@ -25,7 +25,7 @@ import SevenBreadMainPage from './services/sevenbread/pages/SevenBreadMainPage';
 import AddSevenBreadItemPage from './services/sevenbread/pages/AddSevenBreadItemPage';
 import ReadySevenBreadItemPage from './services/sevenbread/pages/ReadySevenBreadItemPage';
 import ReviewSevenBreadItemPage from './services/sevenbread/pages/ReviewSevenBreadItemPage';
-import BreadPage from './bread/pages/BreadPage';
+import BreadPage from './services/bread-shuttle/pages/BreadPage';
 import NotFoundPage from './NotFoundPage';
 
 const AllAuthedRoute = ({ component: Component, ...rest }) => {
