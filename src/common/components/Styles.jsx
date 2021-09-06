@@ -56,7 +56,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   boxFor007ItemFooter: {
     display: 'flex',
-    padding: theme.spacing(1),
+    padding: theme.spacing(0.5),
     backgroundColor: '#414a77',
     alignItems: 'center',
   },
