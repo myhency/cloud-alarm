@@ -398,10 +398,14 @@ export default function AlarmListContent() {
                         scope="row"
                         padding="none"
                         width="10%"
-                        onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
+                        // onClick={(e) => handleDetailOpen(e, alarm.alarmId)}
                       >
                         <Box display="flex" flexDirection="column">
-                          <Typography>{alarm.itemName}</Typography>
+                          <a target="_blank" href={chartLink} rel="noreferrer">
+                            <Typography style={{ color: '#0061B0' }}>
+                              {alarm.itemName}
+                            </Typography>
+                          </a>
                         </Box>
                       </TableCell>
                       {status === 'losscut' ? (
@@ -484,7 +488,7 @@ export default function AlarmListContent() {
                       {hoveredId === alarm.alarmId ? (
                         <TableCell align="right" width="15%" style={{ padding: '0' }}>
                           <Box flexDirection="row">
-                            <StyledTooltip title="차트보기">
+                            {/* <StyledTooltip title="차트보기">
                               <a target="_blank" href={chartLink} rel="noreferrer">
                                 <IconButton
                                   id="alarm-chart-button"
@@ -493,7 +497,7 @@ export default function AlarmListContent() {
                                   <ShowChartIcon />
                                 </IconButton>
                               </a>
-                            </StyledTooltip>
+                            </StyledTooltip> */}
                             {alarm.alarmStatus === 'LOSSCUT' ? (
                               <StyledTooltip title="재등록">
                                 <IconButton
