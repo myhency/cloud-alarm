@@ -498,9 +498,11 @@ export default function SevenBreadMainContentContainer() {
                                       : (<FaceIcon fontSize="small" style={{ color: '#dda900' }} />)}
                                 </TableCell>
                                 <TableCell>
-                                  <Typography>
-                                    {sevenBread.itemName}
-                                  </Typography>
+                                  <a target="_blank" href={chartLink} rel="noreferrer">
+                                    <Typography style={{ color: '#0061B0' }}>
+                                      {sevenBread.itemName}
+                                    </Typography>
+                                  </a>
                                 </TableCell>
                                 <TableCell align="right" style={{ flexDirection: 'column' }}>
                                   <Typography>
@@ -546,7 +548,7 @@ export default function SevenBreadMainContentContainer() {
                                     <Box style={{ display: 'flex', flexDirection: 'row' }}>
                                       <Box style={{ flexGrow: 1 }} />
                                       <Box>
-                                        <StyledTooltip title="차트보기">
+                                        {/* <StyledTooltip title="차트보기">
                                           <a target="_blank" href={chartLink} rel="noreferrer">
                                             <IconButton
                                               id="alarm-chart-button"
@@ -555,7 +557,7 @@ export default function SevenBreadMainContentContainer() {
                                               <ShowChartIcon />
                                             </IconButton>
                                           </a>
-                                        </StyledTooltip>
+                                        </StyledTooltip> */}
                                         <StyledTooltip title="삭제">
                                           <IconButton
                                             className={classes.action}
