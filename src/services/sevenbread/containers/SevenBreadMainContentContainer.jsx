@@ -98,8 +98,8 @@ function SevenBreadItem({
   const naverLink = `https://finance.naver.com/item/main.nhn?code=${itemCode}`;
 
   return (
-    <Card key={id} style={{ marginBottom: '12px', backgroundColor: '#fffdec' }}>
-      <CardContent>
+    <Card key={id} style={{ marginBottom: '10px', backgroundColor: '#fffdec' }}>
+      <CardContent style={{ padding: '7px' }}>
         <Box style={{
           display: 'flex',
           flexDirection: 'row',
@@ -116,7 +116,7 @@ function SevenBreadItem({
               : majorHandler === 'G' ? (<BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />)
                 : (<FaceIcon fontSize="small" style={{ color: '#dda900' }} />)}
           </Box>
-          <Typography variant="button" style={{ flexGrow: 1, fontSize: '1.15rem' }}>
+          <Typography variant="button" style={{ flexGrow: 1, fontSize: '1rem' }}>
             &nbsp;
             {itemName}
           </Typography>
