@@ -49,7 +49,8 @@ export default function InBoxMenuListContainer({
   const classes = useStyles();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [expand, setExpand] = React.useState(true);
+  const [expandAlarm, setExpandAlarm] = React.useState(true);
+  const [expandSevenBread, setExpandSevenBread] = React.useState(true);
 
   function handleClick(event, link, index) {
     event.preventDefault();
@@ -57,8 +58,12 @@ export default function InBoxMenuListContainer({
     history.push(link);
   }
 
-  function handleOnExpand() {
-    setExpand(!expand);
+  function handleOnExpandAlarm() {
+    setExpandAlarm(!expandAlarm);
+  }
+
+  function handleOnExpandSevenBread() {
+    setExpandSevenBread(!expandSevenBread);
   }
 
   const { search } = history.location;
@@ -95,15 +100,15 @@ export default function InBoxMenuListContainer({
         </MenuListItem>
         <MenuListItem
           button
-          onClick={handleOnExpand}
+          onClick={handleOnExpandAlarm}
         >
           <ListItemIcon>
             <NotificationsActiveIcon />
           </ListItemIcon>
           <ListItemText primary="알리미" />
-          {expand ? <ExpandLess /> : <ExpandMore />}
+          {expandAlarm ? <ExpandLess /> : <ExpandMore />}
         </MenuListItem>
-        <Collapse in={expand} timeout="auto" unmountOnExit>
+        <Collapse in={expandAlarm} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <MenuListItem
               className={classes.nested}
@@ -236,18 +241,18 @@ export default function InBoxMenuListContainer({
         </MenuListItem>
         <MenuListItem
           button
-          onClick={handleOnExpand}
+          onClick={handleOnExpandSevenBread}
         >
           <ListItemIcon>
             <Filter7Icon />
           </ListItemIcon>
           <ListItemText primary="007빵" />
-          {expand ? <ExpandLess /> : <ExpandMore />}
+          {expandSevenBread ? <ExpandLess /> : <ExpandMore />}
           <ListItemSecondaryAction>
             <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
         </MenuListItem>
-        <Collapse in={expand} timeout="auto" unmountOnExit>
+        <Collapse in={expandSevenBread} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <MenuListItem
               className={classes.nested}
