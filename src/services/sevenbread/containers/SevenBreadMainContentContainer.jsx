@@ -10,7 +10,6 @@ import { withStyles } from '@material-ui/core/styles';
 import {
   Box,
   Grid,
-  Paper,
   Typography,
   TableContainer,
   Table,
@@ -19,9 +18,6 @@ import {
   TableRow,
   TableCell,
   IconButton,
-  Card,
-  CardContent,
-  CardActionArea,
   Button,
 } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
@@ -32,7 +28,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 // Icons
 import DeleteIcon from '@material-ui/icons/Delete';
-import ShowChartIcon from '@material-ui/icons/ShowChart';
 import AddIcon from '@material-ui/icons/Add';
 import FaceIcon from '@material-ui/icons/Face';
 import BusinessIcon from '@material-ui/icons/Business';
@@ -42,22 +37,15 @@ import HelpIcon from '@material-ui/icons/Help';
 import { useStyles } from '../../../common/components/Styles';
 import { StyledTooltip } from '../../../common/components/Tooltips';
 
-import NaverLogo from '../../../assets/images/naver.jpg';
-import FnLogo from '../../../assets/images/fn.jpg';
-import AlphaLogo from '../../../assets/images/alpha.jpg';
-
 import {
   loadSevenBreadList,
   removeSevenBreadItemDocument,
   clearDeletedSevenBreadItem,
-  onSevenBreadItemAdd,
-  onSevenBreadItemUpdate,
-  loadSevenBreadItems,
 } from '../../../state/sevenBreadSlice';
 
 const columns = [
   {
-    id: '0', label: '포착일', width: '9%',
+    id: '0', label: '포착일', width: '8%',
   },
   {
     id: '1', label: '투자자', width: '6%', align: 'center',
@@ -79,155 +67,6 @@ const columns = [
   },
 ];
 
-function SevenBreadItem({
-  id,
-  itemName,
-  itemCode,
-  alarmedTime,
-  fluctuationRate,
-  fluctuationRateBy,
-  presentPrice,
-  capturedDate,
-  capturedPrice,
-  alarmStatus,
-  majorHandler,
-}) {
-  const classes = useStyles();
-  const alphaLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${itemCode}`;
-  const fnLink = `http://comp.fnguide.com/SVO2/ASP/SVD_Main.asp?pGB=1&gicode=A${itemCode}`;
-  const naverLink = `https://finance.naver.com/item/main.nhn?code=${itemCode}`;
-
-  return (
-    <Card key={id} style={{ marginBottom: '10px', backgroundColor: '#fffdec' }}>
-      <CardContent style={{ padding: '7px' }}>
-        <Box style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-        >
-          <Box>
-            {majorHandler === 'B' ? (
-              <>
-                <FaceIcon fontSize="small" style={{ color: '#dda900' }} />
-                <BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />
-              </>
-            )
-              : majorHandler === 'G' ? (<BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />)
-                : (<FaceIcon fontSize="small" style={{ color: '#dda900' }} />)}
-          </Box>
-          <Typography variant="button" style={{ flexGrow: 1, fontSize: '1rem' }}>
-            &nbsp;
-            {itemName}
-          </Typography>
-          <Typography>
-            {presentPrice}
-          </Typography>
-          <Typography variant="caption" style={{ color: fluctuationRate > 0 ? 'red' : 'blue', marginLeft: '3px' }}>
-            (
-            {fluctuationRate}
-            %)
-          </Typography>
-        </Box>
-      </CardContent>
-      <CardActionArea>
-        <Box className={classes.boxFor007ItemContent}>
-          <Box style={{ display: 'flex', flexDirection: 'row' }}>
-            <Typography
-              variant="body2"
-              style={{
-                color: '#414a77',
-                height: '100%',
-                verticalAlign: 'middle',
-              }}
-            >
-              포착일 종가(원/대비)
-            </Typography>
-            <Typography
-              variant="body2"
-              style={{
-                flexGrow: '1',
-                color: '#414a77',
-                height: '100%',
-                verticalAlign: 'middle',
-                textAlign: 'right',
-              }}
-            >
-              포착일
-            </Typography>
-          </Box>
-          <Box style={{ display: 'flex', flexDirection: 'row' }}>
-            <Typography
-              variant="body2"
-              style={{
-                color: '#414a77',
-                height: '100%',
-                verticalAlign: 'middle',
-              }}
-            >
-              {capturedPrice}
-              /
-            </Typography>
-            <Typography
-              variant="body2"
-              style={{
-                color: fluctuationRateBy > 0 ? 'red' : 'blue',
-                height: '100%',
-                verticalAlign: 'middle',
-              }}
-            >
-              (
-              {fluctuationRateBy}
-              %)
-            </Typography>
-            <Typography
-              variant="body2"
-              style={{
-                flexGrow: '1',
-                color: '#414a77',
-                height: '100%',
-                verticalAlign: 'middle',
-                textAlign: 'right',
-              }}
-            >
-              {capturedDate}
-            </Typography>
-          </Box>
-        </Box>
-      </CardActionArea>
-      <CardActionArea>
-        <Box
-          className={classes.boxFor007ItemFooter}
-          style={{ backgroundColor: alarmStatus === 'UP' ? '#414a77' : 'darkgrey' }}
-        >
-          <Typography
-            variant="body2"
-            style={{
-              flexGrow: '1',
-              color: '#ffdea9',
-              height: '100%',
-              verticalAlign: 'middle',
-            }}
-          >
-            ⏲️
-            &nbsp;
-            {alarmedTime}
-          </Typography>
-          <a target="_blank" href={alphaLink} rel="noreferrer">
-            <img src={AlphaLogo} alt="logo" />
-          </a>
-          <a target="_blank" href={fnLink} rel="noreferrer">
-            <img src={FnLogo} alt="logo" />
-          </a>
-          <a target="_blank" href={naverLink} rel="noreferrer">
-            <img src={NaverLogo} alt="logo" />
-          </a>
-        </Box>
-      </CardActionArea>
-    </Card>
-  );
-}
-
 const StyledTableCell = withStyles(() => ({
   head: {
     backgroundColor: '#faffff',
@@ -246,25 +85,9 @@ export default function SevenBreadMainContentContainer() {
     deletedSevenBreadItem: state.sevenBread.deletedSevenBreadItem,
   }));
 
-  const { sevenBreadRealTimeList } = useSelector((state) => ({
-    sevenBreadRealTimeList: state.sevenBread.sevenBreadRealTimeList,
-  }));
-
   useEffect(() => {
     dispatch(loadSevenBreadList());
   }, [deletedSevenBreadItem]);
-
-  useEffect(() => {
-    dispatch(loadSevenBreadItems());
-  }, []);
-
-  useEffect(() => {
-    dispatch(onSevenBreadItemAdd());
-  }, []);
-
-  useEffect(() => {
-    dispatch(onSevenBreadItemUpdate());
-  }, []);
 
   const [hoveredId, setHoveredId] = React.useState(null);
   const [warningOpen, setWarningOpen] = React.useState(false);
@@ -299,62 +122,13 @@ export default function SevenBreadMainContentContainer() {
     history.push('/service/seven-bread/item/add');
   };
 
-  const sevenBreadRealTimeArray = Object.entries(sevenBreadRealTimeList);
-
-  const mapped = sevenBreadRealTimeArray.map((value, i) => ({
-    index: i,
-    value: value[1].alarmedTime,
-  }));
-
-  mapped.sort((a, b) => +(a.value < b.value) || +(a.value === b.value) - 1);
-
-  const sevenBreadRealTimeItems = mapped.map((el) => sevenBreadRealTimeArray[el.index]);
-
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
       <div className={classes.root}>
         <Box style={{ flexGrow: 1, padding: '1rem 1rem 0 1rem' }}>
           <Grid container>
-            <Grid item lg={3} sm={3} xs={12}>
-              {/* 타이틀 */}
-              <Box style={{ padding: '10px' }}>
-                <Paper elevation={2} style={{ padding: '10px', backgroundColor: '#303C6C' }}>
-                  <Typography style={{ color: '#b4dfe5' }} variant="h5" align="center">
-                    실시간 007빵
-                  </Typography>
-                </Paper>
-              </Box>
-              {/* 실시간 007빵 컨텐츠 */}
-              <Box style={{ padding: '10px' }}>
-                {Object.keys(sevenBreadRealTimeList).length === 0 ? (
-                  <Box style={{ marginTop: '20px' }}>
-                    <Typography style={{ textAlign: 'center' }}>
-                      실시간 가격 감시중...
-                    </Typography>
-                  </Box>
-                )
-                  : sevenBreadRealTimeItems
-                    .map((item) => (
-                      <SevenBreadItem
-                        key={item[1].itemCode}
-                        id={item[1].itemCode}
-                        itemName={item[1].itemName}
-                        itemCode={item[1].itemCode}
-                        fluctuationRate={item[1].fluctuationRate}
-                        fluctuationRateBy={item[1].fluctuationRateBy}
-                        presentPrice={new Intl.NumberFormat('ko-KR').format(item[1].presentPrice)}
-                        alarmedTime={item[1].alarmedTime}
-                        alarmStatus={item[1].alarmStatus}
-                        closingPrice={new Intl.NumberFormat('ko-KR').format(item[1].closingPrice)}
-                        capturedPrice={new Intl.NumberFormat('ko-KR').format(item[1].capturedPrice)}
-                        capturedDate={String(item[1].capturedDate).substr(0, 10)}
-                        majorHandler={item[1].majorHandler}
-                      />
-                    ))}
-              </Box>
-            </Grid>
-            <Grid item lg={9} sm={9} xs={12}>
+            <Grid item lg={12} sm={12} xs={12}>
               <Box style={{ padding: '10px' }}>
                 <Box style={{ border: '1px solid lightgrey', padding: '10px' }}>
                   <div className={classes.tableHeaderRoot}>

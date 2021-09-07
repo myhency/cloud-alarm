@@ -22,6 +22,7 @@ import ReaddReviewAlarm from './services/alarm/pages/ReaddReviewAlarm';
 import VolumeListPage from './services/analyze-volume/pages/VolumeListPage';
 import VolumeDetailPage from './services/analyze-volume/pages/VolumeDetailPage';
 import SevenBreadMainPage from './services/sevenbread/pages/SevenBreadMainPage';
+import SevenBreadRealTimePage from './services/sevenbread/pages/SevenBreadRealTimePage';
 import AddSevenBreadItemPage from './services/sevenbread/pages/AddSevenBreadItemPage';
 import ReadySevenBreadItemPage from './services/sevenbread/pages/ReadySevenBreadItemPage';
 import ReviewSevenBreadItemPage from './services/sevenbread/pages/ReviewSevenBreadItemPage';
@@ -109,6 +110,7 @@ export default function RootPage() {
         <AllAuthedRoute path="/service/analyze/volume/:date" component={VolumeDetailPage} />
         <AllAuthedRoute path="/service/analyze/volume" component={VolumeListPage} />
         <AllAuthedRoute exact path="/service/seven-bread" component={SevenBreadMainPage} />
+        <AllAuthedRoute exact path="/service/seven-bread/realtime" component={SevenBreadRealTimePage} />
         <AdminAuthedRoute exact path="/service/seven-bread/item/add" component={AddSevenBreadItemPage} />
         <AdminAuthedRoute exact path="/service/seven-bread/item/ready" component={ReadySevenBreadItemPage} />
         <AdminAuthedRoute exact path="/service/seven-bread/item/review" component={ReviewSevenBreadItemPage} />
