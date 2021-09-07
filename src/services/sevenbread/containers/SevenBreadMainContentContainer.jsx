@@ -45,25 +45,22 @@ import {
 
 const columns = [
   {
-    id: '0', label: '포착일', width: '8%',
+    id: '1', label: '종목명', width: '11%',
   },
   {
-    id: '1', label: '투자자', width: '6%', align: 'center',
+    id: '2', label: '현재가', width: '12%', align: 'right',
   },
   {
-    id: '2', label: '종목명', width: '11%',
+    id: '3', label: '포착일종가', width: '10%', align: 'right',
   },
   {
-    id: '3', label: '현재가', width: '12%', align: 'right',
+    id: '4', label: '테마',
   },
   {
-    id: '5', label: '거래량', width: '11%', align: 'right',
+    id: '5', label: '투자자', width: '6%', align: 'center',
   },
   {
-    id: '4', label: '포착일종가', width: '10%', align: 'right',
-  },
-  {
-    id: '6', label: '테마',
+    id: '6', label: '포착일', width: '8%',
   },
 ];
 
@@ -232,7 +229,16 @@ export default function SevenBreadMainContentContainer() {
                       >
                         <TableHead>
                           <TableRow>
-                            {columns.map((column) => (<StyledTableCell key={column.id} align={column.align} width={column.width}>{column.label}</StyledTableCell>))}
+                            {columns.map((column) => (
+                              <StyledTableCell key={column.id} align={column.align} width={column.width}>
+                                {column.label === '포착일종가' ? (
+                                  <>
+                                    <Typography variant="subtitle2">{column.label}</Typography>
+                                    <Typography variant="caption">(현재가대비수익%)</Typography>
+                                  </>
+                                ) : column.label}
+                              </StyledTableCell>
+                            ))}
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -240,6 +246,7 @@ export default function SevenBreadMainContentContainer() {
                             const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${sevenBread.itemCode}`;
                             const rowColor = ((String(sevenBread.capturedDate).substr(0, 10).substr(8, 9) * 1) % 2) === 0
                               ? '#fafafa' : '#ffffff';
+                            const fluctuationByRecommendPrice = (((100 * sevenBread.closingPrice) / sevenBread.capturedPrice) - 100).toFixed(2);
 
                             return (
                               <TableRow
@@ -257,21 +264,6 @@ export default function SevenBreadMainContentContainer() {
                                 onMouseLeave={() => setHoveredId(null)}
                               >
                                 <TableCell>
-                                  <Typography>
-                                    {String(sevenBread.capturedDate).substr(0, 10)}
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="center">
-                                  {sevenBread.majorHandler === 'B' ? (
-                                    <>
-                                      <FaceIcon fontSize="small" style={{ color: '#dda900' }} />
-                                      <BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />
-                                    </>
-                                  )
-                                    : sevenBread.majorHandler === 'G' ? (<BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />)
-                                      : (<FaceIcon fontSize="small" style={{ color: '#dda900' }} />)}
-                                </TableCell>
-                                <TableCell>
                                   <a target="_blank" href={chartLink} rel="noreferrer">
                                     <Typography style={{ color: '#0061B0' }}>
                                       {sevenBread.itemName}
@@ -281,21 +273,6 @@ export default function SevenBreadMainContentContainer() {
                                 <TableCell align="right" style={{ flexDirection: 'column' }}>
                                   <Typography>
                                     {new Intl.NumberFormat('ko-KR').format(sevenBread.closingPrice)}
-                                  </Typography>
-                                  <Typography
-                                    variant="caption"
-                                    style={{
-                                      color: sevenBread.fluctuationRate > 0 ? 'red' : 'blue',
-                                    }}
-                                  >
-                                    (
-                                    {sevenBread.fluctuationRate}
-                                    %)
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="right">
-                                  <Typography>
-                                    {new Intl.NumberFormat('ko-KR').format(sevenBread.volume)}
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="right">
@@ -308,13 +285,38 @@ export default function SevenBreadMainContentContainer() {
                                   >
                                     {new Intl.NumberFormat('ko-KR').format(sevenBread.capturedPrice)}
                                   </Typography>
+                                  <Typography
+                                    variant="caption"
+                                    style={{
+                                      color: fluctuationByRecommendPrice > 0 ? 'red' : 'blue',
+                                    }}
+                                  >
+                                    (
+                                    {fluctuationByRecommendPrice}
+                                    %)
+                                  </Typography>
+                                </TableCell>
+                                <TableCell>
+                                  <Typography>
+                                    {sevenBread.theme == null ? ''
+                                      : sevenBread.theme.length > 89 ? `${sevenBread.theme.substring(0, 89)}...`
+                                        : sevenBread.theme}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="center">
+                                  {sevenBread.majorHandler === 'B' ? (
+                                    <>
+                                      <FaceIcon fontSize="small" style={{ color: '#dda900' }} />
+                                      <BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />
+                                    </>
+                                  )
+                                    : sevenBread.majorHandler === 'G' ? (<BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />)
+                                      : (<FaceIcon fontSize="small" style={{ color: '#dda900' }} />)}
                                 </TableCell>
                                 {hoveredId !== sevenBread.id ? (
                                   <TableCell>
                                     <Typography>
-                                      {sevenBread.theme == null ? ''
-                                        : sevenBread.theme.length > 89 ? `${sevenBread.theme.substring(0, 89)}...`
-                                          : sevenBread.theme}
+                                      {String(sevenBread.capturedDate).substr(0, 10)}
                                     </Typography>
                                   </TableCell>
                                 ) : (
