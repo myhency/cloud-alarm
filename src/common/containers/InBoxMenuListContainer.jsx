@@ -248,9 +248,6 @@ export default function InBoxMenuListContainer({
           </ListItemIcon>
           <ListItemText primary="007빵" />
           {expandSevenBread ? <ExpandLess /> : <ExpandMore />}
-          <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{state3Count}</Typography>
-          </ListItemSecondaryAction>
         </MenuListItem>
         <Collapse in={expandSevenBread} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
