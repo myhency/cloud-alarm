@@ -48,9 +48,11 @@ export default function InBoxMenuListContainer({
   const history = useHistory();
   const classes = useStyles();
 
+  const { search } = history.location;
+
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [expandAlarm, setExpandAlarm] = React.useState(false);
-  const [expandSevenBread, setExpandSevenBread] = React.useState(false);
+  const [expandAlarm, setExpandAlarm] = React.useState(history.location.pathname.includes('/service/alarm'));
+  const [expandSevenBread, setExpandSevenBread] = React.useState(history.location.pathname.includes('/service/seven-bread'));
 
   function handleClick(event, link, index) {
     event.preventDefault();
@@ -65,8 +67,6 @@ export default function InBoxMenuListContainer({
   function handleOnExpandSevenBread() {
     setExpandSevenBread(!expandSevenBread);
   }
-
-  const { search } = history.location;
 
   useEffect(() => {
     // eslint-disable-next-line no-nested-ternary

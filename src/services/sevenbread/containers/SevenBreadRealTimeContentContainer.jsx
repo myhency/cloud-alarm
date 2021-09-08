@@ -4,20 +4,29 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   Box,
   Grid,
-  Paper,
   Typography,
   Card,
   CardContent,
   CardActionArea,
+  Divider,
 } from '@material-ui/core';
 
 // Icons
 import FaceIcon from '@material-ui/icons/Face';
 import BusinessIcon from '@material-ui/icons/Business';
+import AddIcon from '@material-ui/icons/Add';
+import HelpIcon from '@material-ui/icons/Help';
 
 import { useStyles } from '../../../common/components/Styles';
+import { SearchInput } from '../../../common/components/Inputs';
+import { StyledTooltip } from '../../../common/components/Tooltips';
 
 import NaverLogo from '../../../assets/images/naver.jpg';
 import FnLogo from '../../../assets/images/fn.jpg';
@@ -234,26 +243,46 @@ export default function SevenBreadRealTimeContentContainer() {
                 </Typography>
               </Box>
             ) : (
-              <Grid container spacing={3}>
-                {sevenBreadRealTimeItems
-                  .map((item) => (
-                    <SevenBreadItem
-                      key={item[1].itemCode}
-                      id={item[1].itemCode}
-                      itemName={item[1].itemName}
-                      itemCode={item[1].itemCode}
-                      fluctuationRate={item[1].fluctuationRate}
-                      fluctuationRateBy={item[1].fluctuationRateBy}
-                      presentPrice={new Intl.NumberFormat('ko-KR').format(item[1].presentPrice)}
-                      alarmedTime={item[1].alarmedTime}
-                      alarmStatus={item[1].alarmStatus}
-                      closingPrice={new Intl.NumberFormat('ko-KR').format(item[1].closingPrice)}
-                      capturedPrice={new Intl.NumberFormat('ko-KR').format(item[1].capturedPrice)}
-                      capturedDate={String(item[1].capturedDate).substr(0, 10)}
-                      majorHandler={item[1].majorHandler}
-                    />
-                  ))}
-              </Grid>
+              <>
+                {/* <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">조건검색</InputLabel>
+                  <Select
+                    style={{ margin: '0 0 0.5rem 0', width: '20vw' }}
+                    labelId="demo-simple-select-filled-label"
+                    id="demo-simple-select-filled"
+                    // value={age}
+                    // onChange={handleChange}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+                <Divider /> */}
+                <Grid container spacing={3} style={{ marginTop: '0.1rem' }}>
+                  {sevenBreadRealTimeItems
+                    .map((item) => (
+                      <SevenBreadItem
+                        key={item[1].itemCode}
+                        id={item[1].itemCode}
+                        itemName={item[1].itemName}
+                        itemCode={item[1].itemCode}
+                        fluctuationRate={item[1].fluctuationRate}
+                        fluctuationRateBy={item[1].fluctuationRateBy}
+                        presentPrice={new Intl.NumberFormat('ko-KR').format(item[1].presentPrice)}
+                        alarmedTime={item[1].alarmedTime}
+                        alarmStatus={item[1].alarmStatus}
+                        closingPrice={new Intl.NumberFormat('ko-KR').format(item[1].closingPrice)}
+                        capturedPrice={new Intl.NumberFormat('ko-KR').format(item[1].capturedPrice)}
+                        capturedDate={String(item[1].capturedDate).substr(0, 10)}
+                        majorHandler={item[1].majorHandler}
+                      />
+                    ))}
+                </Grid>
+              </>
             )}
           </Box>
           {/* </Grid> */}
