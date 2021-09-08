@@ -49,8 +49,8 @@ export default function InBoxMenuListContainer({
   const classes = useStyles();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [expandAlarm, setExpandAlarm] = React.useState(true);
-  const [expandSevenBread, setExpandSevenBread] = React.useState(true);
+  const [expandAlarm, setExpandAlarm] = React.useState(false);
+  const [expandSevenBread, setExpandSevenBread] = React.useState(false);
 
   function handleClick(event, link, index) {
     event.preventDefault();
