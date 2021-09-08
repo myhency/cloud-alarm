@@ -48,7 +48,7 @@ const columns = [
     id: '1', label: '종목명', width: '11%',
   },
   {
-    id: '2', label: '현재가', width: '12%', align: 'right',
+    id: '2', label: '현재가', width: '8%', align: 'right',
   },
   {
     id: '3', label: '포착일종가', width: '10%', align: 'right',
@@ -234,7 +234,7 @@ export default function SevenBreadMainContentContainer() {
                                 {column.label === '포착일종가' ? (
                                   <>
                                     <Typography variant="subtitle2">{column.label}</Typography>
-                                    <Typography variant="caption">(현재가대비수익%)</Typography>
+                                    <Typography variant="caption">(현재가대비%)</Typography>
                                   </>
                                 ) : column.label}
                               </StyledTableCell>
