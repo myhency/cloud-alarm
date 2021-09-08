@@ -98,8 +98,7 @@ export async function getSevenBreadRealTimeList() {
     : String(d.getMonth() + 1);
   const day = String(d.getDate()).length === 1 ? `0${String(d.getDate())}`
     : String(d.getDate());
-  // const sevenBreadBase = db.ref(`/sevenbread/alarm/${d.getFullYear()}${month}${day}`);
-  const sevenBreadBase = db.ref('/sevenbread/alarm/20210908');
+  const sevenBreadBase = db.ref(`/sevenbread/alarm/${d.getFullYear()}${month}${day}`);
   return sevenBreadBase.get()
     .then((snapshot) => {
       if (snapshot.exists()) {
