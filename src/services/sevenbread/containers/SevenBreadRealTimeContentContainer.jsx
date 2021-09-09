@@ -3,15 +3,8 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import { indigo } from '@material-ui/core/colors';
 import {
-  IconButton,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Box,
   Grid,
   Typography,
@@ -24,12 +17,8 @@ import {
 // Icons
 import FaceIcon from '@material-ui/icons/Face';
 import BusinessIcon from '@material-ui/icons/Business';
-import AddIcon from '@material-ui/icons/Add';
-import HelpIcon from '@material-ui/icons/Help';
 
 import { useStyles } from '../../../common/components/Styles';
-import { SearchInput } from '../../../common/components/Inputs';
-import { StyledTooltip } from '../../../common/components/Tooltips';
 import { CssAutocomplete } from '../../../common/components/TextFields';
 
 import NaverLogo from '../../../assets/images/naver.jpg';
@@ -37,7 +26,6 @@ import FnLogo from '../../../assets/images/fn.jpg';
 import AlphaLogo from '../../../assets/images/alpha.jpg';
 
 import {
-  loadSevenBreadList,
   onSevenBreadItemAdd,
   onSevenBreadItemUpdate,
   loadSevenBreadItems,
@@ -163,7 +151,8 @@ function SevenBreadItem({
         <CardActionArea>
           <Box
             className={classes.boxFor007ItemFooter}
-            style={{ backgroundColor: alarmStatus === 'UP' ? '#414a77' : 'darkgrey' }}
+            // style={{ backgroundColor: alarmStatus === 'UP' ? '#414a77' : 'darkgrey' }}
+            style={{ backgroundColor: '#414a77' }}
           >
             <Typography
               variant="body2"
@@ -195,14 +184,14 @@ function SevenBreadItem({
 }
 
 const searchOptions = [
-  { condition: '전체보기', code: 1 },
   { condition: '현재가 > 기관매수가', code: 2 },
+  { condition: '금일 1회 이상 포착', code: 1 },
   { condition: '현재가 < 기관매수가', code: 3 },
 ];
 
 const sortOptions = [
-  { condition: '포착시간 순', code: 1 },
   { condition: '수익률 순', code: 2 },
+  { condition: '포착시간 순', code: 1 },
   { condition: '금일 상승률 순', code: 3 },
   { condition: '포착일 순', code: 4 },
 ];
@@ -211,8 +200,8 @@ export default function SevenBreadRealTimeContentContainer() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [searchCondition, setSearchCondition] = React.useState(1);
-  const [sortCondition, setSortCondition] = React.useState(1);
+  const [searchCondition, setSearchCondition] = React.useState(2);
+  const [sortCondition, setSortCondition] = React.useState(2);
   const [sevenBreadRealTimeItems, setSevenBreadRealTimeItems] = React.useState([]);
 
   const { sevenBreadRealTimeList } = useSelector((state) => ({
@@ -220,7 +209,6 @@ export default function SevenBreadRealTimeContentContainer() {
   }));
 
   useEffect(() => {
-    console.log('loadSevenBreadItems');
     dispatch(loadSevenBreadItems());
   }, []);
 
@@ -249,9 +237,7 @@ export default function SevenBreadRealTimeContentContainer() {
     let arr = mapped.map((el) => sevenBreadRealTimeArray[el.index]);
 
     if (searchCondition === 2) {
-      console.log(arr);
       arr = arr.filter((item) => item[1].presentPrice >= item[1].capturedPrice);
-      console.log(arr);
     } else if (searchCondition === 3) {
       arr = arr.filter((item) => item[1].presentPrice < item[1].capturedPrice);
     }
@@ -322,7 +308,6 @@ export default function SevenBreadRealTimeContentContainer() {
       <div className={classes.toolbar} />
       <div className={classes.root}>
         <Box style={{ flexGrow: 1, padding: '1rem 1rem 0 1rem' }}>
-          {/* <Grid item lg={12} sm={12} xs={12}> */}
           <Box style={{ padding: '10px' }}>
             {Object.keys(sevenBreadRealTimeList).length === 0 ? (
               <Box style={{ marginTop: '20px' }}>
@@ -388,7 +373,6 @@ export default function SevenBreadRealTimeContentContainer() {
               </>
             )}
           </Box>
-          {/* </Grid> */}
         </Box>
       </div>
     </main>
