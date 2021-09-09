@@ -4,13 +4,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  TextField,
   Box,
   Grid,
-  Paper,
   Typography,
   Card,
   CardContent,
   CardActionArea,
+  Divider,
 } from '@material-ui/core';
 
 // Icons
@@ -18,13 +19,13 @@ import FaceIcon from '@material-ui/icons/Face';
 import BusinessIcon from '@material-ui/icons/Business';
 
 import { useStyles } from '../../../common/components/Styles';
+import { CssAutocomplete } from '../../../common/components/TextFields';
 
 import NaverLogo from '../../../assets/images/naver.jpg';
 import FnLogo from '../../../assets/images/fn.jpg';
 import AlphaLogo from '../../../assets/images/alpha.jpg';
 
 import {
-  loadSevenBreadList,
   onSevenBreadItemAdd,
   onSevenBreadItemUpdate,
   loadSevenBreadItems,
@@ -150,7 +151,8 @@ function SevenBreadItem({
         <CardActionArea>
           <Box
             className={classes.boxFor007ItemFooter}
-            style={{ backgroundColor: alarmStatus === 'UP' ? '#414a77' : 'darkgrey' }}
+            // style={{ backgroundColor: alarmStatus === 'UP' ? '#414a77' : 'darkgrey' }}
+            style={{ backgroundColor: '#414a77' }}
           >
             <Typography
               variant="body2"
@@ -181,21 +183,30 @@ function SevenBreadItem({
   );
 }
 
+const searchOptions = [
+  { condition: '현재가 > 기관매수가', code: 2 },
+  { condition: '금일 1회 이상 포착', code: 1 },
+  { condition: '현재가 < 기관매수가', code: 3 },
+];
+
+const sortOptions = [
+  { condition: '수익률 순', code: 2 },
+  { condition: '포착시간 순', code: 1 },
+  { condition: '금일 상승률 순', code: 3 },
+  { condition: '포착일 순', code: 4 },
+];
+
 export default function SevenBreadRealTimeContentContainer() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { deletedSevenBreadItem } = useSelector((state) => ({
-    deletedSevenBreadItem: state.sevenBread.deletedSevenBreadItem,
-  }));
+  const [searchCondition, setSearchCondition] = React.useState(2);
+  const [sortCondition, setSortCondition] = React.useState(2);
+  const [sevenBreadRealTimeItems, setSevenBreadRealTimeItems] = React.useState([]);
 
   const { sevenBreadRealTimeList } = useSelector((state) => ({
     sevenBreadRealTimeList: state.sevenBread.sevenBreadRealTimeList,
   }));
-
-  useEffect(() => {
-    dispatch(loadSevenBreadList());
-  }, [deletedSevenBreadItem]);
 
   useEffect(() => {
     dispatch(loadSevenBreadItems());
@@ -209,23 +220,94 @@ export default function SevenBreadRealTimeContentContainer() {
     dispatch(onSevenBreadItemUpdate());
   }, []);
 
-  const sevenBreadRealTimeArray = Object.entries(sevenBreadRealTimeList);
+  useEffect(() => {
+    const sevenBreadRealTimeArray = Object.entries(sevenBreadRealTimeList);
 
-  const mapped = sevenBreadRealTimeArray.map((value, i) => ({
-    index: i,
-    value: value[1].alarmedTime,
-  }));
+    const mapped = sevenBreadRealTimeArray.map((value, i) => ({
+      index: i,
+      value: sortCondition === 1 ? value[1].alarmedTime
+        : sortCondition === 2 ? value[1].fluctuationRateBy
+          : sortCondition === 3 ? value[1].fluctuationRate
+            : sortCondition === 4 ? value[1].capturedDate
+              : value[1].alarmedTime,
+    }));
 
-  mapped.sort((a, b) => +(a.value < b.value) || +(a.value === b.value) - 1);
+    mapped.sort((a, b) => +(a.value < b.value) || +(a.value === b.value) - 1);
 
-  const sevenBreadRealTimeItems = mapped.map((el) => sevenBreadRealTimeArray[el.index]);
+    let arr = mapped.map((el) => sevenBreadRealTimeArray[el.index]);
+
+    if (searchCondition === 2) {
+      arr = arr.filter((item) => item[1].presentPrice >= item[1].capturedPrice);
+    } else if (searchCondition === 3) {
+      arr = arr.filter((item) => item[1].presentPrice < item[1].capturedPrice);
+    }
+
+    setSevenBreadRealTimeItems(arr);
+  }, [searchCondition]);
+
+  useEffect(() => {
+    const sevenBreadRealTimeArray = Object.entries(sevenBreadRealTimeList);
+
+    const mapped = sevenBreadRealTimeArray.map((value, i) => ({
+      index: i,
+      value: sortCondition === 1 ? value[1].alarmedTime
+        : sortCondition === 2 ? value[1].fluctuationRateBy
+          : sortCondition === 3 ? value[1].fluctuationRate
+            : sortCondition === 4 ? value[1].capturedDate
+              : value[1].alarmedTime,
+    }));
+
+    mapped.sort((a, b) => +(a.value < b.value) || +(a.value === b.value) - 1);
+
+    let arr = mapped.map((el) => sevenBreadRealTimeArray[el.index]);
+
+    if (searchCondition === 2) {
+      arr = arr.filter((item) => item[1].presentPrice >= item[1].capturedPrice);
+    } else if (searchCondition === 3) {
+      arr = arr.filter((item) => item[1].presentPrice < item[1].capturedPrice);
+    }
+
+    setSevenBreadRealTimeItems(arr);
+  }, [sortCondition]);
+
+  useEffect(() => {
+    const sevenBreadRealTimeArray = Object.entries(sevenBreadRealTimeList);
+
+    const mapped = sevenBreadRealTimeArray.map((value, i) => ({
+      index: i,
+      value: sortCondition === 1 ? value[1].alarmedTime
+        : sortCondition === 2 ? value[1].fluctuationRateBy
+          : sortCondition === 3 ? value[1].fluctuationRate
+            : sortCondition === 4 ? value[1].capturedDate
+              : value[1].alarmedTime,
+    }));
+
+    mapped.sort((a, b) => +(a.value < b.value) || +(a.value === b.value) - 1);
+
+    let arr = mapped.map((el) => sevenBreadRealTimeArray[el.index]);
+
+    if (searchCondition === 2) {
+      arr = arr.filter((item) => item[1].presentPrice >= item[1].capturedPrice);
+    } else if (searchCondition === 3) {
+      arr = arr.filter((item) => item[1].presentPrice < item[1].capturedPrice);
+    }
+
+    setSevenBreadRealTimeItems(arr);
+  }, [sevenBreadRealTimeList]);
+
+  function handleOnSearchConditionChange(e, v) {
+    setSearchCondition(v.code);
+  }
+
+  function handleOnSortConditionChange(e, v) {
+    setSortCondition(v.code);
+  }
 
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
       <div className={classes.root}>
         <Box style={{ flexGrow: 1, padding: '1rem 1rem 0 1rem' }}>
-          {/* <Grid item lg={12} sm={12} xs={12}> */}
           <Box style={{ padding: '10px' }}>
             {Object.keys(sevenBreadRealTimeList).length === 0 ? (
               <Box style={{ marginTop: '20px' }}>
@@ -234,29 +316,63 @@ export default function SevenBreadRealTimeContentContainer() {
                 </Typography>
               </Box>
             ) : (
-              <Grid container spacing={3}>
-                {sevenBreadRealTimeItems
-                  .map((item) => (
-                    <SevenBreadItem
-                      key={item[1].itemCode}
-                      id={item[1].itemCode}
-                      itemName={item[1].itemName}
-                      itemCode={item[1].itemCode}
-                      fluctuationRate={item[1].fluctuationRate}
-                      fluctuationRateBy={item[1].fluctuationRateBy}
-                      presentPrice={new Intl.NumberFormat('ko-KR').format(item[1].presentPrice)}
-                      alarmedTime={item[1].alarmedTime}
-                      alarmStatus={item[1].alarmStatus}
-                      closingPrice={new Intl.NumberFormat('ko-KR').format(item[1].closingPrice)}
-                      capturedPrice={new Intl.NumberFormat('ko-KR').format(item[1].capturedPrice)}
-                      capturedDate={String(item[1].capturedDate).substr(0, 10)}
-                      majorHandler={item[1].majorHandler}
-                    />
-                  ))}
-              </Grid>
+              <>
+                <Box style={{
+                  display: 'flex', flexDirection: 'row', justifyContent: 'flex-start',
+                }}
+                >
+                  <CssAutocomplete
+                    style={{ minWidth: '15vw', margin: '0 1rem 1rem 0' }}
+                    id="combo-box1"
+                    options={searchOptions}
+                    getOptionLabel={(searchOption) => searchOption.condition}
+                    defaultValue={searchOptions[0]}
+                    getOptionSelected={(option, value) => option.condition === value.condition}
+                    renderInput={(params) => (
+                      // eslint-disable-next-line react/jsx-props-no-spreading
+                      <TextField {...params} label="조건검색" variant="outlined" />
+                    )}
+                    onChange={(event, value) => handleOnSearchConditionChange(event, value)}
+                  />
+                  <CssAutocomplete
+                    style={{ minWidth: '15vw', margin: '0 1rem 1rem 0' }}
+                    id="combo-box2"
+                    autoComplete
+                    options={sortOptions}
+                    getOptionLabel={(sortOption) => sortOption.condition}
+                    defaultValue={sortOptions[0]}
+                    getOptionSelected={(option, value) => option.condition === value.condition}
+                    renderInput={(params) => (
+                      // eslint-disable-next-line react/jsx-props-no-spreading
+                      <TextField {...params} label="정렬" variant="outlined" />
+                    )}
+                    onChange={(event, value) => handleOnSortConditionChange(event, value)}
+                  />
+                </Box>
+                <Divider />
+                <Grid container spacing={3} style={{ marginTop: '0.1rem' }}>
+                  {sevenBreadRealTimeItems
+                    .map((item) => (
+                      <SevenBreadItem
+                        key={item[1].itemCode}
+                        id={item[1].itemCode}
+                        itemName={item[1].itemName}
+                        itemCode={item[1].itemCode}
+                        fluctuationRate={item[1].fluctuationRate}
+                        fluctuationRateBy={item[1].fluctuationRateBy}
+                        presentPrice={new Intl.NumberFormat('ko-KR').format(item[1].presentPrice)}
+                        alarmedTime={item[1].alarmedTime}
+                        alarmStatus={item[1].alarmStatus}
+                        closingPrice={new Intl.NumberFormat('ko-KR').format(item[1].closingPrice)}
+                        capturedPrice={new Intl.NumberFormat('ko-KR').format(item[1].capturedPrice)}
+                        capturedDate={String(item[1].capturedDate).substr(0, 10)}
+                        majorHandler={item[1].majorHandler}
+                      />
+                    ))}
+                </Grid>
+              </>
             )}
           </Box>
-          {/* </Grid> */}
         </Box>
       </div>
     </main>

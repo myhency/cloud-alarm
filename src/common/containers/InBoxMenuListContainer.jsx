@@ -48,9 +48,11 @@ export default function InBoxMenuListContainer({
   const history = useHistory();
   const classes = useStyles();
 
+  const { search } = history.location;
+
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [expandAlarm, setExpandAlarm] = React.useState(false);
-  const [expandSevenBread, setExpandSevenBread] = React.useState(false);
+  const [expandAlarm, setExpandAlarm] = React.useState(history.location.pathname.includes('/service/alarm'));
+  const [expandSevenBread, setExpandSevenBread] = React.useState(history.location.pathname.includes('/service/seven-bread'));
 
   function handleClick(event, link, index) {
     event.preventDefault();
@@ -65,8 +67,6 @@ export default function InBoxMenuListContainer({
   function handleOnExpandSevenBread() {
     setExpandSevenBread(!expandSevenBread);
   }
-
-  const { search } = history.location;
 
   useEffect(() => {
     // eslint-disable-next-line no-nested-ternary
@@ -98,6 +98,51 @@ export default function InBoxMenuListContainer({
             <Typography variant="subtitle1">{totalCount}</Typography>
           </ListItemSecondaryAction>
         </MenuListItem>
+        <MenuListItem
+          button
+          onClick={handleOnExpandSevenBread}
+        >
+          <ListItemIcon>
+            <Filter7Icon />
+          </ListItemIcon>
+          <ListItemText primary="007빵" />
+          {expandSevenBread ? <ExpandLess /> : <ExpandMore />}
+        </MenuListItem>
+        <Collapse in={expandSevenBread} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <MenuListItem
+              className={classes.nested}
+              button
+              key={9}
+              selected={selectedIndex === 9}
+              onClick={(e) => handleClick(e, '/service/seven-bread/realtime', 9)}
+            >
+              <ListItemIcon>
+                <CardMembershipIcon />
+              </ListItemIcon>
+              {/* 알림완료 */}
+              <ListItemText primary="007빵 실시간" />
+              <ListItemSecondaryAction>
+                <Typography variant="subtitle1">{state2Count}</Typography>
+              </ListItemSecondaryAction>
+            </MenuListItem>
+            <MenuListItem
+              className={classes.nested}
+              button
+              selected={selectedIndex === 7}
+              key={7}
+              onClick={(e) => handleClick(e, '/service/seven-bread', 7)}
+            >
+              <ListItemIcon>
+                <ListAltIcon />
+              </ListItemIcon>
+              <ListItemText primary="007빵 리스트" />
+              <ListItemSecondaryAction>
+                <Typography variant="subtitle1">{totalCount}</Typography>
+              </ListItemSecondaryAction>
+            </MenuListItem>
+          </List>
+        </Collapse>
         <MenuListItem
           button
           onClick={handleOnExpandAlarm}
@@ -239,51 +284,6 @@ export default function InBoxMenuListContainer({
             <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
         </MenuListItem>
-        <MenuListItem
-          button
-          onClick={handleOnExpandSevenBread}
-        >
-          <ListItemIcon>
-            <Filter7Icon />
-          </ListItemIcon>
-          <ListItemText primary="007빵" />
-          {expandSevenBread ? <ExpandLess /> : <ExpandMore />}
-        </MenuListItem>
-        <Collapse in={expandSevenBread} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <MenuListItem
-              className={classes.nested}
-              button
-              selected={selectedIndex === 7}
-              key={7}
-              onClick={(e) => handleClick(e, '/service/seven-bread', 7)}
-            >
-              <ListItemIcon>
-                <ListAltIcon />
-              </ListItemIcon>
-              <ListItemText primary="007빵 리스트" />
-              <ListItemSecondaryAction>
-                <Typography variant="subtitle1">{totalCount}</Typography>
-              </ListItemSecondaryAction>
-            </MenuListItem>
-            <MenuListItem
-              className={classes.nested}
-              button
-              key={9}
-              selected={selectedIndex === 9}
-              onClick={(e) => handleClick(e, '/service/seven-bread/realtime', 9)}
-            >
-              <ListItemIcon>
-                <CardMembershipIcon />
-              </ListItemIcon>
-              {/* 알림완료 */}
-              <ListItemText primary="007빵 실시간" />
-              <ListItemSecondaryAction>
-                <Typography variant="subtitle1">{state2Count}</Typography>
-              </ListItemSecondaryAction>
-            </MenuListItem>
-          </List>
-        </Collapse>
         {/* <MenuListItem
           button
           selected={selectedIndex === 8}
