@@ -36,6 +36,10 @@ import HelpIcon from '@material-ui/icons/Help';
 
 import { useStyles } from '../../../common/components/Styles';
 import { StyledTooltip } from '../../../common/components/Tooltips';
+import {
+  CssTextField,
+} from '../../../common/components/TextFields';
+import { NextButton, BackButton } from '../../../common/components/Buttons';
 
 import {
   loadSevenBreadList,
@@ -78,6 +82,8 @@ export default function SevenBreadMainContentContainer() {
     sevenBreads: state.sevenBread.sevenBreadList,
   }));
 
+  const [sevenBreadItemList, setSevenBreadItemList] = React.useState([]);
+
   const { deletedSevenBreadItem } = useSelector((state) => ({
     deletedSevenBreadItem: state.sevenBread.deletedSevenBreadItem,
   }));
@@ -86,9 +92,14 @@ export default function SevenBreadMainContentContainer() {
     dispatch(loadSevenBreadList());
   }, [deletedSevenBreadItem]);
 
+  useEffect(() => {
+    setSevenBreadItemList(sevenBreads);
+  }, [sevenBreads]);
+
   const [hoveredId, setHoveredId] = React.useState(null);
   const [warningOpen, setWarningOpen] = React.useState(false);
   const [toBeDeletedId, setToBeDeletedId] = React.useState(0);
+  const [themeSearchKeyword, setThemeSearchKeyword] = React.useState('');
 
   function handleCancelClose() {
     setWarningOpen(false);
@@ -119,11 +130,67 @@ export default function SevenBreadMainContentContainer() {
     history.push('/service/seven-bread/item/add');
   };
 
+  const handleThemeSearchKeyworkOnChange = React.useCallback(
+    (e) => {
+      if (!e.target.value) {
+        setSevenBreadItemList(sevenBreads);
+      }
+      setThemeSearchKeyword(e.target.value);
+    }, [themeSearchKeyword],
+  );
+
+  const handleThemeSearchButtonOnClick = () => {
+    let arr = sevenBreadItemList;
+    arr = arr.filter((item) => {
+      const theme = item.theme ? item.theme : '';
+      return theme.includes(themeSearchKeyword);
+    });
+    setSevenBreadItemList(arr);
+  };
+
+  const handleRefreshListButtonOnClick = () => {
+    dispatch(loadSevenBreadList());
+  };
+
+  function handleOnKeyDown(e) {
+    if (e.keyCode === 13) {
+      handleThemeSearchButtonOnClick();
+    }
+  }
+
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
       <div className={classes.root}>
-        <Box style={{ flexGrow: 1, padding: '1rem 1rem 0 1rem' }}>
+        <Box style={{ flexGrow: 1 }}>
+          <Box style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            padding: '10px 10px 0 10px',
+          }}
+          >
+            <CssTextField
+              size="small"
+              label="테마검색"
+              variant="outlined"
+              style={{ marginRight: '5px' }}
+              value={themeSearchKeyword}
+              onChange={handleThemeSearchKeyworkOnChange}
+              onKeyDown={handleOnKeyDown}
+            />
+            <NextButton
+              style={{ marginRight: '5px' }}
+              onClick={handleThemeSearchButtonOnClick}
+            >
+              검색
+            </NextButton>
+            <BackButton
+              onClick={handleRefreshListButtonOnClick}
+            >
+              초기화
+            </BackButton>
+          </Box>
           <Grid container>
             <Grid item lg={12} sm={12} xs={12}>
               <Box style={{ padding: '10px' }}>
@@ -242,7 +309,7 @@ export default function SevenBreadMainContentContainer() {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {sevenBreads.map((sevenBread) => {
+                          {sevenBreadItemList.map((sevenBread) => {
                             const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${sevenBread.itemCode}`;
                             const rowColor = ((String(sevenBread.capturedDate).substr(0, 10).substr(8, 9) * 1) % 2) === 0
                               ? '#fafafa' : '#ffffff';

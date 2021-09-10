@@ -21,6 +21,8 @@ import Filter7Icon from '@material-ui/icons/Filter7';
 import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import CardMembershipIcon from '@material-ui/icons/CardMembership';
+import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import {
@@ -53,6 +55,7 @@ export default function InBoxMenuListContainer({
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [expandAlarm, setExpandAlarm] = React.useState(history.location.pathname.includes('/service/alarm'));
   const [expandSevenBread, setExpandSevenBread] = React.useState(history.location.pathname.includes('/service/seven-bread'));
+  const [expandBookmark, setExpandBookmark] = React.useState(false);
 
   function handleClick(event, link, index) {
     event.preventDefault();
@@ -66,6 +69,10 @@ export default function InBoxMenuListContainer({
 
   function handleOnExpandSevenBread() {
     setExpandSevenBread(!expandSevenBread);
+  }
+
+  function handleOnExpandBookmark() {
+    setExpandBookmark(!expandBookmark);
   }
 
   useEffect(() => {
@@ -284,6 +291,53 @@ export default function InBoxMenuListContainer({
             <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
         </MenuListItem>
+        <MenuListItem
+          button
+          onClick={handleOnExpandBookmark}
+        >
+          <ListItemIcon>
+            <LocalLibraryIcon />
+          </ListItemIcon>
+          <ListItemText primary="즐겨찾기" />
+          {expandBookmark ? <ExpandLess /> : <ExpandMore />}
+        </MenuListItem>
+        <Collapse in={expandBookmark} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <a target="_blank" href="http://www.paxnet.co.kr/stock/infoStock/issueCalendarMonth" rel="noreferrer">
+              <MenuListItem
+                className={classes.nested}
+                button
+                key={10}
+                // onClick={(e) => handleClick(e, '/service/seven-bread/realtime', 9)}
+              >
+                <ListItemIcon>
+                  <ArrowRightIcon />
+                </ListItemIcon>
+                {/* 알림완료 */}
+                <ListItemText primary="증시스케줄" />
+                <ListItemSecondaryAction>
+                  <Typography variant="subtitle1">{state2Count}</Typography>
+                </ListItemSecondaryAction>
+              </MenuListItem>
+            </a>
+            <a target="_blank" href="https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=101" rel="noreferrer">
+              <MenuListItem
+                className={classes.nested}
+                button
+                key={11}
+                // onClick={(e) => handleClick(e, '/service/seven-bread', 7)}
+              >
+                <ListItemIcon>
+                  <ArrowRightIcon />
+                </ListItemIcon>
+                <ListItemText primary="네이버 경제뉴스" />
+                <ListItemSecondaryAction>
+                  <Typography variant="subtitle1">{totalCount}</Typography>
+                </ListItemSecondaryAction>
+              </MenuListItem>
+            </a>
+          </List>
+        </Collapse>
         {/* <MenuListItem
           button
           selected={selectedIndex === 8}
