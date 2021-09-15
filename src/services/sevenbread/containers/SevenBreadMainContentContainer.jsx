@@ -166,7 +166,7 @@ export default function SevenBreadMainContentContainer() {
           <Box style={{
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'flex-end',
+            justifyContent: 'flex-start',
             padding: '10px 10px 0 10px',
           }}
           >
