@@ -322,6 +322,7 @@ export default function SevenBreadRealTimeContentContainer() {
                 }}
                 >
                   <CssAutocomplete
+                    size="small"
                     style={{ minWidth: '15vw', margin: '0 1rem 1rem 0' }}
                     id="combo-box1"
                     options={searchOptions}
@@ -335,6 +336,7 @@ export default function SevenBreadRealTimeContentContainer() {
                     onChange={(event, value) => handleOnSearchConditionChange(event, value)}
                   />
                   <CssAutocomplete
+                    size="small"
                     style={{ minWidth: '15vw', margin: '0 1rem 1rem 0' }}
                     id="combo-box2"
                     autoComplete

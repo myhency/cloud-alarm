@@ -3,8 +3,10 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  TextField,
   Box,
   TableContainer,
   Table,
@@ -23,6 +25,12 @@ import {
   loadVolumeDataList,
 } from '../../../state/analyzeVolumeSlice';
 
+import {
+  CssTextField,
+  CssAutocomplete,
+} from '../../../common/components/TextFields';
+import { NextButton, BackButton } from '../../../common/components/Buttons';
+
 function TabPanel(props) {
   const {
     children, value, index, ...other
@@ -37,7 +45,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box p={0}>
           <Box>{children}</Box>
         </Box>
       )}
@@ -264,9 +272,20 @@ function VolumeDataTable({ marketType, value }) {
   );
 }
 
+const searchOptions = [
+  { condition: '종목명', code: 1 },
+  { condition: '테마', code: 2 },
+];
+
 export default function VolumeDetailContentContainer({ date }) {
   const classes = useStyles();
+  const history = useHistory();
   const dispatch = useDispatch();
+  const [searchCondition, setSearchCondition] = React.useState(1);
+  const [searchKeyword, setSearchKeyword] = React.useState('');
+  const [stateVolumeDataList, setStateVolumeDataList] = React.useState([]);
+  const [value, setValue] = React.useState(0);
+
   const { volumeDataList } = useSelector((state) => ({
     volumeDataList: state.analyzeVolume.volumeDataList,
   }));
@@ -274,7 +293,10 @@ export default function VolumeDetailContentContainer({ date }) {
   useEffect(() => {
     dispatch(loadVolumeDataList(date));
   }, []);
-  const [value, setValue] = React.useState(0);
+
+  useEffect(() => {
+    setStateVolumeDataList(volumeDataList);
+  }, [volumeDataList]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -288,23 +310,96 @@ export default function VolumeDetailContentContainer({ date }) {
     };
   }
 
+  function handleOnSearchConditionChange(e, v) {
+    setSearchCondition(v.code);
+  }
+
+  const handleSearchKeyworkOnChange = React.useCallback(
+    (e) => {
+      if (!e.target.value) {
+        setStateVolumeDataList(volumeDataList);
+      }
+      setSearchKeyword(e.target.value);
+    }, [searchKeyword],
+  );
+
+  const handleSearchButtonOnClick = () => {
+    let arr = stateVolumeDataList;
+    if (searchCondition === 1) {
+      arr = arr.filter((item) => item.itemName.includes(searchKeyword));
+    } else {
+      arr = arr.filter((item) => {
+        const theme = item.theme ? item.theme : '';
+        return theme.includes(searchKeyword);
+      });
+    }
+
+    setStateVolumeDataList(arr);
+  };
+
+  function handleOnKeyDown(e) {
+    if (e.keyCode === 13) {
+      handleSearchButtonOnClick();
+    }
+  }
+
+  const handleRefreshButtonOnClick = () => {
+    history.push('/service/analyze/volume');
+  };
+
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
       <div className={classes.tableHeaderRoot}>
+        <Box display="flex" flexDirection="row" style={{ width: '100%' }}>
+          <CssAutocomplete
+            style={{ minWidth: '10vw', marginRight: '5px', marginLeft: '1rem' }}
+            id="combo-box1"
+            size="small"
+            options={searchOptions}
+            getOptionLabel={(searchOption) => searchOption.condition}
+            defaultValue={searchOptions[0]}
+            getOptionSelected={(option, v) => option.condition === v.condition}
+            renderInput={(params) => (
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              <TextField {...params} label="검색조건" variant="outlined" />
+            )}
+            onChange={(event, v) => handleOnSearchConditionChange(event, v)}
+          />
+          <CssTextField
+            size="small"
+            label="키워드"
+            variant="outlined"
+            style={{ marginRight: '5px' }}
+            value={searchKeyword}
+            onChange={handleSearchKeyworkOnChange}
+            onKeyDown={handleOnKeyDown}
+          />
+          <NextButton
+            style={{ marginRight: '5px' }}
+            onClick={handleSearchButtonOnClick}
+          >
+            검색
+          </NextButton>
+          <BackButton
+            onClick={handleRefreshButtonOnClick}
+          >
+            날짜선택
+          </BackButton>
+        </Box>
+      </div>
+      <div className={classes.root}>
         <Box display="flex" flexDirection="row" style={{ width: '100%' }}>
           <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
             <Tab label="코스피" {...a11yProps(0)} />
             <Tab label="코스닥" {...a11yProps(1)} />
           </Tabs>
         </Box>
-      </div>
-      <div className={classes.root}>
         <TabPanel value={value} index={0} key="kospi">
-          <VolumeDataTable value={volumeDataList} marketType="Kospi" />
+          <VolumeDataTable value={stateVolumeDataList} marketType="Kospi" />
         </TabPanel>
         <TabPanel value={value} index={1} key="kosdaq">
-          <VolumeDataTable value={volumeDataList} marketType="Kosdaq" />
+          <VolumeDataTable value={stateVolumeDataList} marketType="Kosdaq" />
         </TabPanel>
       </div>
     </main>

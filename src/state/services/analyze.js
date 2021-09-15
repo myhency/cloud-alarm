@@ -42,3 +42,24 @@ export async function fetchVolumeDataList(date) {
       };
     });
 }
+
+export async function fetchVolumeDataListBy(by, filter) {
+  return axios.get(`/api/v1/platform/analyze/volume/search?by=${by}&filter=${filter}`, {
+    headers: {
+      Authorization: `Bearer ${Cookies.get('accessToken')}`,
+    },
+  })
+    .then((response) => ({
+      result: true,
+      data: response.data.data,
+    }))
+    .catch((error) => {
+      if (error.response) {
+        console.log(error.response.status);
+      }
+      return {
+        result: false,
+        data: error,
+      };
+    });
+}

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchVolumeDateList,
   fetchVolumeDataList,
+  fetchVolumeDataListBy,
 } from './services/analyze';
 
 const { actions, reducer } = createSlice({
@@ -9,6 +10,7 @@ const { actions, reducer } = createSlice({
   initialState: {
     volumeDateList: [],
     volumeDataList: [],
+    filteredVolumeDataList: [],
   },
   reducers: {
     setVolumeDataList(state, {
@@ -32,12 +34,24 @@ const { actions, reducer } = createSlice({
         volumeDateList,
       };
     },
+
+    setFilteredVolumeDataList(state, {
+      payload: {
+        filteredVolumeDataList,
+      },
+    }) {
+      return {
+        ...state,
+        filteredVolumeDataList,
+      };
+    },
   },
 });
 
 export const {
   setVolumeDateList,
   setVolumeDataList,
+  setFilteredVolumeDataList,
 } = actions;
 
 export default reducer;
@@ -60,6 +74,17 @@ export function loadVolumeDataList(date) {
 
     dispatch(setVolumeDataList({
       volumeDataList,
+    }));
+  };
+}
+
+export function loadVolumeDataListByFilter(by, filter) {
+  return async (dispatch) => {
+    const { data } = await fetchVolumeDataListBy(by, filter);
+    const filteredVolumeDataList = data;
+
+    dispatch(setFilteredVolumeDataList({
+      filteredVolumeDataList,
     }));
   };
 }
