@@ -57,15 +57,15 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Table size="small" aria-label="purchases">
               <TableHead>
-                <TableRow>
-                  <TableCell>종목명</TableCell>
-                  <TableCell align="right">현재가(원)</TableCell>
-                  <TableCell align="right">등락(%)</TableCell>
-                  <TableCell align="right">거래량</TableCell>
-                  <TableCell align="right">유통 주식수 대비 거래량(%)</TableCell>
-                  <TableCell align="right">거래대금(억)</TableCell>
-                  <TableCell align="right">시가총액(억원)</TableCell>
-                  <TableCell>테마</TableCell>
+                <TableRow style={{ backgroundColor: '#fafafa' }}>
+                  <TableCell width="12%">종목명</TableCell>
+                  <TableCell align="right" width="7%">현재가(원)</TableCell>
+                  <TableCell align="right" width="5%">등락(%)</TableCell>
+                  <TableCell align="right" width="10%">거래량</TableCell>
+                  <TableCell align="right" width="10%">유통 주식수 대비 거래량(%)</TableCell>
+                  <TableCell align="right" width="8%">거래대금(억)</TableCell>
+                  <TableCell align="right" width="8%">시가총액(억원)</TableCell>
+                  <TableCell widht="30%">테마</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
