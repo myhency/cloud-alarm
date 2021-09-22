@@ -67,7 +67,11 @@ module.exports = (env, argv) => ({
         changeOrigin: true,
       },
     },
+<<<<<<< HEAD
     host: '192.168.29.104',
+=======
+    host: '192.168.29.189',
+>>>>>>> 6e44ceef5a9ac9461bc12a8100cd72152f9e6a40
     port: 3000,
     disableHostCheck: true,
     compress: true,
