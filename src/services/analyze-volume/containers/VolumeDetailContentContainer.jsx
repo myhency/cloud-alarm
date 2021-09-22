@@ -351,9 +351,10 @@ export default function VolumeDetailContentContainer({ date }) {
     <main className={classes.content}>
       <div className={classes.toolbar} />
       <div className={classes.tableHeaderRoot}>
-        <Box display="flex" flexDirection="row" style={{ width: '100%' }}>
+        <Box display="flex" flexDirection="row" style={{ width: '100%', padding: '1rem' }}>
+          <BackButton onClick={handleRefreshButtonOnClick}>날짜선택</BackButton>
           <CssAutocomplete
-            style={{ minWidth: '10vw', marginRight: '5px', marginLeft: '1rem' }}
+            style={{ minWidth: '10vw', marginLeft: '1rem' }}
             id="combo-box1"
             size="small"
             options={searchOptions}
@@ -370,7 +371,7 @@ export default function VolumeDetailContentContainer({ date }) {
             size="small"
             label="키워드"
             variant="outlined"
-            style={{ marginRight: '5px' }}
+            style={{ marginRight: '5px', marginLeft: '5px' }}
             value={searchKeyword}
             onChange={handleSearchKeyworkOnChange}
             onKeyDown={handleOnKeyDown}
@@ -381,16 +382,15 @@ export default function VolumeDetailContentContainer({ date }) {
           >
             검색
           </NextButton>
-          <BackButton
-            onClick={handleRefreshButtonOnClick}
-          >
-            날짜선택
-          </BackButton>
         </Box>
       </div>
       <div className={classes.root}>
         <Box display="flex" flexDirection="row" style={{ width: '100%' }}>
-          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="simple tabs example"
+          >
             <Tab label="코스피" {...a11yProps(0)} />
             <Tab label="코스닥" {...a11yProps(1)} />
           </Tabs>
