@@ -67,9 +67,15 @@ module.exports = (env, argv) => ({
         changeOrigin: true,
       },
     },
-    host: '192.168.29.104',
+    host: '192.168.29.189',
+    public: 'http://myhency.duckdns.org:13001',
     port: 3000,
     disableHostCheck: true,
     compress: true,
+    https: false,
+    overlay: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
   },
 });
