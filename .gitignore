@@ -21,3 +21,6 @@ dist
 
 ## public
 public
+
+webpack.config.js
+.eslintrc.js

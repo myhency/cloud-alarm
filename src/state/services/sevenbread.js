@@ -11,12 +11,10 @@ export async function fetchSevenBreadList() {
       Authorization: `Bearer ${Cookies.get('accessToken')}`,
     },
   })
-    .then((response) => {
-      return {
-        result: true,
-        data: response.data.data,
-      };
-    })
+    .then((response) => ({
+      result: true,
+      data: response.data.data,
+    }))
     .catch((error) => {
       if (error.response) {
         console.log(error.response.status);
@@ -34,12 +32,10 @@ export async function fetchSevenBreadItemByItemCode(itemCode) {
       Authorization: `Bearer ${Cookies.get('accessToken')}`,
     },
   })
-    .then((response) => {
-      return {
-        result: true,
-        data: response.data.data,
-      };
-    })
+    .then((response) => ({
+      result: true,
+      data: response.data.data,
+    }))
     .catch((error) => ({
       result: false,
       data: error,
@@ -62,30 +58,26 @@ export async function saveSevenBreadItemDocument(newSevenBreadItemDocument) {
       Authorization: `Bearer ${Cookies.get('accessToken')}`,
     },
   })
-    .then((response) => {
-      return {
-        result: true,
-        data: response.data.data,
-      };
-    })
+    .then((response) => ({
+      result: true,
+      data: response.data.data,
+    }))
     .catch((error) => ({
       result: false,
       data: error,
     }));
 }
 
-export async function deleteSevenBreadItemDocument(id) {
-  return axios.delete(`/api/v1/platform/sevenbread/item/${id}`, {
+export async function deleteSevenBreadItemDocument(id, action) {
+  return axios.delete(`/api/v1/platform/sevenbread/item/${id}/${action}`, {
     headers: {
       Authorization: `Bearer ${Cookies.get('accessToken')}`,
     },
   })
-    .then((response) => {
-      return {
-        result: true,
-        data: response.data.data,
-      };
-    })
+    .then((response) => ({
+      result: true,
+      data: response.data.data,
+    }))
     .catch((error) => ({
       result: false,
       data: error,

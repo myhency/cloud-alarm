@@ -176,9 +176,9 @@ export function loadSevenBreadList() {
   };
 }
 
-export function removeSevenBreadItemDocument(id) {
+export function removeSevenBreadItemDocument(id, action) {
   return async (dispatch) => {
-    const { result, data } = await deleteSevenBreadItemDocument(id);
+    const { result, data } = await deleteSevenBreadItemDocument(id, action);
 
     dispatch(setDeletedSevenBreadItemDocument({
       result,

@@ -1,12 +1,12 @@
 /* eslint-disable max-len */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-nested-ternary */
-import React, { useEffect } from 'react';
-import Cookies from 'js-cookie';
-import jwt from 'jsonwebtoken';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useEffect } from "react";
+import Cookies from "js-cookie";
+import jwt from "jsonwebtoken";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
 import {
   Box,
   Grid,
@@ -19,58 +19,70 @@ import {
   TableCell,
   IconButton,
   Button,
-} from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+} from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 // Icons
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
-import FaceIcon from '@material-ui/icons/Face';
-import BusinessIcon from '@material-ui/icons/Business';
-import StopIcon from '@material-ui/icons/Stop';
-import HelpIcon from '@material-ui/icons/Help';
+import DeleteIcon from "@material-ui/icons/Delete";
+import AddIcon from "@material-ui/icons/Add";
+import FaceIcon from "@material-ui/icons/Face";
+import BusinessIcon from "@material-ui/icons/Business";
+import StopIcon from "@material-ui/icons/Stop";
+import HelpIcon from "@material-ui/icons/Help";
 
-import { useStyles } from '../../../common/components/Styles';
-import { StyledTooltip } from '../../../common/components/Tooltips';
-import {
-  CssTextField,
-} from '../../../common/components/TextFields';
-import { NextButton, BackButton } from '../../../common/components/Buttons';
+import { useStyles } from "../../../common/components/Styles";
+import { StyledTooltip } from "../../../common/components/Tooltips";
+import { CssTextField } from "../../../common/components/TextFields";
+import { NextButton, BackButton } from "../../../common/components/Buttons";
 
 import {
   loadSevenBreadList,
   removeSevenBreadItemDocument,
   clearDeletedSevenBreadItem,
-} from '../../../state/sevenBreadSlice';
+} from "../../../state/sevenBreadSlice";
 
 const columns = [
   {
-    id: '1', label: '종목명', width: '11%',
+    id: "1",
+    label: "종목명",
+    width: "11%",
   },
   {
-    id: '2', label: '현재가', width: '8%', align: 'right',
+    id: "2",
+    label: "현재가",
+    width: "8%",
+    align: "right",
   },
   {
-    id: '3', label: '포착일종가', width: '10%', align: 'right',
+    id: "3",
+    label: "포착일종가",
+    width: "10%",
+    align: "right",
   },
   {
-    id: '4', label: '테마',
+    id: "4",
+    label: "테마",
   },
   {
-    id: '5', label: '투자자', width: '6%', align: 'center',
+    id: "5",
+    label: "투자자",
+    width: "6%",
+    align: "center",
   },
   {
-    id: '6', label: '포착일', width: '8%',
+    id: "6",
+    label: "포착일",
+    width: "8%",
   },
 ];
 
 const StyledTableCell = withStyles(() => ({
   head: {
-    backgroundColor: '#faffff',
+    backgroundColor: "#faffff",
   },
 }))(TableCell);
 
@@ -99,26 +111,28 @@ export default function SevenBreadMainContentContainer() {
   const [hoveredId, setHoveredId] = React.useState(null);
   const [warningOpen, setWarningOpen] = React.useState(false);
   const [toBeDeletedId, setToBeDeletedId] = React.useState(0);
-  const [themeSearchKeyword, setThemeSearchKeyword] = React.useState('');
+  const [themeSearchKeyword, setThemeSearchKeyword] = React.useState("");
 
   function handleCancelClose() {
     setWarningOpen(false);
   }
 
-  const handleConfirmClose = () => {
+  const handleConfirmClose = (e, action) => {
     const id = toBeDeletedId;
-    dispatch(removeSevenBreadItemDocument(id));
-    dispatch(clearDeletedSevenBreadItem());
+    console.log(action);
+    console.log(id);
+    dispatch(removeSevenBreadItemDocument(id, action)); //delete api call
+    dispatch(clearDeletedSevenBreadItem()); //화면에서 삭제
     setWarningOpen(false);
     dispatch(loadSevenBreadList());
   };
 
   const handleOnDeleteButton = (e, id) => {
-    const accessToken = Cookies.get('accessToken');
-    const key = 'breadstockcloud';
+    const accessToken = Cookies.get("accessToken");
+    const key = "breadstockcloud";
     const res = jwt.verify(accessToken, key);
-    if (res.sub !== 'admin') {
-      alert('관리자만 접근할 수 있습니다.');
+    if (res.sub !== "admin") {
+      alert("관리자만 접근할 수 있습니다.");
       return;
     }
     setWarningOpen(true);
@@ -127,7 +141,7 @@ export default function SevenBreadMainContentContainer() {
 
   const handleNewSevenBreadItemOnClick = (e) => {
     e.preventDefault();
-    history.push('/service/seven-bread/item/add');
+    history.push("/service/seven-bread/item/add");
   };
 
   const handleThemeSearchKeyworkOnChange = React.useCallback(
@@ -136,13 +150,14 @@ export default function SevenBreadMainContentContainer() {
         setSevenBreadItemList(sevenBreads);
       }
       setThemeSearchKeyword(e.target.value);
-    }, [themeSearchKeyword],
+    },
+    [themeSearchKeyword]
   );
 
   const handleThemeSearchButtonOnClick = () => {
     let arr = sevenBreadItemList;
     arr = arr.filter((item) => {
-      const theme = item.theme ? item.theme : '';
+      const theme = item.theme ? item.theme : "";
       return theme.includes(themeSearchKeyword);
     });
     setSevenBreadItemList(arr);
@@ -163,83 +178,107 @@ export default function SevenBreadMainContentContainer() {
       <div className={classes.toolbar} />
       <div className={classes.root}>
         <Box style={{ flexGrow: 1 }}>
-          <Box style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            padding: '10px 10px 0 10px',
-          }}
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              padding: "10px 10px 0 10px",
+            }}
           >
             <CssTextField
               size="small"
               label="테마검색"
               variant="outlined"
-              style={{ marginRight: '5px' }}
+              style={{ marginRight: "5px" }}
               value={themeSearchKeyword}
               onChange={handleThemeSearchKeyworkOnChange}
               onKeyDown={handleOnKeyDown}
             />
             <NextButton
-              style={{ marginRight: '5px' }}
+              style={{ marginRight: "5px" }}
               onClick={handleThemeSearchButtonOnClick}
             >
               검색
             </NextButton>
-            <BackButton
-              onClick={handleRefreshListButtonOnClick}
-            >
+            <BackButton onClick={handleRefreshListButtonOnClick}>
               초기화
             </BackButton>
           </Box>
           <Grid container>
             <Grid item lg={12} sm={12} xs={12}>
-              <Box style={{ padding: '10px' }}>
-                <Box style={{ border: '1px solid lightgrey', padding: '10px' }}>
+              <Box style={{ padding: "10px" }}>
+                <Box style={{ border: "1px solid lightgrey", padding: "10px" }}>
                   <div className={classes.tableHeaderRoot}>
-                    <Box style={{
-                      display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center', paddingBottom: '10px',
-                    }}
-                    >
-                      <Box style={{
-                        display: 'flex', flexDirection: 'column', borderRight: '1px solid lightgrey', paddingRight: '10px',
+                    <Box
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        width: "100%",
+                        alignItems: "center",
+                        paddingBottom: "10px",
                       }}
+                    >
+                      <Box
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          borderRight: "1px solid lightgrey",
+                          paddingRight: "10px",
+                        }}
                       >
-                        <Box style={{
-                          display: 'flex', flexDirection: 'row',
-                        }}
+                        <Box
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                          }}
                         >
-                          <BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />
+                          <BusinessIcon
+                            fontSize="small"
+                            style={{ color: "#2e2f35" }}
+                          />
                           &nbsp;
-                          <Typography variant="caption">
-                            기관매수
-                          </Typography>
+                          <Typography variant="caption">기관매수</Typography>
                         </Box>
-                        <Box style={{
-                          display: 'flex', alignItems: 'center', flexDirection: 'row',
-                        }}
+                        <Box
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            flexDirection: "row",
+                          }}
                         >
-                          <FaceIcon fontSize="small" style={{ color: '#dda900' }} />
+                          <FaceIcon
+                            fontSize="small"
+                            style={{ color: "#dda900" }}
+                          />
                           &nbsp;
-                          <Typography variant="caption">
-                            외인매수
-                          </Typography>
+                          <Typography variant="caption">외인매수</Typography>
                         </Box>
                       </Box>
-                      <Box style={{
-                        display: 'flex', flexDirection: 'column', flexGrow: 1, marginLeft: '10px',
-                      }}
-                      >
-                        <Box style={{
-                          display: 'flex', flexDirection: 'row',
+                      <Box
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          flexGrow: 1,
+                          marginLeft: "10px",
                         }}
+                      >
+                        <Box
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                          }}
                         >
-                          <StopIcon fontSize="small" style={{ color: 'red' }} />
+                          <StopIcon fontSize="small" style={{ color: "red" }} />
                           &nbsp;
                           <Typography variant="caption">
                             현재가가 포착일 종가보다
                           </Typography>
                           &nbsp;
-                          <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
+                          <Typography
+                            variant="subtitle2"
+                            style={{ fontWeight: "bold" }}
+                          >
                             높은
                           </Typography>
                           &nbsp;
@@ -247,17 +286,26 @@ export default function SevenBreadMainContentContainer() {
                             경우 (포착일 종가를 손절가격으로 설정)
                           </Typography>
                         </Box>
-                        <Box style={{
-                          display: 'flex', alignItems: 'center', flexDirection: 'row',
-                        }}
+                        <Box
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            flexDirection: "row",
+                          }}
                         >
-                          <StopIcon fontSize="small" style={{ color: 'grey' }} />
+                          <StopIcon
+                            fontSize="small"
+                            style={{ color: "grey" }}
+                          />
                           &nbsp;
                           <Typography variant="caption">
                             현재가가 포착일 종가보다
                           </Typography>
                           &nbsp;
-                          <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
+                          <Typography
+                            variant="subtitle2"
+                            style={{ fontWeight: "bold" }}
+                          >
                             낮은
                           </Typography>
                           &nbsp;
@@ -297,13 +345,23 @@ export default function SevenBreadMainContentContainer() {
                         <TableHead>
                           <TableRow>
                             {columns.map((column) => (
-                              <StyledTableCell key={column.id} align={column.align} width={column.width}>
-                                {column.label === '포착일종가' ? (
+                              <StyledTableCell
+                                key={column.id}
+                                align={column.align}
+                                width={column.width}
+                              >
+                                {column.label === "포착일종가" ? (
                                   <>
-                                    <Typography variant="subtitle2">{column.label}</Typography>
-                                    <Typography variant="caption">(현재가대비%)</Typography>
+                                    <Typography variant="subtitle2">
+                                      {column.label}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                      (현재가대비%)
+                                    </Typography>
                                   </>
-                                ) : column.label}
+                                ) : (
+                                  column.label
+                                )}
                               </StyledTableCell>
                             ))}
                           </TableRow>
@@ -311,9 +369,20 @@ export default function SevenBreadMainContentContainer() {
                         <TableBody>
                           {sevenBreadItemList.map((sevenBread) => {
                             const chartLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${sevenBread.itemCode}`;
-                            const rowColor = ((String(sevenBread.capturedDate).substr(0, 10).substr(8, 9) * 1) % 2) === 0
-                              ? '#fafafa' : '#ffffff';
-                            const fluctuationByRecommendPrice = (((100 * sevenBread.closingPrice) / sevenBread.capturedPrice) - 100).toFixed(2);
+                            const rowColor =
+                              (String(sevenBread.capturedDate)
+                                .substr(0, 10)
+                                .substr(8, 9) *
+                                1) %
+                                2 ===
+                              0
+                                ? "#fafafa"
+                                : "#ffffff";
+                            const fluctuationByRecommendPrice = (
+                              (100 * sevenBread.closingPrice) /
+                                sevenBread.capturedPrice -
+                              100
+                            ).toFixed(2);
 
                             return (
                               <TableRow
@@ -331,64 +400,113 @@ export default function SevenBreadMainContentContainer() {
                                 onMouseLeave={() => setHoveredId(null)}
                               >
                                 <TableCell>
-                                  <a target="_blank" href={chartLink} rel="noreferrer">
-                                    <Typography style={{ color: '#0061B0' }}>
+                                  <a
+                                    target="_blank"
+                                    href={chartLink}
+                                    rel="noreferrer"
+                                  >
+                                    <Typography style={{ color: "#0061B0" }}>
                                       {sevenBread.itemName}
                                     </Typography>
                                   </a>
                                 </TableCell>
-                                <TableCell align="right" style={{ flexDirection: 'column' }}>
+                                <TableCell
+                                  align="right"
+                                  style={{ flexDirection: "column" }}
+                                >
                                   <Typography>
-                                    {new Intl.NumberFormat('ko-KR').format(sevenBread.closingPrice)}
+                                    {new Intl.NumberFormat("ko-KR").format(
+                                      sevenBread.closingPrice
+                                    )}
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="right">
-                                  <Typography style={{
-                                    // 현재가가 포착일종가보다 크면 포착일종가는 손절가가되고
-                                    // 작으면 돌파가격이 된다.
-                                    color: sevenBread.capturedPrice >= sevenBread.closingPrice ? 'grey' : 'red',
-                                    fontWeight: sevenBread.capturedPrice >= sevenBread.closingPrice ? '' : 'bold',
-                                  }}
+                                  <Typography
+                                    style={{
+                                      // 현재가가 포착일종가보다 크면 포착일종가는 손절가가되고
+                                      // 작으면 돌파가격이 된다.
+                                      color:
+                                        sevenBread.capturedPrice >=
+                                        sevenBread.closingPrice
+                                          ? "grey"
+                                          : "red",
+                                      fontWeight:
+                                        sevenBread.capturedPrice >=
+                                        sevenBread.closingPrice
+                                          ? ""
+                                          : "bold",
+                                    }}
                                   >
-                                    {new Intl.NumberFormat('ko-KR').format(sevenBread.capturedPrice)}
+                                    {new Intl.NumberFormat("ko-KR").format(
+                                      sevenBread.capturedPrice
+                                    )}
                                   </Typography>
                                   <Typography
                                     variant="caption"
                                     style={{
-                                      color: fluctuationByRecommendPrice > 0 ? 'red' : 'blue',
+                                      color:
+                                        fluctuationByRecommendPrice > 0
+                                          ? "red"
+                                          : "blue",
                                     }}
                                   >
-                                    (
-                                    {fluctuationByRecommendPrice}
+                                    ({fluctuationByRecommendPrice}
                                     %)
                                   </Typography>
                                 </TableCell>
                                 <TableCell>
                                   <Typography>
-                                    {sevenBread.theme == null ? ''
-                                      : sevenBread.theme.length > 89 ? `${sevenBread.theme.substring(0, 89)}...`
-                                        : sevenBread.theme}
+                                    {sevenBread.theme == null
+                                      ? ""
+                                      : sevenBread.theme.length > 89
+                                      ? `${sevenBread.theme.substring(
+                                          0,
+                                          89
+                                        )}...`
+                                      : sevenBread.theme}
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="center">
-                                  {sevenBread.majorHandler === 'B' ? (
+                                  {sevenBread.majorHandler === "B" ? (
                                     <>
-                                      <FaceIcon fontSize="small" style={{ color: '#dda900' }} />
-                                      <BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />
+                                      <FaceIcon
+                                        fontSize="small"
+                                        style={{ color: "#dda900" }}
+                                      />
+                                      <BusinessIcon
+                                        fontSize="small"
+                                        style={{ color: "#2e2f35" }}
+                                      />
                                     </>
-                                  )
-                                    : sevenBread.majorHandler === 'G' ? (<BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />)
-                                      : (<FaceIcon fontSize="small" style={{ color: '#dda900' }} />)}
+                                  ) : sevenBread.majorHandler === "G" ? (
+                                    <BusinessIcon
+                                      fontSize="small"
+                                      style={{ color: "#2e2f35" }}
+                                    />
+                                  ) : (
+                                    <FaceIcon
+                                      fontSize="small"
+                                      style={{ color: "#dda900" }}
+                                    />
+                                  )}
                                 </TableCell>
                                 {hoveredId !== sevenBread.id ? (
                                   <TableCell>
                                     <Typography>
-                                      {String(sevenBread.capturedDate).substr(0, 10)}
+                                      {String(sevenBread.capturedDate).substr(
+                                        0,
+                                        10
+                                      )}
                                     </Typography>
                                   </TableCell>
                                 ) : (
                                   <TableCell>
-                                    <Box style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <Box
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                      }}
+                                    >
                                       <Box style={{ flexGrow: 1 }} />
                                       <Box>
                                         {/* <StyledTooltip title="차트보기">
@@ -404,7 +522,12 @@ export default function SevenBreadMainContentContainer() {
                                         <StyledTooltip title="삭제">
                                           <IconButton
                                             className={classes.action}
-                                            onClick={(e) => handleOnDeleteButton(e, sevenBread.id)}
+                                            onClick={(e) =>
+                                              handleOnDeleteButton(
+                                                e,
+                                                sevenBread.id
+                                              )
+                                            }
                                           >
                                             <DeleteIcon />
                                           </IconButton>
@@ -432,20 +555,30 @@ export default function SevenBreadMainContentContainer() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          종목을 삭제합니다.
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">종목을 삭제합니다.</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            종목을 삭제하면 해당 종목의 실시간 감시를 할 수 없습니다. 계속 진행하시겠습니까?
+            종목을 삭제하면 해당 종목의 실시간 감시를 할 수 없습니다. 계속
+            진행하시겠습니까?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancelClose} color="secondary">
             취소
           </Button>
-          <Button onClick={handleConfirmClose} color="secondary" autoFocus>
-            확인
+          <Button
+            onClick={(e) => handleConfirmClose(e, "win")}
+            color="secondary"
+            autoFocus
+          >
+            15% 이상 달성
+          </Button>
+          <Button
+            onClick={(e) => handleConfirmClose(e, "lose")}
+            color="secondary"
+            autoFocus
+          >
+            대량매도/지속매도/저점이탈
           </Button>
         </DialogActions>
       </Dialog>
