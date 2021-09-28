@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   List,
@@ -10,30 +10,27 @@ import {
   ListItemIcon,
   ListItemText,
   Collapse,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 // Icons
-import TrendingDownIcon from '@material-ui/icons/TrendingDown';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-import ViewListIcon from '@material-ui/icons/ViewList';
-import Filter7Icon from '@material-ui/icons/Filter7';
-import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import CardMembershipIcon from '@material-ui/icons/CardMembership';
-import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import TrendingDownIcon from "@material-ui/icons/TrendingDown";
+import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
+import ViewListIcon from "@material-ui/icons/ViewList";
+import Filter7Icon from "@material-ui/icons/Filter7";
+import AirportShuttleIcon from "@material-ui/icons/AirportShuttle";
+import ListAltIcon from "@material-ui/icons/ListAlt";
+import CardMembershipIcon from "@material-ui/icons/CardMembership";
+import LocalLibraryIcon from "@material-ui/icons/LocalLibrary";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
-import {
-  BaseBox,
-  NewDocumentBox,
-} from '../components/Boxes';
-import MenuListItem from '../components/ListItems';
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { BaseBox, NewDocumentBox } from "../components/Boxes";
+import MenuListItem from "../components/ListItems";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
@@ -43,9 +40,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function InBoxMenuListContainer({
-  totalCount = '',
-  state2Count = '',
-  state3Count = '',
+  totalCount = "",
+  state2Count = "",
+  state3Count = "",
 }) {
   const history = useHistory();
   const classes = useStyles();
@@ -53,9 +50,13 @@ export default function InBoxMenuListContainer({
   const { search } = history.location;
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [expandAlarm, setExpandAlarm] = React.useState(history.location.pathname.includes('/service/alarm'));
-  const [expandSevenBread, setExpandSevenBread] = React.useState(history.location.pathname.includes('/service/seven-bread'));
-  const [expandBookmark, setExpandBookmark] = React.useState(false);
+  const [expandAlarm, setExpandAlarm] = React.useState(
+    history.location.pathname.includes("/service/alarm")
+  );
+  const [expandSevenBread, setExpandSevenBread] = React.useState(
+    history.location.pathname.includes("/service/seven-bread")
+  );
+  const [expandBookmark, setExpandBookmark] = React.useState(true);
 
   function handleClick(event, link, index) {
     event.preventDefault();
@@ -77,14 +78,22 @@ export default function InBoxMenuListContainer({
 
   useEffect(() => {
     // eslint-disable-next-line no-nested-ternary
-    const initIndex = search === '?status=active' ? 1
-      : search === '?status=alarmed' ? 2
-        : search === '?status=losscut' ? 3
-          : history.location.pathname.includes('/service/analyze/volume') ? 6
-            : history.location.pathname === '/service/seven-bread' ? 7
-              : history.location.pathname === '/service/bread-shuttle' ? 8
-                : history.location.pathname === '/service/seven-bread/realtime' ? 9
-                  : 0;
+    const initIndex =
+      search === "?status=active"
+        ? 1
+        : search === "?status=alarmed"
+        ? 2
+        : search === "?status=losscut"
+        ? 3
+        : history.location.pathname.includes("/service/analyze/volume")
+        ? 6
+        : history.location.pathname === "/service/seven-bread"
+        ? 7
+        : history.location.pathname === "/service/bread-shuttle"
+        ? 8
+        : history.location.pathname === "/service/seven-bread/realtime"
+        ? 9
+        : 0;
     setSelectedIndex(initIndex);
   }, []);
 
@@ -95,7 +104,7 @@ export default function InBoxMenuListContainer({
           button
           key={8}
           selected={selectedIndex === 8}
-          onClick={(e) => handleClick(e, '/service/bread-shuttle', 8)}
+          onClick={(e) => handleClick(e, "/service/bread-shuttle", 8)}
         >
           <ListItemIcon>
             <AirportShuttleIcon />
@@ -105,10 +114,7 @@ export default function InBoxMenuListContainer({
             <Typography variant="subtitle1">{totalCount}</Typography>
           </ListItemSecondaryAction>
         </MenuListItem>
-        <MenuListItem
-          button
-          onClick={handleOnExpandSevenBread}
-        >
+        <MenuListItem button onClick={handleOnExpandSevenBread}>
           <ListItemIcon>
             <Filter7Icon />
           </ListItemIcon>
@@ -117,12 +123,34 @@ export default function InBoxMenuListContainer({
         </MenuListItem>
         <Collapse in={expandSevenBread} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
+            <a
+              target="_blank"
+              href="https://www.evernote.com/shard/s408/sh/6791a237-1714-fc63-da31-d28d08a7fe4d/5d5d9714617de674fa9bf8952ad3877e"
+              rel="noreferrer"
+            >
+              <MenuListItem
+                className={classes.nested}
+                button
+                key={13}
+                // onClick={(e) => handleClick(e, '/service/seven-bread', 7)}
+              >
+                <ListItemIcon>
+                  <ArrowRightIcon />
+                </ListItemIcon>
+                <ListItemText primary="007빵 공지" />
+                <ListItemSecondaryAction>
+                  <Typography variant="subtitle1">{totalCount}</Typography>
+                </ListItemSecondaryAction>
+              </MenuListItem>
+            </a>
             <MenuListItem
               className={classes.nested}
               button
               key={9}
               selected={selectedIndex === 9}
-              onClick={(e) => handleClick(e, '/service/seven-bread/realtime', 9)}
+              onClick={(e) =>
+                handleClick(e, "/service/seven-bread/realtime", 9)
+              }
             >
               <ListItemIcon>
                 <CardMembershipIcon />
@@ -138,7 +166,7 @@ export default function InBoxMenuListContainer({
               button
               selected={selectedIndex === 7}
               key={7}
-              onClick={(e) => handleClick(e, '/service/seven-bread', 7)}
+              onClick={(e) => handleClick(e, "/service/seven-bread", 7)}
             >
               <ListItemIcon>
                 <ListAltIcon />
@@ -150,10 +178,7 @@ export default function InBoxMenuListContainer({
             </MenuListItem>
           </List>
         </Collapse>
-        <MenuListItem
-          button
-          onClick={handleOnExpandAlarm}
-        >
+        <MenuListItem button onClick={handleOnExpandAlarm}>
           <ListItemIcon>
             <NotificationsActiveIcon />
           </ListItemIcon>
@@ -167,7 +192,7 @@ export default function InBoxMenuListContainer({
               button
               selected={selectedIndex === 1}
               key={1}
-              onClick={(e) => handleClick(e, '/service/alarm?status=active', 1)}
+              onClick={(e) => handleClick(e, "/service/alarm?status=active", 1)}
             >
               <ListItemIcon>
                 <ListAltIcon />
@@ -182,7 +207,9 @@ export default function InBoxMenuListContainer({
               button
               key={2}
               selected={selectedIndex === 2}
-              onClick={(e) => handleClick(e, '/service/alarm?status=alarmed', 2)}
+              onClick={(e) =>
+                handleClick(e, "/service/alarm?status=alarmed", 2)
+              }
             >
               <ListItemIcon>
                 <TrendingUpIcon />
@@ -198,7 +225,9 @@ export default function InBoxMenuListContainer({
               button
               key={3}
               selected={selectedIndex === 3}
-              onClick={(e) => handleClick(e, '/service/alarm?status=losscut', 3)}
+              onClick={(e) =>
+                handleClick(e, "/service/alarm?status=losscut", 3)
+              }
             >
               <ListItemIcon>
                 <TrendingDownIcon />
@@ -281,7 +310,7 @@ export default function InBoxMenuListContainer({
           button
           selected={selectedIndex === 6}
           key={6}
-          onClick={(e) => handleClick(e, '/service/analyze/volume', 6)}
+          onClick={(e) => handleClick(e, "/service/analyze/volume", 6)}
         >
           <ListItemIcon>
             <ViewListIcon />
@@ -291,10 +320,7 @@ export default function InBoxMenuListContainer({
             <Typography variant="subtitle1">{state3Count}</Typography>
           </ListItemSecondaryAction>
         </MenuListItem>
-        <MenuListItem
-          button
-          onClick={handleOnExpandBookmark}
-        >
+        <MenuListItem button onClick={handleOnExpandBookmark}>
           <ListItemIcon>
             <LocalLibraryIcon />
           </ListItemIcon>
@@ -303,7 +329,32 @@ export default function InBoxMenuListContainer({
         </MenuListItem>
         <Collapse in={expandBookmark} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <a target="_blank" href="http://www.paxnet.co.kr/stock/infoStock/issueCalendarMonth" rel="noreferrer">
+            <a
+              target="_blank"
+              href="https://www.evernote.com/shard/s744/sh/cc91d560-07bb-85ca-07c5-ba6b3dde7ab8/c12478011f396564a61b635690f1365d"
+              rel="noreferrer"
+            >
+              <MenuListItem
+                className={classes.nested}
+                button
+                key={12}
+                // onClick={(e) => handleClick(e, '/service/seven-bread/realtime', 9)}
+              >
+                <ListItemIcon>
+                  <ArrowRightIcon />
+                </ListItemIcon>
+                {/* 알림완료 */}
+                <ListItemText primary="공지/강의" />
+                <ListItemSecondaryAction>
+                  <Typography variant="subtitle1">{state2Count}</Typography>
+                </ListItemSecondaryAction>
+              </MenuListItem>
+            </a>
+            <a
+              target="_blank"
+              href="http://www.paxnet.co.kr/stock/infoStock/issueCalendarMonth"
+              rel="noreferrer"
+            >
               <MenuListItem
                 className={classes.nested}
                 button
@@ -320,7 +371,11 @@ export default function InBoxMenuListContainer({
                 </ListItemSecondaryAction>
               </MenuListItem>
             </a>
-            <a target="_blank" href="https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=101" rel="noreferrer">
+            <a
+              target="_blank"
+              href="https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=101"
+              rel="noreferrer"
+            >
               <MenuListItem
                 className={classes.nested}
                 button
