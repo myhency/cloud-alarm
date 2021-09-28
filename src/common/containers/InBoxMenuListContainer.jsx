@@ -57,7 +57,7 @@ export default function InBoxMenuListContainer({
   const [expandSevenBread, setExpandSevenBread] = React.useState(
     history.location.pathname.includes("/service/seven-bread")
   );
-  const [expandBookmark, setExpandBookmark] = React.useState(false);
+  const [expandBookmark, setExpandBookmark] = React.useState(true);
 
   function handleClick(event, link, index) {
     event.preventDefault();
@@ -126,6 +126,26 @@ export default function InBoxMenuListContainer({
         </MenuListItem>
         <Collapse in={expandSevenBread} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
+            <a
+              target="_blank"
+              href="https://www.evernote.com/shard/s408/sh/6791a237-1714-fc63-da31-d28d08a7fe4d/5d5d9714617de674fa9bf8952ad3877e"
+              rel="noreferrer"
+            >
+              <MenuListItem
+                className={classes.nested}
+                button
+                key={13}
+                // onClick={(e) => handleClick(e, '/service/seven-bread', 7)}
+              >
+                <ListItemIcon>
+                  <ArrowRightIcon />
+                </ListItemIcon>
+                <ListItemText primary="007빵 공지" />
+                <ListItemSecondaryAction>
+                  <Typography variant="subtitle1">{totalCount}</Typography>
+                </ListItemSecondaryAction>
+              </MenuListItem>
+            </a>
             <MenuListItem
               className={classes.nested}
               button
@@ -329,6 +349,27 @@ export default function InBoxMenuListContainer({
         </MenuListItem>
         <Collapse in={expandBookmark} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
+            <a
+              target="_blank"
+              href="https://www.evernote.com/shard/s744/sh/cc91d560-07bb-85ca-07c5-ba6b3dde7ab8/c12478011f396564a61b635690f1365d"
+              rel="noreferrer"
+            >
+              <MenuListItem
+                className={classes.nested}
+                button
+                key={12}
+                // onClick={(e) => handleClick(e, '/service/seven-bread/realtime', 9)}
+              >
+                <ListItemIcon>
+                  <ArrowRightIcon />
+                </ListItemIcon>
+                {/* 알림완료 */}
+                <ListItemText primary="공지/강의" />
+                <ListItemSecondaryAction>
+                  <Typography variant="subtitle1">{state2Count}</Typography>
+                </ListItemSecondaryAction>
+              </MenuListItem>
+            </a>
             <a
               target="_blank"
               href="http://www.paxnet.co.kr/stock/infoStock/issueCalendarMonth"
