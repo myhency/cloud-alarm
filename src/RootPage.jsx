@@ -115,6 +115,11 @@ export default function RootPage() {
     <Router>
       <Switch>
         <UnAuthedRoute path="/login" component={LoginPage} />
+        <UnAuthedRoute
+          exact
+          path="/service/seven-bread/statistics"
+          component={SevenBreadStatisticsPage}
+        />
         <AllAuthedRoute
           exact
           path="/"
@@ -175,11 +180,11 @@ export default function RootPage() {
           path="/service/seven-bread"
           component={SevenBreadMainPage}
         />
-        <AllAuthedRoute
+        {/* <AllAuthedRoute
           exact
           path="/service/seven-bread/statistics"
           component={SevenBreadStatisticsPage}
-        />
+        /> */}
         <AllAuthedRoute
           exact
           path="/service/seven-bread/realtime"

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Box,
   Typography,
@@ -11,28 +11,25 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@material-ui/core';
-import { Mobile, Desktop } from '../../../utils/screenSelector';
+} from "@material-ui/core";
+import { Mobile, Desktop } from "../../../utils/screenSelector";
 
 import {
   LoginBaseBox,
   LoginContentsBox,
   LoginContentsSmallBox,
   LogoImageBox,
-} from '../../../common/components/Boxes';
-import { LoginButton } from '../../../common/components/Buttons';
-import { LoginInput } from '../../../common/components/Inputs';
+} from "../../../common/components/Boxes";
+import { LoginButton } from "../../../common/components/Buttons";
+import { LoginInput } from "../../../common/components/Inputs";
 
-import BreadStockLogoImage from '../../../assets/images/bread-stock-logo.png';
+import BreadStockLogoImage from "../../../assets/images/bread-stock-logo.png";
 
-import {
-  getLoginToken,
-  clearAccessToken,
-} from '../../../state/authSlice';
+import { getLoginToken, clearAccessToken } from "../../../state/authSlice";
 
 const useStyles = makeStyles(() => ({
   logo: {
-    height: '30px',
+    height: "30px",
   },
 }));
 
@@ -44,8 +41,8 @@ export default function LoginPage() {
     accessToken: state.auth.accessToken,
   }));
 
-  const [password, setPassword] = React.useState('');
-  const [userName, setUserName] = React.useState('');
+  const [password, setPassword] = React.useState("");
+  const [userName, setUserName] = React.useState("");
   const [alertOpen, setAlertOpen] = React.useState(false);
 
   function handleOnChangePassword(e) {
@@ -61,10 +58,16 @@ export default function LoginPage() {
   }
 
   function handleLoginButtonOnClick() {
-    dispatch(getLoginToken({
-      userName,
-      password,
-    }));
+    dispatch(
+      getLoginToken({
+        userName,
+        password,
+      })
+    );
+  }
+
+  function handleGoStatisticsButtonOnClick() {
+    history.push("/service/seven-bread/statistics");
   }
 
   function handleOnKeyDown(e) {
@@ -74,17 +77,17 @@ export default function LoginPage() {
   }
 
   function handleAlertClose() {
-    setPassword('');
+    setPassword("");
     setAlertOpen(false);
   }
 
   useEffect(() => {
-    if (accessToken === 'FAIL') {
+    if (accessToken === "FAIL") {
       setAlertOpen(true);
       return;
     }
     if (accessToken !== null) {
-      history.push('/');
+      history.push("/");
       dispatch(clearAccessToken());
     }
   }, [accessToken]);
@@ -99,15 +102,15 @@ export default function LoginPage() {
                 className={classes.logo}
                 src={BreadStockLogoImage}
                 alt="logo"
-                style={{ width: '25vw', height: 'auto' }}
+                style={{ width: "25vw", height: "auto" }}
               />
             </LogoImageBox>
             <Typography
               variant="h4"
               align="center"
               style={{
-                margin: '40px 0 0 0',
-                color: '#e3e2df',
+                margin: "40px 0 0 0",
+                color: "#e3e2df",
               }}
             >
               {/* 훈련소 알리미 */}
@@ -116,8 +119,8 @@ export default function LoginPage() {
               variant="body1"
               align="center"
               style={{
-                marginBottom: '60px',
-                color: '#e3e2df',
+                marginBottom: "60px",
+                color: "#e3e2df",
               }}
             >
               {/* 알리미 리스트로 이동 */}
@@ -125,21 +128,29 @@ export default function LoginPage() {
             <LoginInput
               placeholder="사용자명을 입력하세요"
               type="text"
-              style={{ margin: '0 20px 10px 20px' }}
+              style={{ margin: "0 20px 10px 20px" }}
               onChange={handleOnChangeUserName}
               value={userName}
             />
             <LoginInput
               placeholder="패스워드를 입력하세요"
               type="password"
-              style={{ margin: '0 20px 10px 20px' }}
+              style={{ margin: "0 20px 10px 20px" }}
               onChange={handleOnChangePassword}
               value={password}
               onKeyDown={handleOnKeyDown}
             />
-            <Box style={{ margin: '0 20px 40px 20px' }}>
+            <Box style={{ margin: "0 20px 40px 20px" }}>
               <LoginButton onClick={handleLoginButtonOnClick}>
                 <Typography variant="h6">로그인</Typography>
+              </LoginButton>
+            </Box>
+            <Box style={{ margin: "0 20px 40px 20px" }}>
+              <LoginButton
+                onClick={handleGoStatisticsButtonOnClick}
+                style={{ backgroundColor: "orange" }}
+              >
+                <Typography variant="h6">수급주 통계보기</Typography>
               </LoginButton>
             </Box>
           </LoginContentsBox>
@@ -173,15 +184,15 @@ export default function LoginPage() {
                 className={classes.logo}
                 src={BreadStockLogoImage}
                 alt="logo"
-                style={{ width: '60vw', height: 'auto' }}
+                style={{ width: "60vw", height: "auto" }}
               />
             </LogoImageBox>
             <Typography
               variant="h4"
               align="center"
               style={{
-                margin: '40px 0 0 0',
-                color: '#e3e2df',
+                margin: "40px 0 0 0",
+                color: "#e3e2df",
               }}
             >
               {/* 훈련소 알리미 */}
@@ -190,8 +201,8 @@ export default function LoginPage() {
               variant="body1"
               align="center"
               style={{
-                marginBottom: '60px',
-                color: '#e3e2df',
+                marginBottom: "60px",
+                color: "#e3e2df",
               }}
             >
               {/* 알리미 리스트로 이동 */}
@@ -199,18 +210,18 @@ export default function LoginPage() {
             <LoginInput
               placeholder="사용자명을 입력하세요"
               type="text"
-              style={{ margin: '0 20px 10px 20px' }}
+              style={{ margin: "0 20px 10px 20px" }}
               onChange={handleOnChangeUserName}
               value={userName}
             />
             <LoginInput
               placeholder="패스워드를 입력하세요"
               type="password"
-              style={{ margin: '0 20px 10px 20px' }}
+              style={{ margin: "0 20px 10px 20px" }}
               onChange={handleOnChangePassword}
               value={password}
             />
-            <Box style={{ margin: '0 20px 40px 20px' }}>
+            <Box style={{ margin: "0 20px 40px 20px" }}>
               <LoginButton onClick={handleLoginButtonOnClick}>
                 <Typography variant="h6">로그인</Typography>
               </LoginButton>

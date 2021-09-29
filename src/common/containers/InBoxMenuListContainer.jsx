@@ -94,9 +94,9 @@ export default function InBoxMenuListContainer({
         ? 8
         : history.location.pathname === "/service/seven-bread/realtime"
         ? 9
-        : history.location.pathname === "/service/seven-bread/statistics"
-        ? 10
-        : 0;
+        : // : history.location.pathname === "/service/seven-bread/statistics"
+          // ? 10
+          0;
     setSelectedIndex(initIndex);
   }, []);
 
@@ -179,7 +179,7 @@ export default function InBoxMenuListContainer({
                 <Typography variant="subtitle1">{totalCount}</Typography>
               </ListItemSecondaryAction>
             </MenuListItem>
-            <MenuListItem
+            {/* <MenuListItem
               className={classes.nested}
               button
               selected={selectedIndex === 10}
@@ -195,7 +195,7 @@ export default function InBoxMenuListContainer({
               <ListItemSecondaryAction>
                 <Typography variant="subtitle1">{totalCount}</Typography>
               </ListItemSecondaryAction>
-            </MenuListItem>
+            </MenuListItem> */}
           </List>
         </Collapse>
         <MenuListItem button onClick={handleOnExpandAlarm}>
@@ -259,73 +259,6 @@ export default function InBoxMenuListContainer({
             </MenuListItem>
           </List>
         </Collapse>
-        {/* <MenuListItem
-          button
-          selected={selectedIndex === 1}
-          key={1}
-          onClick={(e) => handleClick(e, '/inbox', 1)}
-        >
-          <ListItemIcon>
-            <NotificationsActiveIcon />
-          </ListItemIcon>
-          <ListItemText primary="알리미 리스트" />
-          <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{totalCount}</Typography>
-          </ListItemSecondaryAction>
-        </MenuListItem> */}
-        {/* <MenuListItem
-          button
-          key={2}
-          selected={selectedIndex === 2}
-          onClick={(e) => handleClick(e, '/inbox/alarmed', 2)}
-        >
-          <ListItemIcon>
-            <TrendingUpIcon />
-          </ListItemIcon>
-          <ListItemText primary="알람완료 알림" />
-          <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{state2Count}</Typography>
-          </ListItemSecondaryAction>
-        </MenuListItem>
-        <MenuListItem
-          button
-          key={3}
-          selected={selectedIndex === 3}
-          onClick={(e) => handleClick(e, '/inbox/losscut', 3)}
-        >
-          <ListItemIcon>
-            <TrendingDownIcon />
-          </ListItemIcon>
-          <ListItemText primary="손절처리 알림" />
-          <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{state2Count}</Typography>
-          </ListItemSecondaryAction>
-        </MenuListItem>
-        <MenuListItem
-          button
-          key={4}
-        >
-          <ListItemIcon>
-            <PostAddIcon />
-          </ListItemIcon>
-          <ListItemText primary="종목 리스트" />
-          <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{state2Count}</Typography>
-          </ListItemSecondaryAction>
-        </MenuListItem> */}
-        {/* <Divider />
-        <MenuListItem
-          button
-          key={5}
-        >
-          <ListItemIcon>
-            <PieChartIcon />
-          </ListItemIcon>
-          <ListItemText primary="Comming soon" />
-          <ListItemSecondaryAction>
-            <Typography variant="subtitle1">{state3Count}</Typography>
-          </ListItemSecondaryAction>
-        </MenuListItem> */}
         <MenuListItem
           button
           selected={selectedIndex === 6}
