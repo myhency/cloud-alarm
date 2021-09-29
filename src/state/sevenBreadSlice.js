@@ -7,6 +7,7 @@ import {
   getSevenBreadRealTimeList,
   createSevenBreadItemAddListener,
   updateSevenBreadItemAddListener,
+  fetchSevenBreadStatisticsData,
 } from './services/sevenbread';
 
 const initialSevenBreadItemDocument = {
@@ -31,6 +32,7 @@ const { actions, reducer } = createSlice({
     createdSevenBreadItem: initialCreatedSevenBreadItem,
     deletedSevenBreadItem: initialCreatedSevenBreadItem,
     sevenBreadRealTimeList: {},
+    sevenBreadStatisticsData: [],
   },
   reducers: {
     setSevenBreadList(state, {
@@ -119,6 +121,17 @@ const { actions, reducer } = createSlice({
       };
     },
 
+    setSevenBreadStatisticsData(state, {
+      payload: {
+        statisticsData,
+      },
+    }) {
+      return {
+        ...state,
+        sevenBreadStatisticsData: statisticsData,
+      };
+    },
+
     clearSevenBreadItemId(state) {
       return {
         ...state,
@@ -161,6 +174,7 @@ export const {
   clearSevenBreadItemDocument,
   clearCreatedSevenBreadItem,
   clearDeletedSevenBreadItem,
+  setSevenBreadStatisticsData,
 } = actions;
 
 export default reducer;
@@ -241,6 +255,17 @@ export function createSevenBreadItemDocument(newSevenBreadItemDocument) {
     dispatch(setCreatedSevenBreadItem({
       result,
       id: data.id,
+    }));
+  };
+}
+
+export function loadSevenBreadStatisticsData() {
+  return async (dispatch) => {
+    const { result, data } = await fetchSevenBreadStatisticsData();
+
+    dispatch(setSevenBreadStatisticsData({
+      result,
+      statisticsData: data,
     }));
   };
 }
