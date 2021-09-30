@@ -23,6 +23,7 @@ import VolumeListPage from "./services/analyze-volume/pages/VolumeListPage";
 import VolumeDetailPage from "./services/analyze-volume/pages/VolumeDetailPage";
 import SevenBreadMainPage from "./services/sevenbread/pages/SevenBreadMainPage";
 import SevenBreadStatisticsPage from "./services/sevenbread/pages/SevenBreadStatisticsPage";
+import AuthedSevenBreadStatisticsPage from "./services/sevenbread/pages/AuthedSevenBreadStatisticsPage";
 import SevenBreadRealTimePage from "./services/sevenbread/pages/SevenBreadRealTimePage";
 import AddSevenBreadItemPage from "./services/sevenbread/pages/AddSevenBreadItemPage";
 import ReadySevenBreadItemPage from "./services/sevenbread/pages/ReadySevenBreadItemPage";
@@ -180,11 +181,11 @@ export default function RootPage() {
           path="/service/seven-bread"
           component={SevenBreadMainPage}
         />
-        {/* <AllAuthedRoute
+        <AllAuthedRoute
           exact
-          path="/service/seven-bread/statistics"
-          component={SevenBreadStatisticsPage}
-        /> */}
+          path="/service/seven-bread/members/statistics"
+          component={AuthedSevenBreadStatisticsPage}
+        />
         <AllAuthedRoute
           exact
           path="/service/seven-bread/realtime"
