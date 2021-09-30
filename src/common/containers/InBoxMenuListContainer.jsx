@@ -94,9 +94,10 @@ export default function InBoxMenuListContainer({
         ? 8
         : history.location.pathname === "/service/seven-bread/realtime"
         ? 9
-        : // : history.location.pathname === "/service/seven-bread/statistics"
-          // ? 10
-          0;
+        : history.location.pathname ===
+          "/service/seven-bread/members/statistics"
+        ? 10
+        : 0;
     setSelectedIndex(initIndex);
   }, []);
 
@@ -179,13 +180,13 @@ export default function InBoxMenuListContainer({
                 <Typography variant="subtitle1">{totalCount}</Typography>
               </ListItemSecondaryAction>
             </MenuListItem>
-            {/* <MenuListItem
+            <MenuListItem
               className={classes.nested}
               button
               selected={selectedIndex === 10}
               key={10}
               onClick={(e) =>
-                handleClick(e, "/service/seven-bread/statistics", 10)
+                handleClick(e, "/service/seven-bread/members/statistics", 10)
               }
             >
               <ListItemIcon>
@@ -195,7 +196,7 @@ export default function InBoxMenuListContainer({
               <ListItemSecondaryAction>
                 <Typography variant="subtitle1">{totalCount}</Typography>
               </ListItemSecondaryAction>
-            </MenuListItem> */}
+            </MenuListItem>
           </List>
         </Collapse>
         <MenuListItem button onClick={handleOnExpandAlarm}>
