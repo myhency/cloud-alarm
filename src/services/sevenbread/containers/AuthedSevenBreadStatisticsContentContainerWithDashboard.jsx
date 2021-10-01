@@ -134,14 +134,6 @@ export default function AuthedSevenBreadStatisticsContentContainerWithDashboard(
 
   useEffect(() => {
     setSevenBreadItemList(sevenBreads);
-    let arr = sevenBreads
-      .map((item) => {
-        return item.capturedDate;
-      })
-      .sort((a, b) => {
-        return a - b;
-      });
-    console.log(arr[0]);
   }, [sevenBreads]);
 
   const [hoveredId, setHoveredId] = React.useState(null);
@@ -213,8 +205,11 @@ export default function AuthedSevenBreadStatisticsContentContainerWithDashboard(
     .map((item) => {
       return item.capturedDate;
     })
+    .filter((item) => {
+      return new Date(item) >= new Date("2021-09-06");
+    })
     .sort((a, b) => {
-      return a - b;
+      return new Date(a) - new Date(b);
     });
 
   let period = Math.abs(new Date() - new Date(periodArr[0]));
