@@ -110,7 +110,7 @@ export default function UnauthedMenuListContainer({
               <YouTubeIcon />
             </ListItemIcon>
             {/* 알림완료 */}
-            <ListItemText primary="Cloud의 주식이야기" />
+            <ListItemText primary="Youtube 채널 바로가기" />
             <ListItemSecondaryAction>
               <Typography variant="subtitle1">{state2Count}</Typography>
             </ListItemSecondaryAction>
@@ -131,7 +131,7 @@ export default function UnauthedMenuListContainer({
               <InstagramIcon />
             </ListItemIcon>
             {/* 알림완료 */}
-            <ListItemText primary="Cloud의 주식이야기" />
+            <ListItemText primary="Instagram 바로가기" />
             <ListItemSecondaryAction>
               <Typography variant="subtitle1">{state2Count}</Typography>
             </ListItemSecondaryAction>
