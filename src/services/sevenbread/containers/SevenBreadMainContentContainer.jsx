@@ -155,7 +155,7 @@ export default function SevenBreadMainContentContainer() {
   );
 
   const handleThemeSearchButtonOnClick = () => {
-    let arr = sevenBreadItemList;
+    let arr = sevenBreads;
     arr = arr.filter((item) => {
       const theme = item.theme ? item.theme : "";
       return theme.includes(themeSearchKeyword);
