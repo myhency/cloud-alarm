@@ -348,13 +348,33 @@ export default function InBoxMenuListContainer({
             </a>
             <a
               target="_blank"
+              href="http://comp.fnguide.com/SVO2/asp/SVD_comp_calendar.asp?pGB=1&gicode=A005930&gcd=&gnm=&curdt=&ctp=&cID=&MenuYn=Y&ReportGB=&NewMenuID=701&stkGb=701"
+              rel="noreferrer"
+            >
+              <MenuListItem
+                className={classes.nested}
+                button
+                key={13}
+                // onClick={(e) => handleClick(e, '/service/seven-bread', 7)}
+              >
+                <ListItemIcon>
+                  <ArrowRightIcon />
+                </ListItemIcon>
+                <ListItemText primary="Company Guide" />
+                <ListItemSecondaryAction>
+                  <Typography variant="subtitle1">{totalCount}</Typography>
+                </ListItemSecondaryAction>
+              </MenuListItem>
+            </a>
+            <a
+              target="_blank"
               href="https://t.me/joinchat/nUQGUHaP4tQ1NGU1"
               rel="noreferrer"
             >
               <MenuListItem
                 className={classes.nested}
                 button
-                key={11}
+                key={14}
                 // onClick={(e) => handleClick(e, '/service/seven-bread', 7)}
               >
                 <ListItemIcon>
@@ -386,3 +406,5 @@ export default function InBoxMenuListContainer({
     </BaseBox>
   );
 }
+
+//http://comp.fnguide.com/SVO2/asp/SVD_comp_calendar.asp?pGB=1&gicode=A005930&gcd=&gnm=&curdt=&ctp=&cID=&MenuYn=Y&ReportGB=&NewMenuID=701&stkGb=701
