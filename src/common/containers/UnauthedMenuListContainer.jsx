@@ -16,6 +16,7 @@ import {
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import TimelineIcon from "@material-ui/icons/Timeline";
 import YouTubeIcon from "@material-ui/icons/YouTube";
+import InstagramIcon from "@material-ui/icons/Instagram";
 
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { BaseBox, NewDocumentBox } from "../components/Boxes";
@@ -107,6 +108,27 @@ export default function UnauthedMenuListContainer({
           >
             <ListItemIcon>
               <YouTubeIcon />
+            </ListItemIcon>
+            {/* 알림완료 */}
+            <ListItemText primary="Cloud의 주식이야기" />
+            <ListItemSecondaryAction>
+              <Typography variant="subtitle1">{state2Count}</Typography>
+            </ListItemSecondaryAction>
+          </MenuListItem>
+        </a>
+        <a
+          target="_blank"
+          href="https://instagram.com/cloudstocktv?utm_medium=copy_link"
+          rel="noreferrer"
+        >
+          <MenuListItem
+            className={classes.nested}
+            button
+            key={12}
+            // onClick={(e) => handleClick(e, '/service/seven-bread/realtime', 9)}
+          >
+            <ListItemIcon>
+              <InstagramIcon />
             </ListItemIcon>
             {/* 알림완료 */}
             <ListItemText primary="Cloud의 주식이야기" />
