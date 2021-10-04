@@ -24,6 +24,7 @@ import CardMembershipIcon from "@material-ui/icons/CardMembership";
 import LocalLibraryIcon from "@material-ui/icons/LocalLibrary";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import TimelineIcon from "@material-ui/icons/Timeline";
+import TelegramIcon from "@material-ui/icons/Telegram";
 
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { BaseBox, NewDocumentBox } from "../components/Boxes";
@@ -340,6 +341,26 @@ export default function InBoxMenuListContainer({
                   <ArrowRightIcon />
                 </ListItemIcon>
                 <ListItemText primary="네이버 경제뉴스" />
+                <ListItemSecondaryAction>
+                  <Typography variant="subtitle1">{totalCount}</Typography>
+                </ListItemSecondaryAction>
+              </MenuListItem>
+            </a>
+            <a
+              target="_blank"
+              href="https://t.me/joinchat/nUQGUHaP4tQ1NGU1"
+              rel="noreferrer"
+            >
+              <MenuListItem
+                className={classes.nested}
+                button
+                key={11}
+                // onClick={(e) => handleClick(e, '/service/seven-bread', 7)}
+              >
+                <ListItemIcon>
+                  <TelegramIcon />
+                </ListItemIcon>
+                <ListItemText primary="10월의 텔레그램" />
                 <ListItemSecondaryAction>
                   <Typography variant="subtitle1">{totalCount}</Typography>
                 </ListItemSecondaryAction>
