@@ -286,7 +286,7 @@ export default function InBoxMenuListContainer({
           <List component="div" disablePadding>
             <a
               target="_blank"
-              href="https://www.evernote.com/shard/s744/sh/cc91d560-07bb-85ca-07c5-ba6b3dde7ab8/c12478011f396564a61b635690f1365d"
+              href="https://www.evernote.com/shard/s744/sh/dec9b1ec-51d2-5b40-7743-d7ce06d66840/5f7eacb0507b4add6e98f8b328eae108"
               rel="noreferrer"
             >
               <MenuListItem
