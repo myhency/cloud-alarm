@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   AppBar,
   Toolbar,
@@ -6,14 +6,14 @@ import {
   IconButton,
   Typography,
   Box,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 // icons
-import MenuIcon from '@material-ui/icons/Menu';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import TelegramIcon from '@material-ui/icons/Telegram';
+import MenuIcon from "@material-ui/icons/Menu";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import TelegramIcon from "@material-ui/icons/Telegram";
 
-import { useStyles } from '../components/Styles';
+import { useStyles } from "../components/Styles";
 
 export default function MobileDrawerLayout({
   pageTitleContainer,
@@ -30,8 +30,8 @@ export default function MobileDrawerLayout({
 
   const toggleDrawer = (side, open) => (event) => {
     if (
-      event.type === 'keydown'
-      && (event.key === 'Tab' || event.key === 'Shift')
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
     ) {
       return;
     }
@@ -49,16 +49,13 @@ export default function MobileDrawerLayout({
       >
         <Box
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '9vh',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "9vh",
           }}
         >
-          <Typography
-            variant="h6"
-            style={{ color: '#b4dfe5' }}
-          >
+          <Typography variant="h6" style={{ color: "#b4dfe5" }}>
             빵셔틀
           </Typography>
         </Box>
@@ -74,29 +71,33 @@ export default function MobileDrawerLayout({
           flexGrow: 1,
         }}
       >
-        <AppBar position="static" style={{ backgroundColor: '#303C6C' }}>
+        <AppBar position="static" style={{ backgroundColor: "#303C6C" }}>
           <Toolbar>
             <IconButton
               edge="start"
               className={classes.menuButton}
               color="inherit"
               aria-label="menu"
-              onClick={toggleDrawer('left', true)}
+              onClick={toggleDrawer("left", true)}
             >
-              <MenuIcon style={{ color: '#b4dfe5' }} />
+              <MenuIcon style={{ color: "#b4dfe5" }} />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
               {pageTitleContainer}
             </Typography>
-            <a target="_blank" href="https://t.me/joinchat/xIWvHhTRaY0xNGQ1" rel="noreferrer">
+            <a
+              target="_blank"
+              href="https://t.me/joinchat/nUQGUHaP4tQ1NGU1"
+              rel="noreferrer"
+            >
               <IconButton
                 className={classes.profileButton}
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                style={{ color: '#b4dfe5', textAlign: 'center' }}
+                style={{ color: "#b4dfe5", textAlign: "center" }}
               >
-                <TelegramIcon style={{ color: '#b4dfe5' }} />
+                <TelegramIcon style={{ color: "#b4dfe5" }} />
               </IconButton>
             </a>
             <IconButton
@@ -104,20 +105,20 @@ export default function MobileDrawerLayout({
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              style={{ color: '#b4dfe5' }}
+              style={{ color: "#b4dfe5" }}
             >
-              <ExitToAppIcon style={{ color: '#b4dfe5' }} />
+              <ExitToAppIcon style={{ color: "#b4dfe5" }} />
             </IconButton>
           </Toolbar>
         </AppBar>
       </Box>
       <Drawer
-        style={{ backgroundColor: '#f0f8ff99' }}
+        style={{ backgroundColor: "#f0f8ff99" }}
         BackdropProps={{ invisible: true }}
         open={state.left}
-        onClose={toggleDrawer('left', false)}
+        onClose={toggleDrawer("left", false)}
       >
-        {sideList('left')}
+        {sideList("left")}
       </Drawer>
       {content}
     </Box>
