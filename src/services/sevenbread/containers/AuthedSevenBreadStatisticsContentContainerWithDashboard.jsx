@@ -147,8 +147,6 @@ export default function AuthedSevenBreadStatisticsContentContainerWithDashboard(
 
   const handleConfirmClose = (e, action) => {
     const id = toBeDeletedId;
-    console.log(action);
-    console.log(id);
     dispatch(removeSevenBreadItemDocument(id, action)); //delete api call
     dispatch(clearDeletedSevenBreadItem()); //화면에서 삭제
     setWarningOpen(false);
@@ -224,7 +222,7 @@ export default function AuthedSevenBreadStatisticsContentContainerWithDashboard(
     });
 
   const benefitItems = sevenBreads.map((item) => {
-    if ((100 - (item.capturedPrice / item.highestPrice) * 100).toFixed(2) > 0) {
+    if ((100 - (item.capturedPrice / item.highestPrice) * 100).toFixed(2) > 7) {
       return 1;
     }
     return 0;
