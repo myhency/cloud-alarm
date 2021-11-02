@@ -420,7 +420,7 @@ export default function InBoxMenuListContainer({
                         </a>
                         <a
                             target="_blank"
-                            href="https://t.me/joinchat/nUQGUHaP4tQ1NGU1"
+                            href="https://t.me/joinchat/VG97nFWHF74zZWI1"
                             rel="noreferrer"
                         >
                             <MenuListItem
