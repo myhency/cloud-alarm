@@ -346,7 +346,7 @@ export default function InBoxMenuListContainer({ totalCount = '', state2Count = 
                 <ListItemIcon>
                   <TelegramIcon />
                 </ListItemIcon>
-                <ListItemText primary="11월의 텔레그램" />
+                <ListItemText primary="이달의 텔레그램" />
                 <ListItemSecondaryAction>
                   <Typography variant="subtitle1">{totalCount}</Typography>
                 </ListItemSecondaryAction>
