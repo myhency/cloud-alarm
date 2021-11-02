@@ -1,55 +1,74 @@
-module.exports = {
-  env: {
-    browser: true,
-    es6: true,
-    jest: true,
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true
   },
-  extends: [
-    'plugin:react/recommended',
-    // 'airbnb',
+  "extends": [
+    "airbnb",
+    "prettier",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended"
   ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-    context: 'readonly',
-    Feature: 'readonly',
-    Scenario: 'readonly',
-    actor: 'readonly',
-    given: 'readonly',
-  },
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 11,
-    sourceType: 'module',
-  },
-  plugins: [
-    'react',
+  "plugins": [
+    "prettier",
+    "react",
+    "react-hooks"
   ],
-  rules: {
-    indent: ['error', 2],
-    'no-trailing-spaces': 'error',
-    curly: 'error',
-    'brace-style': 'error',
-    'no-multi-spaces': 'error',
-    'space-infix-ops': 'error',
-    'space-unary-ops': 'error',
-    'no-whitespace-before-property': 'error',
-    'func-call-spacing': 'error',
-    'space-before-blocks': 'error',
-    'keyword-spacing': ['error', { before: true, after: true }],
-    'comma-spacing': ['error', { before: false, after: true }],
-    'comma-style': ['error', 'last'],
-    'comma-dangle': ['error', 'always-multiline'],
-    'space-in-parens': ['error', 'never'],
-    'block-spacing': 'error',
-    'array-bracket-spacing': ['error', 'never'],
-    'object-curly-spacing': ['error', 'always'],
-    'key-spacing': ['error', { mode: 'strict' }],
-    'arrow-spacing': ['error', { before: true, after: true }],
-    'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
-    'react/prop-types': 'off',
-    'linebreak-style': 'off',
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "requireConfigFile": false,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "impliedStrict": true
+    }
   },
-};
+  "rules": {
+    "import": 0,
+    "max-len": 0,
+    "no-alert": 0,
+    "no-shadow": 0,
+    "no-console": 0,
+    "comma-dangle": 0,
+    "import/no-cycle": 0,
+    "react/prop-types": 1,
+    "no-return-assign": 0,
+    "consistent-return": 1,
+    "no-param-reassign": 0,
+    "react/display-name": 0,
+    "no-use-before-define": 0,
+    "no-underscore-dangle": 0,
+    "react/button-has-type": 1,
+    "react/no-children-prop": 0,
+    "react/forbid-prop-types": 0,
+    "jsx-a11y/anchor-is-valid": 0,
+    "react/react-in-jsx-scope": 0,
+    "react/no-array-index-key": 0,
+    "react/no-unused-prop-types": 1,
+    "react/require-default-props": 0,
+    "react/no-unescaped-entities": 0,
+    "import/prefer-default-export": 0,
+    "react/jsx-props-no-spreading": 0,
+    "react/jsx-filename-extension": 0,
+    "react/destructuring-assignment": 0,
+    "import/no-extraneous-dependencies": 0,
+    "react/jsx-key": 1,
+    "react-hooks/rules-of-hooks": 2,
+    "no-unused-vars": [
+      1,
+      {
+        "ignoreRestSiblings": false
+      }
+    ],
+    "prettier/prettier": [
+      2,
+      {
+        "printWidth": 120,
+        "singleQuote": true,
+        "trailingComma": "none",
+        "tabWidth": 2
+      }
+    ]
+  }
+}
