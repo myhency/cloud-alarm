@@ -2,17 +2,9 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
+import iconv from 'iconv-lite';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  TextField,
-  Box,
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  CardActionArea,
-  Divider,
-} from '@material-ui/core';
+import { TextField, Box, Grid, Typography, Card, CardContent, CardActionArea, Divider } from '@material-ui/core';
 
 // Icons
 import FaceIcon from '@material-ui/icons/Face';
@@ -25,11 +17,9 @@ import NaverLogo from '../../../assets/images/naver.jpg';
 import FnLogo from '../../../assets/images/fn.jpg';
 import AlphaLogo from '../../../assets/images/alpha.jpg';
 
-import {
-  onSevenBreadItemAdd,
-  onSevenBreadItemUpdate,
-  loadSevenBreadItems,
-} from '../../../state/sevenBreadSlice';
+import { fDateStringFormat } from '../../../utils/formatTime';
+
+import { onSevenBreadItemAdd, onSevenBreadItemUpdate, loadSevenBreadItems } from '../../../state/sevenBreadSlice';
 
 function SevenBreadItem({
   id,
@@ -42,22 +32,30 @@ function SevenBreadItem({
   capturedDate,
   capturedPrice,
   alarmStatus,
-  majorHandler,
+  majorHandler
 }) {
   const classes = useStyles();
   const alphaLink = `https://alphasquare.co.kr/home/stock/stock-summary?code=${itemCode}`;
   const fnLink = `http://comp.fnguide.com/SVO2/ASP/SVD_Main.asp?pGB=1&gicode=A${itemCode}`;
   const naverLink = `https://finance.naver.com/item/main.nhn?code=${itemCode}`;
+  const PATH_HANKYUNG_LINK = (searchText) => {
+    const buffer = iconv.encode(searchText, 'euc-kr');
+    const param = escape(buffer.toString('binary'));
+    const sdate = fDateStringFormat(new Date().setDate(new Date().getDate() - 93));
+    const edate = fDateStringFormat(new Date());
+    return `http://consensus.hankyung.com/apps.analysis/analysis.list?sdate=${sdate}&edate=${edate}&now_page=1&search_value=&report_type=&pagenum=20&search_text=${param}&business_code=`;
+  };
 
   return (
     <Grid item xs={6} sm={3}>
       <Card key={id} style={{ backgroundColor: '#fffdec' }}>
         <CardContent style={{ padding: '7px' }}>
-          <Box style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
+          <Box
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center'
+            }}
           >
             <Box>
               {majorHandler === 'B' ? (
@@ -65,20 +63,19 @@ function SevenBreadItem({
                   <FaceIcon fontSize="small" style={{ color: '#dda900' }} />
                   <BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />
                 </>
-              )
-                : majorHandler === 'G' ? (<BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />)
-                  : (<FaceIcon fontSize="small" style={{ color: '#dda900' }} />)}
+              ) : majorHandler === 'G' ? (
+                <BusinessIcon fontSize="small" style={{ color: '#2e2f35' }} />
+              ) : (
+                <FaceIcon fontSize="small" style={{ color: '#dda900' }} />
+              )}
             </Box>
             <Typography variant="button" style={{ flexGrow: 1, fontSize: '1rem' }}>
               &nbsp;
               {itemName}
             </Typography>
-            <Typography>
-              {presentPrice}
-            </Typography>
+            <Typography>{presentPrice}</Typography>
             <Typography variant="caption" style={{ color: fluctuationRate > 0 ? 'red' : 'blue', marginLeft: '3px' }}>
-              (
-              {fluctuationRate}
+              ({fluctuationRate}
               %)
             </Typography>
           </Box>
@@ -91,7 +88,7 @@ function SevenBreadItem({
                 style={{
                   color: '#414a77',
                   height: '100%',
-                  verticalAlign: 'middle',
+                  verticalAlign: 'middle'
                 }}
               >
                 포착일 종가(원/대비)
@@ -103,7 +100,7 @@ function SevenBreadItem({
                   color: '#414a77',
                   height: '100%',
                   verticalAlign: 'middle',
-                  textAlign: 'right',
+                  textAlign: 'right'
                 }}
               >
                 포착일
@@ -115,22 +112,20 @@ function SevenBreadItem({
                 style={{
                   color: '#414a77',
                   height: '100%',
-                  verticalAlign: 'middle',
+                  verticalAlign: 'middle'
                 }}
               >
-                {capturedPrice}
-                /
+                {capturedPrice}/
               </Typography>
               <Typography
                 variant="body2"
                 style={{
                   color: fluctuationRateBy > 0 ? 'red' : 'blue',
                   height: '100%',
-                  verticalAlign: 'middle',
+                  verticalAlign: 'middle'
                 }}
               >
-                (
-                {fluctuationRateBy}
+                ({fluctuationRateBy}
                 %)
               </Typography>
               <Typography
@@ -140,7 +135,7 @@ function SevenBreadItem({
                   color: '#414a77',
                   height: '100%',
                   verticalAlign: 'middle',
-                  textAlign: 'right',
+                  textAlign: 'right'
                 }}
               >
                 {capturedDate}
@@ -160,11 +155,10 @@ function SevenBreadItem({
                 flexGrow: '1',
                 color: '#ffdea9',
                 height: '100%',
-                verticalAlign: 'middle',
+                verticalAlign: 'middle'
               }}
             >
-              ⏲️
-              &nbsp;
+              ⏲️ &nbsp;
               {alarmedTime}
             </Typography>
             <a target="_blank" href={alphaLink} rel="noreferrer">
@@ -176,6 +170,9 @@ function SevenBreadItem({
             <a target="_blank" href={naverLink} rel="noreferrer">
               <img src={NaverLogo} alt="logo" />
             </a>
+            <a target="_blank" href={PATH_HANKYUNG_LINK(itemName)} rel="noreferrer">
+              <img src="http://consensus.hankyung.com/images/btn_attached.gif" alt="logo" />
+            </a>
           </Box>
         </CardActionArea>
       </Card>
@@ -186,14 +183,14 @@ function SevenBreadItem({
 const searchOptions = [
   { condition: '현재가 > 기관매수가', code: 2 },
   { condition: '금일 1회 이상 포착', code: 1 },
-  { condition: '현재가 < 기관매수가', code: 3 },
+  { condition: '현재가 < 기관매수가', code: 3 }
 ];
 
 const sortOptions = [
   { condition: '수익률 순', code: 2 },
   { condition: '포착시간 순', code: 1 },
   { condition: '금일 상승률 순', code: 3 },
-  { condition: '포착일 순', code: 4 },
+  { condition: '포착일 순', code: 4 }
 ];
 
 export default function SevenBreadRealTimeContentContainer() {
@@ -205,7 +202,7 @@ export default function SevenBreadRealTimeContentContainer() {
   const [sevenBreadRealTimeItems, setSevenBreadRealTimeItems] = React.useState([]);
 
   const { sevenBreadRealTimeList } = useSelector((state) => ({
-    sevenBreadRealTimeList: state.sevenBread.sevenBreadRealTimeList,
+    sevenBreadRealTimeList: state.sevenBread.sevenBreadRealTimeList
   }));
 
   useEffect(() => {
@@ -225,11 +222,16 @@ export default function SevenBreadRealTimeContentContainer() {
 
     const mapped = sevenBreadRealTimeArray.map((value, i) => ({
       index: i,
-      value: sortCondition === 1 ? value[1].alarmedTime
-        : sortCondition === 2 ? value[1].fluctuationRateBy
-          : sortCondition === 3 ? value[1].fluctuationRate
-            : sortCondition === 4 ? value[1].capturedDate
-              : value[1].alarmedTime,
+      value:
+        sortCondition === 1
+          ? value[1].alarmedTime
+          : sortCondition === 2
+          ? value[1].fluctuationRateBy
+          : sortCondition === 3
+          ? value[1].fluctuationRate
+          : sortCondition === 4
+          ? value[1].capturedDate
+          : value[1].alarmedTime
     }));
 
     mapped.sort((a, b) => +(a.value < b.value) || +(a.value === b.value) - 1);
@@ -250,11 +252,16 @@ export default function SevenBreadRealTimeContentContainer() {
 
     const mapped = sevenBreadRealTimeArray.map((value, i) => ({
       index: i,
-      value: sortCondition === 1 ? value[1].alarmedTime
-        : sortCondition === 2 ? value[1].fluctuationRateBy
-          : sortCondition === 3 ? value[1].fluctuationRate
-            : sortCondition === 4 ? value[1].capturedDate
-              : value[1].alarmedTime,
+      value:
+        sortCondition === 1
+          ? value[1].alarmedTime
+          : sortCondition === 2
+          ? value[1].fluctuationRateBy
+          : sortCondition === 3
+          ? value[1].fluctuationRate
+          : sortCondition === 4
+          ? value[1].capturedDate
+          : value[1].alarmedTime
     }));
 
     mapped.sort((a, b) => +(a.value < b.value) || +(a.value === b.value) - 1);
@@ -275,11 +282,16 @@ export default function SevenBreadRealTimeContentContainer() {
 
     const mapped = sevenBreadRealTimeArray.map((value, i) => ({
       index: i,
-      value: sortCondition === 1 ? value[1].alarmedTime
-        : sortCondition === 2 ? value[1].fluctuationRateBy
-          : sortCondition === 3 ? value[1].fluctuationRate
-            : sortCondition === 4 ? value[1].capturedDate
-              : value[1].alarmedTime,
+      value:
+        sortCondition === 1
+          ? value[1].alarmedTime
+          : sortCondition === 2
+          ? value[1].fluctuationRateBy
+          : sortCondition === 3
+          ? value[1].fluctuationRate
+          : sortCondition === 4
+          ? value[1].capturedDate
+          : value[1].alarmedTime
     }));
 
     mapped.sort((a, b) => +(a.value < b.value) || +(a.value === b.value) - 1);
@@ -311,15 +323,16 @@ export default function SevenBreadRealTimeContentContainer() {
           <Box style={{ padding: '10px' }}>
             {Object.keys(sevenBreadRealTimeList).length === 0 ? (
               <Box style={{ marginTop: '20px' }}>
-                <Typography style={{ textAlign: 'center' }}>
-                  실시간 가격 감시중...
-                </Typography>
+                <Typography style={{ textAlign: 'center' }}>실시간 가격 감시중...</Typography>
               </Box>
             ) : (
               <>
-                <Box style={{
-                  display: 'flex', flexDirection: 'row', justifyContent: 'flex-start',
-                }}
+                <Box
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start'
+                  }}
                 >
                   <CssAutocomplete
                     size="small"
@@ -353,24 +366,23 @@ export default function SevenBreadRealTimeContentContainer() {
                 </Box>
                 <Divider />
                 <Grid container spacing={3} style={{ marginTop: '0.1rem' }}>
-                  {sevenBreadRealTimeItems
-                    .map((item) => (
-                      <SevenBreadItem
-                        key={item[1].itemCode}
-                        id={item[1].itemCode}
-                        itemName={item[1].itemName}
-                        itemCode={item[1].itemCode}
-                        fluctuationRate={item[1].fluctuationRate}
-                        fluctuationRateBy={item[1].fluctuationRateBy}
-                        presentPrice={new Intl.NumberFormat('ko-KR').format(item[1].presentPrice)}
-                        alarmedTime={item[1].alarmedTime}
-                        alarmStatus={item[1].alarmStatus}
-                        closingPrice={new Intl.NumberFormat('ko-KR').format(item[1].closingPrice)}
-                        capturedPrice={new Intl.NumberFormat('ko-KR').format(item[1].capturedPrice)}
-                        capturedDate={String(item[1].capturedDate).substr(0, 10)}
-                        majorHandler={item[1].majorHandler}
-                      />
-                    ))}
+                  {sevenBreadRealTimeItems.map((item) => (
+                    <SevenBreadItem
+                      key={item[1].itemCode}
+                      id={item[1].itemCode}
+                      itemName={item[1].itemName}
+                      itemCode={item[1].itemCode}
+                      fluctuationRate={item[1].fluctuationRate}
+                      fluctuationRateBy={item[1].fluctuationRateBy}
+                      presentPrice={new Intl.NumberFormat('ko-KR').format(item[1].presentPrice)}
+                      alarmedTime={item[1].alarmedTime}
+                      alarmStatus={item[1].alarmStatus}
+                      closingPrice={new Intl.NumberFormat('ko-KR').format(item[1].closingPrice)}
+                      capturedPrice={new Intl.NumberFormat('ko-KR').format(item[1].capturedPrice)}
+                      capturedDate={String(item[1].capturedDate).substr(0, 10)}
+                      majorHandler={item[1].majorHandler}
+                    />
+                  ))}
                 </Grid>
               </>
             )}
