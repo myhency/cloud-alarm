@@ -336,7 +336,7 @@ export default function InBoxMenuListContainer({ totalCount = '', state2Count = 
                 </ListItemSecondaryAction>
               </MenuListItem>
             </a>
-            <a target="_blank" href="https://t.me/joinchat/VG97nFWHF74zZWI1" rel="noreferrer">
+            <a target="_blank" href="https://t.me/+fotErv5hlb05ZWY1" rel="noreferrer">
               <MenuListItem
                 className={classes.nested}
                 button

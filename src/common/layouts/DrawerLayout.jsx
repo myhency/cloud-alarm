@@ -177,7 +177,7 @@ export default function DrawerLayout({
                         <div>
                             <a
                                 target="_blank"
-                                href="https://t.me/joinchat/VG97nFWHF74zZWI1"
+                                href="https://t.me/+fotErv5hlb05ZWY1"
                                 rel="noreferrer"
                             >
                                 <IconButton
